@@ -1,0 +1,326 @@
+{
+  "detections": [
+    {
+      "detectionId": "det_1",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_1_0.jpg",
+      "frameTime": 0.0,
+      "confidence": 0.8938763737678528,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_2",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_2_0.jpg",
+      "frameTime": 0.0,
+      "confidence": 0.7252559661865234,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_3",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_3_0.jpg",
+      "frameTime": 0.0,
+      "confidence": 0.6947379112243652,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_4",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_4_0.jpg",
+      "frameTime": 0.0,
+      "confidence": 0.6303150653839111,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_5",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_5_0.jpg",
+      "frameTime": 0.0,
+      "confidence": 0.6092199087142944,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_6",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_6_0.jpg",
+      "frameTime": 0.0,
+      "confidence": 0.5947582125663757,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_7",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_7_0.jpg",
+      "frameTime": 0.0,
+      "confidence": 0.5323168635368347,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_8",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_8_0.jpg",
+      "frameTime": 0.0,
+      "confidence": 0.5070886015892029,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_9",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_9_0.jpg",
+      "frameTime": 0.0,
+      "confidence": 0.48239457607269287,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_10",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_10_60.jpg",
+      "frameTime": 2.0,
+      "confidence": 0.8546794056892395,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_11",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_11_60.jpg",
+      "frameTime": 2.0,
+      "confidence": 0.7212737202644348,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_12",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_12_60.jpg",
+      "frameTime": 2.0,
+      "confidence": 0.6527796983718872,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_13",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_13_60.jpg",
+      "frameTime": 2.0,
+      "confidence": 0.6301342248916626,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_14",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_14_60.jpg",
+      "frameTime": 2.0,
+      "confidence": 0.6218641996383667,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_15",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_15_60.jpg",
+      "frameTime": 2.0,
+      "confidence": 0.616519033908844,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_16",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_16_60.jpg",
+      "frameTime": 2.0,
+      "confidence": 0.611536979675293,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_17",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_17_120.jpg",
+      "frameTime": 4.0,
+      "confidence": 0.8080645203590393,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_18",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_18_120.jpg",
+      "frameTime": 4.0,
+      "confidence": 0.6565573811531067,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_19",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_19_120.jpg",
+      "frameTime": 4.0,
+      "confidence": 0.6504861116409302,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_20",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_20_120.jpg",
+      "frameTime": 4.0,
+      "confidence": 0.577991783618927,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_21",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_21_120.jpg",
+      "frameTime": 4.0,
+      "confidence": 0.5702353715896606,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_22",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_22_120.jpg",
+      "frameTime": 4.0,
+      "confidence": 0.48623979091644287,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_23",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_23_180.jpg",
+      "frameTime": 6.0,
+      "confidence": 0.8116577863693237,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_24",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_24_180.jpg",
+      "frameTime": 6.0,
+      "confidence": 0.6381308436393738,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_25",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_25_180.jpg",
+      "frameTime": 6.0,
+      "confidence": 0.6118047833442688,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_26",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_26_180.jpg",
+      "frameTime": 6.0,
+      "confidence": 0.5633854269981384,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_27",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_27_180.jpg",
+      "frameTime": 6.0,
+      "confidence": 0.5440344214439392,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_28",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_28_180.jpg",
+      "frameTime": 6.0,
+      "confidence": 0.5221875905990601,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_29",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_29_180.jpg",
+      "frameTime": 6.0,
+      "confidence": 0.45399007201194763,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_30",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_30_240.jpg",
+      "frameTime": 8.0,
+      "confidence": 0.819728434085846,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_31",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_31_240.jpg",
+      "frameTime": 8.0,
+      "confidence": 0.8089320063591003,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_32",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_32_240.jpg",
+      "frameTime": 8.0,
+      "confidence": 0.7940409779548645,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_33",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_33_240.jpg",
+      "frameTime": 8.0,
+      "confidence": 0.6246863007545471,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_34",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_34_240.jpg",
+      "frameTime": 8.0,
+      "confidence": 0.5944513082504272,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_35",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_35_240.jpg",
+      "frameTime": 8.0,
+      "confidence": 0.5856348872184753,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_36",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_36_240.jpg",
+      "frameTime": 8.0,
+      "confidence": 0.5592050552368164,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_37",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_37_240.jpg",
+      "frameTime": 8.0,
+      "confidence": 0.4949241578578949,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_38",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_38_300.jpg",
+      "frameTime": 10.0,
+      "confidence": 0.8255727291107178,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_39",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_39_300.jpg",
+      "frameTime": 10.0,
+      "confidence": 0.7144637107849121,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_40",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_40_300.jpg",
+      "frameTime": 10.0,
+      "confidence": 0.6678176522254944,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_41",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_41_300.jpg",
+      "frameTime": 10.0,
+      "confidence": 0.6603403091430664,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_42",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_42_300.jpg",
+      "frameTime": 10.0,
+      "confidence": 0.6524672508239746,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_43",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_43_300.jpg",
+      "frameTime": 10.0,
+      "confidence": 0.616209089756012,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_44",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_44_300.jpg",
+      "frameTime": 10.0,
+      "confidence": 0.6111963987350464,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_45",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_45_300.jpg",
+      "frameTime": 10.0,
+      "confidence": 0.5232862234115601,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_46",
+      "imageUrl": "/uploads/player_thumbs_69ad7f0981997546b0d1b594/det_46_300.jpg",
+      "frameTime": 10.0,
+      "confidence": 0.5077797174453735,
+      "assignedPlayerId": null
+    }
+  ]
+}

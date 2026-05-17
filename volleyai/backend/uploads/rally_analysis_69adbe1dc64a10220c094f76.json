@@ -1,0 +1,429 @@
+{
+  "rallies": [
+    {
+      "rallyId": "r1",
+      "start": 1.0,
+      "end": 27.0,
+      "label": "Rally #1"
+    },
+    {
+      "rallyId": "r2",
+      "start": 28.0,
+      "end": 80.0,
+      "label": "Rally #2"
+    },
+    {
+      "rallyId": "r3",
+      "start": 81.0,
+      "end": 84.0,
+      "label": "Rally #3"
+    },
+    {
+      "rallyId": "r4",
+      "start": 87.0,
+      "end": 89.0,
+      "label": "Rally #4"
+    },
+    {
+      "rallyId": "r5",
+      "start": 90.0,
+      "end": 92.0,
+      "label": "Rally #5"
+    },
+    {
+      "rallyId": "r6",
+      "start": 94.0,
+      "end": 98.0,
+      "label": "Rally #6"
+    },
+    {
+      "rallyId": "r7",
+      "start": 99.0,
+      "end": 101.0,
+      "label": "Rally #7"
+    },
+    {
+      "rallyId": "r8",
+      "start": 102.0,
+      "end": 104.0,
+      "label": "Rally #8"
+    },
+    {
+      "rallyId": "r9",
+      "start": 106.0,
+      "end": 111.0,
+      "label": "Rally #9"
+    },
+    {
+      "rallyId": "r10",
+      "start": 112.0,
+      "end": 120.0,
+      "label": "Rally #10"
+    },
+    {
+      "rallyId": "r11",
+      "start": 138.0,
+      "end": 140.0,
+      "label": "Rally #11"
+    },
+    {
+      "rallyId": "r12",
+      "start": 150.0,
+      "end": 152.0,
+      "label": "Rally #12"
+    },
+    {
+      "rallyId": "r13",
+      "start": 158.0,
+      "end": 160.0,
+      "label": "Rally #13"
+    },
+    {
+      "rallyId": "r14",
+      "start": 161.0,
+      "end": 824.0,
+      "label": "Rally #14"
+    },
+    {
+      "rallyId": "r15",
+      "start": 828.0,
+      "end": 830.0,
+      "label": "Rally #15"
+    },
+    {
+      "rallyId": "r16",
+      "start": 832.0,
+      "end": 834.0,
+      "label": "Rally #16"
+    },
+    {
+      "rallyId": "r17",
+      "start": 840.0,
+      "end": 843.0,
+      "label": "Rally #17"
+    },
+    {
+      "rallyId": "r18",
+      "start": 844.0,
+      "end": 851.0,
+      "label": "Rally #18"
+    },
+    {
+      "rallyId": "r19",
+      "start": 863.0,
+      "end": 1502.0,
+      "label": "Rally #19"
+    },
+    {
+      "rallyId": "r20",
+      "start": 1509.0,
+      "end": 1511.0,
+      "label": "Rally #20"
+    },
+    {
+      "rallyId": "r21",
+      "start": 1515.0,
+      "end": 1528.0,
+      "label": "Rally #21"
+    },
+    {
+      "rallyId": "r22",
+      "start": 1529.0,
+      "end": 1531.0,
+      "label": "Rally #22"
+    },
+    {
+      "rallyId": "r23",
+      "start": 1537.0,
+      "end": 1540.0,
+      "label": "Rally #23"
+    },
+    {
+      "rallyId": "r24",
+      "start": 1543.0,
+      "end": 1562.0,
+      "label": "Rally #24"
+    },
+    {
+      "rallyId": "r25",
+      "start": 1565.0,
+      "end": 1569.0,
+      "label": "Rally #25"
+    },
+    {
+      "rallyId": "r26",
+      "start": 1575.0,
+      "end": 1577.0,
+      "label": "Rally #26"
+    },
+    {
+      "rallyId": "r27",
+      "start": 1578.0,
+      "end": 1582.0,
+      "label": "Rally #27"
+    },
+    {
+      "rallyId": "r28",
+      "start": 1586.0,
+      "end": 1590.0,
+      "label": "Rally #28"
+    },
+    {
+      "rallyId": "r29",
+      "start": 1591.0,
+      "end": 1597.0,
+      "label": "Rally #29"
+    },
+    {
+      "rallyId": "r30",
+      "start": 1598.0,
+      "end": 1968.3,
+      "label": "Rally #30"
+    }
+  ],
+  "deadSegments": [
+    {
+      "start": 0.0,
+      "end": 1.0
+    },
+    {
+      "start": 27.0,
+      "end": 28.0
+    },
+    {
+      "start": 80.0,
+      "end": 81.0
+    },
+    {
+      "start": 84.0,
+      "end": 87.0
+    },
+    {
+      "start": 89.0,
+      "end": 90.0
+    },
+    {
+      "start": 92.0,
+      "end": 94.0
+    },
+    {
+      "start": 98.0,
+      "end": 99.0
+    },
+    {
+      "start": 101.0,
+      "end": 102.0
+    },
+    {
+      "start": 104.0,
+      "end": 106.0
+    },
+    {
+      "start": 111.0,
+      "end": 112.0
+    },
+    {
+      "start": 120.0,
+      "end": 138.0
+    },
+    {
+      "start": 140.0,
+      "end": 150.0
+    },
+    {
+      "start": 152.0,
+      "end": 158.0
+    },
+    {
+      "start": 160.0,
+      "end": 161.0
+    },
+    {
+      "start": 824.0,
+      "end": 828.0
+    },
+    {
+      "start": 830.0,
+      "end": 832.0
+    },
+    {
+      "start": 834.0,
+      "end": 840.0
+    },
+    {
+      "start": 843.0,
+      "end": 844.0
+    },
+    {
+      "start": 851.0,
+      "end": 863.0
+    },
+    {
+      "start": 1502.0,
+      "end": 1509.0
+    },
+    {
+      "start": 1511.0,
+      "end": 1515.0
+    },
+    {
+      "start": 1528.0,
+      "end": 1529.0
+    },
+    {
+      "start": 1531.0,
+      "end": 1537.0
+    },
+    {
+      "start": 1540.0,
+      "end": 1543.0
+    },
+    {
+      "start": 1562.0,
+      "end": 1565.0
+    },
+    {
+      "start": 1569.0,
+      "end": 1575.0
+    },
+    {
+      "start": 1577.0,
+      "end": 1578.0
+    },
+    {
+      "start": 1582.0,
+      "end": 1586.0
+    },
+    {
+      "start": 1590.0,
+      "end": 1591.0
+    },
+    {
+      "start": 1597.0,
+      "end": 1598.0
+    }
+  ],
+  "optimizedSegments": [
+    {
+      "sourceStart": 1.0,
+      "sourceEnd": 27.0
+    },
+    {
+      "sourceStart": 28.0,
+      "sourceEnd": 80.0
+    },
+    {
+      "sourceStart": 81.0,
+      "sourceEnd": 84.0
+    },
+    {
+      "sourceStart": 87.0,
+      "sourceEnd": 89.0
+    },
+    {
+      "sourceStart": 90.0,
+      "sourceEnd": 92.0
+    },
+    {
+      "sourceStart": 94.0,
+      "sourceEnd": 98.0
+    },
+    {
+      "sourceStart": 99.0,
+      "sourceEnd": 101.0
+    },
+    {
+      "sourceStart": 102.0,
+      "sourceEnd": 104.0
+    },
+    {
+      "sourceStart": 106.0,
+      "sourceEnd": 111.0
+    },
+    {
+      "sourceStart": 112.0,
+      "sourceEnd": 120.0
+    },
+    {
+      "sourceStart": 138.0,
+      "sourceEnd": 140.0
+    },
+    {
+      "sourceStart": 150.0,
+      "sourceEnd": 152.0
+    },
+    {
+      "sourceStart": 158.0,
+      "sourceEnd": 160.0
+    },
+    {
+      "sourceStart": 161.0,
+      "sourceEnd": 824.0
+    },
+    {
+      "sourceStart": 828.0,
+      "sourceEnd": 830.0
+    },
+    {
+      "sourceStart": 832.0,
+      "sourceEnd": 834.0
+    },
+    {
+      "sourceStart": 840.0,
+      "sourceEnd": 843.0
+    },
+    {
+      "sourceStart": 844.0,
+      "sourceEnd": 851.0
+    },
+    {
+      "sourceStart": 863.0,
+      "sourceEnd": 1502.0
+    },
+    {
+      "sourceStart": 1509.0,
+      "sourceEnd": 1511.0
+    },
+    {
+      "sourceStart": 1515.0,
+      "sourceEnd": 1528.0
+    },
+    {
+      "sourceStart": 1529.0,
+      "sourceEnd": 1531.0
+    },
+    {
+      "sourceStart": 1537.0,
+      "sourceEnd": 1540.0
+    },
+    {
+      "sourceStart": 1543.0,
+      "sourceEnd": 1562.0
+    },
+    {
+      "sourceStart": 1565.0,
+      "sourceEnd": 1569.0
+    },
+    {
+      "sourceStart": 1575.0,
+      "sourceEnd": 1577.0
+    },
+    {
+      "sourceStart": 1578.0,
+      "sourceEnd": 1582.0
+    },
+    {
+      "sourceStart": 1586.0,
+      "sourceEnd": 1590.0
+    },
+    {
+      "sourceStart": 1591.0,
+      "sourceEnd": 1597.0
+    },
+    {
+      "sourceStart": 1598.0,
+      "sourceEnd": 1968.3
+    }
+  ],
+  "duration": 1968.3
+}

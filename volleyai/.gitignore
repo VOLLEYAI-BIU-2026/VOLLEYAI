@@ -1,0 +1,32 @@
+# Node
+node_modules/
+dist/
+build/
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.env/
+rf_env/
+
+# Environment variables
+.env
+
+# Videos / large files
+*.mp4
+*.avi
+*.mov
+*.mkv
+
+# YOLO / runs
+runs/
+*.pt
+*.onnx
+*.engine
+*.openvino_model/
+yolo11s_openvino_model/
+
+# OS
+.DS_Store
+Thumbs.db

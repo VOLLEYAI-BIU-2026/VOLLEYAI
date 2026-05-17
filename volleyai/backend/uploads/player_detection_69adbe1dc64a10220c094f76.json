@@ -1,0 +1,424 @@
+{
+  "detections": [
+    {
+      "detectionId": "det_1",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_1_0.jpg",
+      "frameTime": 0.0,
+      "confidence": 0.9190883040428162,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_2",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_2_0.jpg",
+      "frameTime": 0.0,
+      "confidence": 0.9157714247703552,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_3",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_3_0.jpg",
+      "frameTime": 0.0,
+      "confidence": 0.913303017616272,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_4",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_4_0.jpg",
+      "frameTime": 0.0,
+      "confidence": 0.901206374168396,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_5",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_5_0.jpg",
+      "frameTime": 0.0,
+      "confidence": 0.8932583332061768,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_6",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_6_0.jpg",
+      "frameTime": 0.0,
+      "confidence": 0.887661874294281,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_7",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_7_0.jpg",
+      "frameTime": 0.0,
+      "confidence": 0.8724451661109924,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_8",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_8_0.jpg",
+      "frameTime": 0.0,
+      "confidence": 0.8683032393455505,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_9",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_9_0.jpg",
+      "frameTime": 0.0,
+      "confidence": 0.5866542458534241,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_10",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_10_0.jpg",
+      "frameTime": 0.0,
+      "confidence": 0.5459553599357605,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_11",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_11_0.jpg",
+      "frameTime": 0.0,
+      "confidence": 0.5017104744911194,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_12",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_12_60.jpg",
+      "frameTime": 2.0,
+      "confidence": 0.9094600677490234,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_13",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_13_60.jpg",
+      "frameTime": 2.0,
+      "confidence": 0.9022380709648132,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_14",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_14_60.jpg",
+      "frameTime": 2.0,
+      "confidence": 0.9018562436103821,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_15",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_15_60.jpg",
+      "frameTime": 2.0,
+      "confidence": 0.8937875032424927,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_16",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_16_60.jpg",
+      "frameTime": 2.0,
+      "confidence": 0.8919566869735718,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_17",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_17_60.jpg",
+      "frameTime": 2.0,
+      "confidence": 0.8857872486114502,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_18",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_18_60.jpg",
+      "frameTime": 2.0,
+      "confidence": 0.8758783340454102,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_19",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_19_60.jpg",
+      "frameTime": 2.0,
+      "confidence": 0.8618891835212708,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_20",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_20_60.jpg",
+      "frameTime": 2.0,
+      "confidence": 0.6687380075454712,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_21",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_21_60.jpg",
+      "frameTime": 2.0,
+      "confidence": 0.6073131561279297,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_22",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_22_60.jpg",
+      "frameTime": 2.0,
+      "confidence": 0.601922333240509,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_23",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_23_60.jpg",
+      "frameTime": 2.0,
+      "confidence": 0.5976783633232117,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_24",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_24_60.jpg",
+      "frameTime": 2.0,
+      "confidence": 0.500054657459259,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_25",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_25_60.jpg",
+      "frameTime": 2.0,
+      "confidence": 0.49235647916793823,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_26",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_26_120.jpg",
+      "frameTime": 4.0,
+      "confidence": 0.9258173704147339,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_27",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_27_120.jpg",
+      "frameTime": 4.0,
+      "confidence": 0.9135289788246155,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_28",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_28_120.jpg",
+      "frameTime": 4.0,
+      "confidence": 0.9083925485610962,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_29",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_29_120.jpg",
+      "frameTime": 4.0,
+      "confidence": 0.9043875932693481,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_30",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_30_120.jpg",
+      "frameTime": 4.0,
+      "confidence": 0.8988391757011414,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_31",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_31_120.jpg",
+      "frameTime": 4.0,
+      "confidence": 0.878731369972229,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_32",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_32_120.jpg",
+      "frameTime": 4.0,
+      "confidence": 0.8748034834861755,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_33",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_33_120.jpg",
+      "frameTime": 4.0,
+      "confidence": 0.8522417545318604,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_34",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_34_120.jpg",
+      "frameTime": 4.0,
+      "confidence": 0.6358530521392822,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_35",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_35_120.jpg",
+      "frameTime": 4.0,
+      "confidence": 0.585401177406311,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_36",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_36_120.jpg",
+      "frameTime": 4.0,
+      "confidence": 0.580736517906189,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_37",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_37_180.jpg",
+      "frameTime": 6.0,
+      "confidence": 0.8948768973350525,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_38",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_38_180.jpg",
+      "frameTime": 6.0,
+      "confidence": 0.8897738456726074,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_39",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_39_180.jpg",
+      "frameTime": 6.0,
+      "confidence": 0.8881397843360901,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_40",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_40_180.jpg",
+      "frameTime": 6.0,
+      "confidence": 0.8771856427192688,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_41",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_41_180.jpg",
+      "frameTime": 6.0,
+      "confidence": 0.8693308234214783,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_42",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_42_180.jpg",
+      "frameTime": 6.0,
+      "confidence": 0.8457529544830322,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_43",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_43_180.jpg",
+      "frameTime": 6.0,
+      "confidence": 0.8293309807777405,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_44",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_44_180.jpg",
+      "frameTime": 6.0,
+      "confidence": 0.8287049531936646,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_45",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_45_180.jpg",
+      "frameTime": 6.0,
+      "confidence": 0.8274224400520325,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_46",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_46_180.jpg",
+      "frameTime": 6.0,
+      "confidence": 0.6961430907249451,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_47",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_47_180.jpg",
+      "frameTime": 6.0,
+      "confidence": 0.47735685110092163,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_48",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_48_240.jpg",
+      "frameTime": 8.0,
+      "confidence": 0.8647104501724243,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_49",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_49_240.jpg",
+      "frameTime": 8.0,
+      "confidence": 0.8594268560409546,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_50",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_50_240.jpg",
+      "frameTime": 8.0,
+      "confidence": 0.8374886512756348,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_51",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_51_240.jpg",
+      "frameTime": 8.0,
+      "confidence": 0.8371749520301819,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_52",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_52_240.jpg",
+      "frameTime": 8.0,
+      "confidence": 0.8032005429267883,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_53",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_53_240.jpg",
+      "frameTime": 8.0,
+      "confidence": 0.7896881103515625,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_54",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_54_240.jpg",
+      "frameTime": 8.0,
+      "confidence": 0.7857460379600525,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_55",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_55_240.jpg",
+      "frameTime": 8.0,
+      "confidence": 0.7837473750114441,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_56",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_56_240.jpg",
+      "frameTime": 8.0,
+      "confidence": 0.7430332899093628,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_57",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_57_240.jpg",
+      "frameTime": 8.0,
+      "confidence": 0.7350971102714539,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_58",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_58_240.jpg",
+      "frameTime": 8.0,
+      "confidence": 0.6509286761283875,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_59",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_59_300.jpg",
+      "frameTime": 10.0,
+      "confidence": 0.7518354058265686,
+      "assignedPlayerId": null
+    },
+    {
+      "detectionId": "det_60",
+      "imageUrl": "/uploads/player_thumbs_69adbe1dc64a10220c094f76/det_60_300.jpg",
+      "frameTime": 10.0,
+      "confidence": 0.7439871430397034,
+      "assignedPlayerId": null
+    }
+  ]
+}

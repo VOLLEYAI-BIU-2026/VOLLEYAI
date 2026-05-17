@@ -1,0 +1,256 @@
+{
+  "players": [
+    {
+      "detectedId": "unknown_1",
+      "jerseyNumber": "",
+      "teamSide": "unknown",
+      "manualName": "",
+      "bestConfidence": 0.8938763737678528,
+      "thumbnails": [
+        {
+          "imageUrl": "/uploads/player_thumbs_69ad42fc50138463053a5fcb/unknown_1_0.jpg",
+          "frameTime": 0.0,
+          "confidence": 0.8938763737678528
+        }
+      ]
+    },
+    {
+      "detectedId": "unknown_2",
+      "jerseyNumber": "",
+      "teamSide": "unknown",
+      "manualName": "",
+      "bestConfidence": 0.7252559661865234,
+      "thumbnails": [
+        {
+          "imageUrl": "/uploads/player_thumbs_69ad42fc50138463053a5fcb/unknown_2_0.jpg",
+          "frameTime": 0.0,
+          "confidence": 0.7252559661865234
+        }
+      ]
+    },
+    {
+      "detectedId": "unknown_3",
+      "jerseyNumber": "",
+      "teamSide": "unknown",
+      "manualName": "",
+      "bestConfidence": 0.6947379112243652,
+      "thumbnails": [
+        {
+          "imageUrl": "/uploads/player_thumbs_69ad42fc50138463053a5fcb/unknown_3_0.jpg",
+          "frameTime": 0.0,
+          "confidence": 0.6947379112243652
+        }
+      ]
+    },
+    {
+      "detectedId": "unknown_4",
+      "jerseyNumber": "",
+      "teamSide": "unknown",
+      "manualName": "",
+      "bestConfidence": 0.6303150653839111,
+      "thumbnails": [
+        {
+          "imageUrl": "/uploads/player_thumbs_69ad42fc50138463053a5fcb/unknown_4_0.jpg",
+          "frameTime": 0.0,
+          "confidence": 0.6303150653839111
+        }
+      ]
+    },
+    {
+      "detectedId": "unknown_5",
+      "jerseyNumber": "",
+      "teamSide": "unknown",
+      "manualName": "",
+      "bestConfidence": 0.6092199087142944,
+      "thumbnails": [
+        {
+          "imageUrl": "/uploads/player_thumbs_69ad42fc50138463053a5fcb/unknown_5_0.jpg",
+          "frameTime": 0.0,
+          "confidence": 0.6092199087142944
+        }
+      ]
+    },
+    {
+      "detectedId": "unknown_6",
+      "jerseyNumber": "",
+      "teamSide": "unknown",
+      "manualName": "",
+      "bestConfidence": 0.5947582125663757,
+      "thumbnails": [
+        {
+          "imageUrl": "/uploads/player_thumbs_69ad42fc50138463053a5fcb/unknown_6_0.jpg",
+          "frameTime": 0.0,
+          "confidence": 0.5947582125663757
+        }
+      ]
+    },
+    {
+      "detectedId": "unknown_7",
+      "jerseyNumber": "",
+      "teamSide": "unknown",
+      "manualName": "",
+      "bestConfidence": 0.5323168635368347,
+      "thumbnails": [
+        {
+          "imageUrl": "/uploads/player_thumbs_69ad42fc50138463053a5fcb/unknown_7_0.jpg",
+          "frameTime": 0.0,
+          "confidence": 0.5323168635368347
+        }
+      ]
+    },
+    {
+      "detectedId": "unknown_8",
+      "jerseyNumber": "",
+      "teamSide": "unknown",
+      "manualName": "",
+      "bestConfidence": 0.5070886015892029,
+      "thumbnails": [
+        {
+          "imageUrl": "/uploads/player_thumbs_69ad42fc50138463053a5fcb/unknown_8_0.jpg",
+          "frameTime": 0.0,
+          "confidence": 0.5070886015892029
+        }
+      ]
+    },
+    {
+      "detectedId": "unknown_9",
+      "jerseyNumber": "",
+      "teamSide": "unknown",
+      "manualName": "",
+      "bestConfidence": 0.48239457607269287,
+      "thumbnails": [
+        {
+          "imageUrl": "/uploads/player_thumbs_69ad42fc50138463053a5fcb/unknown_9_0.jpg",
+          "frameTime": 0.0,
+          "confidence": 0.48239457607269287
+        }
+      ]
+    },
+    {
+      "detectedId": "unknown_10",
+      "jerseyNumber": "",
+      "teamSide": "unknown",
+      "manualName": "",
+      "bestConfidence": 0.8121377825737,
+      "thumbnails": [
+        {
+          "imageUrl": "/uploads/player_thumbs_69ad42fc50138463053a5fcb/unknown_10_90.jpg",
+          "frameTime": 3.0,
+          "confidence": 0.8121377825737
+        }
+      ]
+    },
+    {
+      "detectedId": "unknown_11",
+      "jerseyNumber": "",
+      "teamSide": "unknown",
+      "manualName": "",
+      "bestConfidence": 0.6775104403495789,
+      "thumbnails": [
+        {
+          "imageUrl": "/uploads/player_thumbs_69ad42fc50138463053a5fcb/unknown_11_90.jpg",
+          "frameTime": 3.0,
+          "confidence": 0.6775104403495789
+        }
+      ]
+    },
+    {
+      "detectedId": "unknown_12",
+      "jerseyNumber": "",
+      "teamSide": "unknown",
+      "manualName": "",
+      "bestConfidence": 0.6669862270355225,
+      "thumbnails": [
+        {
+          "imageUrl": "/uploads/player_thumbs_69ad42fc50138463053a5fcb/unknown_12_90.jpg",
+          "frameTime": 3.0,
+          "confidence": 0.6669862270355225
+        }
+      ]
+    },
+    {
+      "detectedId": "unknown_13",
+      "jerseyNumber": "",
+      "teamSide": "unknown",
+      "manualName": "",
+      "bestConfidence": 0.63320392370224,
+      "thumbnails": [
+        {
+          "imageUrl": "/uploads/player_thumbs_69ad42fc50138463053a5fcb/unknown_13_90.jpg",
+          "frameTime": 3.0,
+          "confidence": 0.63320392370224
+        }
+      ]
+    },
+    {
+      "detectedId": "unknown_14",
+      "jerseyNumber": "",
+      "teamSide": "unknown",
+      "manualName": "",
+      "bestConfidence": 0.5690127611160278,
+      "thumbnails": [
+        {
+          "imageUrl": "/uploads/player_thumbs_69ad42fc50138463053a5fcb/unknown_14_90.jpg",
+          "frameTime": 3.0,
+          "confidence": 0.5690127611160278
+        }
+      ]
+    },
+    {
+      "detectedId": "unknown_15",
+      "jerseyNumber": "",
+      "teamSide": "unknown",
+      "manualName": "",
+      "bestConfidence": 0.5477930903434753,
+      "thumbnails": [
+        {
+          "imageUrl": "/uploads/player_thumbs_69ad42fc50138463053a5fcb/unknown_15_90.jpg",
+          "frameTime": 3.0,
+          "confidence": 0.5477930903434753
+        }
+      ]
+    },
+    {
+      "detectedId": "unknown_16",
+      "jerseyNumber": "",
+      "teamSide": "unknown",
+      "manualName": "",
+      "bestConfidence": 0.525863766670227,
+      "thumbnails": [
+        {
+          "imageUrl": "/uploads/player_thumbs_69ad42fc50138463053a5fcb/unknown_16_90.jpg",
+          "frameTime": 3.0,
+          "confidence": 0.525863766670227
+        }
+      ]
+    },
+    {
+      "detectedId": "unknown_17",
+      "jerseyNumber": "",
+      "teamSide": "unknown",
+      "manualName": "",
+      "bestConfidence": 0.4681636691093445,
+      "thumbnails": [
+        {
+          "imageUrl": "/uploads/player_thumbs_69ad42fc50138463053a5fcb/unknown_17_90.jpg",
+          "frameTime": 3.0,
+          "confidence": 0.4681636691093445
+        }
+      ]
+    },
+    {
+      "detectedId": "unknown_18",
+      "jerseyNumber": "",
+      "teamSide": "unknown",
+      "manualName": "",
+      "bestConfidence": 0.8116577863693237,
+      "thumbnails": [
+        {
+          "imageUrl": "/uploads/player_thumbs_69ad42fc50138463053a5fcb/unknown_18_180.jpg",
+          "frameTime": 6.0,
+          "confidence": 0.8116577863693237
+        }
+      ]
+    }
+  ]
+}

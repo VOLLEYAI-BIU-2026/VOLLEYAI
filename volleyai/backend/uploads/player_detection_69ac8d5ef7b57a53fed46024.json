@@ -1,0 +1,16 @@
+{
+  "players": [
+    {
+      "jerseyNumber": "99",
+      "teamSide": "unknown",
+      "bestConfidence": 0.9,
+      "thumbnails": [
+        {
+          "imageUrl": "/uploads/player_thumbs_69ac8d5ef7b57a53fed46024/test_player.jpg",
+          "frameTime": 0,
+          "confidence": 0.9
+        }
+      ]
+    }
+  ]
+}
