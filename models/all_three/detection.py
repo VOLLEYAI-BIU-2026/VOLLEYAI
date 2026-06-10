@@ -3,6 +3,7 @@ import cv2
 import json
 import math
 from ultralytics import YOLO
+from tqdm import tqdm  # <-- Imported tqdm
 
 VIDEO_PATH = "../videos/test_clip.mp4"
 
@@ -11,8 +12,9 @@ PLAYERS_MODEL_PATH = "../player_detection/yolo11n.pt"
 
 # 2. Ball Model (Up one level, then into ball_tracking)
 BALL_MODEL_PATH = "../ball_tracking/ball_model.pt"
+
 # 3. Action Model (Absolute path to your archive folder in the home directory)
-ACTION_MODEL_PATH = "yolo26n.pt"
+ACTION_MODEL_PATH = "yolo11n_action.pt"
 OUTPUT_DIR = "runs/ball_players_link"
 OUTPUT_VIDEO = os.path.join(OUTPUT_DIR, "active_player.mp4")
 # ------------------------------------
@@ -91,6 +93,7 @@ if not cap.isOpened():
 fps = cap.get(cv2.CAP_PROP_FPS) or 30.0
 w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT)) # <-- Extracted total frames for the bar
 
 writer = cv2.VideoWriter(OUTPUT_VIDEO, cv2.VideoWriter_fourcc(*"mp4v"), fps, (w, h))
 
@@ -99,14 +102,16 @@ tracking_data = []
 frame_idx = 0
 last_active_id = None 
 
+print(f"Initializing pipeline for {total_frames} frames. Press 'Ctrl+C' to stop early.")
+
 try:
-    while True:
+    # <-- Wrapped the loop in tqdm
+    for _ in tqdm(range(total_frames), desc="Processing Pipeline", unit="frame"):
         ret, frame = cap.read()
         if not ret:
             break
 
         frame_idx += 1
-        print(f"Processing Frame {frame_idx}...")
 
         # 1. Detect Ball
         ball_results = ball_model.predict(source=frame, conf=CONF_BALL, imgsz=IMG_SIZE, verbose=False)
@@ -187,7 +192,8 @@ try:
                         action_conf = float(a_boxes.conf[i])
             
             if current_action != "none":
-                print(f"   -> ACTION CAUGHT: {current_action.upper()} by Player {active_player['id']} (Conf: {action_conf:.2f})")
+                # <-- Changed to tqdm.write to preserve the progress bar layout
+                tqdm.write(f"   -> ACTION CAUGHT: {current_action.upper()} by Player {active_player['id']} (Conf: {action_conf:.2f})")
 
         # Record Data
         tracking_data.append({
@@ -200,30 +206,21 @@ try:
         })
 
         # --- DRAWING EVERYTHING ---
-        if ball_box is not None:
-            x1, y1, x2, y2 = map(int, ball_box)
-            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 255), 2)
-            cv2.putText(frame, f"BALL {best_ball_conf:.2f}", (x1, max(20, y1 - 10)), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 255), 2)
-
         for p in players:
-            x1, y1, x2, y2 = map(int, p["box"])
-            color = (255, 0, 0) 
-            label = f"ID {p['id']}"
-            
-            if active_player is not None and p["id"] == active_player["id"]:
-                color = (0, 0, 255) 
-                label = f"ACTIVE ID {p['id']}"
-
-            cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
-            cv2.putText(frame, label, (x1, max(20, y1 - 10)), cv2.FONT_HERSHEY_SIMPLEX, 0.7, color, 2)
-            
-            # BIG ACTION BANNER
+            # Check if this specific player is the one performing an action
             if active_player is not None and p["id"] == active_player["id"] and current_action != "none":
+                x1, y1, x2, y2 = map(int, p["box"])
+                
+                # 1. Draw a clean green box ONLY around the active player
+                cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 3)
+                
+                # 2. Draw the Action Banner
                 banner_y1 = max(0, y1 - 45)
                 banner_y2 = max(20, y1 - 10)
                 cv2.rectangle(frame, (x1, banner_y1), (x1 + 180, banner_y2), (0, 255, 0), -1)
                 cv2.putText(frame, f"{current_action.upper()}!", (x1 + 5, banner_y2 - 5), cv2.FONT_HERSHEY_DUPLEX, 0.9, (0, 0, 0), 2)
 
+        # Keep the frame counter in the corner so you can track progress
         cv2.putText(frame, f"Frame {frame_idx}", (20, 32), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2)
         writer.write(frame)
 
