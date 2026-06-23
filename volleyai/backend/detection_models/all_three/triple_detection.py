@@ -3,48 +3,57 @@ import cv2
 import json
 import math
 from ultralytics import YOLO
-from roboflow import Roboflow  # <-- Integrated the Hosted API Client
 from tqdm import tqdm
 
-VIDEO_PATH = "../videos/test_clip.mp4"
+# --- ABSOLUTE CONFIGURATION PATHS ---
+VIDEO_PATH = "/home/jesicemal/project/VOLLEYAI/models/videos/test_clip.mp4"
 
-# Local Tracking Brains
-PLAYERS_MODEL_PATH = "../player_detection/yolo11n.pt"
-BALL_MODEL_PATH = "../ball_tracking/ball_model.pt"
+# Local Tracking & Action Recognition Brains
+PLAYERS_MODEL_PATH = "/home/jesicemal/project/VOLLEYAI/models/player_detection/yolo11s.pt"
+BALL_MODEL_PATH = "/home/jesicemal/project/VOLLEYAI/models/ball_tracking/ball_model.pt"
+ACTION_MODEL_PATH = "/home/jesicemal/project/VOLLEYAI/models/action_detection/best_robo_with_git.pt"
 
-# Cloud Action Brain Configuration
-ROBOFLOW_API_KEY = "zhaNQA68oDKv3Jx4jaT2" # <-- Paste your private token here
-WORKSPACE_ID = "jesis-workspace-tjclp"
-PROJECT_ID = "volleyball-actions-kbdff"
-VERSION_NUM = 1
-
-OUTPUT_DIR = "runs/ball_players_link"
+OUTPUT_DIR = "/home/jesicemal/project/VOLLEYAI/models/all_three/runs"
 OUTPUT_VIDEO = os.path.join(OUTPUT_DIR, "active_player.mp4")
-# ------------------------------------
+OUTPUT_JSON = os.path.join(OUTPUT_DIR, "volley_analytics.json")
 
-CONF_PLAYERS = 0.35 # Try lowering this to 0.20
-CONF_BALL = 0.35    # Try lowering this to 0.20
+# Confidence thresholds
+CONF_PLAYERS = 0.35 
+CONF_BALL = 0.35    
+CONF_ACTION = 0.2  # Threshold for custom actions (bump, spike, set, etc.)
+
 IMG_SIZE = 640
 MIN_BOX_AREA = 2500
 MAX_PLAYERS_PER_FRAME = 20
 
+# --- DYNAMIC ACTION COLORS (BGR Format) ---
+ACTION_COLORS = {
+    "serve": (0, 165, 255),    # Orange
+    "spike": (0, 0, 255),      # Red
+    "block": (255, 0, 255),    # Magenta
+    "bump": (255, 255, 0),     # Cyan
+    "set": (0, 255, 255),      # Yellow
+    "dig": (0, 128, 255),      # Light Orange
+    "none": (255, 0, 0)        # Default Tracked Player Color (Blue)
+}
+
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# 1. Initialize Local Tracking Models
+# Initialize ALL 3 Local Tracking Models
+print("Loading local AI architectures...")
 players_model = YOLO(PLAYERS_MODEL_PATH)
 ball_model = YOLO(BALL_MODEL_PATH)
+action_model = YOLO(ACTION_MODEL_PATH)
 
-# 2. Initialize Cloud API Client
-rf = Roboflow(api_key=ROBOFLOW_API_KEY)
-action_project = rf.workspace(WORKSPACE_ID).project(PROJECT_ID)
-action_api_model = action_project.version(VERSION_NUM).model
 
 def box_center(box):
     x1, y1, x2, y2 = box
     return ((x1 + x2) / 2, (y1 + y2) / 2)
 
+
 def distance(p1, p2):
     return math.sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2)
+
 
 def filter_player_boxes(frame, boxes_obj):
     h_img, w_img = frame.shape[:2]
@@ -79,6 +88,8 @@ def filter_player_boxes(frame, boxes_obj):
     filtered.sort(key=lambda b: b["conf"], reverse=True)
     return filtered[:MAX_PLAYERS_PER_FRAME]
 
+
+# --- VIDEO CAPTURE ---
 cap = cv2.VideoCapture(VIDEO_PATH)
 if not cap.isOpened():
     raise RuntimeError(f"Cannot open video: {VIDEO_PATH}")
@@ -93,7 +104,7 @@ tracking_data = []
 frame_idx = 0
 last_active_id = None 
 
-print(f"Running Hybrid API Pipeline over {total_frames} frames...")
+print(f"Running Fully Local 3-Model Pipeline over {total_frames} frames...")
 
 try:
     for _ in tqdm(range(total_frames), desc="Processing Video", unit="frame"):
@@ -127,7 +138,7 @@ try:
         action_conf = 0.0
         ball_x, ball_y = None, None
 
-        # Link Logic
+        # Proximity Link Logic
         if ball_box is not None and len(players) > 0:
             ball_c = box_center(ball_box)
             ball_x, ball_y = ball_c
@@ -144,33 +155,34 @@ try:
                     active_player = p
                     break
 
-        # Step 3: Hosted Cloud API Inference (Only fired if a player is active!)
+        # Step 3: Local Action Inference (Only executed if a player is labeled active!)
         if active_player is not None:
-            # Send the frame matrix directly to Roboflow's API endpoints
-            api_response = action_api_model.predict(frame, confidence=10).json()
+            action_results = action_model.predict(source=frame, conf=CONF_ACTION, imgsz=IMG_SIZE, verbose=False)
             
-            if "predictions" in api_response and len(api_response["predictions"]) > 0:
-                active_c = box_center(active_player["box"])
-                min_action_dist = float('inf')
-                
-                for pred in api_response["predictions"]:
-                    cls_name = pred["class"].lower()
-                    if "player" in cls_name or "ball" in cls_name:
-                        continue
-                    
-                    # Roboflow cloud API returns center coordinates (x, y) directly
-                    act_c = (pred["x"], pred["y"])
-                    dist_to_action = distance(active_c, act_c)
-                    
-                    if dist_to_action < 600 and dist_to_action < min_action_dist:
-                        min_action_dist = dist_to_action
-                        current_action = cls_name
-                        action_conf = float(pred["confidence"])
+            active_c = box_center(active_player["box"])
+            min_action_dist = float('inf')
             
-            if current_action != "none":
-                tqdm.write(f"   -> CLOUD API HIT: {current_action.upper()} | Player {active_player['id']} ({action_conf:.2f})")
+            for r in action_results:
+                if r.boxes is not None:
+                    for box in r.boxes:
+                        cls_id = int(box.cls[0])
+                        cls_name = r.names[cls_id].lower()
+                        
+                        # Filter out basic classes if your action model detects players/balls too
+                        if "player" in cls_name or "ball" in cls_name:
+                            continue
+                        
+                        act_xyxy = box.xyxy[0].cpu().numpy().tolist()
+                        act_c = box_center(act_xyxy)
+                        dist_to_action = distance(active_c, act_c)
+                        
+                        # Associate action with the active player within a geometric cutoff radius (600 pixels)
+                        if dist_to_action < 600 and dist_to_action < min_action_dist:
+                            min_action_dist = dist_to_action
+                            current_action = cls_name
+                            action_conf = float(box.conf[0])
 
-        # Record Data Structures
+        # Record Structural Analytics Data
         tracking_data.append({
             "frame": frame_idx,
             "ball": {"x": ball_x, "y": ball_y} if ball_box else None,
@@ -181,35 +193,32 @@ try:
         })
 
         # --- VISUALIZATION DRAWING ---
-        # --- DRAWING EVERYTHING ---
-        
-        # 1. ALWAYS draw the ball (if detected)
+        # 1. Draw the ball (Yellow)
         if ball_box is not None:
             x1, y1, x2, y2 = map(int, ball_box)
             cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 255), 2)
             cv2.putText(frame, "BALL", (x1, max(20, y1 - 10)), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 255), 2)
 
-        # 2. ALWAYS draw players
+        # 2. Draw players
         for p in players:
             x1, y1, x2, y2 = map(int, p["box"])
             
-            # Default box color (Blue)
-            color = (255, 0, 0)
-            
-            # If this player is doing an action, change color to Green
+            # Check if this iteration's player is the active one executing an action
             is_active_action = (active_player is not None and p["id"] == active_player["id"] and current_action != "none")
-            if is_active_action:
-                color = (0, 255, 0)
             
-            # Draw player box
+            # Assign specific action color from dictionary, fallback to 'none' (Blue) if idle
+            color = ACTION_COLORS.get(current_action if is_active_action else "none", (255, 0, 0))
+            
             cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
             cv2.putText(frame, f"ID {p['id']}", (x1, max(20, y1 - 10)), cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2)
             
-            # Draw Action Banner ONLY if action is happening
+            # Action Notification Banner with dynamic background color fill
             if is_active_action:
                 banner_y1, banner_y2 = max(0, y1 - 45), max(20, y1 - 10)
-                cv2.rectangle(frame, (x1, banner_y1), (x1 + 180, banner_y2), (0, 255, 0), -1)
-                cv2.putText(frame, f"{current_action.upper()}!", (x1 + 5, banner_y2 - 5), cv2.FONT_HERSHEY_DUPLEX, 0.9, (0, 0, 0), 2)
+                # Fills the header box with the action's specific color
+                cv2.rectangle(frame, (x1, banner_y1), (x1 + 190, banner_y2), color, -1)
+                # Overlays high-contrast text over the color block
+                cv2.putText(frame, f"{current_action.upper()}!", (x1 + 5, banner_y2 - 5), cv2.FONT_HERSHEY_DUPLEX, 0.8, (0, 0, 0), 2)
 
         cv2.putText(frame, f"Frame {frame_idx}", (20, 32), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2)
         writer.write(frame)
@@ -220,7 +229,10 @@ except KeyboardInterrupt:
 # --- CLEANUP ---
 cap.release()
 writer.release()
-with open("volley_analytics.json", "w") as f:
+
+with open(OUTPUT_JSON, "w") as f:
     json.dump(tracking_data, f, indent=4)
 
-print("Done! Hybrid pipeline execution successful. Video saved to:", OUTPUT_VIDEO)
+print("Execution complete!")
+print("Video saved to:", OUTPUT_VIDEO)
+print("Analytics JSON structural file saved to:", OUTPUT_JSON)
