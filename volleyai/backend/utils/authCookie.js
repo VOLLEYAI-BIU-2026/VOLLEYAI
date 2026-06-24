@@ -5,8 +5,8 @@ function setAuthCookie(res, payload) {
 
   res.cookie("access_token", token, {
     httpOnly: true,
-    secure: false,
-    sameSite: "lax",
+    secure: true,
+    sameSite: "none",
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 }
@@ -14,8 +14,8 @@ function setAuthCookie(res, payload) {
 function clearAuthCookie(res) {
   res.clearCookie("access_token", {
     httpOnly: true,
-    secure: false,
-    sameSite: "lax",
+    secure: true,
+    sameSite: "none",
   });
 }
 
