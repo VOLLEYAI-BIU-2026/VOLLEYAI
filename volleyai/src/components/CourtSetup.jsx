@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./CourtSetup.css";
 
-const API = "http://localhost:5000";
+const API = "https://volleyai.onrender.com";
 
 function clamp01(x) {
     return Math.max(0, Math.min(1, x));

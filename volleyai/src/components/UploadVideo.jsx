@@ -134,7 +134,7 @@ export default function UploadVideo({
         const fd = new FormData();
         fd.append("video", selectedFile);
 
-        const res = await fetch("http://localhost:5000/videos/upload-file", {
+        const res = await fetch("https://volleyai.onrender.com/videos/upload-file", {
           method: "POST",
           credentials: "include",
           body: fd,
@@ -156,7 +156,7 @@ export default function UploadVideo({
         return;
       }
 
-      const res = await fetch("http://localhost:5000/videos/youtube", {
+      const res = await fetch("https://volleyai.onrender.com/videos/youtube", {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },

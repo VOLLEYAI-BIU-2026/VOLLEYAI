@@ -42,7 +42,7 @@ export default function SignUp() {
     if (hasError) return;
 
     try {
-      const res = await fetch("http://localhost:5000/auth/signup", {
+      const res = await fetch("https://volleyai.onrender.com/auth/signup", {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -76,7 +76,7 @@ export default function SignUp() {
     onSuccess: async (tokenResponse) => {
       clearAllErrors();
       try {
-        const res = await fetch("http://localhost:5000/auth/google", {
+        const res = await fetch("https://volleyai.onrender.com/auth/google", {
           method: "POST",
           credentials: "include",
           headers: { "Content-Type": "application/json" },

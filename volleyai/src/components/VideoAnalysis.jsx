@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./VideoAnalysis.css";
 
-const API = "http://localhost:5000";
+const API = "https://volleyai.onrender.com";
 
 function formatTime(sec) {
   const total = Math.max(0, Math.floor(sec || 0));

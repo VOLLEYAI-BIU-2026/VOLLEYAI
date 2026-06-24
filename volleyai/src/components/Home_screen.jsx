@@ -11,7 +11,7 @@ export default function HomeScreen() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch("http://localhost:5000/auth/me", {
+        const res = await fetch("https://volleyai.onrender.com/auth/me", {
           method: "GET",
           credentials: "include",
         });
@@ -42,7 +42,7 @@ export default function HomeScreen() {
 
   async function handleLogout() {
     try {
-      await fetch("http://localhost:5000/auth/logout", {
+      await fetch("https://volleyai.onrender.com/auth/logout", {
         method: "POST",
         credentials: "include",
       });

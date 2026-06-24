@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./TeamsRoster.css";
 
-const API = "http://localhost:5000";
+const API = "https://volleyai.onrender.com";
 
 export default function TeamsRoster() {
     const { videoId } = useParams();
