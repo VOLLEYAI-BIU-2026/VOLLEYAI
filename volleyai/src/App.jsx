@@ -1,8 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 
-import Login from "./components/login";
+import Login from "./components/Login";
 import SignUp from "./components/SignUp";
-import HomeScreen from "./components/home_screen";
+import HomeScreen from "./components/Home_screen";
 import ForgotPassword from "./components/ForgotPassword.jsx";
 import ResetPassword from "./components/ResetPassword.jsx";
 import UploadVideo from "./components/UploadVideo.jsx";
