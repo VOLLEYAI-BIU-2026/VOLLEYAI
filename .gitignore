@@ -2,3 +2,11 @@
 *.zip
 runs/
 **/volley.v4i.yolov8/
+# Ignore all large AI weights globally by default
+*.pt
+**/*.pt
+
+# EXCEPT these specific tracking folders/files
+!volleyai/backend/detection_models/action_detection/*.pt
+!volleyai/backend/detection_models/ball_tracking/ball_model.pt
+!volleyai/backend/detection_models/player_detection/yolo11s.pt

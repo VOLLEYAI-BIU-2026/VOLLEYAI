@@ -18,7 +18,6 @@ rf_env/
 *.avi
 *.mov
 *.mkv
-
 # YOLO / runs
 runs/
 *.pt
@@ -27,6 +26,10 @@ runs/
 *.openvino_model/
 yolo11s_openvino_model/
 
+# ADD THE EXCEPTIONS HERE TOO SO THIS NESTED FILE DOESN'T BLOCK THEM:
+!backend/detection_models/action_detection/*.pt
+!backend/detection_models/ball_tracking/ball_model.pt
+!backend/detection_models/player_detection/yolo11s.pt
 # OS
 .DS_Store
 Thumbs.db
