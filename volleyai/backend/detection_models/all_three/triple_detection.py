@@ -6,14 +6,16 @@ from ultralytics import YOLO
 from tqdm import tqdm
 
 # --- ABSOLUTE CONFIGURATION PATHS ---
+
 VIDEO_PATH = "/home/jesicemal/project/VOLLEYAI/models/videos/test_clip.mp4"
-
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+VIDEO_PATH = os.path.abspath(os.path.join(SCRIPT_DIR, "../videos/test_clip.mp4"))
 # Local Tracking & Action Recognition Brains
-PLAYERS_MODEL_PATH = "/home/jesicemal/project/VOLLEYAI/models/player_detection/yolo11s.pt"
-BALL_MODEL_PATH = "/home/jesicemal/project/VOLLEYAI/models/ball_tracking/ball_model.pt"
-ACTION_MODEL_PATH = "/home/jesicemal/project/VOLLEYAI/models/action_detection/best_robo_with_git.pt"
-
-OUTPUT_DIR = "/home/jesicemal/project/VOLLEYAI/models/all_three/runs"
+PLAYERS_MODEL_PATH = os.path.abspath(os.path.join(SCRIPT_DIR, "../player_detection/yolo11s.pt"))
+BALL_MODEL_PATH = os.path.abspath(os.path.join(SCRIPT_DIR, "../ball_tracking/ball_model.pt"))
+ACTION_MODEL_PATH = os.path.abspath(os.path.join(SCRIPT_DIR, "../action_detection/best_robo_with_git.pt"))
+# Output tracking artifacts will generate directly inside your current script workspace directory
+OUTPUT_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, "runs"))
 OUTPUT_VIDEO = os.path.join(OUTPUT_DIR, "active_player.mp4")
 OUTPUT_JSON = os.path.join(OUTPUT_DIR, "volley_analytics.json")
 
