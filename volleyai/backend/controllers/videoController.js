@@ -63,6 +63,36 @@ function normalizeStep(step) {
     return n === 2 ? 2 : 1;
 }
 
+async function listVideos(req, res) {
+    try {
+        const videos = await Video.find({ userId: req.user.id })
+            .sort({ createdAt: -1 })
+            .select("_id originalFileName fileName status playerDetection teamA teamB createdAt sourceType filePath cleanFramePath");
+        return res.json({ videos });
+    } catch (err) {
+        return res.status(500).json({ message: "Server error", error: err.message });
+    }
+}
+
+async function updateTeamNames(req, res) {
+    try {
+        const { id } = req.params;
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid video id" });
+        }
+        const { teamA, teamB } = req.body;
+        const video = await Video.findOneAndUpdate(
+            { _id: id, userId: req.user.id },
+            { $set: { teamA: teamA ?? "", teamB: teamB ?? "" } },
+            { new: true }
+        );
+        if (!video) return res.status(404).json({ message: "Video not found" });
+        return res.json({ video });
+    } catch (err) {
+        return res.status(500).json({ message: "Server error", error: err.message });
+    }
+}
+
 async function getVideoById(req, res) {
     try {
         const { id } = req.params;
@@ -974,9 +1004,269 @@ async function getBallAnalysis(req, res) {
         return res.status(500).json({ message: "Server error", error: err.message });
     }
 }
+async function getPlayerStats(req, res) {
+    try {
+        const { id } = req.params;
+        if (id !== "latest") {
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+                return res.status(400).json({ message: "Invalid video id" });
+            }
+            const video = await Video.findOne({ _id: id, userId: req.user.id });
+            if (!video) return res.status(404).json({ message: "Video not found" });
+        }
+
+        const statsPath = path.join(
+            __dirname, "..", "detection_models", "all_three", "runs", "player_stats.json"
+        );
+
+        if (!fs.existsSync(statsPath)) {
+            return res.status(200).json({ status: "none", stats: {} });
+        }
+
+        const raw = fs.readFileSync(statsPath, "utf8");
+        const stats = JSON.parse(raw);
+        return res.status(200).json({ status: "done", stats });
+    } catch (err) {
+        return res.status(500).json({ message: "Server error", error: err.message });
+    }
+}
+
+const REGISTRY_PATH = path.join(__dirname, "..", "detection_models", "all_three", "runs", "player_registry.json");
+const THUMBS_DIR    = path.join(__dirname, "..", "detection_models", "all_three", "runs", "player_thumbs");
+const RALLY_PATH    = path.join(__dirname, "..", "detection_models", "all_three", "runs", "rally_analysis.json");
+
+async function getPlayerRegistry(req, res) {
+    try {
+        if (!fs.existsSync(REGISTRY_PATH)) return res.status(200).json({ status: "none", registry: {} });
+        const registry = JSON.parse(fs.readFileSync(REGISTRY_PATH, "utf8"));
+
+        // Convert absolute thumbnail paths to API-accessible URLs
+        const result = {};
+        for (const [bid, data] of Object.entries(registry)) {
+            let thumbUrl = null;
+            if (data.thumbnail && fs.existsSync(data.thumbnail)) {
+                const filename = path.basename(data.thumbnail);
+                thumbUrl = `/player-thumbs/${filename}`;
+            }
+            result[bid] = { ...data, thumbnailUrl: thumbUrl };
+        }
+        return res.status(200).json({ status: "ok", registry: result });
+    } catch (err) {
+        return res.status(500).json({ message: "Server error", error: err.message });
+    }
+}
+
+async function updatePlayerRegistry(req, res) {
+    try {
+        if (!fs.existsSync(REGISTRY_PATH)) return res.status(404).json({ message: "Registry not found" });
+        const registry = JSON.parse(fs.readFileSync(REGISTRY_PATH, "utf8"));
+        const updates = req.body;
+
+        for (const [bid, jersey] of Object.entries(updates)) {
+            if (registry[bid]) {
+                registry[bid].jersey = jersey === "" ? null : Number(jersey);
+                registry[bid].confirmed = jersey !== "" && jersey !== null;
+            }
+        }
+        fs.writeFileSync(REGISTRY_PATH, JSON.stringify(registry, null, 4));
+        return res.status(200).json({ status: "ok" });
+    } catch (err) {
+        return res.status(500).json({ message: "Server error", error: err.message });
+    }
+}
+
+async function saveAndRecalculate(req, res) {
+    try {
+        if (!fs.existsSync(REGISTRY_PATH)) return res.status(404).json({ message: "Registry not found" });
+        const registry = JSON.parse(fs.readFileSync(REGISTRY_PATH, "utf8"));
+        const updates = req.body;
+
+        for (const [bid, jersey] of Object.entries(updates)) {
+            if (registry[bid]) {
+                registry[bid].jersey = jersey === "" ? null : Number(jersey);
+                registry[bid].confirmed = jersey !== "" && jersey !== null;
+            }
+        }
+        fs.writeFileSync(REGISTRY_PATH, JSON.stringify(registry, null, 4));
+
+        const AGGREGATOR = path.join(__dirname, "..", "detection_models", "all_three", "stats_aggregator.py");
+        const proc = spawn("python", [AGGREGATOR]);
+
+        proc.on("close", (code) => {
+            if (code === 0) return res.status(200).json({ status: "ok" });
+            return res.status(500).json({ message: "Aggregator failed", code });
+        });
+        proc.on("error", (err) => res.status(500).json({ message: err.message }));
+    } catch (err) {
+        return res.status(500).json({ message: "Server error", error: err.message });
+    }
+}
+
+// In-memory job tracking: videoId → { status, progress, error }
+const analysisJobs = {};
+
+const RUNS_DIR    = path.join(__dirname, "..", "detection_models", "all_three", "runs");
+
+async function saveJerseys(req, res) {
+    try {
+        const { id } = req.params;
+        // Accept either {players:[{jersey,name}]} (new) or {jerseys:[n]} (legacy)
+        const { players, jerseys } = req.body;
+        if (!mongoose.Types.ObjectId.isValid(id))
+            return res.status(400).json({ message: "Invalid id" });
+
+        let playerList;
+        if (players) {
+            playerList = (players || []).map(p => ({
+                jersey: Number(p.jersey),
+                name: (p.name || "").trim(),
+            }));
+        } else {
+            playerList = (jerseys || []).map(n => ({ jersey: Number(n), name: "" }));
+        }
+
+        const video = await Video.findOneAndUpdate(
+            { _id: id, userId: req.user.id },
+            {
+                $set: {
+                    knownPlayers: playerList,
+                    knownJerseys: playerList.map(p => p.jersey),
+                },
+            },
+            { new: true }
+        );
+        if (!video) return res.status(404).json({ message: "Video not found" });
+        return res.json({ status: "ok" });
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+}
+
+async function startAnalysis(req, res) {
+    try {
+        const { id } = req.params;
+        if (analysisJobs[id]?.status === "processing") {
+            return res.status(409).json({ message: "Already processing" });
+        }
+
+        const video = await Video.findOne({ _id: id, userId: req.user.id });
+        if (!video) return res.status(404).json({ message: "Video not found" });
+
+        const videoAbs = path.join(__dirname, "..", video.filePath.replace(/^\//, ""));
+        const DETECTOR  = path.join(__dirname, "..", "detection_models", "all_three", "triple_detection.py");
+        const AGGREGATOR = path.join(__dirname, "..", "detection_models", "all_three", "stats_aggregator.py");
+
+        // Clear old output so status falls back to "none" on server restart while processing
+        for (const f of ["rally_analysis.json", "player_stats.json", "volley_analytics.json"]) {
+            const p = path.join(RUNS_DIR, f);
+            if (fs.existsSync(p)) fs.unlinkSync(p);
+        }
+
+        analysisJobs[id] = { status: "processing", progress: 0, error: null };
+
+        const pyCmd = process.platform === "win32" ? "py" : "python";
+        const knownPlayers = video.knownPlayers || [];
+        const jerseyArg = knownPlayers.length > 0
+            ? ["--jerseys", knownPlayers.map(p => p.jersey).join(",")]
+            : (video.knownJerseys || []).length > 0
+                ? ["--jerseys", video.knownJerseys.join(",")]
+                : [];
+        const namesArg = knownPlayers.some(p => p.name)
+            ? ["--names", knownPlayers.filter(p => p.name).map(p => `${p.jersey}:${p.name}`).join(",")]
+            : [];
+
+        // Court boundary args from CourtSetup screen
+        const cs = video.courtSetup?.step1;
+        let courtArg = [];
+        let netYArg  = [];
+        let nearYArg = [];
+        let farYArg  = [];
+        if (cs?.nearLeft && cs?.nearRight && cs?.farLeft && cs?.farRight) {
+            const poly = [
+                cs.nearLeft.x,  cs.nearLeft.y,
+                cs.nearRight.x, cs.nearRight.y,
+                cs.farRight.x,  cs.farRight.y,
+                cs.farLeft.x,   cs.farLeft.y,
+            ].map(n => n.toFixed(4)).join(",");
+            courtArg = ["--court", poly];
+
+            // Near baseline Y (our side ground level) — average of near corners
+            const nearY = ((cs.nearLeft.y + cs.nearRight.y) / 2).toFixed(4);
+            nearYArg = ["--near_y", nearY];
+
+            // Far baseline Y (opponent side ground level) — average of far corners
+            const farY  = ((cs.farLeft.y  + cs.farRight.y)  / 2).toFixed(4);
+            farYArg  = ["--far_y",  farY];
+        }
+        if (cs?.netLeft && cs?.netRight) {
+            const netY = ((cs.netLeft.y + cs.netRight.y) / 2).toFixed(4);
+            netYArg = ["--net_y", netY];
+        }
+
+        console.log(`[ANALYSIS] Starting: ${pyCmd} ${DETECTOR} --video ${videoAbs} ${[...jerseyArg, ...namesArg, ...netYArg, ...nearYArg, ...farYArg].join(" ")}`);
+        const proc = spawn(pyCmd, [DETECTOR, "--video", videoAbs, ...jerseyArg, ...namesArg, ...netYArg, ...nearYArg, ...farYArg]);
+
+        proc.stdout.on("data", (data) => {
+            const txt = data.toString();
+            console.log("[DETECTOR]", txt.trim());
+            const match = txt.match(/(\d+)%/);
+            if (match) analysisJobs[id].progress = parseInt(match[1]);
+        });
+
+        proc.stderr.on("data", (data) => {
+            const txt = data.toString();
+            console.log("[DETECTOR]", txt.trim());
+            const match = txt.match(/(\d+)%/);
+            if (match) analysisJobs[id].progress = parseInt(match[1]);
+        });
+
+        proc.on("close", (code) => {
+            if (code === 0) {
+                const agg = spawn(pyCmd, [AGGREGATOR, ...courtArg, ...netYArg, "--side", "bottom", ...nearYArg, ...farYArg]);
+                agg.on("close", (aggCode) => {
+                    analysisJobs[id].status = aggCode === 0 ? "done" : "failed";
+                    analysisJobs[id].progress = 100;
+                    if (aggCode !== 0) analysisJobs[id].error = "Aggregator failed";
+                });
+            } else {
+                analysisJobs[id].status = "failed";
+                analysisJobs[id].error = `Detection failed (exit ${code})`;
+            }
+        });
+
+        proc.on("error", (err) => {
+            analysisJobs[id].status = "failed";
+            analysisJobs[id].error = err.message;
+        });
+
+        return res.json({ status: "started" });
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+}
+
+async function getAnalysisStatus(req, res) {
+    const { id } = req.params;
+    const job = analysisJobs[id];
+    if (!job) return res.json({ status: "none", progress: 0 });
+    return res.json(job);
+}
+
+async function getRallyAnalysis(req, res) {
+    try {
+        if (!fs.existsSync(RALLY_PATH)) return res.status(404).json({ message: "No rally data yet. Run the model and recalculate." });
+        const data = JSON.parse(fs.readFileSync(RALLY_PATH, "utf8"));
+        return res.json(data);
+    } catch (err) {
+        return res.status(500).json({ message: "Error reading rally data", error: err.message });
+    }
+}
+
 module.exports = {
     uploadFile,
     addYoutube,
+    listVideos,
+    updateTeamNames,
     getVideoById,
     saveCourtSetup,
     startCleanFrame,
@@ -989,4 +1279,12 @@ module.exports = {
     getVideoAnalysis,
     analyzeBall,
     getBallAnalysis,
+    getPlayerStats,
+    getPlayerRegistry,
+    updatePlayerRegistry,
+    saveAndRecalculate,
+    getRallyAnalysis,
+    startAnalysis,
+    getAnalysisStatus,
+    saveJerseys,
 };

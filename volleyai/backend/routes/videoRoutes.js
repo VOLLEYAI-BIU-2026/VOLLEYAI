@@ -7,6 +7,8 @@ const requireAuth = require("../requireAuth");
 const {
     uploadFile,
     addYoutube,
+    listVideos,
+    updateTeamNames,
     getVideoById,
     saveCourtSetup,
     startCleanFrame,
@@ -19,6 +21,14 @@ const {
     getVideoAnalysis,
     analyzeBall,
     getBallAnalysis,
+    getPlayerStats,
+    getPlayerRegistry,
+    updatePlayerRegistry,
+    saveAndRecalculate,
+    getRallyAnalysis,
+    startAnalysis,
+    getAnalysisStatus,
+    saveJerseys,
 } = require("../controllers/videoController");
 
 const uploadDir = path.join(__dirname, "..", "uploads");
@@ -37,10 +47,21 @@ const upload = multer({
     limits: { fileSize: 2 * 1024 * 1024 * 1024 },
 });
 
+router.get("/list", requireAuth, listVideos);
 router.post("/upload-file", requireAuth, upload.single("video"), uploadFile);
 router.post("/youtube", requireAuth, addYoutube);
-router.post("/:id/clean-frame", requireAuth, startCleanFrame);
 
+router.get("/latest/player-stats", requireAuth, (req, res) => { req.params.id = "latest"; return getPlayerStats(req, res); });
+router.get("/player-registry", requireAuth, getPlayerRegistry);
+router.post("/player-registry", requireAuth, updatePlayerRegistry);
+router.post("/player-registry/recalculate", requireAuth, saveAndRecalculate);
+router.get("/rally-analysis", requireAuth, getRallyAnalysis);
+router.patch("/:id/teams", requireAuth, updateTeamNames);
+router.post("/:id/jerseys", requireAuth, saveJerseys);
+router.post("/:id/start-analysis", requireAuth, startAnalysis);
+router.get("/:id/analysis-status", requireAuth, getAnalysisStatus);
+
+router.post("/:id/clean-frame", requireAuth, startCleanFrame);
 router.get("/:id", requireAuth, getVideoById);
 router.post("/:id/court-setup", requireAuth, saveCourtSetup);
 router.post("/:id/detect-players", requireAuth, startPlayerDetection);
@@ -55,5 +76,6 @@ router.post("/:id/analyze-rallies", requireAuth, analyzeRallies);
 router.get("/:id/video-analysis", requireAuth, getVideoAnalysis);
 router.post("/:id/analyze-ball", requireAuth, analyzeBall);
 router.get("/:id/ball-analysis", requireAuth, getBallAnalysis);
+router.get("/:id/player-stats", requireAuth, getPlayerStats);
 
 module.exports = router;

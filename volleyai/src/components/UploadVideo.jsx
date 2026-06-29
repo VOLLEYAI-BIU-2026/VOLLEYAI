@@ -183,6 +183,12 @@ export default function UploadVideo({
     ((sourceType === "file" && !!selectedFile) ||
       (sourceType === "youtube" && isValidYouTubeUrl(youtubeUrl)));
 
+  const STEPS = [
+    { label: "Upload Video",   sub: "Select footage" },
+    { label: "Court Setup",    sub: "Calibrate court" },
+    { label: "Start Analysis", sub: "Ready to go" },
+  ];
+
   return (
     <div className="uva-page">
       <header className="uva-topbar">
@@ -194,24 +200,34 @@ export default function UploadVideo({
         >
           ←
         </button>
-
         <div className="uva-titleWrap">
           <div className="uva-title">New Match Analysis</div>
         </div>
-
-        <div className="uva-stepText">
-          Step {currentStep} of {totalSteps}
-        </div>
       </header>
 
-      <div className="uva-body">
-        <aside className="uva-stepper">
-          <StepperItem active label="Upload Video" subLabel="Select match footage" />
-          <StepperItem label="Court Setup" subLabel="Calibrate perspective" />
-          <StepperItem label="Teams & Roster" subLabel="Add players" />
-          <StepperItem label="Start Analysis" subLabel="Ready to go" />
-        </aside>
+      <div className="uva-stepper-h">
+        {STEPS.map((s, i) => {
+          const stepNum = i + 1;
+          const done = stepNum < currentStep;
+          const active = stepNum === currentStep;
+          return (
+            <div key={s.label} className="uva-step-h-wrap">
+              <div className={`uva-step-h ${active ? "active" : ""} ${done ? "done" : ""}`}>
+                <div className="uva-step-h-circle">
+                  {done ? "✓" : stepNum}
+                </div>
+                <div className="uva-step-h-text">
+                  <div className="uva-step-h-label">{s.label}</div>
+                  <div className="uva-step-h-sub">{s.sub}</div>
+                </div>
+              </div>
+              {i < STEPS.length - 1 && <div className={`uva-step-h-line ${done ? "done" : ""}`} />}
+            </div>
+          );
+        })}
+      </div>
 
+      <div className="uva-body">
         <main className="uva-main">
           <section className="uva-card">
             <div className="uva-cardHeader">
@@ -374,18 +390,6 @@ export default function UploadVideo({
             </div>
           </section>
         </main>
-      </div>
-    </div>
-  );
-}
-
-function StepperItem({ active, label, subLabel }) {
-  return (
-    <div className={`uva-stepItem ${active ? "active" : ""}`}>
-      <div className="uva-stepDot" aria-hidden="true" />
-      <div className="uva-stepTextWrap">
-        <div className="uva-stepLabel">{label}</div>
-        <div className="uva-stepSub">{subLabel}</div>
       </div>
     </div>
   );

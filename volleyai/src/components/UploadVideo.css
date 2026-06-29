@@ -9,10 +9,11 @@ html, body, #root {
 body {
   overflow-x: hidden;
 }
+
 .uva-page {
   min-height: 100vh;
-  background: #f6f8fb;
-  color: #0f172a;
+  background: #0f1117;
+  color: #e8eaf0;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji",
     "Segoe UI Emoji";
 }
@@ -22,17 +23,23 @@ body {
   display: flex;
   align-items: center;
   padding: 0 18px;
-  background: #ffffff;
-  border-bottom: 1px solid #e6eaf2;
+  background: #13151f;
+  border-bottom: 1px solid #2a2f45;
 }
 
 .uva-backIcon {
   width: 36px;
   height: 36px;
-  border: 1px solid #e6eaf2;
-  background: #fff;
+  border: 1px solid #2a2f45;
+  background: #1e2130;
+  color: #a0a8c0;
   border-radius: 10px;
   cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .uva-titleWrap {
@@ -43,81 +50,124 @@ body {
 .uva-title {
   font-weight: 700;
   font-size: 18px;
+  color: #e8eaf0;
 }
 
 .uva-stepText {
   font-size: 13px;
-  color: #64748b;
+  color: #5a627a;
+}
+
+/* Horizontal stepper */
+.uva-stepper-h {
+  display: flex;
+  align-items: center;
+  padding: 18px 24px;
+  background: #13151f;
+  border-bottom: 1px solid #2a2f45;
+  overflow-x: auto;
+}
+
+.uva-step-h-wrap {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.uva-step-h {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.uva-step-h-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 2px solid #3a4060;
+  color: #5a627a;
+  font-size: 13px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 200ms ease;
+}
+
+.uva-step-h.active .uva-step-h-circle {
+  border-color: #6d5efc;
+  background: #6d5efc;
+  color: #fff;
+  box-shadow: 0 0 0 4px rgba(109, 94, 252, 0.2);
+}
+
+.uva-step-h.done .uva-step-h-circle {
+  border-color: #22c55e;
+  background: #22c55e;
+  color: #fff;
+}
+
+.uva-step-h-label {
+  font-weight: 700;
+  font-size: 14px;
+  color: #5a627a;
+}
+
+.uva-step-h.active .uva-step-h-label {
+  color: #e8eaf0;
+}
+
+.uva-step-h.done .uva-step-h-label {
+  color: #22c55e;
+}
+
+.uva-step-h-sub {
+  font-size: 11px;
+  color: #3a4060;
+  margin-top: 1px;
+}
+
+.uva-step-h.active .uva-step-h-sub {
+  color: #a0a8c0;
+}
+
+.uva-step-h.done .uva-step-h-sub {
+  color: #16a34a;
+}
+
+.uva-step-h-line {
+  flex: 1;
+  height: 2px;
+  background: #2a2f45;
+  margin: 0 12px;
+  min-width: 20px;
+}
+
+.uva-step-h-line.done {
+  background: #22c55e;
 }
 
 .uva-body {
-  display: grid;
-  grid-template-columns: 260px minmax(0, 920px); /* עמודת סטפר + עמודת תוכן */
-  gap: 18px;
-  padding: 18px;
-
-  width: 100%;
-  max-width: 1500px;   /* 260 + 18 + 920 + קצת מרווח */
-  margin: 2 auto;      /* זה מה שממרכז */
+  display: flex;
   justify-content: center;
-  align-content: start;
-}
-
-/* Stepper */
-.uva-stepper {
-  background: #ffffff;
-  border: 1px solid #e6eaf2;
-  border-radius: 16px;
-  padding: 18px 14px;
-  height: fit-content;
-}
-
-.uva-stepItem {
-  display: grid;
-  grid-template-columns: 18px 1fr;
-  gap: 10px;
-  padding: 12px 8px;
-  border-radius: 12px;
-}
-
-.uva-stepItem.active {
-  background: #f3f0ff;
-}
-
-.uva-stepDot {
-  width: 14px;
-  height: 14px;
-  border-radius: 999px;
-  border: 2px solid #cbd5e1;
-  margin-top: 2px;
-}
-
-.uva-stepItem.active .uva-stepDot {
-  border-color: #6d5efc;
-  box-shadow: 0 0 0 3px rgba(109, 94, 252, 0.15);
-}
-
-.uva-stepLabel {
-  font-weight: 700;
-  font-size: 14px;
-}
-
-.uva-stepSub {
-  font-size: 12px;
-  color: #64748b;
-  margin-top: 2px;
+  padding: 24px 18px;
 }
 
 /* Main card */
 .uva-main {
+  width: 100%;
+  max-width: 920px;
   display: flex;
   justify-content: center;
 }
 
 .uva-card {
   width: min(920px, 100%);
-  background: #fff;
-  border: 1px solid #e6eaf2;
+  background: #1e2130;
+  border: 1px solid #2a2f45;
   border-radius: 18px;
   padding: 22px;
 }
@@ -134,8 +184,8 @@ body {
   display: grid;
   place-items: center;
   border-radius: 16px;
-  background: #eef2ff;
-  color: #4f46e5;
+  background: #1a2040;
+  color: #7c6fff;
   font-size: 24px;
 }
 
@@ -143,22 +193,23 @@ body {
   margin: 0;
   font-size: 26px;
   letter-spacing: -0.02em;
+  color: #e8eaf0;
 }
 
 .uva-subtitle {
   margin: 8px auto 0;
   max-width: 560px;
   font-size: 14px;
-  color: #64748b;
+  color: #a0a8c0;
 }
 
 /* Dropzone */
 .uva-dropzone {
   margin: 14px auto 10px;
   width: min(720px, 100%);
-  border: 2px dashed #d7ddea;
+  border: 2px dashed #3a4060;
   border-radius: 16px;
-  background: #fbfcff;
+  background: #13151f;
   padding: 30px 14px;
   cursor: pointer;
   outline: none;
@@ -166,18 +217,18 @@ body {
 }
 
 .uva-dropzone:hover {
-  border-color: #b9c2d6;
+  border-color: #4a5080;
   transform: translateY(-1px);
 }
 
 .uva-dropzone.isDragOver {
   border-color: #6d5efc;
-  background: #f3f0ff;
+  background: #1a2040;
 }
 
 .uva-dropzone.hasError {
   border-color: #ef4444;
-  background: #fff7f7;
+  background: #2d1515;
 }
 
 .uva-hiddenInput {
@@ -197,17 +248,18 @@ body {
 .uva-dropTitle {
   font-weight: 800;
   font-size: 16px;
+  color: #e8eaf0;
 }
 
 .uva-dropHint {
   margin-top: 4px;
-  color: #64748b;
+  color: #a0a8c0;
   font-size: 13px;
 }
 
 .uva-dropMeta {
   margin-top: 10px;
-  color: #94a3b8;
+  color: #5a627a;
   font-size: 12px;
 }
 
@@ -215,8 +267,8 @@ body {
 .uva-filePill {
   margin: 10px auto 0;
   width: min(520px, 100%);
-  border: 1px solid #e6eaf2;
-  background: #ffffff;
+  border: 1px solid #2a2f45;
+  background: #262c42;
   border-radius: 14px;
   padding: 10px 12px;
   display: grid;
@@ -228,6 +280,7 @@ body {
 .uva-fileName {
   font-weight: 700;
   font-size: 13px;
+  color: #e8eaf0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -235,16 +288,21 @@ body {
 
 .uva-fileSize {
   font-size: 12px;
-  color: #64748b;
+  color: #a0a8c0;
 }
 
 .uva-removeBtn {
-  border: 1px solid #e6eaf2;
-  background: #fff;
+  border: 1px solid #2a2f45;
+  background: #1e2130;
+  color: #a0a8c0;
   border-radius: 10px;
   padding: 6px 10px;
   font-weight: 700;
   cursor: pointer;
+}
+
+.uva-removeBtn:hover {
+  background: #262c42;
 }
 
 .uva-error {
@@ -252,9 +310,9 @@ body {
   margin: 8px auto 0;
   padding: 10px 12px;
   border-radius: 12px;
-  border: 1px solid #fecaca;
-  background: #fff1f2;
-  color: #991b1b;
+  border: 1px solid #7f1d1d;
+  background: #2d1515;
+  color: #f87171;
   font-size: 13px;
 }
 
@@ -264,9 +322,9 @@ body {
   margin: 12px auto 0;
   padding: 12px 14px;
   border-radius: 14px;
-  border: 1px solid #fde68a;
-  background: #fffbeb;
-  color: #92400e;
+  border: 1px solid #4a3500;
+  background: #1c1a0e;
+  color: #fbbf24;
   display: flex;
   gap: 10px;
   align-items: flex-start;
@@ -287,16 +345,21 @@ body {
 }
 
 .uva-secondary {
-  border: 1px solid #e6eaf2;
-  background: #fff;
+  border: 1px solid #2a2f45;
+  background: #1e2130;
+  color: #a0a8c0;
   border-radius: 12px;
   padding: 10px 14px;
   font-weight: 700;
   cursor: pointer;
 }
 
+.uva-secondary:hover {
+  background: #262c42;
+}
+
 .uva-primary {
-  background: #111827;
+  background: #2563eb;
   color: #fff;
   border: none;
   border-radius: 12px;
@@ -308,32 +371,28 @@ body {
   gap: 8px;
 }
 
+.uva-primary:hover {
+  background: #1d4ed8;
+}
+
 .uva-primary:disabled,
 .uva-secondary:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
 }
 
 /* Responsive */
-@media (max-width: 920px) {
-  .uva-body {
-    grid-template-columns: 1fr;
-  }
-
-  .uva-stepper {
-    order: 2;
-  }
-
-  .uva-main {
-    order: 1;
-  }
+@media (max-width: 600px) {
+  .uva-step-h-sub { display: none; }
+  .uva-step-h-line { min-width: 10px; margin: 0 6px; }
 }
+
 /* Source toggle (Upload / YouTube) */
 .uva-sourceToggle {
   margin: 14px auto 0;
   width: min(520px, 100%);
-  background: #f3f6fb;
-  border: 1px solid #e6eaf2;
+  background: #13151f;
+  border: 1px solid #2a2f45;
   border-radius: 14px;
   padding: 6px;
   display: grid;
@@ -348,29 +407,29 @@ body {
   padding: 10px 12px;
   font-weight: 800;
   cursor: pointer;
-  color: #334155;
+  color: #5a627a;
 }
 
 .uva-toggleBtn.active {
-  background: #ffffff;
-  border: 1px solid #e6eaf2;
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
-  color: #111827;
+  background: #262c42;
+  border: 1px solid #2a2f45;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+  color: #e8eaf0;
 }
 
 /* YouTube box */
 .uva-youtubeBox {
   width: min(720px, 100%);
   margin: 14px auto 10px;
-  border: 1px solid #e6eaf2;
+  border: 1px solid #2a2f45;
   border-radius: 16px;
   padding: 16px;
-  background: #fbfcff;
+  background: #13151f;
 }
 
 .uva-youtubeBox.hasError {
   border-color: #ef4444;
-  background: #fff7f7;
+  background: #2d1515;
 }
 
 .uva-label {
@@ -378,15 +437,23 @@ body {
   font-weight: 800;
   font-size: 13px;
   margin-bottom: 8px;
+  color: #e8eaf0;
 }
 
 .uva-input {
   width: 100%;
-  border: 1px solid #e6eaf2;
+  border: 1px solid #2a2f45;
+  background: #1e2130;
+  color: #e8eaf0;
   border-radius: 12px;
   padding: 12px 12px;
   font-size: 14px;
   outline: none;
+  box-sizing: border-box;
+}
+
+.uva-input::placeholder {
+  color: #5a627a;
 }
 
 .uva-input:focus {
@@ -397,7 +464,7 @@ body {
 .uva-inputHint {
   margin-top: 8px;
   font-size: 12px;
-  color: #64748b;
+  color: #5a627a;
 }
 
 .uva-urlStatus {
@@ -410,13 +477,13 @@ body {
 }
 
 .uva-urlStatus.ok {
-  color: #065f46;
-  background: #ecfdf5;
-  border: 1px solid #a7f3d0;
+  color: #34d399;
+  background: #0d2a1e;
+  border: 1px solid #064e3b;
 }
 
 .uva-urlStatus.bad {
-  color: #991b1b;
-  background: #fff1f2;
-  border: 1px solid #fecaca;
+  color: #f87171;
+  background: #2d1515;
+  border: 1px solid #7f1d1d;
 }

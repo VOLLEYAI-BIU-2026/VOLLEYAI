@@ -7,12 +7,14 @@ const PointSchema = new mongoose.Schema(
 
 const StepPointsSchema = new mongoose.Schema(
     {
-        netTopLeft: PointSchema,
+        netTopLeft:  PointSchema,
         netTopRight: PointSchema,
-        farLineLeft: PointSchema,
-        farLineRight: PointSchema,
-        middleLineLeft: PointSchema,
-        middleLineRight: PointSchema,
+        farLeft:     PointSchema,
+        farRight:    PointSchema,
+        netLeft:     PointSchema,
+        netRight:    PointSchema,
+        nearLeft:    PointSchema,
+        nearRight:   PointSchema,
     },
     { _id: false }
 );
@@ -251,6 +253,13 @@ const VideoSchema = new mongoose.Schema(
         },
 
         status: { type: String, default: "uploaded" },
+        teamA: { type: String, default: "" },
+        teamB: { type: String, default: "" },
+        knownJerseys: { type: [Number], default: [] },
+        knownPlayers: {
+            type: [{ jersey: Number, name: { type: String, default: "" } }],
+            default: [],
+        },
     },
     { timestamps: true }
 );

@@ -3,28 +3,37 @@ import os
 import cv2
 import numpy as np
 
-def person_area(model, frame):
+def person_mask(model, frame):
+    """Returns (area, mask) where mask is a uint8 image with 255 on player pixels."""
     h, w = frame.shape[:2]
     results = model.predict(frame, verbose=False)
     r = results[0]
 
-    if r.masks is None or r.boxes is None:
-        return 0
-
-    cls = r.boxes.cls.cpu().numpy().astype(int)
-    masks = r.masks.data.cpu().numpy()
-
     union = np.zeros((h, w), dtype=np.uint8)
 
-    for i in range(len(cls)):
-        if cls[i] != 0:
-            continue
-        m = (masks[i] > 0.5).astype(np.uint8) * 255
-        if m.shape[0] != h or m.shape[1] != w:
-            m = cv2.resize(m, (w, h), interpolation=cv2.INTER_NEAREST)
-        union = cv2.bitwise_or(union, m)
+    if r.masks is not None and r.boxes is not None:
+        cls = r.boxes.cls.cpu().numpy().astype(int)
+        masks = r.masks.data.cpu().numpy()
+        for i in range(len(cls)):
+            if cls[i] != 0:
+                continue
+            m = (masks[i] > 0.5).astype(np.uint8) * 255
+            if m.shape[0] != h or m.shape[1] != w:
+                m = cv2.resize(m, (w, h), interpolation=cv2.INTER_NEAREST)
+            union = cv2.bitwise_or(union, m)
 
-    return int(np.count_nonzero(union))
+    return int(np.count_nonzero(union)), union
+
+
+def remove_players(frame, mask):
+    """Inpaint player regions so only the court is visible."""
+    if np.count_nonzero(mask) == 0:
+        return frame
+    # Dilate mask slightly to cover jersey edges and shadows
+    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (15, 15))
+    mask_dilated = cv2.dilate(mask, kernel, iterations=2)
+    inpainted = cv2.inpaint(frame, mask_dilated, inpaintRadius=7, flags=cv2.INPAINT_TELEA)
+    return inpainted
 
 def main():
     parser = argparse.ArgumentParser()
@@ -55,6 +64,7 @@ def main():
 
     best_score = None
     best_frame = None
+    best_mask  = None
 
     t = start_sec
     while t <= end_sec + 1e-9:
@@ -69,11 +79,12 @@ def main():
             t += step_sec
             continue
 
-        score = person_area(model, frame)
+        score, mask = person_mask(model, frame)
 
         if best_score is None or score < best_score:
             best_score = score
             best_frame = frame
+            best_mask  = mask
 
         if best_score == 0:
             break
@@ -85,6 +96,7 @@ def main():
         ret, best_frame = cap.read()
         if not ret:
             raise RuntimeError("Cannot read any frame")
+        best_mask = np.zeros(best_frame.shape[:2], dtype=np.uint8)
 
     ok = cv2.imwrite(args.output, best_frame)
     if not ok:

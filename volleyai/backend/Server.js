@@ -16,7 +16,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "http://localhost:5174"],
     credentials: true,
   })
 );
@@ -25,6 +25,8 @@ app.use("/auth", authRoutes);
 app.use("/videos", videoRoutes);
 app.use("/uploads", express.static("uploads"));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/player-thumbs", express.static(path.join(__dirname, "detection_models", "all_three", "runs", "player_thumbs")));
+app.use("/analysis-video", express.static(path.join(__dirname, "detection_models", "all_three", "runs")));
 
 app.get("/", (req, res) => {
   res.send("API is running");

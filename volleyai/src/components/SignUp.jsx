@@ -133,9 +133,11 @@ export default function SignUp() {
           </div>
 
           <div className="ls-field">
-            <label className="ls-label static" htmlFor="password">
-              Password*
-            </label>
+            {!password && (
+              <label className="ls-label static" htmlFor="password">
+                Password*
+              </label>
+            )}
 
             <div className="ls-passwordWrap">
               <input
