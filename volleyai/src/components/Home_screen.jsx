@@ -4,16 +4,22 @@ import "./Home_screen.css";
 
 const API = "http://localhost:5000";
 
-function formatDate(iso) {
-  if (!iso) return "";
-  const d = new Date(iso);
+function formatDate(iso, objectId) {
+  let d = iso ? new Date(iso) : null;
+  if (!d || isNaN(d.getTime())) {
+    // Extract creation timestamp embedded in MongoDB ObjectId (first 4 bytes = Unix seconds)
+    if (objectId && objectId.length >= 8) {
+      d = new Date(parseInt(objectId.substring(0, 8), 16) * 1000);
+    }
+  }
+  if (!d || isNaN(d.getTime())) return "";
   return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 }
 
 function cardStatus(video) {
-  const pd = video.playerDetection?.status;
-  if (pd === "done") return "ready";
-  if (pd === "processing") return "processing";
+  const st = video.analytics?.status;
+  if (st === "done") return "ready";
+  if (st === "processing") return "processing";
   return "uploaded";
 }
 
@@ -88,20 +94,24 @@ export default function HomeScreen() {
     setTeamEdits((prev) => ({ ...prev, [videoId]: { ...prev[videoId], [field]: value } }));
   }
 
-  async function saveTeamNames(videoId) {
+  async function handleEditSave(videoId) {
     const { teamA, teamB } = teamEdits[videoId] || {};
     try {
-      await fetch(`${API}/videos/${videoId}/teams`, {
+      const res = await fetch(`${API}/videos/${videoId}/teams`, {
         method: "PATCH",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ teamA, teamB }),
       });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.video) {
+          setVideos((prev) =>
+            prev.map((v) => (v._id === videoId ? { ...v, teamA: data.video.teamA, teamB: data.video.teamB } : v))
+          );
+        }
+      }
     } catch {}
-  }
-
-  async function handleEditSave(videoId) {
-    await saveTeamNames(videoId);
     setEditingId(null);
   }
 
@@ -156,7 +166,7 @@ export default function HomeScreen() {
 
                     {/* Date — top right, always visible */}
                     <div className="hs-cardDate">
-                      📅 {formatDate(video.createdAt)}
+                      📅 {formatDate(video.createdAt, video._id)}
                     </div>
 
                     {/* Teams + edit at the bottom */}

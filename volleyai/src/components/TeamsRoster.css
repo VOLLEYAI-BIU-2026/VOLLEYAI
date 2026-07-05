@@ -51,6 +51,28 @@ body {
   padding: 0 22px;
 }
 
+.tr-topbarLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tr-backBtn {
+  background: #1e2130;
+  border: 1px solid #2a2f45;
+  color: #a0a8c0;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.tr-backBtn:hover { background: #252a3d; }
+
 .tr-title {
   margin: 0;
   font-size: 22px;

@@ -1,0 +1,401 @@
+{
+  "rallies": [
+    {
+      "rally_id": 1,
+      "result": "won",
+      "score_event": {
+        "rally_id": 1,
+        "type": "ball_landing",
+        "frame": 43,
+        "time_sec": 0.717,
+        "us": 1,
+        "opp": 0,
+        "landed_side": "opponent",
+        "court_position": null,
+        "scoring_team": "my_team"
+      },
+      "actions": []
+    },
+    {
+      "rally_id": 2,
+      "result": "won",
+      "score_event": {
+        "rally_id": 2,
+        "type": "ball_landing",
+        "frame": 2813,
+        "time_sec": 46.93,
+        "us": 2,
+        "opp": 0,
+        "landed_side": "opponent",
+        "court_position": null,
+        "scoring_team": "my_team"
+      },
+      "actions": []
+    },
+    {
+      "rally_id": 3,
+      "result": "won",
+      "score_event": {
+        "rally_id": 3,
+        "type": "ball_landing",
+        "frame": 3874,
+        "time_sec": 64.631,
+        "us": 3,
+        "opp": 0,
+        "landed_side": "opponent",
+        "court_position": null,
+        "scoring_team": "my_team"
+      },
+      "actions": []
+    }
+  ],
+  "all_actions": [
+    {
+      "frame": 298,
+      "time_sec": 4.972,
+      "time_str": "00:04",
+      "action": "setting",
+      "action_label": "setting",
+      "result": "unknown",
+      "player_label": "ID 39"
+    },
+    {
+      "frame": 384,
+      "time_sec": 6.406,
+      "time_str": "00:06",
+      "action": "setting",
+      "action_label": "setting",
+      "result": "unknown",
+      "player_label": "ID 122"
+    },
+    {
+      "frame": 548,
+      "time_sec": 9.142,
+      "time_str": "00:09",
+      "action": "block",
+      "action_label": "block",
+      "result": "unknown",
+      "player_label": "ID 55"
+    },
+    {
+      "frame": 556,
+      "time_sec": 9.276,
+      "time_str": "00:09",
+      "action": "block",
+      "action_label": "block",
+      "result": "unknown",
+      "player_label": "ID 122"
+    },
+    {
+      "frame": 562,
+      "time_sec": 9.376,
+      "time_str": "00:09",
+      "action": "block",
+      "action_label": "block",
+      "result": "unknown",
+      "player_label": "ID 162"
+    },
+    {
+      "frame": 575,
+      "time_sec": 9.593,
+      "time_str": "00:09",
+      "action": "block",
+      "action_label": "block",
+      "result": "unknown",
+      "player_label": "ID 156"
+    },
+    {
+      "frame": 943,
+      "time_sec": 15.732,
+      "time_str": "00:15",
+      "action": "setting",
+      "action_label": "setting",
+      "result": "unknown",
+      "player_label": "ID 240"
+    },
+    {
+      "frame": 945,
+      "time_sec": 15.766,
+      "time_str": "00:15",
+      "action": "setting",
+      "action_label": "setting",
+      "result": "unknown",
+      "player_label": "ID 256"
+    },
+    {
+      "frame": 980,
+      "time_sec": 16.35,
+      "time_str": "00:16",
+      "action": "setting",
+      "action_label": "setting",
+      "result": "unknown",
+      "player_label": "ID 246"
+    },
+    {
+      "frame": 982,
+      "time_sec": 16.383,
+      "time_str": "00:16",
+      "action": "attack",
+      "action_label": "attack",
+      "result": "unknown",
+      "player_label": "ID 246"
+    },
+    {
+      "frame": 1004,
+      "time_sec": 16.75,
+      "time_str": "00:16",
+      "action": "block",
+      "action_label": "block",
+      "result": "unknown",
+      "player_label": "ID 246"
+    },
+    {
+      "frame": 1005,
+      "time_sec": 16.767,
+      "time_str": "00:16",
+      "action": "block",
+      "action_label": "block",
+      "result": "unknown",
+      "player_label": "ID 256"
+    },
+    {
+      "frame": 1150,
+      "time_sec": 19.186,
+      "time_str": "00:19",
+      "action": "setting",
+      "action_label": "setting",
+      "result": "unknown",
+      "player_label": "ID 301"
+    },
+    {
+      "frame": 1212,
+      "time_sec": 20.22,
+      "time_str": "00:20",
+      "action": "setting",
+      "action_label": "setting",
+      "result": "unknown",
+      "player_label": "ID 110"
+    },
+    {
+      "frame": 1217,
+      "time_sec": 20.304,
+      "time_str": "00:20",
+      "action": "attack",
+      "action_label": "attack",
+      "result": "unknown",
+      "player_label": "ID 110"
+    },
+    {
+      "frame": 1220,
+      "time_sec": 20.354,
+      "time_str": "00:20",
+      "action": "attack",
+      "action_label": "attack",
+      "result": "unknown",
+      "player_label": "ID 307"
+    },
+    {
+      "frame": 1221,
+      "time_sec": 20.37,
+      "time_str": "00:20",
+      "action": "block",
+      "action_label": "block",
+      "result": "unknown",
+      "player_label": "ID 307"
+    },
+    {
+      "frame": 1226,
+      "time_sec": 20.454,
+      "time_str": "00:20",
+      "action": "block",
+      "action_label": "block",
+      "result": "unknown",
+      "player_label": "ID 110"
+    },
+    {
+      "frame": 1269,
+      "time_sec": 21.171,
+      "time_str": "00:21",
+      "action": "setting",
+      "action_label": "setting",
+      "result": "unknown",
+      "player_label": "ID 110"
+    },
+    {
+      "frame": 1332,
+      "time_sec": 22.222,
+      "time_str": "00:22",
+      "action": "attack",
+      "action_label": "attack",
+      "result": "unknown",
+      "player_label": "#5"
+    },
+    {
+      "frame": 1411,
+      "time_sec": 23.54,
+      "time_str": "00:23",
+      "action": "attack",
+      "action_label": "attack",
+      "result": "unknown",
+      "player_label": "ID 369"
+    },
+    {
+      "frame": 1419,
+      "time_sec": 23.674,
+      "time_str": "00:23",
+      "action": "attack",
+      "action_label": "attack",
+      "result": "unknown",
+      "player_label": "ID 389"
+    },
+    {
+      "frame": 1613,
+      "time_sec": 26.91,
+      "time_str": "00:26",
+      "action": "setting",
+      "action_label": "setting",
+      "result": "unknown",
+      "player_label": "ID 378"
+    },
+    {
+      "frame": 2961,
+      "time_sec": 49.399,
+      "time_str": "00:49",
+      "action": "attack",
+      "action_label": "attack",
+      "result": "unknown",
+      "player_label": "ID 605"
+    },
+    {
+      "frame": 2964,
+      "time_sec": 49.449,
+      "time_str": "00:49",
+      "action": "attack",
+      "action_label": "attack",
+      "result": "unknown",
+      "player_label": "#6"
+    },
+    {
+      "frame": 2975,
+      "time_sec": 49.633,
+      "time_str": "00:49",
+      "action": "attack",
+      "action_label": "attack",
+      "result": "unknown",
+      "player_label": "#5"
+    },
+    {
+      "frame": 2981,
+      "time_sec": 49.733,
+      "time_str": "00:49",
+      "action": "block",
+      "action_label": "block",
+      "result": "unknown",
+      "player_label": "ID 633"
+    },
+    {
+      "frame": 2987,
+      "time_sec": 49.833,
+      "time_str": "00:49",
+      "action": "attack",
+      "action_label": "attack",
+      "result": "unknown",
+      "player_label": "ID 631"
+    },
+    {
+      "frame": 2994,
+      "time_sec": 49.95,
+      "time_str": "00:49",
+      "action": "block",
+      "action_label": "block",
+      "result": "unknown",
+      "player_label": "ID 631"
+    },
+    {
+      "frame": 3005,
+      "time_sec": 50.133,
+      "time_str": "00:50",
+      "action": "block",
+      "action_label": "block",
+      "result": "unknown",
+      "player_label": "ID 605"
+    },
+    {
+      "frame": 3970,
+      "time_sec": 66.233,
+      "time_str": "01:06",
+      "action": "setting",
+      "action_label": "setting",
+      "result": "unknown",
+      "player_label": "ID 797"
+    },
+    {
+      "frame": 4016,
+      "time_sec": 67,
+      "time_str": "01:07",
+      "action": "attack",
+      "action_label": "attack",
+      "result": "unknown",
+      "player_label": "ID 805"
+    },
+    {
+      "frame": 4017,
+      "time_sec": 67.017,
+      "time_str": "01:07",
+      "action": "attack",
+      "action_label": "attack",
+      "result": "unknown",
+      "player_label": "#1"
+    },
+    {
+      "frame": 4037,
+      "time_sec": 67.351,
+      "time_str": "01:07",
+      "action": "block",
+      "action_label": "block",
+      "result": "unknown",
+      "player_label": "#1"
+    }
+  ],
+  "score_events": [
+    {
+      "rally_id": 1,
+      "type": "ball_landing",
+      "frame": 43,
+      "time_sec": 0.717,
+      "us": 1,
+      "opp": 0,
+      "landed_side": "opponent",
+      "court_position": null,
+      "scoring_team": "my_team"
+    },
+    {
+      "rally_id": 2,
+      "type": "ball_landing",
+      "frame": 2813,
+      "time_sec": 46.93,
+      "us": 2,
+      "opp": 0,
+      "landed_side": "opponent",
+      "court_position": null,
+      "scoring_team": "my_team"
+    },
+    {
+      "rally_id": 3,
+      "type": "ball_landing",
+      "frame": 3874,
+      "time_sec": 64.631,
+      "us": 3,
+      "opp": 0,
+      "landed_side": "opponent",
+      "court_position": null,
+      "scoring_team": "my_team"
+    }
+  ],
+  "total_rallies": 3,
+  "total_won": 3,
+  "total_lost": 0,
+  "us_score": 3,
+  "opponent_score": 0,
+  "generated_from": "action_model"
+}

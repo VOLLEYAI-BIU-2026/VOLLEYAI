@@ -58,16 +58,11 @@ async function addYoutube(req, res) {
     }
 }
 
-function normalizeStep(step) {
-    const n = Number(step);
-    return n === 2 ? 2 : 1;
-}
-
 async function listVideos(req, res) {
     try {
         const videos = await Video.find({ userId: req.user.id })
             .sort({ createdAt: -1 })
-            .select("_id originalFileName fileName status playerDetection teamA teamB createdAt sourceType filePath cleanFramePath");
+            .select("_id originalFileName fileName status playerDetection analytics analyzedVideoPath teamA teamB createdAt sourceType filePath cleanFramePath");
         return res.json({ videos });
     } catch (err) {
         return res.status(500).json({ message: "Server error", error: err.message });
@@ -109,30 +104,6 @@ async function getVideoById(req, res) {
     }
 }
 
-async function saveCourtSetup(req, res) {
-    try {
-        const { id } = req.params;
-        const { step, points } = req.body;
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(400).json({ message: "Invalid video id" });
-        }
-
-        const video = await Video.findOne({ _id: id, userId: req.user.id });
-        if (!video) return res.status(404).json({ message: "Video not found" });
-
-        const s = normalizeStep(step);
-
-        if (!video.courtSetup) video.courtSetup = {};
-        if (s === 1) video.courtSetup.step1 = points;
-        else video.courtSetup.step2 = points;
-
-        await video.save();
-
-        return res.status(200).json({ message: "Saved", video });
-    } catch (err) {
-        return res.status(500).json({ message: "Server error", error: err.message });
-    }
-}
 async function startCleanFrame(req, res) {
     try {
         const { id } = req.params;
@@ -489,116 +460,6 @@ async function assignDetectionsToPlayer(req, res) {
         return res.status(500).json({ message: "Server error", error: err.message });
     }
 }
-async function analyzeRallies(req, res) {
-    try {
-        const { id } = req.params;
-
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(400).json({ message: "Invalid video id" });
-        }
-
-        const video = await Video.findOne({ _id: id, userId: req.user.id });
-        if (!video) {
-            return res.status(404).json({ message: "Video not found" });
-        }
-
-        if (video.sourceType !== "file") {
-            return res.status(400).json({
-                message: "Rally analysis is supported only for uploaded files",
-            });
-        }
-
-        if (!video.filePath) {
-            return res.status(400).json({ message: "Missing filePath" });
-        }
-
-        if (video.videoAnalysis?.status === "processing") {
-            return res.status(202).json({ message: "Video analysis already processing" });
-        }
-
-        video.videoAnalysis = {
-            status: "processing",
-            error: "",
-            rallies: [],
-            deadSegments: [],
-            optimizedSegments: [],
-            lastProcessedAt: null,
-        };
-        await video.save();
-
-        const inputAbs = path.join(__dirname, "..", video.filePath.replace(/^\//, ""));
-        const uploadsAbs = path.join(__dirname, "..", "uploads");
-        const resultJsonAbs = path.join(uploadsAbs, `rally_analysis_${video._id}.json`);
-
-        const pyCmd = process.platform === "win32" ? "py" : "python";
-        const scriptPath = path.join(__dirname, "..", "python", "analyze_rallies.py");
-
-        const py = spawn(pyCmd, [
-            scriptPath,
-            "--input", inputAbs,
-            "--output_json", resultJsonAbs,
-            "--court_setup", JSON.stringify(video.courtSetup?.step2 || {}),
-        ]);
-
-        let stderr = "";
-
-        py.stdout.on("data", (d) => {
-            console.log("RALLY PYTHON STDOUT:", d.toString());
-        });
-
-        py.stderr.on("data", (d) => {
-            stderr += d.toString();
-            console.log("RALLY PYTHON STDERR:", d.toString());
-        });
-
-        py.on("close", async (code) => {
-            try {
-                const v = await Video.findById(video._id);
-                if (!v) return;
-
-                if (code !== 0) {
-                    v.videoAnalysis.status = "failed";
-                    v.videoAnalysis.error = stderr || `Python exited with code ${code}`;
-                    await v.save();
-                    return;
-                }
-
-                if (!fs.existsSync(resultJsonAbs)) {
-                    v.videoAnalysis.status = "failed";
-                    v.videoAnalysis.error = "Rally analysis JSON was not created";
-                    await v.save();
-                    return;
-                }
-
-                const raw = fs.readFileSync(resultJsonAbs, "utf8");
-                const parsed = JSON.parse(raw);
-
-                v.videoAnalysis.status = "done";
-                v.videoAnalysis.error = "";
-                v.videoAnalysis.rallies = parsed.rallies || [];
-                v.videoAnalysis.deadSegments = parsed.deadSegments || [];
-                v.videoAnalysis.optimizedSegments = parsed.optimizedSegments || [];
-                v.videoAnalysis.lastProcessedAt = new Date();
-
-                await v.save();
-            } catch (err) {
-                try {
-                    const v = await Video.findById(video._id);
-                    if (v) {
-                        v.videoAnalysis.status = "failed";
-                        v.videoAnalysis.error = err.message;
-                        await v.save();
-                    }
-
-                } catch { }
-            }
-        });
-
-        return res.status(202).json({ message: "Rally analysis started" });
-    } catch (err) {
-        return res.status(500).json({ message: "Server error", error: err.message });
-    }
-}
 async function getVideoAnalysis(req, res) {
     try {
         const { id } = req.params;
@@ -631,8 +492,7 @@ function normalizeVideoWithFfmpeg(video) {
         const outputRel = `/uploads/${outputName}`;
         const outputAbs = path.join(__dirname, "..", "uploads", outputName);
 
-        const ffmpegCmd =
-            "C:\\Users\\user\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Gyan.FFmpeg.Essentials_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-8.0.1-essentials_build\\bin\\ffmpeg.exe";
+        const ffmpegCmd = process.env.FFMPEG_PATH || "ffmpeg";
 
         if (fs.existsSync(outputAbs)) {
             fs.unlinkSync(outputAbs);
@@ -1007,17 +867,27 @@ async function getBallAnalysis(req, res) {
 async function getPlayerStats(req, res) {
     try {
         const { id } = req.params;
+        let video = null;
         if (id !== "latest") {
             if (!mongoose.Types.ObjectId.isValid(id)) {
                 return res.status(400).json({ message: "Invalid video id" });
             }
-            const video = await Video.findOne({ _id: id, userId: req.user.id });
+            video = await Video.findOne({ _id: id, userId: req.user.id });
             if (!video) return res.status(404).json({ message: "Video not found" });
         }
 
-        const statsPath = path.join(
-            __dirname, "..", "detection_models", "all_three", "runs", "player_stats.json"
-        );
+        const runStatsPath = path.join(__dirname, "..", "detection_models", "all_three", "runs", "player_stats.json");
+        const perVideoPath = video?.playerStatsPath
+            ? path.join(__dirname, "..", video.playerStatsPath.replace(/^\//, ""))
+            : null;
+
+        // Use whichever file is newer — saveAndRecalculate updates runs/ but not the per-video copy
+        let statsPath = perVideoPath || runStatsPath;
+        if (perVideoPath && fs.existsSync(perVideoPath) && fs.existsSync(runStatsPath)) {
+            const runMtime = fs.statSync(runStatsPath).mtimeMs;
+            const vidMtime = fs.statSync(perVideoPath).mtimeMs;
+            if (runMtime > vidMtime) statsPath = runStatsPath;
+        }
 
         if (!fs.existsSync(statsPath)) {
             return res.status(200).json({ status: "none", stats: {} });
@@ -1088,15 +958,7 @@ async function saveAndRecalculate(req, res) {
             }
         }
         fs.writeFileSync(REGISTRY_PATH, JSON.stringify(registry, null, 4));
-
-        const AGGREGATOR = path.join(__dirname, "..", "detection_models", "all_three", "stats_aggregator.py");
-        const proc = spawn("python", [AGGREGATOR]);
-
-        proc.on("close", (code) => {
-            if (code === 0) return res.status(200).json({ status: "ok" });
-            return res.status(500).json({ message: "Aggregator failed", code });
-        });
-        proc.on("error", (err) => res.status(500).json({ message: err.message }));
+        return res.status(200).json({ status: "ok" });
     } catch (err) {
         return res.status(500).json({ message: "Server error", error: err.message });
     }
@@ -1107,11 +969,37 @@ const analysisJobs = {};
 
 const RUNS_DIR    = path.join(__dirname, "..", "detection_models", "all_three", "runs");
 
+const TEAM_COLOR_PRESETS = new Set([
+    // White base
+    "white_blue", "white_navy", "white_red", "white_green", "white_black",
+    // Blue / Navy
+    "blue_white", "blue_gold", "blue_black", "blue_red",
+    "navy_white", "navy_gold", "navy_yellow",
+    // Red / Maroon
+    "red_white", "red_black", "red_gold",
+    "maroon_white", "maroon_gold",
+    // Black
+    "black_white", "black_red", "black_yellow", "black_gold",
+    "black_blue", "black_green", "black_orange", "black_purple",
+    // Yellow
+    "yellow_white", "yellow_black", "yellow_blue",
+    // Green
+    "green_white", "green_black",
+    // Orange
+    "orange_white", "orange_black",
+    // Purple
+    "purple_white", "purple_gold", "purple_black",
+    // Gray
+    "gray_white", "gray_black",
+    // Solid
+    "all_black", "all_white",
+]);
+
 async function saveJerseys(req, res) {
     try {
         const { id } = req.params;
-        // Accept either {players:[{jersey,name}]} (new) or {jerseys:[n]} (legacy)
-        const { players, jerseys } = req.body;
+        // Accept either {players:[{jersey,name}]} (legacy) or {myTeamColor,opponentColor} (current)
+        const { players, jerseys, myTeamColor, opponentColor } = req.body;
         if (!mongoose.Types.ObjectId.isValid(id))
             return res.status(400).json({ message: "Invalid id" });
 
@@ -1125,14 +1013,20 @@ async function saveJerseys(req, res) {
             playerList = (jerseys || []).map(n => ({ jersey: Number(n), name: "" }));
         }
 
+        const update = {
+            knownPlayers: playerList,
+            knownJerseys: playerList.map(p => p.jersey),
+        };
+        if (myTeamColor && TEAM_COLOR_PRESETS.has(myTeamColor)) {
+            update.myTeamColor = myTeamColor;
+        }
+        if (opponentColor && TEAM_COLOR_PRESETS.has(opponentColor) && opponentColor !== update.myTeamColor) {
+            update.opponentColor = opponentColor;
+        }
+
         const video = await Video.findOneAndUpdate(
             { _id: id, userId: req.user.id },
-            {
-                $set: {
-                    knownPlayers: playerList,
-                    knownJerseys: playerList.map(p => p.jersey),
-                },
-            },
+            { $set: update },
             { new: true }
         );
         if (!video) return res.status(404).json({ message: "Video not found" });
@@ -1140,6 +1034,90 @@ async function saveJerseys(req, res) {
     } catch (err) {
         return res.status(500).json({ message: err.message });
     }
+}
+
+// Copies this run's outputs out of the shared scratch dir (RUNS_DIR) into
+// per-video files under /uploads, and returns the $set fields for the Video
+// doc. The pipeline only ever has ONE job's output in RUNS_DIR at a time, so
+// without this copy, starting analysis on a second video silently destroys
+// the first video's results (RUNS_DIR gets wiped at the top of startAnalysis).
+async function persistAnalysisOutputs(id) {
+    const uploadsDir = path.join(__dirname, "..", "uploads");
+    const dbUpdates = {};
+
+    // Processed video — prefer the raw AVI (ffmpeg-recoverable even if the
+    // process was killed mid-write) over the writer's own finalized mp4.
+    const destVideo = path.join(uploadsDir, `analyzed_${id}.mp4`);
+    const srcRawAvi = path.join(RUNS_DIR, "active_player_raw.avi");
+    const srcMp4    = path.join(RUNS_DIR, "active_player.mp4");
+
+    if (fs.existsSync(srcRawAvi) && fs.statSync(srcRawAvi).size > 0) {
+        await new Promise(resolve => {
+            const ff = spawn("ffmpeg", ["-y", "-fflags", "+genpts+discardcorrupt", "-i", srcRawAvi,
+                "-c:v", "libx264", "-preset", "fast", "-crf", "23", "-movflags", "+faststart", destVideo]);
+            ff.on("close", resolve);
+            ff.on("error", resolve);
+        });
+        if (fs.existsSync(destVideo)) dbUpdates.analyzedVideoPath = `/uploads/analyzed_${id}.mp4`;
+    } else if (fs.existsSync(srcMp4)) {
+        fs.copyFileSync(srcMp4, destVideo);
+        dbUpdates.analyzedVideoPath = `/uploads/analyzed_${id}.mp4`;
+    }
+
+    // Player thumbnails — copy into a per-video folder so they survive the
+    // next run, then point the persisted registry at the new folder.
+    const destThumbsDir = path.join(uploadsDir, `player_thumbs_${id}`);
+    if (fs.existsSync(THUMBS_DIR)) {
+        fs.mkdirSync(destThumbsDir, { recursive: true });
+        for (const f of fs.readdirSync(THUMBS_DIR)) {
+            fs.copyFileSync(path.join(THUMBS_DIR, f), path.join(destThumbsDir, f));
+        }
+    }
+
+    if (fs.existsSync(REGISTRY_PATH)) {
+        const registry = JSON.parse(fs.readFileSync(REGISTRY_PATH, "utf8"));
+        for (const data of Object.values(registry)) {
+            if (data.thumbnail) data.thumbnail = path.join(destThumbsDir, path.basename(data.thumbnail));
+        }
+        const destRegistry = path.join(uploadsDir, `player_registry_${id}.json`);
+        fs.writeFileSync(destRegistry, JSON.stringify(registry, null, 4));
+        dbUpdates.playerRegistryPath = `/uploads/player_registry_${id}.json`;
+    }
+
+    const srcStats = path.join(RUNS_DIR, "player_stats.json");
+    if (fs.existsSync(srcStats)) {
+        fs.copyFileSync(srcStats, path.join(uploadsDir, `player_stats_${id}.json`));
+        dbUpdates.playerStatsPath = `/uploads/player_stats_${id}.json`;
+    }
+
+    const srcAnalytics = path.join(RUNS_DIR, "volley_analytics.json");
+    if (fs.existsSync(srcAnalytics)) {
+        fs.copyFileSync(srcAnalytics, path.join(uploadsDir, `volley_analytics_${id}.json`));
+        dbUpdates.analyticsJsonPath = `/uploads/volley_analytics_${id}.json`;
+    }
+
+    const srcJerseyRegistry = path.join(RUNS_DIR, "jersey_registry.json");
+    if (fs.existsSync(srcJerseyRegistry)) {
+        fs.copyFileSync(srcJerseyRegistry, path.join(uploadsDir, `jersey_registry_${id}.json`));
+        dbUpdates.jerseyRegistryPath = `/uploads/jersey_registry_${id}.json`;
+    }
+
+    // Generate rally_analysis.json from ball_landings in volley_analytics.json
+    const srcAnalyticsForRally = path.join(uploadsDir, `volley_analytics_${id}.json`);
+    if (fs.existsSync(srcAnalyticsForRally)) {
+        try {
+            const volleyData = JSON.parse(fs.readFileSync(srcAnalyticsForRally, "utf8"));
+            const rallyData  = buildRallyAnalysis(volleyData);
+            const rallyDest  = path.join(uploadsDir, `rally_analysis_${id}.json`);
+            fs.writeFileSync(rallyDest, JSON.stringify(rallyData, null, 2));
+            dbUpdates.rallyAnalysisPath = `/uploads/rally_analysis_${id}.json`;
+            console.log(`[RALLY] Generated rally_analysis.json: ${rallyData.total_won}W ${rallyData.total_lost}L, ${rallyData.score_events.length} score events`);
+        } catch (e) {
+            console.warn("[RALLY] Failed to generate rally_analysis.json:", e.message);
+        }
+    }
+
+    return dbUpdates;
 }
 
 async function startAnalysis(req, res) {
@@ -1152,92 +1130,123 @@ async function startAnalysis(req, res) {
         const video = await Video.findOne({ _id: id, userId: req.user.id });
         if (!video) return res.status(404).json({ message: "Video not found" });
 
-        const videoAbs = path.join(__dirname, "..", video.filePath.replace(/^\//, ""));
-        const DETECTOR  = path.join(__dirname, "..", "detection_models", "all_three", "triple_detection.py");
-        const AGGREGATOR = path.join(__dirname, "..", "detection_models", "all_three", "stats_aggregator.py");
+        const videoAbs       = path.join(__dirname, "..", video.filePath.replace(/^\//, ""));
+        const DETECTOR       = path.join(__dirname, "..", "detection_models", "all_three", "triple_detection.py");
+        const JERSEY_PIPELINE = path.join(__dirname, "..", "detection_models", "player_detection", "predict_pipeline.py");
+        const frameJerseyMap = path.join(RUNS_DIR, "frame_jersey_map.json");
 
         // Clear old output so status falls back to "none" on server restart while processing
-        for (const f of ["rally_analysis.json", "player_stats.json", "volley_analytics.json"]) {
+        for (const f of ["rally_analysis.json", "player_stats.json", "volley_analytics.json", "frame_jersey_map.json"]) {
             const p = path.join(RUNS_DIR, f);
             if (fs.existsSync(p)) fs.unlinkSync(p);
         }
 
-        analysisJobs[id] = { status: "processing", progress: 0, error: null };
+        analysisJobs[id] = { status: "processing", progress: 0, error: null, proc: null };
+        await Video.findByIdAndUpdate(id, { "analytics.status": "processing", "analytics.error": "" });
 
         const pyCmd = process.platform === "win32" ? "py" : "python";
-        const knownPlayers = video.knownPlayers || [];
-        const jerseyArg = knownPlayers.length > 0
-            ? ["--jerseys", knownPlayers.map(p => p.jersey).join(",")]
-            : (video.knownJerseys || []).length > 0
-                ? ["--jerseys", video.knownJerseys.join(",")]
-                : [];
-        const namesArg = knownPlayers.some(p => p.name)
-            ? ["--names", knownPlayers.filter(p => p.name).map(p => `${p.jersey}:${p.name}`).join(",")]
-            : [];
+        const colorArg = [
+            "--my-team-color", video.myTeamColor || "blue_white",
+            "--opponent-color", video.opponentColor || "black_white",
+        ];
 
-        // Court boundary args from CourtSetup screen
-        const cs = video.courtSetup?.step1;
-        let courtArg = [];
-        let netYArg  = [];
-        let nearYArg = [];
-        let farYArg  = [];
-        if (cs?.nearLeft && cs?.nearRight && cs?.farLeft && cs?.farRight) {
-            const poly = [
-                cs.nearLeft.x,  cs.nearLeft.y,
-                cs.nearRight.x, cs.nearRight.y,
-                cs.farRight.x,  cs.farRight.y,
-                cs.farLeft.x,   cs.farLeft.y,
-            ].map(n => n.toFixed(4)).join(",");
-            courtArg = ["--court", poly];
-
-            // Near baseline Y (our side ground level) — average of near corners
-            const nearY = ((cs.nearLeft.y + cs.nearRight.y) / 2).toFixed(4);
-            nearYArg = ["--near_y", nearY];
-
-            // Far baseline Y (opponent side ground level) — average of far corners
-            const farY  = ((cs.farLeft.y  + cs.farRight.y)  / 2).toFixed(4);
-            farYArg  = ["--far_y",  farY];
-        }
-        if (cs?.netLeft && cs?.netRight) {
-            const netY = ((cs.netLeft.y + cs.netRight.y) / 2).toFixed(4);
-            netYArg = ["--net_y", netY];
-        }
-
-        console.log(`[ANALYSIS] Starting: ${pyCmd} ${DETECTOR} --video ${videoAbs} ${[...jerseyArg, ...namesArg, ...netYArg, ...nearYArg, ...farYArg].join(" ")}`);
-        const proc = spawn(pyCmd, [DETECTOR, "--video", videoAbs, ...jerseyArg, ...namesArg, ...netYArg, ...nearYArg, ...farYArg]);
-
-        proc.stdout.on("data", (data) => {
-            const txt = data.toString();
-            console.log("[DETECTOR]", txt.trim());
-            const match = txt.match(/(\d+)%/);
-            if (match) analysisJobs[id].progress = parseInt(match[1]);
-        });
-
-        proc.stderr.on("data", (data) => {
-            const txt = data.toString();
-            console.log("[DETECTOR]", txt.trim());
-            const match = txt.match(/(\d+)%/);
-            if (match) analysisJobs[id].progress = parseInt(match[1]);
-        });
-
-        proc.on("close", (code) => {
-            if (code === 0) {
-                const agg = spawn(pyCmd, [AGGREGATOR, ...courtArg, ...netYArg, "--side", "bottom", ...nearYArg, ...farYArg]);
-                agg.on("close", (aggCode) => {
-                    analysisJobs[id].status = aggCode === 0 ? "done" : "failed";
-                    analysisJobs[id].progress = 100;
-                    if (aggCode !== 0) analysisJobs[id].error = "Aggregator failed";
-                });
-            } else {
-                analysisJobs[id].status = "failed";
-                analysisJobs[id].error = `Detection failed (exit ${code})`;
-            }
-        });
-
-        proc.on("error", (err) => {
+        // Helper: mark job as failed, persist error to DB, log clearly
+        const failAnalysis = async (stage, rawError) => {
+            const error = `[${stage} CRASHED] ${String(rawError).slice(0, 1500)}`;
+            console.error(error);
             analysisJobs[id].status = "failed";
-            analysisJobs[id].error = err.message;
+            analysisJobs[id].error  = error;
+            try {
+                await Video.findByIdAndUpdate(id, {
+                    "analytics.status": "failed",
+                    "analytics.error":  error,
+                });
+            } catch {}
+        };
+
+        // ── STEP 1: predict_pipeline (jersey OCR) ──────────────────────────
+        console.log(`[JERSEY] Starting predict_pipeline for jersey map...`);
+        let jerseyStderr = "";
+        const jerseyProc = spawn(pyCmd, [
+            JERSEY_PIPELINE,
+            "--video",           videoAbs,
+            "--output",          path.join(RUNS_DIR, "jersey_tracking.mp4"),
+            "--frame-jersey-map", frameJerseyMap,
+            ...colorArg,
+        ]);
+        analysisJobs[id].proc = jerseyProc;
+
+        jerseyProc.stdout.on("data", d => console.log("[JERSEY]", d.toString().trim()));
+        jerseyProc.stderr.on("data", d => {
+            jerseyStderr += d.toString();
+            console.log("[JERSEY]", d.toString().trim());
+            const m = d.toString().match(/(\d+)%/);
+            if (m) analysisJobs[id].progress = Math.round(parseInt(m[1]) * 0.4); // 0-40%
         });
+        jerseyProc.on("error", async (err) => {
+            await failAnalysis("predict_pipeline", `Failed to start: ${err.message}`);
+        });
+
+        jerseyProc.on("close", async (jerseyCode) => {
+            if (jerseyCode !== 0) {
+                console.warn(`[JERSEY] predict_pipeline failed (non-fatal) — continuing without jersey map`);
+            } else {
+                console.log(`[JERSEY] predict_pipeline done. Jersey map: ${frameJerseyMap}`);
+            }
+
+            // ── STEP 2: triple_detection (main pipeline) ───────────────────
+            const calibArg = video.calibrationJsonPath ? [
+                "--calib-json",
+                path.join(__dirname, "..", video.calibrationJsonPath.replace(/^\//, "")),
+            ] : [];
+            const jerseyArg = fs.existsSync(frameJerseyMap)
+                ? ["--frame-jersey-map", frameJerseyMap]
+                : [];
+
+            console.log(`[DETECTOR] Starting triple_detection...`);
+            let detectorStderr = "";
+            const proc = spawn(pyCmd, [DETECTOR, "--video", videoAbs, ...colorArg, ...calibArg, ...jerseyArg]);
+            analysisJobs[id].proc = proc;
+
+            proc.stdout.on("data", (data) => {
+                const txt = data.toString();
+                console.log("[DETECTOR]", txt.trim());
+                const match = txt.match(/(\d+)%/);
+                if (match) analysisJobs[id].progress = 40 + Math.round(parseInt(match[1]) * 0.6); // 40-100%
+            });
+            proc.stderr.on("data", (data) => {
+                const txt = data.toString();
+                detectorStderr += txt;
+                console.log("[DETECTOR]", txt.trim());
+                const match = txt.match(/(\d+)%/);
+                if (match) analysisJobs[id].progress = 40 + Math.round(parseInt(match[1]) * 0.6);
+            });
+            proc.on("error", async (err) => {
+                await failAnalysis("triple_detection", `Failed to start: ${err.message}`);
+            });
+
+            proc.on("close", async (code) => {
+                if (code !== 0) {
+                    const reason = detectorStderr.slice(-1500) || `exit code ${code}`;
+                    await failAnalysis("triple_detection", reason);
+                    return;
+                }
+
+                let dbUpdates = {
+                    "analytics.status": "done",
+                    "analytics.error":  "",
+                    "analytics.lastProcessedAt": new Date(),
+                };
+                try {
+                    const persisted = await persistAnalysisOutputs(id);
+                    dbUpdates = { ...dbUpdates, ...persisted };
+                } catch (e) { console.log("[PERSIST] failed:", e.message); }
+                try { await Video.findByIdAndUpdate(id, dbUpdates); } catch {}
+                analysisJobs[id].status   = "done";
+                analysisJobs[id].progress = 100;
+                console.log(`[ANALYSIS] Done for video ${id}.`);
+            });
+        }); // jerseyProc.on("close")
 
         return res.json({ status: "started" });
     } catch (err) {
@@ -1249,13 +1258,408 @@ async function getAnalysisStatus(req, res) {
     const { id } = req.params;
     const job = analysisJobs[id];
     if (!job) return res.json({ status: "none", progress: 0 });
-    return res.json(job);
+    return res.json({ status: job.status, progress: job.progress, error: job.error });
+}
+
+// Recover a video whose triple_detection finished but jersey pipeline crashed —
+// the analyzed video file already exists, so just update the DB status to "done".
+// ── Court calibration: receive 4 clicked pixel points from browser ──────────
+async function saveCourtCalibration(req, res) {
+    try {
+        const { id } = req.params;
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid video id" });
+        }
+        const video = await Video.findOne({ _id: id, userId: req.user.id });
+        if (!video) return res.status(404).json({ message: "Video not found" });
+
+        const { imagePoints } = req.body; // [[x1,y1],[x2,y2],[x3,y3],[x4,y4]]
+        if (!Array.isArray(imagePoints) || imagePoints.length !== 4) {
+            return res.status(400).json({ message: "imagePoints must be an array of 4 [x,y] pairs" });
+        }
+
+        const calibJsonPath = path.join(__dirname, "..", "uploads", `calib_${id}.json`);
+        const CALIB_SCRIPT  = path.join(__dirname, "..", "detection_models", "all_three", "court_calibration.py");
+        const pyCmd = process.platform === "win32" ? "py" : "python";
+        const flat = imagePoints.flat().map(String); // [x1,y1,x2,y2,x3,y3,x4,y4]
+
+        await new Promise((resolve, reject) => {
+            let stderr = "";
+            const proc = spawn(pyCmd, [
+                CALIB_SCRIPT,
+                "--image-points", ...flat,
+                "--save", calibJsonPath,
+            ]);
+            proc.stderr.on("data", d => { stderr += d.toString(); });
+            proc.on("close", code => {
+                if (code !== 0) {
+                    const msg = stderr.includes("collinear")
+                        ? "הנקודות שבחרת נמצאות על אותו קו ישר — בחר שוב ווודא שנקודות הרשת ונקודות קו הסיום רחוקות אחת מהשנייה"
+                        : stderr.slice(-400);
+                    reject(new Error(msg));
+                } else resolve();
+            });
+            proc.on("error", reject);
+        });
+
+        await Video.findByIdAndUpdate(id, { calibrationJsonPath: `/uploads/calib_${id}.json` });
+        return res.json({ message: "Calibration saved", calibrationJsonPath: `/uploads/calib_${id}.json` });
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+}
+
+// ── Generate rally_analysis.json from ball_landings in volley_analytics.json ─
+//
+// Rules:
+//  • One score_event per rally — no double scoring from bounce / re-detection.
+//  • Take the FIRST valid landing in the rally (not last) to avoid bounces.
+//  • Valid = confidence >= MIN_CONF and frame >= rally.start + MIN_FRAMES_DELAY.
+//  • "outside" landings resolve via last_touch_team inferred from action frames.
+//  • Score is NEVER updated inside triple_detection.py — only here.
+//
+function buildRallyAnalysis(volleyAnalytics) {
+    const landings  = volleyAnalytics.ball_landings || [];
+    const frames    = volleyAnalytics.frames        || [];
+    const fps       = volleyAnalytics.fps           || 30;
+    const deadSegs  = volleyAnalytics.dead_segments || [];
+    const lastFrame = frames.length > 0 ? frames[frames.length - 1].frame : 0;
+
+    const MIN_CONF          = 0.25;                    // minimum ball detection confidence
+    const MIN_FRAMES_DELAY  = Math.round(fps * 0.5);  // ignore landings in first 0.5s of rally
+
+    // Only these actions count as ball-touch for last_touch_team resolution
+    const TOUCH_ACTIONS = new Set(["serve", "spike", "set", "bump", "block", "dig", "defence"]);
+
+    // ── helpers ──────────────────────────────────────────────────────────────
+    const toTimeSec = f => parseFloat((f / fps).toFixed(3));
+    const toTimeStr = f => {
+        const s = Math.floor(f / fps);
+        return `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
+    };
+
+    // Sorted list of {frame, team} for ball-touch actions only
+    const actionTimeline = frames
+        .filter(f => TOUCH_ACTIONS.has(f.action) && f.active_player_team)
+        .map(f => ({ frame: f.frame, team: f.active_player_team }))
+        .sort((a, b) => a.frame - b.frame);
+
+    function lastTouchBefore(frameIdx) {
+        for (let i = actionTimeline.length - 1; i >= 0; i--) {
+            if (actionTimeline[i].frame <= frameIdx) return actionTimeline[i].team;
+        }
+        return null;
+    }
+
+    // ── 1. Build rally windows from dead_segments ─────────────────────────────
+    let rallyWindows = [];
+    let usingFallback = false;
+    if (deadSegs.length > 0) {
+        const sorted = [...deadSegs].sort((a, b) => a.start_frame - b.start_frame);
+        let cursor = 0;
+        for (const seg of sorted) {
+            if (seg.start_frame > cursor) {
+                rallyWindows.push({ start: cursor, end: seg.start_frame });
+            }
+            cursor = seg.end_frame ?? seg.start_frame;
+        }
+        if (cursor < lastFrame) rallyWindows.push({ start: cursor, end: lastFrame });
+    } else {
+        // Fallback: group landings with 3-second gap between them
+        usingFallback = true;
+        const GAP = Math.round(fps * 3);
+        let groupStart = null, groupEnd = null;
+        for (const land of landings) {
+            if (groupStart === null) {
+                groupStart = land.frame;
+                groupEnd   = land.frame;
+            } else if (land.frame - groupEnd <= GAP) {
+                groupEnd = land.frame;
+            } else {
+                rallyWindows.push({ start: groupStart, end: groupEnd });
+                groupStart = land.frame;
+                groupEnd   = land.frame;
+            }
+        }
+        if (groupStart !== null) rallyWindows.push({ start: groupStart, end: groupEnd });
+    }
+
+    // ── 2. One valid landing per rally → one score_event ─────────────────────
+    // In fallback mode the window IS defined by the landings themselves,
+    // so MIN_FRAMES_DELAY would filter out every single-landing window.
+    const effectiveDelay = usingFallback ? 0 : MIN_FRAMES_DELAY;
+
+    let usScore = 0, oppScore = 0;
+    const scoreEvents = [];
+    const rallyMeta   = [];
+
+    for (let rallyIdx = 0; rallyIdx < rallyWindows.length; rallyIdx++) {
+        const win    = rallyWindows[rallyIdx];
+        const rallyId = rallyIdx + 1;
+
+        // All landings in this window, filtered for quality
+        const validLandings = landings.filter(l =>
+            l.frame >= win.start + effectiveDelay &&
+            l.frame <= win.end &&
+            (l.confidence == null || l.confidence >= MIN_CONF)
+        );
+
+        if (validLandings.length === 0) {
+            rallyMeta.push({ ...win, rallyId, result: "unknown", landing: null, scoreEvent: null });
+            continue;
+        }
+
+        // Take the FIRST valid landing — not the last (avoids counting bounces/re-detections)
+        const land    = validLandings[0];
+        let   result  = "unknown";
+        let   scoring = null;
+
+        // No calibration → landed_side="unknown" → no scoring
+        if (land.landed_side === "unknown") {
+            scoring = {
+                rally_id:       rallyId,
+                type:           "no_calibration",
+                frame:          land.frame,
+                time_sec:       toTimeSec(land.frame),
+                us:             usScore,
+                opp:            oppScore,
+                landed_side:    "unknown",
+                court_position: null,
+                scoring_team:   "unknown",
+            };
+            rallyMeta.push({ ...win, rallyId, result: "unknown", landing: land, scoreEvent: scoring });
+            if (scoring) scoreEvents.push(scoring);
+            continue;
+        }
+
+        if (land.landed_side === "opponent") {
+            usScore++;
+            result  = "won";
+            scoring = {
+                rally_id:       rallyId,
+                type:           "ball_landing",
+                frame:          land.frame,
+                time_sec:       toTimeSec(land.frame),
+                us:             usScore,
+                opp:            oppScore,
+                landed_side:    land.landed_side,
+                court_position: land.court_position || null,
+                scoring_team:   "my_team",
+            };
+
+        } else if (land.landed_side === "my_team") {
+            oppScore++;
+            result  = "lost";
+            scoring = {
+                rally_id:       rallyId,
+                type:           "ball_landing",
+                frame:          land.frame,
+                time_sec:       toTimeSec(land.frame),
+                us:             usScore,
+                opp:            oppScore,
+                landed_side:    land.landed_side,
+                court_position: land.court_position || null,
+                scoring_team:   "opponent",
+            };
+
+        } else {
+            // landed_side === "outside" — resolve via last_touch_team
+            result = "outside";
+            const lastTeam = land.last_touch_team || lastTouchBefore(land.frame);
+
+            if (lastTeam === "my_team") {
+                oppScore++;
+                scoring = {
+                    rally_id:        rallyId,
+                    type:            "ball_out",
+                    frame:           land.frame,
+                    time_sec:        toTimeSec(land.frame),
+                    us:              usScore,
+                    opp:             oppScore,
+                    landed_side:     "outside",
+                    court_position:  land.court_position || null,
+                    scoring_team:    "opponent",
+                    last_touch_team: lastTeam,
+                };
+            } else if (lastTeam === "opponent") {
+                usScore++;
+                scoring = {
+                    rally_id:        rallyId,
+                    type:            "ball_out",
+                    frame:           land.frame,
+                    time_sec:        toTimeSec(land.frame),
+                    us:              usScore,
+                    opp:             oppScore,
+                    landed_side:     "outside",
+                    court_position:  land.court_position || null,
+                    scoring_team:    "my_team",
+                    last_touch_team: lastTeam,
+                };
+            } else {
+                // last_touch_team unknown — record event but do NOT update score
+                scoring = {
+                    rally_id:       rallyId,
+                    type:           "unknown_out",
+                    frame:          land.frame,
+                    time_sec:       toTimeSec(land.frame),
+                    us:             usScore,
+                    opp:            oppScore,
+                    landed_side:    "outside",
+                    court_position: land.court_position || null,
+                    scoring_team:   "unknown",
+                };
+            }
+        }
+
+        if (scoring) scoreEvents.push(scoring);
+        rallyMeta.push({ ...win, rallyId, result, landing: land, scoreEvent: scoring });
+    }
+
+    // ── 3. Build flat action list directly from action model (no rally grouping) ──
+    const BALL_ACTIONS = new Set(["serve", "spike", "attack", "set", "setting", "block", "dig", "bump", "receive"]);
+    const DEDUP_FRAMES = Math.round(fps * 0.5);
+    const actionLastSeen = {};
+    const allActions = [];
+    for (const f of frames) {
+        if (!f.action || f.action === "none") continue;
+        if (!BALL_ACTIONS.has(f.action)) continue;
+        // Use jersey number as permanent player ID; fall back to tracker ID only for dedup
+        const playerKey = f.active_player_jersey ?? f.active_player_id ?? "?";
+        const key = `${playerKey}:${f.action}`;
+        if (!actionLastSeen[key] || f.frame - actionLastSeen[key] >= DEDUP_FRAMES) {
+            actionLastSeen[key] = f.frame;
+            allActions.push({
+                frame:        f.frame,
+                time_sec:     toTimeSec(f.frame),
+                time_str:     toTimeStr(f.frame),
+                action:       f.action,
+                action_label: f.action,
+                result:       f.result || "unknown",
+                player_label: f.active_player_jersey ? `#${f.active_player_jersey}` : "?",
+                player_jersey: f.active_player_jersey ?? null,
+            });
+        }
+    }
+
+    // ── 4. Build rally docs (for score events only) ───────────────────────────
+    const rallies = rallyMeta.map((rm) => ({
+        rally_id:    rm.rallyId,
+        result:      rm.result || "unknown",
+        score_event: rm.scoreEvent || null,
+        actions:     [],
+    })).filter(r => r.score_event !== null);
+
+    return {
+        rallies,
+        all_actions:   allActions,
+        score_events:  scoreEvents,
+        total_rallies: rallyMeta.length,
+        total_won:     usScore,
+        total_lost:    oppScore,
+        us_score:      usScore,
+        opponent_score: oppScore,
+        generated_from: "action_model",
+    };
+}
+
+async function recoverAnalysis(req, res) {
+    try {
+        const { id } = req.params;
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid video id" });
+        }
+        const video = await Video.findOne({ _id: id, userId: req.user.id });
+        if (!video) return res.status(404).json({ message: "Video not found" });
+
+        const uploadsDir = path.join(__dirname, "..", "uploads");
+        const analyzedPath = path.join(uploadsDir, `analyzed_${id}.mp4`);
+
+        if (!fs.existsSync(analyzedPath)) {
+            return res.status(404).json({ message: "No analyzed video found — please re-run the analysis." });
+        }
+
+        const dbUpdates = {
+            "analytics.status": "done",
+            "analytics.error":  "",
+            "analytics.lastProcessedAt": new Date(),
+            analyzedVideoPath: `/uploads/analyzed_${id}.mp4`,
+        };
+
+        // Restore any other files that were already persisted
+        const statsPath = path.join(uploadsDir, `player_stats_${id}.json`);
+        if (fs.existsSync(statsPath)) dbUpdates.playerStatsPath = `/uploads/player_stats_${id}.json`;
+
+        const registryPath = path.join(uploadsDir, `player_registry_${id}.json`);
+        if (fs.existsSync(registryPath)) dbUpdates.playerRegistryPath = `/uploads/player_registry_${id}.json`;
+
+        const rallyPath = path.join(uploadsDir, `rally_analysis_${id}.json`);
+        if (fs.existsSync(rallyPath)) dbUpdates.rallyAnalysisPath = `/uploads/rally_analysis_${id}.json`;
+
+        const analyticsPath = path.join(uploadsDir, `volley_analytics_${id}.json`);
+        if (fs.existsSync(analyticsPath)) dbUpdates.analyticsJsonPath = `/uploads/volley_analytics_${id}.json`;
+
+        await Video.findByIdAndUpdate(id, dbUpdates);
+        console.log(`[RECOVER] Video ${id} recovered to done.`);
+        return res.json({ message: "Recovered successfully." });
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+}
+
+async function stopAnalysis(req, res) {
+    const { id } = req.params;
+    const job = analysisJobs[id];
+    if (!job || job.status !== "processing") {
+        return res.status(400).json({ message: "No active job for this video" });
+    }
+
+    res.json({ message: "Stopping — please wait up to 15 seconds..." });
+
+    // On Windows taskkill sends a soft terminate; on Unix use SIGINT
+    if (job.proc) {
+        if (process.platform === "win32") {
+            spawn("taskkill", ["/pid", String(job.proc.pid), "/t"]);
+        } else {
+            job.proc.kill("SIGINT");
+        }
+    }
+
+    // Wait for the process to actually close (writer.release() runs inside Python)
+    await new Promise(resolve => {
+        if (!job.proc) return resolve();
+        job.proc.once("close", resolve);
+        setTimeout(resolve, 15000); // max 15 sec fallback
+    });
+
+    let dbUpdates = { "analytics.status": "done", "analytics.error": "", "analytics.lastProcessedAt": new Date() };
+    try {
+        const persisted = await persistAnalysisOutputs(id);
+        dbUpdates = { ...dbUpdates, ...persisted };
+    } catch (e) { console.log("[PERSIST] failed:", e.message); }
+
+    try { await Video.findByIdAndUpdate(id, dbUpdates); } catch {}
+    analysisJobs[id].status   = "done";
+    analysisJobs[id].progress = 100;
 }
 
 async function getRallyAnalysis(req, res) {
     try {
-        if (!fs.existsSync(RALLY_PATH)) return res.status(404).json({ message: "No rally data yet. Run the model and recalculate." });
-        const data = JSON.parse(fs.readFileSync(RALLY_PATH, "utf8"));
+        const { id } = req.params;
+        let rallyPath = RALLY_PATH;
+
+        if (id && id !== "latest") {
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+                return res.status(400).json({ message: "Invalid video id" });
+            }
+            const video = await Video.findOne({ _id: id, userId: req.user.id });
+            if (!video) return res.status(404).json({ message: "Video not found" });
+            if (video.rallyAnalysisPath) {
+                rallyPath = path.join(__dirname, "..", video.rallyAnalysisPath.replace(/^\//, ""));
+            }
+        }
+
+        if (!fs.existsSync(rallyPath)) return res.status(404).json({ message: "No rally data yet. Run the model and recalculate." });
+        const data = JSON.parse(fs.readFileSync(rallyPath, "utf8"));
         return res.json(data);
     } catch (err) {
         return res.status(500).json({ message: "Error reading rally data", error: err.message });
@@ -1268,7 +1672,6 @@ module.exports = {
     listVideos,
     updateTeamNames,
     getVideoById,
-    saveCourtSetup,
     startCleanFrame,
     startPlayerDetection,
     getTeamRoster,
@@ -1286,5 +1689,7 @@ module.exports = {
     getRallyAnalysis,
     startAnalysis,
     getAnalysisStatus,
+    recoverAnalysis,
     saveJerseys,
+    saveCourtCalibration,
 };

@@ -33,6 +33,27 @@
 .ms-backBtn:hover { background: #262c42; }
 .ms-breadcrumb { font-size: 12px; color: #5a627a; margin-bottom: 4px; }
 .ms-title { font-size: 22px; font-weight: 700; color: #e8eaf0; margin: 0; }
+.ms-headerRight { display: flex; align-items: center; gap: 8px; }
+.ms-registryBtn {
+  background: transparent;
+  border: 1px solid #2a2f45;
+  color: #6d5efc;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.ms-registryBtn:hover { background: #1e2130; color: #8f82ff; }
+.ms-registryLink {
+  background: transparent;
+  border: none;
+  color: #6d5efc;
+  cursor: pointer;
+  font-size: 13px;
+  margin-top: 12px;
+  text-decoration: underline;
+}
+.ms-registryLink:hover { color: #8f82ff; }
 .ms-exportBtn {
   background: #1e2130;
   border: 1px solid #2a2f45;

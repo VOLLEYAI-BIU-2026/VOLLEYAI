@@ -4,254 +4,262 @@ import "./CourtSetup.css";
 
 const API = "http://localhost:5000";
 
-function clamp01(x) {
-    return Math.max(0, Math.min(1, x));
-}
-
-function defaultPoints() {
-    return {
-        farLeft:     { x: 0.18, y: 0.28 },
-        farRight:    { x: 0.82, y: 0.28 },
-        netTopLeft:  { x: 0.14, y: 0.36 },
-        netTopRight: { x: 0.86, y: 0.36 },
-        netLeft:     { x: 0.12, y: 0.48 },
-        netRight:    { x: 0.88, y: 0.48 },
-        nearLeft:    { x: 0.04, y: 0.80 },
-        nearRight:   { x: 0.96, y: 0.80 },
-    };
-}
-
-const POINT_META = {
-    farLeft:     { label: "Far Baseline Left",  color: "#16a34a" },
-    farRight:    { label: "Far Baseline Right", color: "#16a34a" },
-    netTopLeft:  { label: "Net Top Left",       color: "#2563eb" },
-    netTopRight: { label: "Net Top Right",      color: "#2563eb" },
-    netLeft:     { label: "Net Floor Left",     color: "#2563eb" },
-    netRight:    { label: "Net Floor Right",    color: "#2563eb" },
-    nearLeft:    { label: "Near Baseline Left", color: "#dc2626" },
-    nearRight:   { label: "Near Baseline Right",color: "#dc2626" },
-};
+const POINT_LABELS = [
+    "1 — פינה שמאלית קרובה (near left)",
+    "2 — פינה ימנית קרובה (near right)",
+    "3 — קו רשת שמאל (net left)",
+    "4 — קו רשת ימין (net right)",
+];
 
 export default function CourtSetup() {
-    const navigate = useNavigate();
     const { videoId } = useParams();
+    const navigate    = useNavigate();
+    const imgRef      = useRef(null);
+    const canvasRef   = useRef(null);
 
-    const stageRef = useRef(null);
-    const startedRef = useRef(false);
+    const [frameUrl, setFrameUrl]       = useState(null);
+    const [points, setPoints]           = useState([]);
+    const [saving, setSaving]           = useState(false);
+    const [error, setError]             = useState("");
+    const [done, setDone]               = useState(false);
+    const [frameStatus, setFrameStatus] = useState("loading"); // "loading"|"generating"|"ready"|"error"
 
-    const [videoMeta, setVideoMeta] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [points, setPoints] = useState(defaultPoints());
-    const [dragKey, setDragKey] = useState(null);
-    const [saving, setSaving] = useState(false);
-    const [err, setErr] = useState("");
-    const [frameLoading, setFrameLoading] = useState(false);
-    const [frameWarn, setFrameWarn] = useState("");
-
-    async function fetchVideo() {
-        const res = await fetch(`${API}/videos/${videoId}`, { credentials: "include" });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || "Failed to load video.");
-        return data.video;
-    }
-
+    // Load the clean frame — trigger generation if missing
     useEffect(() => {
-        if (!videoId) { navigate("/upload-video"); return; }
-        (async () => {
-            try {
-                setLoading(true);
-                const v = await fetchVideo();
-                setVideoMeta(v);
-                const saved = v?.courtSetup?.step1;
-                if (saved?.nearLeft) setPoints(saved);
-                setLoading(false);
-            } catch (e) {
-                setErr(e.message || "Failed to load video.");
-                setLoading(false);
+        if (!videoId) return;
+        let pollTimer = null;
+
+        async function load() {
+            const r = await fetch(`${API}/videos/${videoId}`, { credentials: "include" });
+            const d = r.ok ? await r.json() : null;
+            if (!d?.video) { setFrameStatus("error"); return; }
+
+            if (d.video.calibrationJsonPath && !d.video.cleanFramePath) {
+                setDone(true);
+                return;
             }
-        })();
+
+            if (d.video.cleanFramePath) {
+                setFrameUrl(`${API}${d.video.cleanFramePath}?t=${Date.now()}`);
+                setFrameStatus("ready");
+                return;
+            }
+
+            // Clean frame missing — trigger generation
+            if (d.video.cleanFrameStatus === "processing") {
+                setFrameStatus("generating");
+                pollTimer = setInterval(load, 3000);
+                return;
+            }
+
+            if (d.video.cleanFrameStatus === "failed") {
+                setFrameStatus("error");
+                setError("יצירת הפריים נכשלה. נסה שנית.");
+                return;
+            }
+
+            // Not started yet — kick it off
+            setFrameStatus("generating");
+            await fetch(`${API}/videos/${videoId}/clean-frame`, {
+                method: "POST", credentials: "include",
+            });
+            pollTimer = setInterval(load, 3000);
+        }
+
+        load();
+        return () => clearInterval(pollTimer);
     }, [videoId]);
 
+    // Draw points on canvas when they change
     useEffect(() => {
-        if (!videoMeta || videoMeta.sourceType !== "file") return;
-        if (videoMeta.cleanFrameStatus === "done" && videoMeta.cleanFramePath) return;
+        const canvas = canvasRef.current;
+        const img    = imgRef.current;
+        if (!canvas || !img || !img.complete) return;
 
-        if (!startedRef.current) {
-            startedRef.current = true;
-            setFrameLoading(true);
-            fetch(`${API}/videos/${videoId}/clean-frame`, { method: "POST", credentials: "include" })
-                .catch(() => { setFrameLoading(false); setFrameWarn("Could not prepare clean frame."); });
+        canvas.width  = img.clientWidth;
+        canvas.height = img.clientHeight;
+        const ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const colors = ["#22c55e", "#22c55e", "#f59e0b", "#f59e0b"];
+        points.forEach(({ x, y }, i) => {
+            ctx.beginPath();
+            ctx.arc(x, y, 8, 0, Math.PI * 2);
+            ctx.fillStyle = colors[i] || "#fff";
+            ctx.fill();
+            ctx.strokeStyle = "#fff";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.fillStyle = "#fff";
+            ctx.font = "bold 13px sans-serif";
+            ctx.fillText(String(i + 1), x + 12, y + 5);
+        });
+
+        // Draw lines between corners and net
+        if (points.length === 4) {
+            ctx.strokeStyle = "rgba(255,255,255,0.5)";
+            ctx.lineWidth = 1.5;
+            // near side
+            ctx.beginPath();
+            ctx.moveTo(points[0].x, points[0].y);
+            ctx.lineTo(points[1].x, points[1].y);
+            ctx.stroke();
+            // net
+            ctx.beginPath();
+            ctx.moveTo(points[2].x, points[2].y);
+            ctx.lineTo(points[3].x, points[3].y);
+            ctx.stroke();
+            // sides
+            ctx.beginPath();
+            ctx.moveTo(points[0].x, points[0].y);
+            ctx.lineTo(points[2].x, points[2].y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(points[1].x, points[1].y);
+            ctx.lineTo(points[3].x, points[3].y);
+            ctx.stroke();
         }
+    }, [points]);
 
-        const id = setInterval(async () => {
-            try {
-                const v = await fetchVideo();
-                setVideoMeta(v);
-                if (v.cleanFrameStatus === "done" && v.cleanFramePath) {
-                    setFrameLoading(false); clearInterval(id);
-                } else if (v.cleanFrameStatus === "failed") {
-                    setFrameLoading(false);
-                    setFrameWarn(v.cleanFrameError || "Clean frame failed.");
-                    clearInterval(id);
-                }
-            } catch { setFrameLoading(false); clearInterval(id); }
-        }, 1200);
-
-        return () => clearInterval(id);
-    }, [videoMeta, videoId]);
-
-    useEffect(() => {
-        function onMove(e) {
-            if (!dragKey || !stageRef.current) return;
-            const rect = stageRef.current.getBoundingClientRect();
-            const cx = e.touches?.[0]?.clientX ?? e.clientX;
-            const cy = e.touches?.[0]?.clientY ?? e.clientY;
-            setPoints(prev => ({
-                ...prev,
-                [dragKey]: {
-                    x: clamp01((cx - rect.left) / rect.width),
-                    y: clamp01((cy - rect.top) / rect.height),
-                },
-            }));
-        }
-        function onUp() { setDragKey(null); }
-        window.addEventListener("mousemove", onMove);
-        window.addEventListener("mouseup", onUp);
-        window.addEventListener("touchmove", onMove, { passive: false });
-        window.addEventListener("touchend", onUp);
-        return () => {
-            window.removeEventListener("mousemove", onMove);
-            window.removeEventListener("mouseup", onUp);
-            window.removeEventListener("touchmove", onMove);
-            window.removeEventListener("touchend", onUp);
-        };
-    }, [dragKey]);
+    function handleCanvasClick(e) {
+        if (points.length >= 4) return;
+        const rect = canvasRef.current.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        setPoints(prev => [...prev, { x, y }]);
+    }
 
     async function handleSave() {
-        if (!videoId) return;
-        setErr("");
+        if (points.length < 4) return;
         setSaving(true);
+        setError("");
+
+        const img = imgRef.current;
+        const scaleX = img.naturalWidth  / img.clientWidth;
+        const scaleY = img.naturalHeight / img.clientHeight;
+
+        // Convert display pixels → actual image pixels
+        const imagePoints = points.map(({ x, y }) => [
+            Math.round(x * scaleX),
+            Math.round(y * scaleY),
+        ]);
+
         try {
-            const res = await fetch(`${API}/videos/${videoId}/court-setup`, {
+            const r = await fetch(`${API}/videos/${videoId}/calibrate`, {
                 method: "POST",
                 credentials: "include",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ step: 1, points }),
+                body: JSON.stringify({ imagePoints }),
             });
-            const data = await res.json();
-            if (!res.ok) { setErr(data.message || "Save failed."); return; }
-
-            navigate(`/jersey-setup/${videoId}`);
-        } catch {
-            setErr("Save failed.");
+            if (!r.ok) {
+                const d = await r.json();
+                throw new Error(d.message || "Calibration failed");
+            }
+            setDone(true);
+        } catch (e) {
+            setError(e.message);
         } finally {
             setSaving(false);
         }
     }
 
-    const p = points;
-    const W = 1000, H = 560;
+    function handleReset() {
+        setPoints([]);
+    }
 
-    const courtPolygon = [
-        `${p.farLeft.x * W},${p.farLeft.y * H}`,
-        `${p.farRight.x * W},${p.farRight.y * H}`,
-        `${p.nearRight.x * W},${p.nearRight.y * H}`,
-        `${p.nearLeft.x * W},${p.nearLeft.y * H}`,
-    ].join(" ");
-
-    const teamAX = ((p.farLeft.x + p.farRight.x) / 2) * W;
-    const teamAY = ((p.farLeft.y + p.netLeft.y) / 2) * H;
-    const teamBX = ((p.nearLeft.x + p.nearRight.x) / 2) * W;
-    const teamBY = ((p.netLeft.y + p.nearLeft.y) / 2) * H;
-
-    const frameReady = videoMeta?.cleanFrameStatus === "done" && videoMeta?.cleanFramePath;
+    if (done) {
+        return (
+            <div className="cs-page cs-center">
+                <div className="cs-card">
+                    <div className="cs-check">✓</div>
+                    <div className="cs-title">כיול נשמר בהצלחה</div>
+                    <div className="cs-sub">הכיול ישמש לזיהוי נפילות כדור וניקוד אוטומטי</div>
+                    <button className="cs-btn" onClick={async () => {
+                        try {
+                            await fetch(`${API}/videos/${videoId}/start-analysis`, {
+                                method: "POST", credentials: "include",
+                            });
+                        } catch { /* starts in background */ }
+                        navigate(`/match-analysis/${videoId}`);
+                    }}>המשך לניתוח →</button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="cs-page">
-            <header className="cs-top">
-                <div className="cs-topLeft">
-                    <div className="cs-title">Court Setup</div>
-                    <div className="cs-sub">
-                        Drag the 8 points to match your court.&nbsp;
-                        <span style={{ color: "#60a5fa", fontWeight: 700 }}>Above net = Team A</span>,&nbsp;
-                        <span style={{ color: "#f87171", fontWeight: 700 }}>below = Team B</span>.
-                    </div>
-                </div>
-                <div className="cs-topRight">
-                    <button className="cs-primary" type="button" onClick={handleSave} disabled={saving || loading}>
-                        {saving ? "Saving..." : "Save & Continue"}
-                    </button>
-                    <button className="cs-close" type="button" onClick={() => navigate("/home")}>✕</button>
-                </div>
-            </header>
+            <div className="cs-topbar">
+                <button className="cs-back" onClick={() => navigate(-1)}>←</button>
+                <span className="cs-title">כיול מגרש</span>
+            </div>
 
-            {err && <div className="cs-error">{err}</div>}
-
-            <div className="cs-stageWrap">
-                <div className="cs-stage" ref={stageRef}>
-                    {loading ? (
-                        <div className="cs-loading">Loading...</div>
-                    ) : videoMeta?.sourceType === "youtube" ? (
-                        <div className="cs-loading">Clean frame not supported for YouTube.</div>
-                    ) : frameLoading && !frameReady ? (
-                        <div className="cs-loading">Preparing court frame...</div>
-                    ) : frameReady ? (
-                        <img className="cs-media" src={`${API}${videoMeta.cleanFramePath}`} alt="Court frame" />
-                    ) : (
-                        <div className="cs-loading">{frameWarn || "Preparing court frame..."}</div>
-                    )}
-
-                    <svg className="cs-overlay" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none">
-                        {/* Full court outline */}
-                        <polygon points={courtPolygon} fill="rgba(22,163,74,0.06)" stroke="#16a34a" strokeWidth="2.5" />
-
-                        {/* Net top (dashed) */}
-                        <line x1={p.netTopLeft.x*W} y1={p.netTopLeft.y*H} x2={p.netTopRight.x*W} y2={p.netTopRight.y*H}
-                            stroke="#2563eb" strokeWidth="2" strokeDasharray="7 3" />
-                        {/* Net posts */}
-                        <line x1={p.netTopLeft.x*W} y1={p.netTopLeft.y*H} x2={p.netLeft.x*W} y2={p.netLeft.y*H}
-                            stroke="#2563eb" strokeWidth="1.5" strokeDasharray="4 3" />
-                        <line x1={p.netTopRight.x*W} y1={p.netTopRight.y*H} x2={p.netRight.x*W} y2={p.netRight.y*H}
-                            stroke="#2563eb" strokeWidth="1.5" strokeDasharray="4 3" />
-                        {/* Net floor — team divider */}
-                        <line x1={p.netLeft.x*W} y1={p.netLeft.y*H} x2={p.netRight.x*W} y2={p.netRight.y*H}
-                            stroke="#2563eb" strokeWidth="3.5" />
-
-                        {/* Team labels */}
-                        <text x={teamAX} y={teamAY} fill="#2563eb" fontSize="24" fontWeight="bold"
-                            textAnchor="middle" dominantBaseline="middle"
-                            stroke="white" strokeWidth="5" paintOrder="stroke">TEAM A</text>
-                        <text x={teamBX} y={teamBY} fill="#dc2626" fontSize="24" fontWeight="bold"
-                            textAnchor="middle" dominantBaseline="middle"
-                            stroke="white" strokeWidth="5" paintOrder="stroke">TEAM B</text>
-                    </svg>
-
-                    {Object.entries(points).map(([name, pos]) => (
-                        <Point key={name} name={name} meta={POINT_META[name]} p={pos} onDown={setDragKey} />
+            <div className="cs-body">
+                <div className="cs-instructions">
+                    <div className="cs-inst-title">לחץ על 4 נקודות בתמונה לפי הסדר:</div>
+                    {POINT_LABELS.map((lbl, i) => (
+                        <div key={i} className={`cs-inst-row ${points.length > i ? "cs-inst-done" : points.length === i ? "cs-inst-active" : ""}`}>
+                            <span className={`cs-dot ${i < 2 ? "cs-dot-green" : "cs-dot-yellow"}`} />
+                            {lbl}
+                            {points.length > i && <span className="cs-inst-check">✓</span>}
+                        </div>
                     ))}
                 </div>
 
-                <div className="cs-hint">
-                    <strong style={{ color: "#16a34a" }}>Green</strong> = court boundary (4 corners).&nbsp;
-                    <strong style={{ color: "#2563eb" }}>Blue solid</strong> = net at floor (team divider).&nbsp;
-                    <strong style={{ color: "#2563eb" }}>Blue dashed</strong> = net top.&nbsp;
-                    <strong style={{ color: "#dc2626" }}>Red</strong> = near baseline.
+                <div className="cs-canvas-wrap">
+                    {frameUrl ? (
+                        <>
+                            <img
+                                ref={imgRef}
+                                src={frameUrl}
+                                className="cs-frame"
+                                alt="court frame"
+                                onLoad={() => {
+                                    const canvas = canvasRef.current;
+                                    const img    = imgRef.current;
+                                    if (canvas && img) {
+                                        canvas.width  = img.clientWidth;
+                                        canvas.height = img.clientHeight;
+                                    }
+                                }}
+                            />
+                            <canvas
+                                ref={canvasRef}
+                                className="cs-canvas"
+                                onClick={handleCanvasClick}
+                            />
+                        </>
+                    ) : frameStatus === "generating" ? (
+                        <div className="cs-loading">
+                            <div className="cs-spinner" />
+                            מייצר פריים נקי מהוידאו...
+                        </div>
+                    ) : frameStatus === "error" ? (
+                        <div className="cs-loading" style={{ color: "#f87171" }}>
+                            {error || "שגיאה בטעינת הפריים"}
+                        </div>
+                    ) : (
+                        <div className="cs-loading">
+                            <div className="cs-spinner" />
+                            טוען...
+                        </div>
+                    )}
+                </div>
+
+                <div className="cs-actions">
+                    {error && <div className="cs-error">{error}</div>}
+                    <button className="cs-btn cs-btn-secondary" onClick={handleReset} disabled={!points.length}>
+                        נקה נקודות
+                    </button>
+                    <button
+                        className="cs-btn cs-btn-primary"
+                        onClick={handleSave}
+                        disabled={points.length < 4 || saving}
+                    >
+                        {saving ? "שומר..." : "שמור כיול"}
+                    </button>
                 </div>
             </div>
-        </div>
-    );
-}
-
-function Point({ name, meta, p, onDown }) {
-    return (
-        <div
-            className="cs-pointWrap"
-            style={{ left: `${p.x * 100}%`, top: `${p.y * 100}%` }}
-            onMouseDown={(e) => { e.preventDefault(); onDown(name); }}
-            onTouchStart={(e) => { e.preventDefault(); onDown(name); }}
-        >
-            <div className="cs-point" style={{ borderColor: meta.color, boxShadow: `0 0 0 3px ${meta.color}33` }} />
-            <div className="cs-label">{meta.label}</div>
         </div>
     );
 }

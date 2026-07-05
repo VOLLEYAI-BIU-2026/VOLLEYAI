@@ -2,9 +2,10 @@
     min-height: 100vh;
     background: #0a0c14;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     padding: 24px;
+    box-sizing: border-box;
 }
 
 .js-card {
@@ -12,9 +13,9 @@
     background: #0f1117;
     border: 1px solid #1e2130;
     border-radius: 20px;
-    padding: 48px 40px 36px;
+    padding: 48px 36px 36px;
     width: 100%;
-    max-width: 520px;
+    max-width: 860px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -53,121 +54,127 @@
     text-align: center;
     margin: 0 0 28px;
     line-height: 1.6;
+    max-width: 480px;
 }
 
-/* Input row */
-.js-input-row {
-    display: flex;
-    gap: 8px;
+/* ── Side-by-side panels ── */
+.js-panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
     width: 100%;
-    margin-bottom: 6px;
-}
-.js-input {
-    background: #1a1d2e;
-    border: 1px solid #2a2f45;
-    border-radius: 10px;
-    color: #e8eaf0;
-    font-size: 15px;
-    padding: 10px 14px;
-    outline: none;
-    transition: border-color 0.15s;
-}
-.js-input:focus { border-color: #3b82f6; }
-.js-input::-webkit-inner-spin-button { display: none; }
-
-.js-input-num {
-    width: 68px;
-    flex-shrink: 0;
-    text-align: center;
-    font-size: 18px;
-    font-weight: 700;
-}
-.js-input-name { flex: 1; }
-
-.js-add-btn {
-    background: #3b82f6;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    padding: 10px 18px;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: background 0.15s;
-}
-.js-add-btn:hover { background: #2563eb; }
-
-.js-error {
-    font-size: 12px;
-    color: #f87171;
-    align-self: flex-start;
-    margin-bottom: 4px;
+    margin-bottom: 28px;
 }
 
-/* Player list */
-.js-players {
-    width: 100%;
+.js-panel {
+    background: #12151f;
+    border: 1px solid #1e2130;
+    border-radius: 14px;
+    padding: 16px;
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    margin: 14px 0 22px;
-    min-height: 56px;
+    gap: 10px;
 }
-.js-empty {
-    color: #2a2f45;
-    font-size: 13px;
-    text-align: center;
-    padding: 16px 0;
-    border: 1px dashed #1e2130;
-    border-radius: 10px;
-}
-.js-player-row {
+
+/* Panel header: label + current selection badge */
+.js-panel-header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 10px;
+}
+
+.js-section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: #5a627a;
+}
+
+.js-current-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
     background: #1a1d2e;
     border: 1px solid #2a2f45;
-    border-radius: 10px;
-    padding: 10px 14px;
+    border-radius: 20px;
+    padding: 4px 10px 4px 6px;
 }
-.js-badge {
-    background: #1e3a5f;
-    color: #3b82f6;
-    border: 1px solid #3b82f6;
-    font-size: 13px;
-    font-weight: 800;
-    border-radius: 6px;
-    padding: 3px 8px;
-    min-width: 36px;
-    text-align: center;
-}
-.js-pname {
-    flex: 1;
-    font-size: 15px;
-    color: #c8d0e0;
-    font-weight: 500;
-}
-.js-noname {
-    color: #3a4060;
-    font-style: italic;
-    font-size: 13px;
-}
-.js-remove {
-    background: none;
-    border: none;
-    color: #3a4060;
-    font-size: 18px;
-    cursor: pointer;
-    padding: 0 4px;
-    line-height: 1;
-    transition: color 0.15s;
-}
-.js-remove:hover { color: #f87171; }
 
-/* Buttons */
+.js-current-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.1);
+    flex-shrink: 0;
+}
+
+.js-current-name {
+    font-size: 11px;
+    color: #a0a8c0;
+    white-space: nowrap;
+}
+
+/* ── Compact swatch grid ── */
+.js-swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 5px;
+}
+
+.js-swatch-btn {
+    aspect-ratio: 1;
+    border-radius: 7px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    padding: 3px;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.12s, transform 0.1s;
+}
+.js-swatch-btn:hover:not(.disabled) {
+    border-color: #3b4060;
+    transform: scale(1.08);
+}
+.js-swatch-btn.active {
+    border-color: #3b82f6;
+}
+.js-swatch-btn.disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+}
+
+.js-swatch-circle {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* ── Bottom buttons ── */
+.js-calib-btn {
+    width: 100%;
+    max-width: 400px;
+    background: #1e293b;
+    color: #94a3b8;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    padding: 11px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+    margin-bottom: 10px;
+}
+.js-calib-btn:hover { background: #334155; color: #e2e8f0; }
+
 .js-start-btn {
     width: 100%;
+    max-width: 400px;
     background: linear-gradient(135deg, #3b82f6, #6366f1);
     color: #fff;
     border: none;

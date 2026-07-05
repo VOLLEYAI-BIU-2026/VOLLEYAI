@@ -1,0 +1,15 @@
+volleyai/node_modules
+volleyai/dist
+volleyai/.env
+
+# uploads ו-runs — נכנסים כ-volume, לא ל-image
+volleyai/backend/uploads/*
+volleyai/backend/detection_models/all_three/runs/*
+
+# Git
+.git
+.gitignore
+
+# Python cache
+**/__pycache__
+**/*.pyc

@@ -1,0 +1,2278 @@
+{
+    "total_rallies": 76,
+    "total_won": 63,
+    "total_lost": 13,
+    "score_events": [
+        {
+            "time_sec": 0.8,
+            "us": 1,
+            "opp": 0
+        },
+        {
+            "time_sec": 3.83,
+            "us": 2,
+            "opp": 0
+        },
+        {
+            "time_sec": 6.87,
+            "us": 3,
+            "opp": 0
+        },
+        {
+            "time_sec": 9.9,
+            "us": 4,
+            "opp": 0
+        },
+        {
+            "time_sec": 13.33,
+            "us": 5,
+            "opp": 0
+        },
+        {
+            "time_sec": 16.37,
+            "us": 6,
+            "opp": 0
+        },
+        {
+            "time_sec": 21.87,
+            "us": 6,
+            "opp": 1
+        },
+        {
+            "time_sec": 24.97,
+            "us": 7,
+            "opp": 1
+        },
+        {
+            "time_sec": 28.47,
+            "us": 8,
+            "opp": 1
+        },
+        {
+            "time_sec": 31.8,
+            "us": 8,
+            "opp": 2
+        },
+        {
+            "time_sec": 35.5,
+            "us": 9,
+            "opp": 2
+        },
+        {
+            "time_sec": 38.53,
+            "us": 10,
+            "opp": 2
+        },
+        {
+            "time_sec": 41.57,
+            "us": 11,
+            "opp": 2
+        },
+        {
+            "time_sec": 44.6,
+            "us": 12,
+            "opp": 2
+        },
+        {
+            "time_sec": 47.63,
+            "us": 13,
+            "opp": 2
+        },
+        {
+            "time_sec": 50.67,
+            "us": 14,
+            "opp": 2
+        },
+        {
+            "time_sec": 53.7,
+            "us": 15,
+            "opp": 2
+        },
+        {
+            "time_sec": 56.73,
+            "us": 16,
+            "opp": 2
+        },
+        {
+            "time_sec": 59.77,
+            "us": 17,
+            "opp": 2
+        },
+        {
+            "time_sec": 62.8,
+            "us": 18,
+            "opp": 2
+        },
+        {
+            "time_sec": 65.83,
+            "us": 19,
+            "opp": 2
+        },
+        {
+            "time_sec": 74.97,
+            "us": 20,
+            "opp": 2
+        },
+        {
+            "time_sec": 78.03,
+            "us": 20,
+            "opp": 3
+        },
+        {
+            "time_sec": 81.07,
+            "us": 21,
+            "opp": 3
+        },
+        {
+            "time_sec": 84.13,
+            "us": 21,
+            "opp": 4
+        },
+        {
+            "time_sec": 87.17,
+            "us": 22,
+            "opp": 4
+        },
+        {
+            "time_sec": 90.2,
+            "us": 23,
+            "opp": 4
+        },
+        {
+            "time_sec": 93.6,
+            "us": 24,
+            "opp": 4
+        },
+        {
+            "time_sec": 96.73,
+            "us": 25,
+            "opp": 4
+        },
+        {
+            "time_sec": 99.87,
+            "us": 26,
+            "opp": 4
+        },
+        {
+            "time_sec": 102.9,
+            "us": 26,
+            "opp": 5
+        },
+        {
+            "time_sec": 106.7,
+            "us": 27,
+            "opp": 5
+        },
+        {
+            "time_sec": 113.03,
+            "us": 27,
+            "opp": 6
+        },
+        {
+            "time_sec": 116.07,
+            "us": 28,
+            "opp": 6
+        },
+        {
+            "time_sec": 119.83,
+            "us": 29,
+            "opp": 6
+        },
+        {
+            "time_sec": 122.97,
+            "us": 30,
+            "opp": 6
+        },
+        {
+            "time_sec": 127.0,
+            "us": 30,
+            "opp": 7
+        },
+        {
+            "time_sec": 130.07,
+            "us": 30,
+            "opp": 8
+        },
+        {
+            "time_sec": 133.1,
+            "us": 31,
+            "opp": 8
+        },
+        {
+            "time_sec": 136.13,
+            "us": 32,
+            "opp": 8
+        },
+        {
+            "time_sec": 139.17,
+            "us": 33,
+            "opp": 8
+        },
+        {
+            "time_sec": 142.3,
+            "us": 34,
+            "opp": 8
+        },
+        {
+            "time_sec": 145.33,
+            "us": 35,
+            "opp": 8
+        },
+        {
+            "time_sec": 148.37,
+            "us": 36,
+            "opp": 8
+        },
+        {
+            "time_sec": 152.13,
+            "us": 36,
+            "opp": 9
+        },
+        {
+            "time_sec": 155.17,
+            "us": 37,
+            "opp": 9
+        },
+        {
+            "time_sec": 158.4,
+            "us": 38,
+            "opp": 9
+        },
+        {
+            "time_sec": 161.43,
+            "us": 38,
+            "opp": 10
+        },
+        {
+            "time_sec": 164.6,
+            "us": 39,
+            "opp": 10
+        },
+        {
+            "time_sec": 169.47,
+            "us": 40,
+            "opp": 10
+        },
+        {
+            "time_sec": 173.17,
+            "us": 41,
+            "opp": 10
+        },
+        {
+            "time_sec": 176.2,
+            "us": 42,
+            "opp": 10
+        },
+        {
+            "time_sec": 179.33,
+            "us": 43,
+            "opp": 10
+        },
+        {
+            "time_sec": 182.63,
+            "us": 44,
+            "opp": 10
+        },
+        {
+            "time_sec": 185.67,
+            "us": 45,
+            "opp": 10
+        },
+        {
+            "time_sec": 188.7,
+            "us": 46,
+            "opp": 10
+        },
+        {
+            "time_sec": 191.93,
+            "us": 47,
+            "opp": 10
+        },
+        {
+            "time_sec": 195.07,
+            "us": 48,
+            "opp": 10
+        },
+        {
+            "time_sec": 198.13,
+            "us": 49,
+            "opp": 10
+        },
+        {
+            "time_sec": 201.43,
+            "us": 50,
+            "opp": 10
+        },
+        {
+            "time_sec": 204.47,
+            "us": 51,
+            "opp": 10
+        },
+        {
+            "time_sec": 207.73,
+            "us": 51,
+            "opp": 11
+        },
+        {
+            "time_sec": 210.77,
+            "us": 52,
+            "opp": 11
+        },
+        {
+            "time_sec": 213.8,
+            "us": 53,
+            "opp": 11
+        },
+        {
+            "time_sec": 217.37,
+            "us": 54,
+            "opp": 11
+        },
+        {
+            "time_sec": 222.1,
+            "us": 55,
+            "opp": 11
+        },
+        {
+            "time_sec": 225.13,
+            "us": 56,
+            "opp": 11
+        },
+        {
+            "time_sec": 228.17,
+            "us": 57,
+            "opp": 11
+        },
+        {
+            "time_sec": 231.2,
+            "us": 58,
+            "opp": 11
+        },
+        {
+            "time_sec": 234.7,
+            "us": 58,
+            "opp": 12
+        },
+        {
+            "time_sec": 238.57,
+            "us": 59,
+            "opp": 12
+        },
+        {
+            "time_sec": 244.2,
+            "us": 60,
+            "opp": 12
+        },
+        {
+            "time_sec": 247.4,
+            "us": 60,
+            "opp": 13
+        },
+        {
+            "time_sec": 251.43,
+            "us": 61,
+            "opp": 13
+        },
+        {
+            "time_sec": 254.77,
+            "us": 62,
+            "opp": 13
+        },
+        {
+            "time_sec": 258.0,
+            "us": 63,
+            "opp": 13
+        }
+    ],
+    "rallies": [
+        {
+            "rally_number": 1,
+            "start_frame": 0,
+            "end_frame": 24,
+            "start_sec": 0.0,
+            "end_sec": 0.8,
+            "start_time": "0:00",
+            "end_time": "0:00",
+            "duration_sec": 0.8,
+            "won": true,
+            "main_action": "none",
+            "main_action_label": "",
+            "actions": []
+        },
+        {
+            "rally_number": 2,
+            "start_frame": 24,
+            "end_frame": 115,
+            "start_sec": 0.8,
+            "end_sec": 3.83,
+            "start_time": "0:00",
+            "end_time": "0:03",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "serve",
+            "main_action_label": "Serve",
+            "actions": [
+                {
+                    "frame": 47,
+                    "time_sec": 1.567,
+                    "time_str": "0:01",
+                    "action": "serve",
+                    "action_label": "Serve",
+                    "player_id": "5",
+                    "player_label": "ID 5",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 3,
+            "start_frame": 115,
+            "end_frame": 206,
+            "start_sec": 3.83,
+            "end_sec": 6.87,
+            "start_time": "0:03",
+            "end_time": "0:06",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "spike",
+            "main_action_label": "Attack",
+            "actions": [
+                {
+                    "frame": 149,
+                    "time_sec": 4.967,
+                    "time_str": "0:04",
+                    "action": "spike",
+                    "action_label": "Attack",
+                    "player_id": "7",
+                    "player_label": "ID 7",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 4,
+            "start_frame": 206,
+            "end_frame": 297,
+            "start_sec": 6.87,
+            "end_sec": 9.9,
+            "start_time": "0:06",
+            "end_time": "0:09",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 283,
+                    "time_sec": 9.433,
+                    "time_str": "0:09",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "72",
+                    "player_label": "ID 72",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 5,
+            "start_frame": 297,
+            "end_frame": 400,
+            "start_sec": 9.9,
+            "end_sec": 13.33,
+            "start_time": "0:09",
+            "end_time": "0:13",
+            "duration_sec": 3.4,
+            "won": true,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 397,
+                    "time_sec": 13.233,
+                    "time_str": "0:13",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "116",
+                    "player_label": "ID 116",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 6,
+            "start_frame": 400,
+            "end_frame": 491,
+            "start_sec": 13.33,
+            "end_sec": 16.37,
+            "start_time": "0:13",
+            "end_time": "0:16",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "block",
+            "main_action_label": "Block",
+            "actions": [
+                {
+                    "frame": 478,
+                    "time_sec": 15.933,
+                    "time_str": "0:15",
+                    "action": "block",
+                    "action_label": "Block",
+                    "player_id": "8",
+                    "player_label": "ID 8",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 7,
+            "start_frame": 491,
+            "end_frame": 656,
+            "start_sec": 16.37,
+            "end_sec": 21.87,
+            "start_time": "0:16",
+            "end_time": "0:21",
+            "duration_sec": 5.5,
+            "won": false,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 641,
+                    "time_sec": 21.367,
+                    "time_str": "0:21",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "9",
+                    "player_label": "ID 9",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 8,
+            "start_frame": 656,
+            "end_frame": 749,
+            "start_sec": 21.87,
+            "end_sec": 24.97,
+            "start_time": "0:21",
+            "end_time": "0:24",
+            "duration_sec": 3.1,
+            "won": true,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 749,
+                    "time_sec": 24.967,
+                    "time_str": "0:24",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "224",
+                    "player_label": "ID 224",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 9,
+            "start_frame": 749,
+            "end_frame": 854,
+            "start_sec": 24.97,
+            "end_sec": 28.47,
+            "start_time": "0:24",
+            "end_time": "0:28",
+            "duration_sec": 3.5,
+            "won": true,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 843,
+                    "time_sec": 28.1,
+                    "time_str": "0:28",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "254",
+                    "player_label": "ID 254",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 10,
+            "start_frame": 854,
+            "end_frame": 954,
+            "start_sec": 28.47,
+            "end_sec": 31.8,
+            "start_time": "0:28",
+            "end_time": "0:31",
+            "duration_sec": 3.3,
+            "won": false,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 943,
+                    "time_sec": 31.433,
+                    "time_str": "0:31",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "269",
+                    "player_label": "ID 269",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 11,
+            "start_frame": 954,
+            "end_frame": 1065,
+            "start_sec": 31.8,
+            "end_sec": 35.5,
+            "start_time": "0:31",
+            "end_time": "0:35",
+            "duration_sec": 3.7,
+            "won": true,
+            "main_action": "block",
+            "main_action_label": "Block",
+            "actions": [
+                {
+                    "frame": 1057,
+                    "time_sec": 35.233,
+                    "time_str": "0:35",
+                    "action": "block",
+                    "action_label": "Block",
+                    "player_id": "258",
+                    "player_label": "ID 258",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 12,
+            "start_frame": 1065,
+            "end_frame": 1156,
+            "start_sec": 35.5,
+            "end_sec": 38.53,
+            "start_time": "0:35",
+            "end_time": "0:38",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "spike",
+            "main_action_label": "Attack",
+            "actions": [
+                {
+                    "frame": 1139,
+                    "time_sec": 37.967,
+                    "time_str": "0:37",
+                    "action": "spike",
+                    "action_label": "Attack",
+                    "player_id": "258",
+                    "player_label": "ID 258",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 13,
+            "start_frame": 1156,
+            "end_frame": 1247,
+            "start_sec": 38.53,
+            "end_sec": 41.57,
+            "start_time": "0:38",
+            "end_time": "0:41",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "block",
+            "main_action_label": "Block",
+            "actions": [
+                {
+                    "frame": 1235,
+                    "time_sec": 41.167,
+                    "time_str": "0:41",
+                    "action": "block",
+                    "action_label": "Block",
+                    "player_id": "334",
+                    "player_label": "ID 334",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 14,
+            "start_frame": 1247,
+            "end_frame": 1338,
+            "start_sec": 41.57,
+            "end_sec": 44.6,
+            "start_time": "0:41",
+            "end_time": "0:44",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 1334,
+                    "time_sec": 44.467,
+                    "time_str": "0:44",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "387",
+                    "player_label": "ID 387",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 15,
+            "start_frame": 1338,
+            "end_frame": 1429,
+            "start_sec": 44.6,
+            "end_sec": 47.63,
+            "start_time": "0:44",
+            "end_time": "0:47",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 1415,
+                    "time_sec": 47.167,
+                    "time_str": "0:47",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "421",
+                    "player_label": "ID 421",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 16,
+            "start_frame": 1429,
+            "end_frame": 1520,
+            "start_sec": 47.63,
+            "end_sec": 50.67,
+            "start_time": "0:47",
+            "end_time": "0:50",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 1514,
+                    "time_sec": 50.467,
+                    "time_str": "0:50",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "446",
+                    "player_label": "ID 446",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 17,
+            "start_frame": 1520,
+            "end_frame": 1611,
+            "start_sec": 50.67,
+            "end_sec": 53.7,
+            "start_time": "0:50",
+            "end_time": "0:53",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 1603,
+                    "time_sec": 53.433,
+                    "time_str": "0:53",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "444",
+                    "player_label": "ID 444",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 18,
+            "start_frame": 1611,
+            "end_frame": 1702,
+            "start_sec": 53.7,
+            "end_sec": 56.73,
+            "start_time": "0:53",
+            "end_time": "0:56",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "spike",
+            "main_action_label": "Attack",
+            "actions": [
+                {
+                    "frame": 1647,
+                    "time_sec": 54.9,
+                    "time_str": "0:54",
+                    "action": "spike",
+                    "action_label": "Attack",
+                    "player_id": "5",
+                    "player_label": "ID 5",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 19,
+            "start_frame": 1702,
+            "end_frame": 1793,
+            "start_sec": 56.73,
+            "end_sec": 59.77,
+            "start_time": "0:56",
+            "end_time": "0:59",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "spike",
+            "main_action_label": "Attack",
+            "actions": [
+                {
+                    "frame": 1759,
+                    "time_sec": 58.633,
+                    "time_str": "0:58",
+                    "action": "spike",
+                    "action_label": "Attack",
+                    "player_id": "492",
+                    "player_label": "ID 492",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 20,
+            "start_frame": 1793,
+            "end_frame": 1884,
+            "start_sec": 59.77,
+            "end_sec": 62.8,
+            "start_time": "0:59",
+            "end_time": "1:02",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 1878,
+                    "time_sec": 62.6,
+                    "time_str": "1:02",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "512",
+                    "player_label": "ID 512",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 21,
+            "start_frame": 1884,
+            "end_frame": 1975,
+            "start_sec": 62.8,
+            "end_sec": 65.83,
+            "start_time": "1:02",
+            "end_time": "1:05",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "block",
+            "main_action_label": "Block",
+            "actions": [
+                {
+                    "frame": 1973,
+                    "time_sec": 65.767,
+                    "time_str": "1:05",
+                    "action": "block",
+                    "action_label": "Block",
+                    "player_id": "560",
+                    "player_label": "ID 560",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 22,
+            "start_frame": 1975,
+            "end_frame": 2249,
+            "start_sec": 65.83,
+            "end_sec": 74.97,
+            "start_time": "1:05",
+            "end_time": "1:14",
+            "duration_sec": 9.1,
+            "won": true,
+            "main_action": "block",
+            "main_action_label": "Block",
+            "actions": [
+                {
+                    "frame": 2024,
+                    "time_sec": 67.467,
+                    "time_str": "1:07",
+                    "action": "block",
+                    "action_label": "Block",
+                    "player_id": "9",
+                    "player_label": "ID 9",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 23,
+            "start_frame": 2249,
+            "end_frame": 2341,
+            "start_sec": 74.97,
+            "end_sec": 78.03,
+            "start_time": "1:14",
+            "end_time": "1:18",
+            "duration_sec": 3.1,
+            "won": false,
+            "main_action": "block",
+            "main_action_label": "Block",
+            "actions": [
+                {
+                    "frame": 2299,
+                    "time_sec": 76.633,
+                    "time_str": "1:16",
+                    "action": "block",
+                    "action_label": "Block",
+                    "player_id": "641",
+                    "player_label": "ID 641",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 24,
+            "start_frame": 2341,
+            "end_frame": 2432,
+            "start_sec": 78.03,
+            "end_sec": 81.07,
+            "start_time": "1:18",
+            "end_time": "1:21",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 2432,
+                    "time_sec": 81.067,
+                    "time_str": "1:21",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "15",
+                    "player_label": "ID 15",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 25,
+            "start_frame": 2432,
+            "end_frame": 2524,
+            "start_sec": 81.07,
+            "end_sec": 84.13,
+            "start_time": "1:21",
+            "end_time": "1:24",
+            "duration_sec": 3.1,
+            "won": false,
+            "main_action": "block",
+            "main_action_label": "Block",
+            "actions": [
+                {
+                    "frame": 2443,
+                    "time_sec": 81.433,
+                    "time_str": "1:21",
+                    "action": "block",
+                    "action_label": "Block",
+                    "player_id": "687",
+                    "player_label": "ID 687",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 26,
+            "start_frame": 2524,
+            "end_frame": 2615,
+            "start_sec": 84.13,
+            "end_sec": 87.17,
+            "start_time": "1:24",
+            "end_time": "1:27",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 2604,
+                    "time_sec": 86.8,
+                    "time_str": "1:26",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "722",
+                    "player_label": "ID 722",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 27,
+            "start_frame": 2615,
+            "end_frame": 2706,
+            "start_sec": 87.17,
+            "end_sec": 90.2,
+            "start_time": "1:27",
+            "end_time": "1:30",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "serve",
+            "main_action_label": "Serve",
+            "actions": [
+                {
+                    "frame": 2703,
+                    "time_sec": 90.1,
+                    "time_str": "1:30",
+                    "action": "serve",
+                    "action_label": "Serve",
+                    "player_id": "5",
+                    "player_label": "ID 5",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 28,
+            "start_frame": 2706,
+            "end_frame": 2808,
+            "start_sec": 90.2,
+            "end_sec": 93.6,
+            "start_time": "1:30",
+            "end_time": "1:33",
+            "duration_sec": 3.4,
+            "won": true,
+            "main_action": "serve",
+            "main_action_label": "Serve",
+            "actions": [
+                {
+                    "frame": 2736,
+                    "time_sec": 91.2,
+                    "time_str": "1:31",
+                    "action": "serve",
+                    "action_label": "Serve",
+                    "player_id": "5",
+                    "player_label": "ID 5",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 29,
+            "start_frame": 2808,
+            "end_frame": 2902,
+            "start_sec": 93.6,
+            "end_sec": 96.73,
+            "start_time": "1:33",
+            "end_time": "1:36",
+            "duration_sec": 3.1,
+            "won": true,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 2896,
+                    "time_sec": 96.533,
+                    "time_str": "1:36",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "797",
+                    "player_label": "ID 797",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 30,
+            "start_frame": 2902,
+            "end_frame": 2996,
+            "start_sec": 96.73,
+            "end_sec": 99.87,
+            "start_time": "1:36",
+            "end_time": "1:39",
+            "duration_sec": 3.1,
+            "won": true,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 2967,
+                    "time_sec": 98.9,
+                    "time_str": "1:38",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "780",
+                    "player_label": "ID 780",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 31,
+            "start_frame": 2996,
+            "end_frame": 3087,
+            "start_sec": 99.87,
+            "end_sec": 102.9,
+            "start_time": "1:39",
+            "end_time": "1:42",
+            "duration_sec": 3.0,
+            "won": false,
+            "main_action": "spike",
+            "main_action_label": "Attack",
+            "actions": [
+                {
+                    "frame": 3014,
+                    "time_sec": 100.467,
+                    "time_str": "1:40",
+                    "action": "spike",
+                    "action_label": "Attack",
+                    "player_id": "5",
+                    "player_label": "ID 5",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 32,
+            "start_frame": 3087,
+            "end_frame": 3201,
+            "start_sec": 102.9,
+            "end_sec": 106.7,
+            "start_time": "1:42",
+            "end_time": "1:46",
+            "duration_sec": 3.8,
+            "won": true,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 3201,
+                    "time_sec": 106.7,
+                    "time_str": "1:46",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "899",
+                    "player_label": "ID 899",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 33,
+            "start_frame": 3201,
+            "end_frame": 3391,
+            "start_sec": 106.7,
+            "end_sec": 113.03,
+            "start_time": "1:46",
+            "end_time": "1:53",
+            "duration_sec": 6.3,
+            "won": false,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 3387,
+                    "time_sec": 112.9,
+                    "time_str": "1:52",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "831",
+                    "player_label": "ID 831",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 34,
+            "start_frame": 3391,
+            "end_frame": 3482,
+            "start_sec": 113.03,
+            "end_sec": 116.07,
+            "start_time": "1:53",
+            "end_time": "1:56",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "spike",
+            "main_action_label": "Attack",
+            "actions": [
+                {
+                    "frame": 3409,
+                    "time_sec": 113.633,
+                    "time_str": "1:53",
+                    "action": "spike",
+                    "action_label": "Attack",
+                    "player_id": "899",
+                    "player_label": "ID 899",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 35,
+            "start_frame": 3482,
+            "end_frame": 3595,
+            "start_sec": 116.07,
+            "end_sec": 119.83,
+            "start_time": "1:56",
+            "end_time": "1:59",
+            "duration_sec": 3.8,
+            "won": true,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 3517,
+                    "time_sec": 117.233,
+                    "time_str": "1:57",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "934",
+                    "player_label": "ID 934",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 36,
+            "start_frame": 3595,
+            "end_frame": 3689,
+            "start_sec": 119.83,
+            "end_sec": 122.97,
+            "start_time": "1:59",
+            "end_time": "2:02",
+            "duration_sec": 3.1,
+            "won": true,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 3676,
+                    "time_sec": 122.533,
+                    "time_str": "2:02",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "9",
+                    "player_label": "ID 9",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 37,
+            "start_frame": 3689,
+            "end_frame": 3810,
+            "start_sec": 122.97,
+            "end_sec": 127.0,
+            "start_time": "2:02",
+            "end_time": "2:07",
+            "duration_sec": 4.0,
+            "won": false,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 3802,
+                    "time_sec": 126.733,
+                    "time_str": "2:06",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "5",
+                    "player_label": "ID 5",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 38,
+            "start_frame": 3810,
+            "end_frame": 3902,
+            "start_sec": 127.0,
+            "end_sec": 130.07,
+            "start_time": "2:07",
+            "end_time": "2:10",
+            "duration_sec": 3.1,
+            "won": false,
+            "main_action": "spike",
+            "main_action_label": "Attack",
+            "actions": [
+                {
+                    "frame": 3826,
+                    "time_sec": 127.533,
+                    "time_str": "2:07",
+                    "action": "spike",
+                    "action_label": "Attack",
+                    "player_id": "5",
+                    "player_label": "ID 5",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 39,
+            "start_frame": 3902,
+            "end_frame": 3993,
+            "start_sec": 130.07,
+            "end_sec": 133.1,
+            "start_time": "2:10",
+            "end_time": "2:13",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "spike",
+            "main_action_label": "Attack",
+            "actions": [
+                {
+                    "frame": 3967,
+                    "time_sec": 132.233,
+                    "time_str": "2:12",
+                    "action": "spike",
+                    "action_label": "Attack",
+                    "player_id": "1033",
+                    "player_label": "ID 1033",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 40,
+            "start_frame": 3993,
+            "end_frame": 4084,
+            "start_sec": 133.1,
+            "end_sec": 136.13,
+            "start_time": "2:13",
+            "end_time": "2:16",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "spike",
+            "main_action_label": "Attack",
+            "actions": [
+                {
+                    "frame": 4062,
+                    "time_sec": 135.4,
+                    "time_str": "2:15",
+                    "action": "spike",
+                    "action_label": "Attack",
+                    "player_id": "1083",
+                    "player_label": "ID 1083",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 41,
+            "start_frame": 4084,
+            "end_frame": 4175,
+            "start_sec": 136.13,
+            "end_sec": 139.17,
+            "start_time": "2:16",
+            "end_time": "2:19",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "spike",
+            "main_action_label": "Attack",
+            "actions": [
+                {
+                    "frame": 4089,
+                    "time_sec": 136.3,
+                    "time_str": "2:16",
+                    "action": "spike",
+                    "action_label": "Attack",
+                    "player_id": "1066",
+                    "player_label": "ID 1066",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 42,
+            "start_frame": 4175,
+            "end_frame": 4269,
+            "start_sec": 139.17,
+            "end_sec": 142.3,
+            "start_time": "2:19",
+            "end_time": "2:22",
+            "duration_sec": 3.1,
+            "won": true,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 4263,
+                    "time_sec": 142.1,
+                    "time_str": "2:22",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "1109",
+                    "player_label": "ID 1109",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 43,
+            "start_frame": 4269,
+            "end_frame": 4360,
+            "start_sec": 142.3,
+            "end_sec": 145.33,
+            "start_time": "2:22",
+            "end_time": "2:25",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "spike",
+            "main_action_label": "Attack",
+            "actions": [
+                {
+                    "frame": 4358,
+                    "time_sec": 145.267,
+                    "time_str": "2:25",
+                    "action": "spike",
+                    "action_label": "Attack",
+                    "player_id": "1158",
+                    "player_label": "ID 1158",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 44,
+            "start_frame": 4360,
+            "end_frame": 4451,
+            "start_sec": 145.33,
+            "end_sec": 148.37,
+            "start_time": "2:25",
+            "end_time": "2:28",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "spike",
+            "main_action_label": "Attack",
+            "actions": [
+                {
+                    "frame": 4366,
+                    "time_sec": 145.533,
+                    "time_str": "2:25",
+                    "action": "spike",
+                    "action_label": "Attack",
+                    "player_id": "1160",
+                    "player_label": "ID 1160",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 45,
+            "start_frame": 4451,
+            "end_frame": 4564,
+            "start_sec": 148.37,
+            "end_sec": 152.13,
+            "start_time": "2:28",
+            "end_time": "2:32",
+            "duration_sec": 3.8,
+            "won": false,
+            "main_action": "block",
+            "main_action_label": "Block",
+            "actions": [
+                {
+                    "frame": 4505,
+                    "time_sec": 150.167,
+                    "time_str": "2:30",
+                    "action": "block",
+                    "action_label": "Block",
+                    "player_id": "1144",
+                    "player_label": "ID 1144",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 46,
+            "start_frame": 4564,
+            "end_frame": 4655,
+            "start_sec": 152.13,
+            "end_sec": 155.17,
+            "start_time": "2:32",
+            "end_time": "2:35",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 4640,
+                    "time_sec": 154.667,
+                    "time_str": "2:34",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "5",
+                    "player_label": "ID 5",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 47,
+            "start_frame": 4655,
+            "end_frame": 4752,
+            "start_sec": 155.17,
+            "end_sec": 158.4,
+            "start_time": "2:35",
+            "end_time": "2:38",
+            "duration_sec": 3.2,
+            "won": true,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 4732,
+                    "time_sec": 157.733,
+                    "time_str": "2:37",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "5",
+                    "player_label": "ID 5",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 48,
+            "start_frame": 4752,
+            "end_frame": 4843,
+            "start_sec": 158.4,
+            "end_sec": 161.43,
+            "start_time": "2:38",
+            "end_time": "2:41",
+            "duration_sec": 3.0,
+            "won": false,
+            "main_action": "spike",
+            "main_action_label": "Attack",
+            "actions": [
+                {
+                    "frame": 4819,
+                    "time_sec": 160.633,
+                    "time_str": "2:40",
+                    "action": "spike",
+                    "action_label": "Attack",
+                    "player_id": "9",
+                    "player_label": "ID 9",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 49,
+            "start_frame": 4843,
+            "end_frame": 4938,
+            "start_sec": 161.43,
+            "end_sec": 164.6,
+            "start_time": "2:41",
+            "end_time": "2:44",
+            "duration_sec": 3.2,
+            "won": true,
+            "main_action": "spike",
+            "main_action_label": "Attack",
+            "actions": [
+                {
+                    "frame": 4900,
+                    "time_sec": 163.333,
+                    "time_str": "2:43",
+                    "action": "spike",
+                    "action_label": "Attack",
+                    "player_id": "5",
+                    "player_label": "ID 5",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 50,
+            "start_frame": 4938,
+            "end_frame": 5084,
+            "start_sec": 164.6,
+            "end_sec": 169.47,
+            "start_time": "2:44",
+            "end_time": "2:49",
+            "duration_sec": 4.9,
+            "won": true,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 5081,
+                    "time_sec": 169.367,
+                    "time_str": "2:49",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "1301",
+                    "player_label": "ID 1301",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 51,
+            "start_frame": 5084,
+            "end_frame": 5195,
+            "start_sec": 169.47,
+            "end_sec": 173.17,
+            "start_time": "2:49",
+            "end_time": "2:53",
+            "duration_sec": 3.7,
+            "won": true,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 5189,
+                    "time_sec": 172.967,
+                    "time_str": "2:52",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "1353",
+                    "player_label": "ID 1353",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 52,
+            "start_frame": 5195,
+            "end_frame": 5286,
+            "start_sec": 173.17,
+            "end_sec": 176.2,
+            "start_time": "2:53",
+            "end_time": "2:56",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 5283,
+                    "time_sec": 176.1,
+                    "time_str": "2:56",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "6",
+                    "player_label": "ID 6",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 53,
+            "start_frame": 5286,
+            "end_frame": 5380,
+            "start_sec": 176.2,
+            "end_sec": 179.33,
+            "start_time": "2:56",
+            "end_time": "2:59",
+            "duration_sec": 3.1,
+            "won": true,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 5370,
+                    "time_sec": 179.0,
+                    "time_str": "2:59",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "5",
+                    "player_label": "ID 5",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 54,
+            "start_frame": 5380,
+            "end_frame": 5479,
+            "start_sec": 179.33,
+            "end_sec": 182.63,
+            "start_time": "2:59",
+            "end_time": "3:02",
+            "duration_sec": 3.3,
+            "won": true,
+            "main_action": "serve",
+            "main_action_label": "Serve",
+            "actions": [
+                {
+                    "frame": 5472,
+                    "time_sec": 182.4,
+                    "time_str": "3:02",
+                    "action": "serve",
+                    "action_label": "Serve",
+                    "player_id": "1413",
+                    "player_label": "ID 1413",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 55,
+            "start_frame": 5479,
+            "end_frame": 5570,
+            "start_sec": 182.63,
+            "end_sec": 185.67,
+            "start_time": "3:02",
+            "end_time": "3:05",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "serve",
+            "main_action_label": "Serve",
+            "actions": [
+                {
+                    "frame": 5530,
+                    "time_sec": 184.333,
+                    "time_str": "3:04",
+                    "action": "serve",
+                    "action_label": "Serve",
+                    "player_id": "1440",
+                    "player_label": "ID 1440",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 56,
+            "start_frame": 5570,
+            "end_frame": 5661,
+            "start_sec": 185.67,
+            "end_sec": 188.7,
+            "start_time": "3:05",
+            "end_time": "3:08",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 5645,
+                    "time_sec": 188.167,
+                    "time_str": "3:08",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "1413",
+                    "player_label": "ID 1413",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 57,
+            "start_frame": 5661,
+            "end_frame": 5758,
+            "start_sec": 188.7,
+            "end_sec": 191.93,
+            "start_time": "3:08",
+            "end_time": "3:11",
+            "duration_sec": 3.2,
+            "won": true,
+            "main_action": "serve",
+            "main_action_label": "Serve",
+            "actions": [
+                {
+                    "frame": 5752,
+                    "time_sec": 191.733,
+                    "time_str": "3:11",
+                    "action": "serve",
+                    "action_label": "Serve",
+                    "player_id": "1499",
+                    "player_label": "ID 1499",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 58,
+            "start_frame": 5758,
+            "end_frame": 5852,
+            "start_sec": 191.93,
+            "end_sec": 195.07,
+            "start_time": "3:11",
+            "end_time": "3:15",
+            "duration_sec": 3.1,
+            "won": true,
+            "main_action": "serve",
+            "main_action_label": "Serve",
+            "actions": [
+                {
+                    "frame": 5849,
+                    "time_sec": 194.967,
+                    "time_str": "3:14",
+                    "action": "serve",
+                    "action_label": "Serve",
+                    "player_id": "1301",
+                    "player_label": "ID 1301",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 59,
+            "start_frame": 5852,
+            "end_frame": 5944,
+            "start_sec": 195.07,
+            "end_sec": 198.13,
+            "start_time": "3:15",
+            "end_time": "3:18",
+            "duration_sec": 3.1,
+            "won": true,
+            "main_action": "serve",
+            "main_action_label": "Serve",
+            "actions": [
+                {
+                    "frame": 5869,
+                    "time_sec": 195.633,
+                    "time_str": "3:15",
+                    "action": "serve",
+                    "action_label": "Serve",
+                    "player_id": "1301",
+                    "player_label": "ID 1301",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 60,
+            "start_frame": 5944,
+            "end_frame": 6043,
+            "start_sec": 198.13,
+            "end_sec": 201.43,
+            "start_time": "3:18",
+            "end_time": "3:21",
+            "duration_sec": 3.3,
+            "won": true,
+            "main_action": "serve",
+            "main_action_label": "Serve",
+            "actions": [
+                {
+                    "frame": 5991,
+                    "time_sec": 199.7,
+                    "time_str": "3:19",
+                    "action": "serve",
+                    "action_label": "Serve",
+                    "player_id": "5",
+                    "player_label": "ID 5",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 61,
+            "start_frame": 6043,
+            "end_frame": 6134,
+            "start_sec": 201.43,
+            "end_sec": 204.47,
+            "start_time": "3:21",
+            "end_time": "3:24",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 6134,
+                    "time_sec": 204.467,
+                    "time_str": "3:24",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "1587",
+                    "player_label": "ID 1587",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 62,
+            "start_frame": 6134,
+            "end_frame": 6232,
+            "start_sec": 204.47,
+            "end_sec": 207.73,
+            "start_time": "3:24",
+            "end_time": "3:27",
+            "duration_sec": 3.3,
+            "won": false,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 6225,
+                    "time_sec": 207.5,
+                    "time_str": "3:27",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "1551",
+                    "player_label": "ID 1551",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 63,
+            "start_frame": 6232,
+            "end_frame": 6323,
+            "start_sec": 207.73,
+            "end_sec": 210.77,
+            "start_time": "3:27",
+            "end_time": "3:30",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "spike",
+            "main_action_label": "Attack",
+            "actions": [
+                {
+                    "frame": 6321,
+                    "time_sec": 210.7,
+                    "time_str": "3:30",
+                    "action": "spike",
+                    "action_label": "Attack",
+                    "player_id": "1608",
+                    "player_label": "ID 1608",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 64,
+            "start_frame": 6323,
+            "end_frame": 6414,
+            "start_sec": 210.77,
+            "end_sec": 213.8,
+            "start_time": "3:30",
+            "end_time": "3:33",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "block",
+            "main_action_label": "Block",
+            "actions": [
+                {
+                    "frame": 6401,
+                    "time_sec": 213.367,
+                    "time_str": "3:33",
+                    "action": "block",
+                    "action_label": "Block",
+                    "player_id": "1656",
+                    "player_label": "ID 1656",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 65,
+            "start_frame": 6414,
+            "end_frame": 6521,
+            "start_sec": 213.8,
+            "end_sec": 217.37,
+            "start_time": "3:33",
+            "end_time": "3:37",
+            "duration_sec": 3.6,
+            "won": true,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 6510,
+                    "time_sec": 217.0,
+                    "time_str": "3:37",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "1692",
+                    "player_label": "ID 1692",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 66,
+            "start_frame": 6521,
+            "end_frame": 6663,
+            "start_sec": 217.37,
+            "end_sec": 222.1,
+            "start_time": "3:37",
+            "end_time": "3:42",
+            "duration_sec": 4.7,
+            "won": true,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 6663,
+                    "time_sec": 222.1,
+                    "time_str": "3:42",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "1727",
+                    "player_label": "ID 1727",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 67,
+            "start_frame": 6663,
+            "end_frame": 6754,
+            "start_sec": 222.1,
+            "end_sec": 225.13,
+            "start_time": "3:42",
+            "end_time": "3:45",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 6752,
+                    "time_sec": 225.067,
+                    "time_str": "3:45",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "1739",
+                    "player_label": "ID 1739",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 68,
+            "start_frame": 6754,
+            "end_frame": 6845,
+            "start_sec": 225.13,
+            "end_sec": 228.17,
+            "start_time": "3:45",
+            "end_time": "3:48",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "spike",
+            "main_action_label": "Attack",
+            "actions": [
+                {
+                    "frame": 6834,
+                    "time_sec": 227.8,
+                    "time_str": "3:47",
+                    "action": "spike",
+                    "action_label": "Attack",
+                    "player_id": "1769",
+                    "player_label": "ID 1769",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 69,
+            "start_frame": 6845,
+            "end_frame": 6936,
+            "start_sec": 228.17,
+            "end_sec": 231.2,
+            "start_time": "3:48",
+            "end_time": "3:51",
+            "duration_sec": 3.0,
+            "won": true,
+            "main_action": "spike",
+            "main_action_label": "Attack",
+            "actions": [
+                {
+                    "frame": 6916,
+                    "time_sec": 230.533,
+                    "time_str": "3:50",
+                    "action": "spike",
+                    "action_label": "Attack",
+                    "player_id": "1750",
+                    "player_label": "ID 1750",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 70,
+            "start_frame": 6936,
+            "end_frame": 7041,
+            "start_sec": 231.2,
+            "end_sec": 234.7,
+            "start_time": "3:51",
+            "end_time": "3:54",
+            "duration_sec": 3.5,
+            "won": false,
+            "main_action": "spike",
+            "main_action_label": "Attack",
+            "actions": [
+                {
+                    "frame": 7006,
+                    "time_sec": 233.533,
+                    "time_str": "3:53",
+                    "action": "spike",
+                    "action_label": "Attack",
+                    "player_id": "5",
+                    "player_label": "ID 5",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 71,
+            "start_frame": 7041,
+            "end_frame": 7157,
+            "start_sec": 234.7,
+            "end_sec": 238.57,
+            "start_time": "3:54",
+            "end_time": "3:58",
+            "duration_sec": 3.9,
+            "won": true,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 7157,
+                    "time_sec": 238.567,
+                    "time_str": "3:58",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "1879",
+                    "player_label": "ID 1879",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 72,
+            "start_frame": 7157,
+            "end_frame": 7326,
+            "start_sec": 238.57,
+            "end_sec": 244.2,
+            "start_time": "3:58",
+            "end_time": "4:04",
+            "duration_sec": 5.6,
+            "won": true,
+            "main_action": "spike",
+            "main_action_label": "Attack",
+            "actions": [
+                {
+                    "frame": 7296,
+                    "time_sec": 243.2,
+                    "time_str": "4:03",
+                    "action": "spike",
+                    "action_label": "Attack",
+                    "player_id": "1904",
+                    "player_label": "ID 1904",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 73,
+            "start_frame": 7326,
+            "end_frame": 7422,
+            "start_sec": 244.2,
+            "end_sec": 247.4,
+            "start_time": "4:04",
+            "end_time": "4:07",
+            "duration_sec": 3.2,
+            "won": false,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 7422,
+                    "time_sec": 247.4,
+                    "time_str": "4:07",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "1936",
+                    "player_label": "ID 1936",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 74,
+            "start_frame": 7422,
+            "end_frame": 7543,
+            "start_sec": 247.4,
+            "end_sec": 251.43,
+            "start_time": "4:07",
+            "end_time": "4:11",
+            "duration_sec": 4.0,
+            "won": true,
+            "main_action": "spike",
+            "main_action_label": "Attack",
+            "actions": [
+                {
+                    "frame": 7436,
+                    "time_sec": 247.867,
+                    "time_str": "4:07",
+                    "action": "spike",
+                    "action_label": "Attack",
+                    "player_id": "1936",
+                    "player_label": "ID 1936",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 75,
+            "start_frame": 7543,
+            "end_frame": 7643,
+            "start_sec": 251.43,
+            "end_sec": 254.77,
+            "start_time": "4:11",
+            "end_time": "4:14",
+            "duration_sec": 3.3,
+            "won": true,
+            "main_action": "defence",
+            "main_action_label": "Defence",
+            "actions": [
+                {
+                    "frame": 7634,
+                    "time_sec": 254.467,
+                    "time_str": "4:14",
+                    "action": "defence",
+                    "action_label": "Defence",
+                    "player_id": "1997",
+                    "player_label": "ID 1997",
+                    "result": "in_play"
+                }
+            ]
+        },
+        {
+            "rally_number": 76,
+            "start_frame": 7643,
+            "end_frame": 7740,
+            "start_sec": 254.77,
+            "end_sec": 258.0,
+            "start_time": "4:14",
+            "end_time": "4:18",
+            "duration_sec": 3.2,
+            "won": true,
+            "main_action": "serve",
+            "main_action_label": "Serve",
+            "actions": [
+                {
+                    "frame": 7711,
+                    "time_sec": 257.033,
+                    "time_str": "4:17",
+                    "action": "serve",
+                    "action_label": "Serve",
+                    "player_id": "1997",
+                    "player_label": "ID 1997",
+                    "result": "in_play"
+                }
+            ]
+        }
+    ]
+}

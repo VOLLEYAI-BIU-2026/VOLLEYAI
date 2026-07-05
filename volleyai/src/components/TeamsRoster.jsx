@@ -161,7 +161,10 @@ export default function TeamsRoster() {
     return (
         <div className="tr-page">
             <div className="tr-topbar">
-                <h1 className="tr-title">Player Identification</h1>
+                <div className="tr-topbarLeft">
+                    <button className="tr-backBtn" onClick={() => navigate(-1)}>←</button>
+                    <h1 className="tr-title">Player Identification</h1>
+                </div>
                 <button className="tr-saveBtn" onClick={handleFinish}>
                     Save & Finish
                 </button>

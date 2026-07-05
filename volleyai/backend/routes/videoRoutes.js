@@ -10,7 +10,6 @@ const {
     listVideos,
     updateTeamNames,
     getVideoById,
-    saveCourtSetup,
     startCleanFrame,
     startPlayerDetection,
     getTeamRoster,
@@ -28,7 +27,9 @@ const {
     getRallyAnalysis,
     startAnalysis,
     getAnalysisStatus,
+    recoverAnalysis,
     saveJerseys,
+    saveCourtCalibration,
 } = require("../controllers/videoController");
 
 const uploadDir = path.join(__dirname, "..", "uploads");
@@ -56,14 +57,16 @@ router.get("/player-registry", requireAuth, getPlayerRegistry);
 router.post("/player-registry", requireAuth, updatePlayerRegistry);
 router.post("/player-registry/recalculate", requireAuth, saveAndRecalculate);
 router.get("/rally-analysis", requireAuth, getRallyAnalysis);
+router.get("/:id/rally-analysis", requireAuth, getRallyAnalysis);
 router.patch("/:id/teams", requireAuth, updateTeamNames);
 router.post("/:id/jerseys", requireAuth, saveJerseys);
 router.post("/:id/start-analysis", requireAuth, startAnalysis);
 router.get("/:id/analysis-status", requireAuth, getAnalysisStatus);
+router.post("/:id/recover-analysis", requireAuth, recoverAnalysis);
+router.post("/:id/calibrate", requireAuth, saveCourtCalibration);
 
 router.post("/:id/clean-frame", requireAuth, startCleanFrame);
 router.get("/:id", requireAuth, getVideoById);
-router.post("/:id/court-setup", requireAuth, saveCourtSetup);
 router.post("/:id/detect-players", requireAuth, startPlayerDetection);
 router.get("/:id/team-roster", requireAuth, getTeamRoster);
 router.post("/:id/reset-player-detection", requireAuth, resetPlayerDetection);

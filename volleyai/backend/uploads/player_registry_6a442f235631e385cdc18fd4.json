@@ -1,0 +1,2226 @@
+{
+    "1": {
+        "jersey": 8,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_8.jpg",
+        "event_count": 19,
+        "team": "ours"
+    },
+    "2": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id2.jpg",
+        "event_count": 1,
+        "team": "unknown"
+    },
+    "4": {
+        "jersey": 5,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_5.jpg",
+        "event_count": 2,
+        "team": "ours"
+    },
+    "5": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id5.jpg",
+        "event_count": 342,
+        "team": "ours"
+    },
+    "7": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id7.jpg",
+        "event_count": 12,
+        "team": "ours"
+    },
+    "11": {
+        "jersey": 9,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_9.jpg",
+        "event_count": 30,
+        "team": "ours"
+    },
+    "13": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id13.jpg",
+        "event_count": 14,
+        "team": "ours"
+    },
+    "19": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id19.jpg",
+        "event_count": 12,
+        "team": "opp"
+    },
+    "38": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id38.jpg",
+        "event_count": 1,
+        "team": "opp"
+    },
+    "41": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id41.jpg",
+        "event_count": 8,
+        "team": "opp"
+    },
+    "63": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id63.jpg",
+        "event_count": 9,
+        "team": "ours"
+    },
+    "72": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id72.jpg",
+        "event_count": 13,
+        "team": "ours"
+    },
+    "81": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id81.jpg",
+        "event_count": 22,
+        "team": "ours"
+    },
+    "85": {
+        "jersey": 55,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_55.jpg",
+        "event_count": 5,
+        "team": "ours"
+    },
+    "116": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id116.jpg",
+        "event_count": 22,
+        "team": "ours"
+    },
+    "117": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id117.jpg",
+        "event_count": 9,
+        "team": "ours"
+    },
+    "123": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id123.jpg",
+        "event_count": 13,
+        "team": "opp"
+    },
+    "126": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id126.jpg",
+        "event_count": 1,
+        "team": "ours"
+    },
+    "147": {
+        "jersey": 9,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_9.jpg",
+        "event_count": 32,
+        "team": "ours"
+    },
+    "148": {
+        "jersey": 6,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_6.jpg",
+        "event_count": 17,
+        "team": "ours"
+    },
+    "150": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id150.jpg",
+        "event_count": 24,
+        "team": "ours"
+    },
+    "164": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id164.jpg",
+        "event_count": 2,
+        "team": "ours"
+    },
+    "165": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id165.jpg",
+        "event_count": 3,
+        "team": "ours"
+    },
+    "174": {
+        "jersey": 8,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_8.jpg",
+        "event_count": 6,
+        "team": "ours"
+    },
+    "176": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id176.jpg",
+        "event_count": 4,
+        "team": "ours"
+    },
+    "181": {
+        "jersey": 5,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_5.jpg",
+        "event_count": 12,
+        "team": "ours"
+    },
+    "183": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id183.jpg",
+        "event_count": 2,
+        "team": "opp"
+    },
+    "186": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id186.jpg",
+        "event_count": 16,
+        "team": "ours"
+    },
+    "192": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id192.jpg",
+        "event_count": 19,
+        "team": "unknown"
+    },
+    "200": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id200.jpg",
+        "event_count": 2,
+        "team": "ours"
+    },
+    "205": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id205.jpg",
+        "event_count": 28,
+        "team": "ours"
+    },
+    "224": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id224.jpg",
+        "event_count": 26,
+        "team": "opp"
+    },
+    "231": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id231.jpg",
+        "event_count": 23,
+        "team": "ours"
+    },
+    "235": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id235.jpg",
+        "event_count": 4,
+        "team": "ours"
+    },
+    "246": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id246.jpg",
+        "event_count": 1,
+        "team": "ours"
+    },
+    "254": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id254.jpg",
+        "event_count": 14,
+        "team": "unknown"
+    },
+    "256": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id256.jpg",
+        "event_count": 86,
+        "team": "ours"
+    },
+    "257": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id257.jpg",
+        "event_count": 1,
+        "team": "ours"
+    },
+    "258": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id258.jpg",
+        "event_count": 24,
+        "team": "opp"
+    },
+    "259": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id259.jpg",
+        "event_count": 1,
+        "team": "unknown"
+    },
+    "265": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id265.jpg",
+        "event_count": 17,
+        "team": "ours"
+    },
+    "268": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id268.jpg",
+        "event_count": 7,
+        "team": "ours"
+    },
+    "269": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id269.jpg",
+        "event_count": 32,
+        "team": "opp"
+    },
+    "279": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id279.jpg",
+        "event_count": 15,
+        "team": "ours"
+    },
+    "289": {
+        "jersey": 5,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_5.jpg",
+        "event_count": 2,
+        "team": "ours"
+    },
+    "297": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id297.jpg",
+        "event_count": 8,
+        "team": "unknown"
+    },
+    "312": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id312.jpg",
+        "event_count": 5,
+        "team": "opp"
+    },
+    "318": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id318.jpg",
+        "event_count": 6,
+        "team": "ours"
+    },
+    "331": {
+        "jersey": 8,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_8.jpg",
+        "event_count": 21,
+        "team": "ours"
+    },
+    "332": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id332.jpg",
+        "event_count": 4,
+        "team": "ours"
+    },
+    "333": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id333.jpg",
+        "event_count": 16,
+        "team": "ours"
+    },
+    "334": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id334.jpg",
+        "event_count": 39,
+        "team": "ours"
+    },
+    "335": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id335.jpg",
+        "event_count": 2,
+        "team": "ours"
+    },
+    "336": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id336.jpg",
+        "event_count": 5,
+        "team": "ours"
+    },
+    "338": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id338.jpg",
+        "event_count": 10,
+        "team": "ours"
+    },
+    "339": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id339.jpg",
+        "event_count": 22,
+        "team": "ours"
+    },
+    "345": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id345.jpg",
+        "event_count": 12,
+        "team": "ours"
+    },
+    "375": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id375.jpg",
+        "event_count": 1,
+        "team": "opp"
+    },
+    "381": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id381.jpg",
+        "event_count": 1,
+        "team": "unknown"
+    },
+    "387": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id387.jpg",
+        "event_count": 4,
+        "team": "ours"
+    },
+    "391": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id391.jpg",
+        "event_count": 5,
+        "team": "opp"
+    },
+    "392": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id392.jpg",
+        "event_count": 8,
+        "team": "unknown"
+    },
+    "396": {
+        "jersey": 5,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_5.jpg",
+        "event_count": 2,
+        "team": "ours"
+    },
+    "421": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id421.jpg",
+        "event_count": 20,
+        "team": "opp"
+    },
+    "431": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id431.jpg",
+        "event_count": 2,
+        "team": "ours"
+    },
+    "440": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id440.jpg",
+        "event_count": 1,
+        "team": "ours"
+    },
+    "444": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id444.jpg",
+        "event_count": 46,
+        "team": "ours"
+    },
+    "446": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id446.jpg",
+        "event_count": 15,
+        "team": "opp"
+    },
+    "463": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id463.jpg",
+        "event_count": 17,
+        "team": "unknown"
+    },
+    "467": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id467.jpg",
+        "event_count": 3,
+        "team": "ours"
+    },
+    "477": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id477.jpg",
+        "event_count": 34,
+        "team": "ours"
+    },
+    "484": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id484.jpg",
+        "event_count": 4,
+        "team": "ours"
+    },
+    "491": {
+        "jersey": 8,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_8.jpg",
+        "event_count": 7,
+        "team": "ours"
+    },
+    "492": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id492.jpg",
+        "event_count": 34,
+        "team": "opp"
+    },
+    "505": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id505.jpg",
+        "event_count": 2,
+        "team": "unknown"
+    },
+    "507": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id507.jpg",
+        "event_count": 7,
+        "team": "ours"
+    },
+    "512": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id512.jpg",
+        "event_count": 37,
+        "team": "ours"
+    },
+    "518": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id518.jpg",
+        "event_count": 17,
+        "team": "opp"
+    },
+    "519": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id519.jpg",
+        "event_count": 1,
+        "team": "ours"
+    },
+    "524": {
+        "jersey": 5,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_5.jpg",
+        "event_count": 12,
+        "team": "ours"
+    },
+    "536": {
+        "jersey": 9,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_9.jpg",
+        "event_count": 1,
+        "team": "ours"
+    },
+    "548": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id548.jpg",
+        "event_count": 10,
+        "team": "ours"
+    },
+    "557": {
+        "jersey": 9,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_9.jpg",
+        "event_count": 18,
+        "team": "ours"
+    },
+    "560": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id560.jpg",
+        "event_count": 8,
+        "team": "ours"
+    },
+    "562": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id562.jpg",
+        "event_count": 6,
+        "team": "ours"
+    },
+    "564": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id564.jpg",
+        "event_count": 1,
+        "team": "opp"
+    },
+    "565": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id565.jpg",
+        "event_count": 2,
+        "team": "ours"
+    },
+    "572": {
+        "jersey": 5,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_5.jpg",
+        "event_count": 14,
+        "team": "ours"
+    },
+    "577": {
+        "jersey": 9,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_9.jpg",
+        "event_count": 26,
+        "team": "ours"
+    },
+    "579": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id579.jpg",
+        "event_count": 2,
+        "team": "ours"
+    },
+    "591": {
+        "jersey": 12,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_12.jpg",
+        "event_count": 1,
+        "team": "ours"
+    },
+    "602": {
+        "jersey": 5,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_5.jpg",
+        "event_count": 17,
+        "team": "ours"
+    },
+    "618": {
+        "jersey": 5,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_5.jpg",
+        "event_count": 1,
+        "team": "ours"
+    },
+    "641": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id641.jpg",
+        "event_count": 46,
+        "team": "ours"
+    },
+    "652": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id652.jpg",
+        "event_count": 10,
+        "team": "ours"
+    },
+    "653": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id653.jpg",
+        "event_count": 8,
+        "team": "ours"
+    },
+    "656": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id656.jpg",
+        "event_count": 20,
+        "team": "ours"
+    },
+    "662": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id662.jpg",
+        "event_count": 7,
+        "team": "ours"
+    },
+    "663": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id663.jpg",
+        "event_count": 1,
+        "team": "unknown"
+    },
+    "666": {
+        "jersey": 8,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_8.jpg",
+        "event_count": 24,
+        "team": "ours"
+    },
+    "667": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id667.jpg",
+        "event_count": 3,
+        "team": "ours"
+    },
+    "668": {
+        "jersey": 15,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_15.jpg",
+        "event_count": 40,
+        "team": "ours"
+    },
+    "674": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id674.jpg",
+        "event_count": 7,
+        "team": "ours"
+    },
+    "687": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id687.jpg",
+        "event_count": 13,
+        "team": "opp"
+    },
+    "713": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id713.jpg",
+        "event_count": 4,
+        "team": "ours"
+    },
+    "722": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id722.jpg",
+        "event_count": 44,
+        "team": "ours"
+    },
+    "733": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id733.jpg",
+        "event_count": 1,
+        "team": "ours"
+    },
+    "743": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id743.jpg",
+        "event_count": 18,
+        "team": "ours"
+    },
+    "744": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id744.jpg",
+        "event_count": 5,
+        "team": "ours"
+    },
+    "745": {
+        "jersey": 5,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_5.jpg",
+        "event_count": 10,
+        "team": "ours"
+    },
+    "748": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id748.jpg",
+        "event_count": 3,
+        "team": "opp"
+    },
+    "770": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id770.jpg",
+        "event_count": 22,
+        "team": "opp"
+    },
+    "779": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id779.jpg",
+        "event_count": 8,
+        "team": "unknown"
+    },
+    "780": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id780.jpg",
+        "event_count": 16,
+        "team": "ours"
+    },
+    "782": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id782.jpg",
+        "event_count": 1,
+        "team": "ours"
+    },
+    "797": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id797.jpg",
+        "event_count": 3,
+        "team": "unknown"
+    },
+    "801": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id801.jpg",
+        "event_count": 8,
+        "team": "ours"
+    },
+    "827": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id827.jpg",
+        "event_count": 2,
+        "team": "ours"
+    },
+    "831": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id831.jpg",
+        "event_count": 19,
+        "team": "ours"
+    },
+    "832": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id832.jpg",
+        "event_count": 3,
+        "team": "ours"
+    },
+    "833": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id833.jpg",
+        "event_count": 8,
+        "team": "ours"
+    },
+    "834": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id834.jpg",
+        "event_count": 4,
+        "team": "ours"
+    },
+    "848": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id848.jpg",
+        "event_count": 4,
+        "team": "ours"
+    },
+    "849": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id849.jpg",
+        "event_count": 1,
+        "team": "unknown"
+    },
+    "850": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id850.jpg",
+        "event_count": 9,
+        "team": "opp"
+    },
+    "854": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id854.jpg",
+        "event_count": 3,
+        "team": "ours"
+    },
+    "857": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id857.jpg",
+        "event_count": 10,
+        "team": "unknown"
+    },
+    "863": {
+        "jersey": 5,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_5.jpg",
+        "event_count": 5,
+        "team": "ours"
+    },
+    "869": {
+        "jersey": 6,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_6.jpg",
+        "event_count": 20,
+        "team": "ours"
+    },
+    "885": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id885.jpg",
+        "event_count": 1,
+        "team": "opp"
+    },
+    "899": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id899.jpg",
+        "event_count": 22,
+        "team": "ours"
+    },
+    "934": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id934.jpg",
+        "event_count": 12,
+        "team": "ours"
+    },
+    "935": {
+        "jersey": 3,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_3.jpg",
+        "event_count": 11,
+        "team": "ours"
+    },
+    "963": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id963.jpg",
+        "event_count": 3,
+        "team": "ours"
+    },
+    "964": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id964.jpg",
+        "event_count": 7,
+        "team": "ours"
+    },
+    "986": {
+        "jersey": 9,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_9.jpg",
+        "event_count": 27,
+        "team": "ours"
+    },
+    "991": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id991.jpg",
+        "event_count": 4,
+        "team": "ours"
+    },
+    "993": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id993.jpg",
+        "event_count": 4,
+        "team": "ours"
+    },
+    "994": {
+        "jersey": 9,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_9.jpg",
+        "event_count": 5,
+        "team": "ours"
+    },
+    "1009": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1009.jpg",
+        "event_count": 12,
+        "team": "opp"
+    },
+    "1011": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1011.jpg",
+        "event_count": 1,
+        "team": "ours"
+    },
+    "1021": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1021.jpg",
+        "event_count": 1,
+        "team": "ours"
+    },
+    "1022": {
+        "jersey": 5,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_5.jpg",
+        "event_count": 2,
+        "team": "ours"
+    },
+    "1026": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1026.jpg",
+        "event_count": 24,
+        "team": "ours"
+    },
+    "1033": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1033.jpg",
+        "event_count": 39,
+        "team": "ours"
+    },
+    "1034": {
+        "jersey": 5,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_5.jpg",
+        "event_count": 27,
+        "team": "ours"
+    },
+    "1043": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1043.jpg",
+        "event_count": 11,
+        "team": "unknown"
+    },
+    "1051": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1051.jpg",
+        "event_count": 8,
+        "team": "opp"
+    },
+    "1066": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1066.jpg",
+        "event_count": 43,
+        "team": "ours"
+    },
+    "1069": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1069.jpg",
+        "event_count": 7,
+        "team": "ours"
+    },
+    "1075": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1075.jpg",
+        "event_count": 13,
+        "team": "ours"
+    },
+    "1081": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1081.jpg",
+        "event_count": 4,
+        "team": "ours"
+    },
+    "1083": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1083.jpg",
+        "event_count": 3,
+        "team": "ours"
+    },
+    "1096": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1096.jpg",
+        "event_count": 3,
+        "team": "unknown"
+    },
+    "1109": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1109.jpg",
+        "event_count": 43,
+        "team": "opp"
+    },
+    "1110": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1110.jpg",
+        "event_count": 2,
+        "team": "unknown"
+    },
+    "1113": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1113.jpg",
+        "event_count": 3,
+        "team": "opp"
+    },
+    "1141": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1141.jpg",
+        "event_count": 9,
+        "team": "ours"
+    },
+    "1144": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1144.jpg",
+        "event_count": 10,
+        "team": "ours"
+    },
+    "1148": {
+        "jersey": 9,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_9.jpg",
+        "event_count": 32,
+        "team": "ours"
+    },
+    "1153": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1153.jpg",
+        "event_count": 12,
+        "team": "ours"
+    },
+    "1156": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1156.jpg",
+        "event_count": 31,
+        "team": "ours"
+    },
+    "1158": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1158.jpg",
+        "event_count": 8,
+        "team": "unknown"
+    },
+    "1160": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1160.jpg",
+        "event_count": 4,
+        "team": "ours"
+    },
+    "1163": {
+        "jersey": 15,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_15.jpg",
+        "event_count": 3,
+        "team": "ours"
+    },
+    "1168": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1168.jpg",
+        "event_count": 4,
+        "team": "opp"
+    },
+    "1172": {
+        "jersey": 6,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_6.jpg",
+        "event_count": 3,
+        "team": "ours"
+    },
+    "1176": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1176.jpg",
+        "event_count": 1,
+        "team": "opp"
+    },
+    "1180": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1180.jpg",
+        "event_count": 4,
+        "team": "ours"
+    },
+    "1235": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1235.jpg",
+        "event_count": 41,
+        "team": "ours"
+    },
+    "1255": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1255.jpg",
+        "event_count": 5,
+        "team": "ours"
+    },
+    "1258": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1258.jpg",
+        "event_count": 15,
+        "team": "ours"
+    },
+    "1262": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1262.jpg",
+        "event_count": 4,
+        "team": "unknown"
+    },
+    "1271": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1271.jpg",
+        "event_count": 16,
+        "team": "opp"
+    },
+    "1272": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1272.jpg",
+        "event_count": 10,
+        "team": "ours"
+    },
+    "1275": {
+        "jersey": 5,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_5.jpg",
+        "event_count": 22,
+        "team": "ours"
+    },
+    "1277": {
+        "jersey": 8,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_8.jpg",
+        "event_count": 8,
+        "team": "ours"
+    },
+    "1297": {
+        "jersey": 6,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_6.jpg",
+        "event_count": 5,
+        "team": "ours"
+    },
+    "1301": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1301.jpg",
+        "event_count": 72,
+        "team": "ours"
+    },
+    "1302": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1302.jpg",
+        "event_count": 9,
+        "team": "ours"
+    },
+    "1329": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1329.jpg",
+        "event_count": 4,
+        "team": "opp"
+    },
+    "1339": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1339.jpg",
+        "event_count": 1,
+        "team": "ours"
+    },
+    "1348": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1348.jpg",
+        "event_count": 16,
+        "team": "ours"
+    },
+    "1350": {
+        "jersey": 2,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_2.jpg",
+        "event_count": 3,
+        "team": "ours"
+    },
+    "1351": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1351.jpg",
+        "event_count": 4,
+        "team": "ours"
+    },
+    "1353": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1353.jpg",
+        "event_count": 4,
+        "team": "ours"
+    },
+    "1376": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1376.jpg",
+        "event_count": 1,
+        "team": "ours"
+    },
+    "1386": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1386.jpg",
+        "event_count": 16,
+        "team": "ours"
+    },
+    "1405": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1405.jpg",
+        "event_count": 10,
+        "team": "opp"
+    },
+    "1413": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1413.jpg",
+        "event_count": 21,
+        "team": "ours"
+    },
+    "1416": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1416.jpg",
+        "event_count": 33,
+        "team": "ours"
+    },
+    "1417": {
+        "jersey": 2,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_2.jpg",
+        "event_count": 1,
+        "team": "ours"
+    },
+    "1430": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1430.jpg",
+        "event_count": 4,
+        "team": "ours"
+    },
+    "1440": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1440.jpg",
+        "event_count": 1,
+        "team": "unknown"
+    },
+    "1451": {
+        "jersey": 2,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_2.jpg",
+        "event_count": 3,
+        "team": "ours"
+    },
+    "1454": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1454.jpg",
+        "event_count": 25,
+        "team": "ours"
+    },
+    "1497": {
+        "jersey": 5,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_5.jpg",
+        "event_count": 2,
+        "team": "ours"
+    },
+    "1499": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1499.jpg",
+        "event_count": 25,
+        "team": "ours"
+    },
+    "1519": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1519.jpg",
+        "event_count": 10,
+        "team": "ours"
+    },
+    "1534": {
+        "jersey": 8,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_8.jpg",
+        "event_count": 7,
+        "team": "ours"
+    },
+    "1543": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1543.jpg",
+        "event_count": 1,
+        "team": "opp"
+    },
+    "1551": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1551.jpg",
+        "event_count": 5,
+        "team": "ours"
+    },
+    "1556": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1556.jpg",
+        "event_count": 14,
+        "team": "ours"
+    },
+    "1563": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1563.jpg",
+        "event_count": 25,
+        "team": "ours"
+    },
+    "1565": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1565.jpg",
+        "event_count": 21,
+        "team": "unknown"
+    },
+    "1567": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1567.jpg",
+        "event_count": 6,
+        "team": "ours"
+    },
+    "1577": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1577.jpg",
+        "event_count": 37,
+        "team": "ours"
+    },
+    "1579": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1579.jpg",
+        "event_count": 27,
+        "team": "ours"
+    },
+    "1584": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1584.jpg",
+        "event_count": 3,
+        "team": "ours"
+    },
+    "1587": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1587.jpg",
+        "event_count": 7,
+        "team": "unknown"
+    },
+    "1598": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1598.jpg",
+        "event_count": 29,
+        "team": "opp"
+    },
+    "1608": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1608.jpg",
+        "event_count": 27,
+        "team": "ours"
+    },
+    "1616": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1616.jpg",
+        "event_count": 4,
+        "team": "unknown"
+    },
+    "1617": {
+        "jersey": 6,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_6.jpg",
+        "event_count": 31,
+        "team": "ours"
+    },
+    "1620": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1620.jpg",
+        "event_count": 17,
+        "team": "opp"
+    },
+    "1627": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1627.jpg",
+        "event_count": 1,
+        "team": "unknown"
+    },
+    "1638": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1638.jpg",
+        "event_count": 11,
+        "team": "ours"
+    },
+    "1642": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1642.jpg",
+        "event_count": 7,
+        "team": "unknown"
+    },
+    "1645": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1645.jpg",
+        "event_count": 12,
+        "team": "opp"
+    },
+    "1653": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1653.jpg",
+        "event_count": 1,
+        "team": "unknown"
+    },
+    "1656": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1656.jpg",
+        "event_count": 10,
+        "team": "ours"
+    },
+    "1673": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1673.jpg",
+        "event_count": 8,
+        "team": "ours"
+    },
+    "1691": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1691.jpg",
+        "event_count": 13,
+        "team": "ours"
+    },
+    "1692": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1692.jpg",
+        "event_count": 15,
+        "team": "ours"
+    },
+    "1706": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1706.jpg",
+        "event_count": 16,
+        "team": "ours"
+    },
+    "1708": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1708.jpg",
+        "event_count": 7,
+        "team": "ours"
+    },
+    "1727": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1727.jpg",
+        "event_count": 4,
+        "team": "ours"
+    },
+    "1729": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1729.jpg",
+        "event_count": 30,
+        "team": "ours"
+    },
+    "1736": {
+        "jersey": 6,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_6.jpg",
+        "event_count": 5,
+        "team": "ours"
+    },
+    "1737": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1737.jpg",
+        "event_count": 8,
+        "team": "unknown"
+    },
+    "1739": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1739.jpg",
+        "event_count": 2,
+        "team": "opp"
+    },
+    "1741": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1741.jpg",
+        "event_count": 1,
+        "team": "ours"
+    },
+    "1743": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1743.jpg",
+        "event_count": 22,
+        "team": "ours"
+    },
+    "1750": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1750.jpg",
+        "event_count": 45,
+        "team": "opp"
+    },
+    "1755": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1755.jpg",
+        "event_count": 14,
+        "team": "opp"
+    },
+    "1760": {
+        "jersey": 9,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_9.jpg",
+        "event_count": 5,
+        "team": "ours"
+    },
+    "1764": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1764.jpg",
+        "event_count": 5,
+        "team": "ours"
+    },
+    "1767": {
+        "jersey": 3,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_3.jpg",
+        "event_count": 5,
+        "team": "ours"
+    },
+    "1769": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1769.jpg",
+        "event_count": 17,
+        "team": "ours"
+    },
+    "1770": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1770.jpg",
+        "event_count": 11,
+        "team": "ours"
+    },
+    "1778": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1778.jpg",
+        "event_count": 4,
+        "team": "ours"
+    },
+    "1785": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1785.jpg",
+        "event_count": 13,
+        "team": "opp"
+    },
+    "1786": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1786.jpg",
+        "event_count": 6,
+        "team": "unknown"
+    },
+    "1790": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1790.jpg",
+        "event_count": 6,
+        "team": "ours"
+    },
+    "1791": {
+        "jersey": 6,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_6.jpg",
+        "event_count": 10,
+        "team": "ours"
+    },
+    "1806": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1806.jpg",
+        "event_count": 16,
+        "team": "ours"
+    },
+    "1810": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1810.jpg",
+        "event_count": 1,
+        "team": "ours"
+    },
+    "1815": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1815.jpg",
+        "event_count": 4,
+        "team": "ours"
+    },
+    "1818": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1818.jpg",
+        "event_count": 1,
+        "team": "opp"
+    },
+    "1832": {
+        "jersey": 12,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_12.jpg",
+        "event_count": 19,
+        "team": "ours"
+    },
+    "1839": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1839.jpg",
+        "event_count": 5,
+        "team": "opp"
+    },
+    "1842": {
+        "jersey": 2,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_2.jpg",
+        "event_count": 1,
+        "team": "ours"
+    },
+    "1847": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1847.jpg",
+        "event_count": 5,
+        "team": "ours"
+    },
+    "1851": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1851.jpg",
+        "event_count": 3,
+        "team": "unknown"
+    },
+    "1859": {
+        "jersey": 8,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_8.jpg",
+        "event_count": 37,
+        "team": "ours"
+    },
+    "1875": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1875.jpg",
+        "event_count": 2,
+        "team": "ours"
+    },
+    "1879": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1879.jpg",
+        "event_count": 9,
+        "team": "ours"
+    },
+    "1890": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1890.jpg",
+        "event_count": 17,
+        "team": "opp"
+    },
+    "1904": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1904.jpg",
+        "event_count": 9,
+        "team": "ours"
+    },
+    "1913": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1913.jpg",
+        "event_count": 6,
+        "team": "ours"
+    },
+    "1918": {
+        "jersey": 8,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_8.jpg",
+        "event_count": 2,
+        "team": "ours"
+    },
+    "1919": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1919.jpg",
+        "event_count": 4,
+        "team": "unknown"
+    },
+    "1920": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1920.jpg",
+        "event_count": 31,
+        "team": "ours"
+    },
+    "1922": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1922.jpg",
+        "event_count": 18,
+        "team": "ours"
+    },
+    "1923": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1923.jpg",
+        "event_count": 4,
+        "team": "ours"
+    },
+    "1931": {
+        "jersey": 2,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_2.jpg",
+        "event_count": 14,
+        "team": "ours"
+    },
+    "1936": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1936.jpg",
+        "event_count": 23,
+        "team": "opp"
+    },
+    "1945": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1945.jpg",
+        "event_count": 9,
+        "team": "ours"
+    },
+    "1968": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1968.jpg",
+        "event_count": 33,
+        "team": "ours"
+    },
+    "1977": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1977.jpg",
+        "event_count": 1,
+        "team": "unknown"
+    },
+    "1995": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1995.jpg",
+        "event_count": 7,
+        "team": "ours"
+    },
+    "1997": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id1997.jpg",
+        "event_count": 55,
+        "team": "ours"
+    },
+    "2003": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id2003.jpg",
+        "event_count": 1,
+        "team": "ours"
+    },
+    "2014": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id2014.jpg",
+        "event_count": 1,
+        "team": "unknown"
+    },
+    "2040": {
+        "jersey": 2,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\jersey_2.jpg",
+        "event_count": 10,
+        "team": "ours"
+    },
+    "2047": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id2047.jpg",
+        "event_count": 9,
+        "team": "opp"
+    },
+    "2056": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id2056.jpg",
+        "event_count": 3,
+        "team": "ours"
+    },
+    "2075": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\uploads\\player_thumbs_6a442f235631e385cdc18fd4\\unknown_id2075.jpg",
+        "event_count": 5,
+        "team": "opp"
+    }
+}

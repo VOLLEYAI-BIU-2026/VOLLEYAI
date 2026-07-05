@@ -1,0 +1,9 @@
+ultralytics>=8.3
+opencv-python-headless>=4.9
+numpy>=1.26
+easyocr>=1.7
+tqdm>=4.66
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch>=2.2
+torchvision>=0.17
+scipy>=1.12

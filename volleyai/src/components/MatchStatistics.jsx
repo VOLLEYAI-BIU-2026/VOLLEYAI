@@ -4,7 +4,7 @@ import "./MatchStatistics.css";
 
 const API = "http://localhost:5000";
 
-const TABS = ["Attack", "Serve", "Receive", "Set", "Dig", "Block"];
+const TABS = ["Attack", "Serve", "Receive", "Set", "Defence", "Block"];
 
 function fmt(val, decimals = 0) {
   if (val === null || val === undefined) return "-";
@@ -101,8 +101,8 @@ export default function MatchStatistics() {
       p.serve?.SA ?? 0,
       p.serve?.SE ?? 0,
       p.set?.AST ?? 0,
-      p.dig?.DS ?? 0,
-      p.dig?.DE ?? 0,
+      p.defence?.DS ?? 0,
+      p.defence?.DE ?? 0,
       p.block?.BS ?? 0,
       p.block?.BA ?? 0,
     ]);
@@ -129,7 +129,12 @@ export default function MatchStatistics() {
               <h1 className="ms-title">Player Statistics</h1>
             </div>
           </div>
-          <button className="ms-exportBtn" onClick={exportCSV}>↓ Export CSV</button>
+          <div className="ms-headerRight">
+            <button className="ms-registryBtn" onClick={() => navigate("/player-registry")}>
+              Player Registry
+            </button>
+            <button className="ms-exportBtn" onClick={exportCSV}>↓ Export CSV</button>
+          </div>
         </div>
 
         {/* Tabs */}
@@ -179,6 +184,9 @@ export default function MatchStatistics() {
                 <div className="ms-emptyIcon">📊</div>
                 <div className="ms-emptyTitle">No statistics yet</div>
                 <div className="ms-emptyText">Run the triple detection pipeline to generate stats.</div>
+                <button className="ms-registryLink" onClick={() => navigate("/player-registry")}>
+                  Assign jersey numbers in Player Registry →
+                </button>
               </div>
             ) : (
               <table className="ms-table">
@@ -227,11 +235,11 @@ export default function MatchStatistics() {
                       </tr>
                     </>
                   )}
-                  {activeTab === "Dig" && (
+                  {activeTab === "Defence" && (
                     <>
                       <tr className="ms-groupRow">
                         <th rowSpan={2} className="ms-nameCol">NAME</th>
-                        <th colSpan={2} className="ms-groupHead">DIG</th>
+                        <th colSpan={2} className="ms-groupHead">DEFENCE</th>
                       </tr>
                       <tr>
                         <th>DS</th><th>DE</th>
@@ -293,10 +301,10 @@ export default function MatchStatistics() {
                           <td className="ms-highlight">{fmt(p.receive?.PASS_RTG, 2)}</td>
                         </>
                       )}
-                      {activeTab === "Dig" && (
+                      {activeTab === "Defence" && (
                         <>
-                          <td className="ms-highlight">{fmt(p.dig?.DS)}</td>
-                          <td className="ms-error">{fmt(p.dig?.DE)}</td>
+                          <td className="ms-highlight">{fmt(p.defence?.DS)}</td>
+                          <td className="ms-error">{fmt(p.defence?.DE)}</td>
                         </>
                       )}
                       {activeTab === "Block" && (

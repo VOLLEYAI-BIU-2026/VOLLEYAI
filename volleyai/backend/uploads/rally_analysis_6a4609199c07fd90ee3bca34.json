@@ -1,0 +1,1121 @@
+{
+  "rallies": [
+    {
+      "rally_id": 1,
+      "result": "won",
+      "score_event": {
+        "rally_id": 1,
+        "type": "ball_landing",
+        "frame": 43,
+        "time_sec": 0.717,
+        "us": 1,
+        "opp": 0,
+        "landed_side": "opponent",
+        "court_position": null,
+        "scoring_team": "my_team"
+      },
+      "actions": []
+    },
+    {
+      "rally_id": 2,
+      "result": "won",
+      "score_event": {
+        "rally_id": 2,
+        "type": "ball_landing",
+        "frame": 2813,
+        "time_sec": 46.93,
+        "us": 2,
+        "opp": 0,
+        "landed_side": "opponent",
+        "court_position": null,
+        "scoring_team": "my_team"
+      },
+      "actions": []
+    },
+    {
+      "rally_id": 3,
+      "result": "won",
+      "score_event": {
+        "rally_id": 3,
+        "type": "ball_landing",
+        "frame": 3874,
+        "time_sec": 64.631,
+        "us": 3,
+        "opp": 0,
+        "landed_side": "opponent",
+        "court_position": null,
+        "scoring_team": "my_team"
+      },
+      "actions": []
+    }
+  ],
+  "all_actions": [
+    {
+      "frame": 70,
+      "time_sec": 1.168,
+      "time_str": "00:01",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 5"
+    },
+    {
+      "frame": 83,
+      "time_sec": 1.385,
+      "time_str": "00:01",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 21"
+    },
+    {
+      "frame": 108,
+      "time_sec": 1.802,
+      "time_str": "00:01",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 3"
+    },
+    {
+      "frame": 116,
+      "time_sec": 1.935,
+      "time_str": "00:01",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 1"
+    },
+    {
+      "frame": 117,
+      "time_sec": 1.952,
+      "time_str": "00:01",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 21"
+    },
+    {
+      "frame": 122,
+      "time_sec": 2.035,
+      "time_str": "00:02",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 39"
+    },
+    {
+      "frame": 130,
+      "time_sec": 2.169,
+      "time_str": "00:02",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 2"
+    },
+    {
+      "frame": 148,
+      "time_sec": 2.469,
+      "time_str": "00:02",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 1"
+    },
+    {
+      "frame": 151,
+      "time_sec": 2.519,
+      "time_str": "00:02",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 3"
+    },
+    {
+      "frame": 172,
+      "time_sec": 2.87,
+      "time_str": "00:02",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 39"
+    },
+    {
+      "frame": 208,
+      "time_sec": 3.47,
+      "time_str": "00:03",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 43"
+    },
+    {
+      "frame": 220,
+      "time_sec": 3.67,
+      "time_str": "00:03",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 39"
+    },
+    {
+      "frame": 253,
+      "time_sec": 4.221,
+      "time_str": "00:04",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 39"
+    },
+    {
+      "frame": 298,
+      "time_sec": 4.972,
+      "time_str": "00:04",
+      "action": "setting",
+      "action_label": "setting",
+      "result": "unknown",
+      "player_label": "ID 39"
+    },
+    {
+      "frame": 306,
+      "time_sec": 5.105,
+      "time_str": "00:05",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 39"
+    },
+    {
+      "frame": 382,
+      "time_sec": 6.373,
+      "time_str": "00:06",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 122"
+    },
+    {
+      "frame": 384,
+      "time_sec": 6.406,
+      "time_str": "00:06",
+      "action": "setting",
+      "action_label": "setting",
+      "result": "unknown",
+      "player_label": "ID 122"
+    },
+    {
+      "frame": 493,
+      "time_sec": 8.225,
+      "time_str": "00:08",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 122"
+    },
+    {
+      "frame": 522,
+      "time_sec": 8.709,
+      "time_str": "00:08",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 128"
+    },
+    {
+      "frame": 523,
+      "time_sec": 8.725,
+      "time_str": "00:08",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 141"
+    },
+    {
+      "frame": 548,
+      "time_sec": 9.142,
+      "time_str": "00:09",
+      "action": "block",
+      "action_label": "block",
+      "result": "unknown",
+      "player_label": "ID 55"
+    },
+    {
+      "frame": 556,
+      "time_sec": 9.276,
+      "time_str": "00:09",
+      "action": "block",
+      "action_label": "block",
+      "result": "unknown",
+      "player_label": "ID 122"
+    },
+    {
+      "frame": 562,
+      "time_sec": 9.376,
+      "time_str": "00:09",
+      "action": "block",
+      "action_label": "block",
+      "result": "unknown",
+      "player_label": "ID 162"
+    },
+    {
+      "frame": 575,
+      "time_sec": 9.593,
+      "time_str": "00:09",
+      "action": "block",
+      "action_label": "block",
+      "result": "unknown",
+      "player_label": "ID 156"
+    },
+    {
+      "frame": 583,
+      "time_sec": 9.726,
+      "time_str": "00:09",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 141"
+    },
+    {
+      "frame": 584,
+      "time_sec": 9.743,
+      "time_str": "00:09",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 156"
+    },
+    {
+      "frame": 609,
+      "time_sec": 10.16,
+      "time_str": "00:10",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 110"
+    },
+    {
+      "frame": 625,
+      "time_sec": 10.427,
+      "time_str": "00:10",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 128"
+    },
+    {
+      "frame": 653,
+      "time_sec": 10.894,
+      "time_str": "00:10",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 110"
+    },
+    {
+      "frame": 840,
+      "time_sec": 14.014,
+      "time_str": "00:14",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 223"
+    },
+    {
+      "frame": 858,
+      "time_sec": 14.314,
+      "time_str": "00:14",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 3"
+    },
+    {
+      "frame": 894,
+      "time_sec": 14.915,
+      "time_str": "00:14",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 240"
+    },
+    {
+      "frame": 943,
+      "time_sec": 15.732,
+      "time_str": "00:15",
+      "action": "setting",
+      "action_label": "setting",
+      "result": "unknown",
+      "player_label": "ID 240"
+    },
+    {
+      "frame": 945,
+      "time_sec": 15.766,
+      "time_str": "00:15",
+      "action": "setting",
+      "action_label": "setting",
+      "result": "unknown",
+      "player_label": "ID 256"
+    },
+    {
+      "frame": 953,
+      "time_sec": 15.899,
+      "time_str": "00:15",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 240"
+    },
+    {
+      "frame": 954,
+      "time_sec": 15.916,
+      "time_str": "00:15",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 256"
+    },
+    {
+      "frame": 971,
+      "time_sec": 16.2,
+      "time_str": "00:16",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 246"
+    },
+    {
+      "frame": 980,
+      "time_sec": 16.35,
+      "time_str": "00:16",
+      "action": "setting",
+      "action_label": "setting",
+      "result": "unknown",
+      "player_label": "ID 246"
+    },
+    {
+      "frame": 982,
+      "time_sec": 16.383,
+      "time_str": "00:16",
+      "action": "attack",
+      "action_label": "attack",
+      "result": "unknown",
+      "player_label": "ID 246"
+    },
+    {
+      "frame": 1004,
+      "time_sec": 16.75,
+      "time_str": "00:16",
+      "action": "block",
+      "action_label": "block",
+      "result": "unknown",
+      "player_label": "ID 246"
+    },
+    {
+      "frame": 1005,
+      "time_sec": 16.767,
+      "time_str": "00:16",
+      "action": "block",
+      "action_label": "block",
+      "result": "unknown",
+      "player_label": "ID 256"
+    },
+    {
+      "frame": 1020,
+      "time_sec": 17.017,
+      "time_str": "00:17",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 256"
+    },
+    {
+      "frame": 1031,
+      "time_sec": 17.201,
+      "time_str": "00:17",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 264"
+    },
+    {
+      "frame": 1150,
+      "time_sec": 19.186,
+      "time_str": "00:19",
+      "action": "setting",
+      "action_label": "setting",
+      "result": "unknown",
+      "player_label": "ID 301"
+    },
+    {
+      "frame": 1212,
+      "time_sec": 20.22,
+      "time_str": "00:20",
+      "action": "setting",
+      "action_label": "setting",
+      "result": "unknown",
+      "player_label": "ID 110"
+    },
+    {
+      "frame": 1214,
+      "time_sec": 20.254,
+      "time_str": "00:20",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 110"
+    },
+    {
+      "frame": 1217,
+      "time_sec": 20.304,
+      "time_str": "00:20",
+      "action": "attack",
+      "action_label": "attack",
+      "result": "unknown",
+      "player_label": "ID 110"
+    },
+    {
+      "frame": 1220,
+      "time_sec": 20.354,
+      "time_str": "00:20",
+      "action": "attack",
+      "action_label": "attack",
+      "result": "unknown",
+      "player_label": "ID 307"
+    },
+    {
+      "frame": 1221,
+      "time_sec": 20.37,
+      "time_str": "00:20",
+      "action": "block",
+      "action_label": "block",
+      "result": "unknown",
+      "player_label": "ID 307"
+    },
+    {
+      "frame": 1226,
+      "time_sec": 20.454,
+      "time_str": "00:20",
+      "action": "block",
+      "action_label": "block",
+      "result": "unknown",
+      "player_label": "ID 110"
+    },
+    {
+      "frame": 1244,
+      "time_sec": 20.754,
+      "time_str": "00:20",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 110"
+    },
+    {
+      "frame": 1254,
+      "time_sec": 20.921,
+      "time_str": "00:20",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 288"
+    },
+    {
+      "frame": 1256,
+      "time_sec": 20.954,
+      "time_str": "00:20",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 322"
+    },
+    {
+      "frame": 1269,
+      "time_sec": 21.171,
+      "time_str": "00:21",
+      "action": "setting",
+      "action_label": "setting",
+      "result": "unknown",
+      "player_label": "ID 110"
+    },
+    {
+      "frame": 1275,
+      "time_sec": 21.271,
+      "time_str": "00:21",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 110"
+    },
+    {
+      "frame": 1278,
+      "time_sec": 21.321,
+      "time_str": "00:21",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 317"
+    },
+    {
+      "frame": 1308,
+      "time_sec": 21.822,
+      "time_str": "00:21",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 317"
+    },
+    {
+      "frame": 1314,
+      "time_sec": 21.922,
+      "time_str": "00:21",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "#6"
+    },
+    {
+      "frame": 1323,
+      "time_sec": 22.072,
+      "time_str": "00:22",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 359"
+    },
+    {
+      "frame": 1332,
+      "time_sec": 22.222,
+      "time_str": "00:22",
+      "action": "attack",
+      "action_label": "attack",
+      "result": "unknown",
+      "player_label": "#6"
+    },
+    {
+      "frame": 1344,
+      "time_sec": 22.422,
+      "time_str": "00:22",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "#6"
+    },
+    {
+      "frame": 1391,
+      "time_sec": 23.207,
+      "time_str": "00:23",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 373"
+    },
+    {
+      "frame": 1405,
+      "time_sec": 23.44,
+      "time_str": "00:23",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 369"
+    },
+    {
+      "frame": 1411,
+      "time_sec": 23.54,
+      "time_str": "00:23",
+      "action": "attack",
+      "action_label": "attack",
+      "result": "unknown",
+      "player_label": "ID 369"
+    },
+    {
+      "frame": 1419,
+      "time_sec": 23.674,
+      "time_str": "00:23",
+      "action": "attack",
+      "action_label": "attack",
+      "result": "unknown",
+      "player_label": "ID 389"
+    },
+    {
+      "frame": 1434,
+      "time_sec": 23.924,
+      "time_str": "00:23",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 389"
+    },
+    {
+      "frame": 1613,
+      "time_sec": 26.91,
+      "time_str": "00:26",
+      "action": "setting",
+      "action_label": "setting",
+      "result": "unknown",
+      "player_label": "ID 378"
+    },
+    {
+      "frame": 1636,
+      "time_sec": 27.294,
+      "time_str": "00:27",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 378"
+    },
+    {
+      "frame": 1673,
+      "time_sec": 27.911,
+      "time_str": "00:27",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 378"
+    },
+    {
+      "frame": 1716,
+      "time_sec": 28.629,
+      "time_str": "00:28",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 378"
+    },
+    {
+      "frame": 1789,
+      "time_sec": 29.846,
+      "time_str": "00:29",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 458"
+    },
+    {
+      "frame": 2121,
+      "time_sec": 35.385,
+      "time_str": "00:35",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 519"
+    },
+    {
+      "frame": 2646,
+      "time_sec": 44.144,
+      "time_str": "00:44",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "#6"
+    },
+    {
+      "frame": 2689,
+      "time_sec": 44.861,
+      "time_str": "00:44",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "#6"
+    },
+    {
+      "frame": 2718,
+      "time_sec": 45.345,
+      "time_str": "00:45",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 538"
+    },
+    {
+      "frame": 2748,
+      "time_sec": 45.846,
+      "time_str": "00:45",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 538"
+    },
+    {
+      "frame": 2767,
+      "time_sec": 46.163,
+      "time_str": "00:46",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 588"
+    },
+    {
+      "frame": 2777,
+      "time_sec": 46.33,
+      "time_str": "00:46",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 592"
+    },
+    {
+      "frame": 2781,
+      "time_sec": 46.396,
+      "time_str": "00:46",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 538"
+    },
+    {
+      "frame": 2791,
+      "time_sec": 46.563,
+      "time_str": "00:46",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 595"
+    },
+    {
+      "frame": 2821,
+      "time_sec": 47.064,
+      "time_str": "00:47",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 595"
+    },
+    {
+      "frame": 2908,
+      "time_sec": 48.515,
+      "time_str": "00:48",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 612"
+    },
+    {
+      "frame": 2917,
+      "time_sec": 48.665,
+      "time_str": "00:48",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 617"
+    },
+    {
+      "frame": 2918,
+      "time_sec": 48.682,
+      "time_str": "00:48",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "#3"
+    },
+    {
+      "frame": 2961,
+      "time_sec": 49.399,
+      "time_str": "00:49",
+      "action": "attack",
+      "action_label": "attack",
+      "result": "unknown",
+      "player_label": "#3"
+    },
+    {
+      "frame": 2964,
+      "time_sec": 49.449,
+      "time_str": "00:49",
+      "action": "attack",
+      "action_label": "attack",
+      "result": "unknown",
+      "player_label": "#6"
+    },
+    {
+      "frame": 2975,
+      "time_sec": 49.633,
+      "time_str": "00:49",
+      "action": "attack",
+      "action_label": "attack",
+      "result": "unknown",
+      "player_label": "#6"
+    },
+    {
+      "frame": 2981,
+      "time_sec": 49.733,
+      "time_str": "00:49",
+      "action": "block",
+      "action_label": "block",
+      "result": "unknown",
+      "player_label": "ID 633"
+    },
+    {
+      "frame": 2987,
+      "time_sec": 49.833,
+      "time_str": "00:49",
+      "action": "attack",
+      "action_label": "attack",
+      "result": "unknown",
+      "player_label": "ID 631"
+    },
+    {
+      "frame": 2994,
+      "time_sec": 49.95,
+      "time_str": "00:49",
+      "action": "block",
+      "action_label": "block",
+      "result": "unknown",
+      "player_label": "ID 631"
+    },
+    {
+      "frame": 3001,
+      "time_sec": 50.067,
+      "time_str": "00:50",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "#3"
+    },
+    {
+      "frame": 3005,
+      "time_sec": 50.133,
+      "time_str": "00:50",
+      "action": "block",
+      "action_label": "block",
+      "result": "unknown",
+      "player_label": "#3"
+    },
+    {
+      "frame": 3007,
+      "time_sec": 50.167,
+      "time_str": "00:50",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "#13"
+    },
+    {
+      "frame": 3009,
+      "time_sec": 50.2,
+      "time_str": "00:50",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "#3"
+    },
+    {
+      "frame": 3039,
+      "time_sec": 50.701,
+      "time_str": "00:50",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "#3"
+    },
+    {
+      "frame": 3228,
+      "time_sec": 53.854,
+      "time_str": "00:53",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "#3"
+    },
+    {
+      "frame": 3790,
+      "time_sec": 63.23,
+      "time_str": "01:03",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 751"
+    },
+    {
+      "frame": 3820,
+      "time_sec": 63.73,
+      "time_str": "01:03",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 751"
+    },
+    {
+      "frame": 3830,
+      "time_sec": 63.897,
+      "time_str": "01:03",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "#10"
+    },
+    {
+      "frame": 3872,
+      "time_sec": 64.598,
+      "time_str": "01:04",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "#6"
+    },
+    {
+      "frame": 3881,
+      "time_sec": 64.748,
+      "time_str": "01:04",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "#10"
+    },
+    {
+      "frame": 3949,
+      "time_sec": 65.882,
+      "time_str": "01:05",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 792"
+    },
+    {
+      "frame": 3950,
+      "time_sec": 65.899,
+      "time_str": "01:05",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "#6"
+    },
+    {
+      "frame": 3951,
+      "time_sec": 65.916,
+      "time_str": "01:05",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 711"
+    },
+    {
+      "frame": 3970,
+      "time_sec": 66.233,
+      "time_str": "01:06",
+      "action": "setting",
+      "action_label": "setting",
+      "result": "unknown",
+      "player_label": "ID 797"
+    },
+    {
+      "frame": 3973,
+      "time_sec": 66.283,
+      "time_str": "01:06",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 797"
+    },
+    {
+      "frame": 3985,
+      "time_sec": 66.483,
+      "time_str": "01:06",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "#3"
+    },
+    {
+      "frame": 4004,
+      "time_sec": 66.8,
+      "time_str": "01:06",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 805"
+    },
+    {
+      "frame": 4016,
+      "time_sec": 67,
+      "time_str": "01:07",
+      "action": "attack",
+      "action_label": "attack",
+      "result": "unknown",
+      "player_label": "ID 805"
+    },
+    {
+      "frame": 4017,
+      "time_sec": 67.017,
+      "time_str": "01:07",
+      "action": "attack",
+      "action_label": "attack",
+      "result": "unknown",
+      "player_label": "#1"
+    },
+    {
+      "frame": 4037,
+      "time_sec": 67.351,
+      "time_str": "01:07",
+      "action": "block",
+      "action_label": "block",
+      "result": "unknown",
+      "player_label": "#1"
+    },
+    {
+      "frame": 4046,
+      "time_sec": 67.501,
+      "time_str": "01:07",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 805"
+    },
+    {
+      "frame": 4048,
+      "time_sec": 67.534,
+      "time_str": "01:07",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 830"
+    },
+    {
+      "frame": 4050,
+      "time_sec": 67.568,
+      "time_str": "01:07",
+      "action": "defense-move",
+      "action_label": "defense-move",
+      "result": "unknown",
+      "player_label": "ID 827"
+    }
+  ],
+  "score_events": [
+    {
+      "rally_id": 1,
+      "type": "ball_landing",
+      "frame": 43,
+      "time_sec": 0.717,
+      "us": 1,
+      "opp": 0,
+      "landed_side": "opponent",
+      "court_position": null,
+      "scoring_team": "my_team"
+    },
+    {
+      "rally_id": 2,
+      "type": "ball_landing",
+      "frame": 2813,
+      "time_sec": 46.93,
+      "us": 2,
+      "opp": 0,
+      "landed_side": "opponent",
+      "court_position": null,
+      "scoring_team": "my_team"
+    },
+    {
+      "rally_id": 3,
+      "type": "ball_landing",
+      "frame": 3874,
+      "time_sec": 64.631,
+      "us": 3,
+      "opp": 0,
+      "landed_side": "opponent",
+      "court_position": null,
+      "scoring_team": "my_team"
+    }
+  ],
+  "total_rallies": 3,
+  "total_won": 3,
+  "total_lost": 0,
+  "us_score": 3,
+  "opponent_score": 0,
+  "generated_from": "action_model"
+}

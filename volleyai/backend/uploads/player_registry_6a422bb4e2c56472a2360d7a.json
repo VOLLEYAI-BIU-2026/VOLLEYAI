@@ -1,0 +1,44 @@
+{
+    "3": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\detection_models\\all_three\\runs\\player_thumbs\\unknown_id3.jpg",
+        "event_count": 56
+    },
+    "283": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\detection_models\\all_three\\runs\\player_thumbs\\unknown_id283.jpg",
+        "event_count": 24
+    },
+    "1163": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\detection_models\\all_three\\runs\\player_thumbs\\unknown_id1163.jpg",
+        "event_count": 24
+    },
+    "995": {
+        "jersey": 10,
+        "name": "",
+        "confirmed": true,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\detection_models\\all_three\\runs\\player_thumbs\\jersey_10.jpg",
+        "event_count": 20
+    },
+    "1080": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\detection_models\\all_three\\runs\\player_thumbs\\unknown_id1080.jpg",
+        "event_count": 5
+    },
+    "351": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\detection_models\\all_three\\runs\\player_thumbs\\unknown_id351.jpg",
+        "event_count": 1
+    }
+}

@@ -25,7 +25,7 @@ export default function PlayerRegistry() {
     }, []);
 
     const players = Object.entries(registry)
-        .filter(([bid]) => { const n = Number(bid); return n >= 1 && n <= 99; })
+        .filter(([, data]) => data.confirmed || data.event_count >= 5)
         .sort(([, a], [, b]) => b.event_count - a.event_count);
 
     function handleChange(bid, value) {
@@ -98,7 +98,7 @@ export default function PlayerRegistry() {
                         <button className="pr-saveBtn" onClick={handleSave} disabled={saving || Object.keys(edits).length === 0}>
                             {saving ? "Saving..." : "Save"}
                         </button>
-                        <button className="pr-recalcBtn" onClick={handleSaveAndRecalculate} disabled={saving || Object.keys(edits).length === 0}>
+                        <button className="pr-recalcBtn" onClick={handleSaveAndRecalculate} disabled={saving}>
                             {saving ? "Calculating..." : "Save & Recalculate Stats"}
                         </button>
                         <button className="pr-statsBtn" onClick={() => navigate("/match-statistics")}>

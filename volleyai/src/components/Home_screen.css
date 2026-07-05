@@ -84,7 +84,7 @@ body {
 .hs-brandName {
   font-weight: 900;
   font-size: 20px;
-  color: var(--text);
+  color: #ffffff;
   white-space: nowrap;
   letter-spacing: -0.02em;
 }

@@ -1,24 +1,5 @@
 const mongoose = require("mongoose");
 
-const PointSchema = new mongoose.Schema(
-    { x: Number, y: Number },
-    { _id: false }
-);
-
-const StepPointsSchema = new mongoose.Schema(
-    {
-        netTopLeft:  PointSchema,
-        netTopRight: PointSchema,
-        farLeft:     PointSchema,
-        farRight:    PointSchema,
-        netLeft:     PointSchema,
-        netRight:    PointSchema,
-        nearLeft:    PointSchema,
-        nearRight:   PointSchema,
-    },
-    { _id: false }
-);
-
 const DetectionThumbSchema = new mongoose.Schema(
     {
         detectionId: { type: String, required: true },
@@ -63,11 +44,6 @@ const VideoSchema = new mongoose.Schema(
         },
         cleanFramePath: { type: String },
         cleanFrameError: { type: String },
-
-        courtSetup: {
-            step1: StepPointsSchema,
-            step2: StepPointsSchema,
-        },
 
         playerDetection: {
             status: {
@@ -151,50 +127,6 @@ const VideoSchema = new mongoose.Schema(
             default: "",
         },
 
-        videoAnalysis: {
-            status: {
-                type: String,
-                enum: ["none", "processing", "done", "failed"],
-                default: "none",
-            },
-            error: {
-                type: String,
-                default: "",
-            },
-            rallies: {
-                type: [
-                    {
-                        rallyId: String,
-                        start: Number,
-                        end: Number,
-                        label: String,
-                    },
-                ],
-                default: [],
-            },
-            deadSegments: {
-                type: [
-                    {
-                        start: Number,
-                        end: Number,
-                    },
-                ],
-                default: [],
-            },
-            optimizedSegments: {
-                type: [
-                    {
-                        sourceStart: Number,
-                        sourceEnd: Number,
-                    },
-                ],
-                default: [],
-            },
-            lastProcessedAt: {
-                type: Date,
-                default: null,
-            },
-        },
         ballAnalysis: {
             status: {
                 type: String,
@@ -252,6 +184,23 @@ const VideoSchema = new mongoose.Schema(
             },
         },
 
+        // Triple-detection pipeline (players + ball + actions + stats)
+        analytics: {
+            status: {
+                type: String,
+                enum: ["none", "processing", "done", "failed"],
+                default: "none",
+            },
+            error:           { type: String, default: "" },
+            lastProcessedAt: { type: Date,   default: null },
+        },
+        analyzedVideoPath: { type: String, default: null }, // /uploads/analyzed_<id>.mp4
+        playerStatsPath:   { type: String, default: null }, // /uploads/player_stats_<id>.json
+        playerRegistryPath:{ type: String, default: null }, // /uploads/player_registry_<id>.json
+        analyticsJsonPath: { type: String, default: null }, // /uploads/volley_analytics_<id>.json
+        rallyAnalysisPath:    { type: String, default: null }, // /uploads/rally_analysis_<id>.json
+        calibrationJsonPath:  { type: String, default: null }, // /uploads/calib_<id>.json
+
         status: { type: String, default: "uploaded" },
         teamA: { type: String, default: "" },
         teamB: { type: String, default: "" },
@@ -260,6 +209,8 @@ const VideoSchema = new mongoose.Schema(
             type: [{ jersey: Number, name: { type: String, default: "" } }],
             default: [],
         },
+        myTeamColor: { type: String, default: "blue_white" }, // preset key, see TEAM_COLOR_PRESETS in triple_detection.py
+        opponentColor: { type: String, default: "black_white" }, // preset key, see TEAM_COLOR_PRESETS in triple_detection.py
     },
     { timestamps: true }
 );

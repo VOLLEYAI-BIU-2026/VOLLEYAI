@@ -1,0 +1,16 @@
+{
+    "3": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\detection_models\\all_three\\runs\\player_thumbs\\unknown_id3.jpg",
+        "event_count": 54
+    },
+    "288": {
+        "jersey": null,
+        "name": "",
+        "confirmed": false,
+        "thumbnail": "C:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\detection_models\\all_three\\runs\\player_thumbs\\unknown_id288.jpg",
+        "event_count": 25
+    }
+}

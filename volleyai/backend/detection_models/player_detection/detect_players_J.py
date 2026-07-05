@@ -4,14 +4,22 @@ import csv
 from ultralytics import YOLO
 
 # --- CONFIGURATION ---
-# Target video input path updated
-VIDEO_PATH = "/home/jesicemal/project/VOLLEYAI/models/videos/test_clip.mp4"
 
-# Using local yolo11s.pt model file in the same folder as this script
-PLAYERS_MODEL_PATH = "yolo11s.pt"
 
-# Output folder updated to your requested directory
-OUTPUT_DIR = "/home/jesicemal/project/VOLLEYAI/models/player_detection/runs"
+# Dynamically locate the directory where this script file lives
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# --- MACHINE-AGNOSTIC PORTABLE PATHS ---
+# 1. Step 1 level up (out of player_detection) and enter the sibling videos directory
+VIDEO_PATH = os.path.abspath(os.path.join(SCRIPT_DIR, "../videos/test_clip.mp4"))
+
+# 2. Target the local yolo11s.pt file sitting in this exact folder
+PLAYERS_MODEL_PATH = os.path.abspath(os.path.join(SCRIPT_DIR, "yolo11s.pt")) 
+
+# 3. Save the outputs inside a local structured runs folder
+OUTPUT_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, "runs"))
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+
 OUTPUT_VIDEO = os.path.join(OUTPUT_DIR, "detected_players.mp4")
 OUTPUT_CSV = os.path.join(OUTPUT_DIR, "detected_players.csv")
 

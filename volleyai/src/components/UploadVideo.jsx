@@ -147,7 +147,7 @@ export default function UploadVideo({
           return;
         }
 
-        navigate(`/court-setup/${data.video._id}`);
+        navigate(`/jersey-setup/${data.video._id}`);
         return;
       }
 
@@ -170,7 +170,7 @@ export default function UploadVideo({
         return;
       }
 
-      navigate(`/court-setup/${data.video._id}`);
+      navigate(`/jersey-setup/${data.video._id}`);
     } catch (e) {
       setError("Server error. Please try again in a moment.");
     } finally {
@@ -185,7 +185,6 @@ export default function UploadVideo({
 
   const STEPS = [
     { label: "Upload Video",   sub: "Select footage" },
-    { label: "Court Setup",    sub: "Calibrate court" },
     { label: "Start Analysis", sub: "Ready to go" },
   ];
 
