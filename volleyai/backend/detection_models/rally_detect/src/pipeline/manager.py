@@ -9,6 +9,11 @@ from src.ball_detector import get_ball_detections, track_with_physics_predictive
 from src.rally_predictor import extract_features,predict_rallies,analyze_rally_stats,smooth_predictions
 from src.visualizer import visualize
 
+# Ball detection model lives in a sibling project under detection_models/, shared
+# across models rather than bundled inside rally_detect.
+_DETECTION_MODELS_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+BALL_MODEL_PATH = os.path.join(_DETECTION_MODELS_DIR, "ball_tracking", "ball_model.pt")
+
 def run_volleyball_pipeline(config, log_callback, progress_callback=None):
     """
     Executes the volleyball analytics pipeline with support for 
@@ -73,7 +78,7 @@ def run_volleyball_pipeline(config, log_callback, progress_callback=None):
         working_video = ensure_30fps(working_video, proc_fps_path, log_callback)
 
         get_ball_detections(
-            model_path = ("/home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/ball_tracking/ball_model.pt"), 
+            model_path=BALL_MODEL_PATH,
             video_path=working_video, 
             output_csv=fn_detections, 
             device=config['device'],
