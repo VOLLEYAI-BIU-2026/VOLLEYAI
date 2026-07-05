@@ -1,8 +1,9 @@
+﻿import { API_BASE } from "../config.js";
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./JerseySetup.css";
 
-const API = "http://localhost:5000";
+const API = `${API_BASE}";
 
 // c1 = dominant jersey color, c2 = number/trim color (null = solid)
 const COLOR_PRESETS = [
@@ -117,9 +118,9 @@ export default function JerseySetup() {
     return (
         <div className="js-page">
             <div className="js-card">
-                <button className="js-back" onClick={() => navigate(-1)}>←</button>
+                <button className="js-back" onClick={() => navigate(-1)}>â†</button>
 
-                <div className="js-icon">🏐</div>
+                <div className="js-icon">ðŸ</div>
                 <h1 className="js-title">Setup Your Team</h1>
                 <p className="js-sub">
                     Pick each team's jersey colors so the AI can tell your players apart.
@@ -127,7 +128,7 @@ export default function JerseySetup() {
                 </p>
 
                 <div className="js-panels">
-                    {/* ── My Team ── */}
+                    {/* â”€â”€ My Team â”€â”€ */}
                     <div className="js-panel">
                         <div className="js-panel-header">
                             <span className="js-section-label">My Team</span>
@@ -151,7 +152,7 @@ export default function JerseySetup() {
                         </div>
                     </div>
 
-                    {/* ── Opponent ── */}
+                    {/* â”€â”€ Opponent â”€â”€ */}
                     <div className="js-panel">
                         <div className="js-panel-header">
                             <span className="js-section-label">Opponent</span>
@@ -194,7 +195,7 @@ export default function JerseySetup() {
                         navigate(`/court-setup/${videoId}`);
                     }}
                 >
-                    🎯 כיול מגרש (אופציונלי)
+                    ðŸŽ¯ ×›×™×•×œ ×ž×’×¨×© (××•×¤×¦×™×•× ×œ×™)
                 </button>
 
                 <button
@@ -202,11 +203,11 @@ export default function JerseySetup() {
                     onClick={startAnalysis}
                     disabled={loading}
                 >
-                    {loading ? "Starting..." : "Start Analysis →"}
+                    {loading ? "Starting..." : "Start Analysis â†’"}
                 </button>
 
                 <button className="js-skip" onClick={() => navigate(`/match-analysis/${videoId}`)}>
-                    Skip — use default (blue / white)
+                    Skip â€” use default (blue / white)
                 </button>
             </div>
         </div>

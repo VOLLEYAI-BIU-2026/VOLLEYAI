@@ -1,8 +1,9 @@
+﻿import { API_BASE } from "../config.js";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./TeamsRoster.css";
 
-const API = "http://localhost:5000";
+const API = `${API_BASE}";
 
 export default function TeamsRoster() {
     const { videoId } = useParams();
@@ -162,7 +163,7 @@ export default function TeamsRoster() {
         <div className="tr-page">
             <div className="tr-topbar">
                 <div className="tr-topbarLeft">
-                    <button className="tr-backBtn" onClick={() => navigate(-1)}>←</button>
+                    <button className="tr-backBtn" onClick={() => navigate(-1)}>â†</button>
                     <h1 className="tr-title">Player Identification</h1>
                 </div>
                 <button className="tr-saveBtn" onClick={handleFinish}>
@@ -253,7 +254,7 @@ export default function TeamsRoster() {
                     <div className="tr-modal">
                         <div className="tr-modalHeader">
                             <div className="tr-modalTitle">Add Player</div>
-                            <button className="tr-closeBtn" onClick={() => setIsModalOpen(false)}>✕</button>
+                            <button className="tr-closeBtn" onClick={() => setIsModalOpen(false)}>âœ•</button>
                         </div>
 
                         <div className="tr-modalBody">

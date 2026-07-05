@@ -1,8 +1,9 @@
+﻿import { API_BASE } from "../config.js";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./MatchStatistics.css";
 
-const API = "http://localhost:5000";
+const API = `${API_BASE}";
 
 const TABS = ["Attack", "Serve", "Receive", "Set", "Defence", "Block"];
 
@@ -123,7 +124,7 @@ export default function MatchStatistics() {
         {/* Header */}
         <div className="ms-header">
           <div className="ms-headerLeft">
-            <button className="ms-backBtn" onClick={() => navigate(-1)}>←</button>
+            <button className="ms-backBtn" onClick={() => navigate(-1)}>â†</button>
             <div>
               <div className="ms-breadcrumb">Analytics / Statistics</div>
               <h1 className="ms-title">Player Statistics</h1>
@@ -133,7 +134,7 @@ export default function MatchStatistics() {
             <button className="ms-registryBtn" onClick={() => navigate("/player-registry")}>
               Player Registry
             </button>
-            <button className="ms-exportBtn" onClick={exportCSV}>↓ Export CSV</button>
+            <button className="ms-exportBtn" onClick={exportCSV}>â†“ Export CSV</button>
           </div>
         </div>
 
@@ -154,7 +155,7 @@ export default function MatchStatistics() {
         <div className="ms-filters">
           <div className="ms-filtersLeft">
             <div className="ms-searchWrap">
-              <span className="ms-searchIcon">⌕</span>
+              <span className="ms-searchIcon">âŒ•</span>
               <input
                 className="ms-search"
                 type="text"
@@ -176,16 +177,16 @@ export default function MatchStatistics() {
               <div className="ms-emptyState"><div className="ms-emptyTitle">Loading...</div></div>
             ) : error ? (
               <div className="ms-emptyState">
-                <div className="ms-emptyIcon">📊</div>
+                <div className="ms-emptyIcon">ðŸ“Š</div>
                 <div className="ms-emptyTitle">{error}</div>
               </div>
             ) : players.length === 0 ? (
               <div className="ms-emptyState">
-                <div className="ms-emptyIcon">📊</div>
+                <div className="ms-emptyIcon">ðŸ“Š</div>
                 <div className="ms-emptyTitle">No statistics yet</div>
                 <div className="ms-emptyText">Run the triple detection pipeline to generate stats.</div>
                 <button className="ms-registryLink" onClick={() => navigate("/player-registry")}>
-                  Assign jersey numbers in Player Registry →
+                  Assign jersey numbers in Player Registry â†’
                 </button>
               </div>
             ) : (

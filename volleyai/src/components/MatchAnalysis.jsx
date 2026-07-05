@@ -1,8 +1,9 @@
+﻿import { API_BASE } from "../config.js";
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./MatchAnalysis.css";
 
-const API = "http://localhost:5000";
+const API = `${API_BASE}";
 
 const ACTION_COLOR = {
     serve:          "#f97316",  // orange
@@ -45,7 +46,7 @@ export default function MatchAnalysis() {
     const [teamNames, setTeamNames]       = useState({ us: "Us", opp: "Opp" });
     const [allActions, setAllActions]     = useState([]);
 
-    // ── Load team names ───────────────────────────────────────
+    // â”€â”€ Load team names â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     useEffect(() => {
         if (!videoId) return;
         fetch(`${API}/videos/${videoId}`, { credentials: "include" })
@@ -60,7 +61,7 @@ export default function MatchAnalysis() {
             .catch(() => {});
     }, [videoId]);
 
-    // ── Load rally data ──────────────────────────────────────
+    // â”€â”€ Load rally data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const loadRallies = useCallback(() => {
         if (!videoId) return;
         fetch(`${API}/videos/${videoId}/rally-analysis`, { credentials: "include" })
@@ -101,7 +102,7 @@ export default function MatchAnalysis() {
         loadRallies();
     }, [videoId, loadRallies]);
 
-    // ── On mount: check analytics status, poll while processing ──
+    // â”€â”€ On mount: check analytics status, poll while processing â”€â”€
     useEffect(() => {
         let cancelled = false;
 
@@ -153,14 +154,14 @@ export default function MatchAnalysis() {
         return () => { cancelled = true; clearInterval(pollRef.current); };
     }, [videoId, loadRallies, finishAnalysis]);
 
-    // ── Video time sync ───────────────────────────────────────
+    // â”€â”€ Video time sync â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     useEffect(() => {
         const video = videoRef.current;
         if (!video || !allActions.length) return;
         const onTime = () => {
             const t = video.currentTime;
 
-            // Active action highlight — find the latest action at or before current time
+            // Active action highlight â€” find the latest action at or before current time
             let best = null;
             for (const act of allActions) {
                 if (act.time_sec <= t + 0.5) best = act;
@@ -179,7 +180,7 @@ export default function MatchAnalysis() {
         return () => video.removeEventListener("timeupdate", onTime);
     }, [allActions, scoreEvents]);
 
-    // ── Auto-scroll active action ─────────────────────────────
+    // â”€â”€ Auto-scroll active action â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     useEffect(() => {
         if (activeFrame !== null && actionRefs.current[activeFrame]) {
             actionRefs.current[activeFrame].scrollIntoView({ behavior: "smooth", block: "nearest" });
@@ -196,12 +197,12 @@ export default function MatchAnalysis() {
 
     const displayActions = allActions;
 
-    // ── Loading / Processing / Error screens ─────────────────
+    // â”€â”€ Loading / Processing / Error screens â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     if (status === "checking") {
         return (
             <div className="ma-page ma-center">
                 <div className="ma-processing-box">
-                    <button className="ma-back" style={{ alignSelf: "flex-start" }} onClick={() => navigate(-1)}>←</button>
+                    <button className="ma-back" style={{ alignSelf: "flex-start" }} onClick={() => navigate(-1)}>â†</button>
                     <div className="ma-spinner" />
                 </div>
             </div>
@@ -212,7 +213,7 @@ export default function MatchAnalysis() {
         return (
             <div className="ma-page ma-center">
                 <div className="ma-processing-box">
-                    <button className="ma-back" style={{ alignSelf: "flex-start" }} onClick={() => navigate(-1)}>←</button>
+                    <button className="ma-back" style={{ alignSelf: "flex-start" }} onClick={() => navigate(-1)}>â†</button>
                     <div className="ma-spinner" />
                     <div className="ma-proc-title">Processing Video...</div>
                     <div className="ma-proc-sub">Detecting players, ball &amp; actions</div>
@@ -258,13 +259,13 @@ export default function MatchAnalysis() {
         return (
             <div className="ma-page ma-center">
                 <div className="ma-processing-box">
-                    <div className="ma-proc-icon">🏐</div>
+                    <div className="ma-proc-icon">ðŸ</div>
                     <div className="ma-proc-title">Ready to Analyze</div>
                     <div className="ma-proc-sub">Run all 3 models: player detection, ball tracking &amp; action recognition.</div>
                     <button className="ma-start-btn ma-start-run" onClick={handleStartAnalysis}>
-                        ▶ Start Analysis
+                        â–¶ Start Analysis
                     </button>
-                    <button className="ma-back-link" onClick={() => navigate(-1)}>← Go Back</button>
+                    <button className="ma-back-link" onClick={() => navigate(-1)}>â† Go Back</button>
                 </div>
             </div>
         );
@@ -274,7 +275,7 @@ export default function MatchAnalysis() {
         return (
             <div className="ma-page ma-center">
                 <div className="ma-processing-box">
-                    <button className="ma-back" style={{ alignSelf: "flex-start" }} onClick={() => navigate(-1)}>←</button>
+                    <button className="ma-back" style={{ alignSelf: "flex-start" }} onClick={() => navigate(-1)}>â†</button>
                     <div className="ma-proc-title" style={{ color: "#f87171" }}>Analysis Failed</div>
                     <div className="ma-proc-sub">The main detection finished but a secondary step failed.</div>
                     <button className="ma-start-btn" style={{ marginTop: 12 }} onClick={async () => {
@@ -287,25 +288,25 @@ export default function MatchAnalysis() {
                     }}>
                         View Existing Results
                     </button>
-                    <button className="ma-back-link" onClick={() => navigate(-1)}>← Go Back</button>
+                    <button className="ma-back-link" onClick={() => navigate(-1)}>â† Go Back</button>
                 </div>
             </div>
         );
     }
 
-    // ── Main screen (done) ────────────────────────────────────
+    // â”€â”€ Main screen (done) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     return (
         <div className="ma-page">
             <div className="ma-topbar">
-                <button className="ma-back" onClick={() => navigate(-1)}>←</button>
+                <button className="ma-back" onClick={() => navigate(-1)}>â†</button>
                 <span className="ma-title">Processed Video</span>
                 {rallyMeta && (
                     <span className="ma-summary">
-                        {rallyMeta.won}W – {rallyMeta.lost}L · {rallyMeta.total} rallies
+                        {rallyMeta.won}W â€“ {rallyMeta.lost}L Â· {rallyMeta.total} rallies
                     </span>
                 )}
                 <button className="ma-start-btn" onClick={() => navigate(`/match-statistics/${videoId}`)}>
-                    Start Statistics →
+                    Start Statistics â†’
                 </button>
             </div>
 
@@ -323,7 +324,7 @@ export default function MatchAnalysis() {
                         <span className="ma-score-team">{teamNames.us}</span>
                         <span className="ma-score-num">
                             {currentScore.us}
-                            <span className="ma-score-sep"> – </span>
+                            <span className="ma-score-sep"> â€“ </span>
                             {currentScore.opp}
                         </span>
                         <span className="ma-score-team">{teamNames.opp}</span>

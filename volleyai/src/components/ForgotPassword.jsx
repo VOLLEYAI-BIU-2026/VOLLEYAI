@@ -1,3 +1,4 @@
+﻿import { API_BASE } from "../config.js";
 import "./ForgotPassword.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -15,7 +16,7 @@ export default function ForgotPassword() {
     }
 
     try {
-      const res = await fetch("http://localhost:5000/auth/forgot-password", {
+      const res = await fetch(`${API_BASE}/auth/forgot-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
@@ -28,7 +29,7 @@ export default function ForgotPassword() {
         return;
       }
 
-      // הודעה אחידה, ואז חוזרים ללוגין
+      // ×”×•×“×¢×” ××—×™×“×”, ×•××– ×—×•×–×¨×™× ×œ×œ×•×’×™×Ÿ
       alert(data.message || "If an account exists, a reset link will be sent");
       navigate("/");
     } catch (error) {

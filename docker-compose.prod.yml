@@ -21,6 +21,7 @@ services:
       dockerfile: Dockerfile.frontend
       args:
         VITE_GOOGLE_CLIENT_ID: ${VITE_GOOGLE_CLIENT_ID}
+        VITE_API_URL: ""
     restart: always
     ports:
       - "80:80"

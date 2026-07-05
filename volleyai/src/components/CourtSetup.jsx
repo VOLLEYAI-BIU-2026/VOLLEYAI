@@ -1,14 +1,15 @@
+﻿import { API_BASE } from "../config.js";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./CourtSetup.css";
 
-const API = "http://localhost:5000";
+const API = `${API_BASE}";
 
 const POINT_LABELS = [
-    "1 — פינה שמאלית קרובה (near left)",
-    "2 — פינה ימנית קרובה (near right)",
-    "3 — קו רשת שמאל (net left)",
-    "4 — קו רשת ימין (net right)",
+    "1 â€” ×¤×™× ×” ×©×ž××œ×™×ª ×§×¨×•×‘×” (near left)",
+    "2 â€” ×¤×™× ×” ×™×ž× ×™×ª ×§×¨×•×‘×” (near right)",
+    "3 â€” ×§×• ×¨×©×ª ×©×ž××œ (net left)",
+    "4 â€” ×§×• ×¨×©×ª ×™×ž×™×Ÿ (net right)",
 ];
 
 export default function CourtSetup() {
@@ -24,7 +25,7 @@ export default function CourtSetup() {
     const [done, setDone]               = useState(false);
     const [frameStatus, setFrameStatus] = useState("loading"); // "loading"|"generating"|"ready"|"error"
 
-    // Load the clean frame — trigger generation if missing
+    // Load the clean frame â€” trigger generation if missing
     useEffect(() => {
         if (!videoId) return;
         let pollTimer = null;
@@ -45,7 +46,7 @@ export default function CourtSetup() {
                 return;
             }
 
-            // Clean frame missing — trigger generation
+            // Clean frame missing â€” trigger generation
             if (d.video.cleanFrameStatus === "processing") {
                 setFrameStatus("generating");
                 pollTimer = setInterval(load, 3000);
@@ -54,11 +55,11 @@ export default function CourtSetup() {
 
             if (d.video.cleanFrameStatus === "failed") {
                 setFrameStatus("error");
-                setError("יצירת הפריים נכשלה. נסה שנית.");
+                setError("×™×¦×™×¨×ª ×”×¤×¨×™×™× × ×›×©×œ×”. × ×¡×” ×©× ×™×ª.");
                 return;
             }
 
-            // Not started yet — kick it off
+            // Not started yet â€” kick it off
             setFrameStatus("generating");
             await fetch(`${API}/videos/${videoId}/clean-frame`, {
                 method: "POST", credentials: "include",
@@ -138,7 +139,7 @@ export default function CourtSetup() {
         const scaleX = img.naturalWidth  / img.clientWidth;
         const scaleY = img.naturalHeight / img.clientHeight;
 
-        // Convert display pixels → actual image pixels
+        // Convert display pixels â†’ actual image pixels
         const imagePoints = points.map(({ x, y }) => [
             Math.round(x * scaleX),
             Math.round(y * scaleY),
@@ -171,9 +172,9 @@ export default function CourtSetup() {
         return (
             <div className="cs-page cs-center">
                 <div className="cs-card">
-                    <div className="cs-check">✓</div>
-                    <div className="cs-title">כיול נשמר בהצלחה</div>
-                    <div className="cs-sub">הכיול ישמש לזיהוי נפילות כדור וניקוד אוטומטי</div>
+                    <div className="cs-check">âœ“</div>
+                    <div className="cs-title">×›×™×•×œ × ×©×ž×¨ ×‘×”×¦×œ×—×”</div>
+                    <div className="cs-sub">×”×›×™×•×œ ×™×©×ž×© ×œ×–×™×”×•×™ × ×¤×™×œ×•×ª ×›×“×•×¨ ×•× ×™×§×•×“ ××•×˜×•×ž×˜×™</div>
                     <button className="cs-btn" onClick={async () => {
                         try {
                             await fetch(`${API}/videos/${videoId}/start-analysis`, {
@@ -181,7 +182,7 @@ export default function CourtSetup() {
                             });
                         } catch { /* starts in background */ }
                         navigate(`/match-analysis/${videoId}`);
-                    }}>המשך לניתוח →</button>
+                    }}>×”×ž×©×š ×œ× ×™×ª×•×— â†’</button>
                 </div>
             </div>
         );
@@ -190,18 +191,18 @@ export default function CourtSetup() {
     return (
         <div className="cs-page">
             <div className="cs-topbar">
-                <button className="cs-back" onClick={() => navigate(-1)}>←</button>
-                <span className="cs-title">כיול מגרש</span>
+                <button className="cs-back" onClick={() => navigate(-1)}>â†</button>
+                <span className="cs-title">×›×™×•×œ ×ž×’×¨×©</span>
             </div>
 
             <div className="cs-body">
                 <div className="cs-instructions">
-                    <div className="cs-inst-title">לחץ על 4 נקודות בתמונה לפי הסדר:</div>
+                    <div className="cs-inst-title">×œ×—×¥ ×¢×œ 4 × ×§×•×“×•×ª ×‘×ª×ž×•× ×” ×œ×¤×™ ×”×¡×“×¨:</div>
                     {POINT_LABELS.map((lbl, i) => (
                         <div key={i} className={`cs-inst-row ${points.length > i ? "cs-inst-done" : points.length === i ? "cs-inst-active" : ""}`}>
                             <span className={`cs-dot ${i < 2 ? "cs-dot-green" : "cs-dot-yellow"}`} />
                             {lbl}
-                            {points.length > i && <span className="cs-inst-check">✓</span>}
+                            {points.length > i && <span className="cs-inst-check">âœ“</span>}
                         </div>
                     ))}
                 </div>
@@ -232,16 +233,16 @@ export default function CourtSetup() {
                     ) : frameStatus === "generating" ? (
                         <div className="cs-loading">
                             <div className="cs-spinner" />
-                            מייצר פריים נקי מהוידאו...
+                            ×ž×™×™×¦×¨ ×¤×¨×™×™× × ×§×™ ×ž×”×•×™×“××•...
                         </div>
                     ) : frameStatus === "error" ? (
                         <div className="cs-loading" style={{ color: "#f87171" }}>
-                            {error || "שגיאה בטעינת הפריים"}
+                            {error || "×©×’×™××” ×‘×˜×¢×™× ×ª ×”×¤×¨×™×™×"}
                         </div>
                     ) : (
                         <div className="cs-loading">
                             <div className="cs-spinner" />
-                            טוען...
+                            ×˜×•×¢×Ÿ...
                         </div>
                     )}
                 </div>
@@ -249,14 +250,14 @@ export default function CourtSetup() {
                 <div className="cs-actions">
                     {error && <div className="cs-error">{error}</div>}
                     <button className="cs-btn cs-btn-secondary" onClick={handleReset} disabled={!points.length}>
-                        נקה נקודות
+                        × ×§×” × ×§×•×“×•×ª
                     </button>
                     <button
                         className="cs-btn cs-btn-primary"
                         onClick={handleSave}
                         disabled={points.length < 4 || saving}
                     >
-                        {saving ? "שומר..." : "שמור כיול"}
+                        {saving ? "×©×•×ž×¨..." : "×©×ž×•×¨ ×›×™×•×œ"}
                     </button>
                 </div>
             </div>

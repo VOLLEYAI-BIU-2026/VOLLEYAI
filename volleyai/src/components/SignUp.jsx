@@ -1,3 +1,4 @@
+﻿import { API_BASE } from "../config.js";
 import { useState } from "react";
 import "./SignUp.css";
 import { FcGoogle } from "react-icons/fc";
@@ -42,7 +43,7 @@ export default function SignUp() {
     if (hasError) return;
 
     try {
-      const res = await fetch("http://localhost:5000/auth/signup", {
+      const res = await fetch(`${API_BASE}/auth/signup`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -76,7 +77,7 @@ export default function SignUp() {
     onSuccess: async (tokenResponse) => {
       clearAllErrors();
       try {
-        const res = await fetch("http://localhost:5000/auth/google", {
+        const res = await fetch(`${API_BASE}/auth/google`, {
           method: "POST",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
@@ -88,7 +89,7 @@ export default function SignUp() {
         if (!res.ok) {
           setFormMsg({
             type: "error",
-            text: data.message || "Google sign-in didn’t work. Please try again.",
+            text: data.message || "Google sign-in didnâ€™t work. Please try again.",
           });
           return;
         }
@@ -152,7 +153,7 @@ export default function SignUp() {
                 }}
               />
               <button type="button" className="ls-eyeBtn" aria-label="Show password">
-                👁
+                ðŸ‘
               </button>
             </div>
 

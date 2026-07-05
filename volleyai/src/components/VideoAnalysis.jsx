@@ -1,8 +1,9 @@
+﻿import { API_BASE } from "../config.js";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./VideoAnalysis.css";
 
-const API = "http://localhost:5000";
+const API = `${API_BASE}";
 
 function formatTime(sec) {
   const total = Math.max(0, Math.floor(sec || 0));
@@ -225,7 +226,7 @@ export default function VideoAnalysis() {
       <div className="va-topbar">
         <div className="va-topbarLeft">
           <button className="va-backBtn" type="button" onClick={() => navigate(-1)}>
-            ←
+            â†
           </button>
 
           <div className="va-titleWrap">
