@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./MatchAnalysis.css";
 
-const API = `${API_BASE}";
+const API = API_BASE;
 
 const ACTION_COLOR = {
     serve:          "#f97316",  // orange

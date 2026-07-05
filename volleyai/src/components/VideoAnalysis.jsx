@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./VideoAnalysis.css";
 
-const API = `${API_BASE}";
+const API = API_BASE;
 
 function formatTime(sec) {
   const total = Math.max(0, Math.floor(sec || 0));

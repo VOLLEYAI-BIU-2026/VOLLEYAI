@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./TeamsRoster.css";
 
-const API = `${API_BASE}";
+const API = API_BASE;
 
 export default function TeamsRoster() {
     const { videoId } = useParams();

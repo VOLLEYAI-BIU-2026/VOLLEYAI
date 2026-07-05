@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Home_screen.css";
 
-const API = `${API_BASE}";
+const API = API_BASE;
 
 function formatDate(iso, objectId) {
   let d = iso ? new Date(iso) : null;

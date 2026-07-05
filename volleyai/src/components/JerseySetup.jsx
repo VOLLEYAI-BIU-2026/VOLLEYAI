@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./JerseySetup.css";
 
-const API = `${API_BASE}";
+const API = API_BASE;
 
 // c1 = dominant jersey color, c2 = number/trim color (null = solid)
 const COLOR_PRESETS = [

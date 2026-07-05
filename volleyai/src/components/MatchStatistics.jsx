@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./MatchStatistics.css";
 
-const API = `${API_BASE}";
+const API = API_BASE;
 
 const TABS = ["Attack", "Serve", "Receive", "Set", "Defence", "Block"];
 

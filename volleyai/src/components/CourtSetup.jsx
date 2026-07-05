@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./CourtSetup.css";
 
-const API = `${API_BASE}";
+const API = API_BASE;
 
 const POINT_LABELS = [
     "1 â€” ×¤×™× ×” ×©×ž××œ×™×ª ×§×¨×•×‘×” (near left)",

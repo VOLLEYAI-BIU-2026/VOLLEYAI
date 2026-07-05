@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./PlayerRegistry.css";
 
-const API = `${API_BASE}";
+const API = API_BASE;
 
 export default function PlayerRegistry() {
     const navigate = useNavigate();
