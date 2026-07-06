@@ -1,4 +1,4 @@
-﻿import { API_BASE } from "../config.js";
+import { API_BASE } from "../config.js";
 import "./Login.css";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
@@ -82,7 +82,7 @@ export default function Login() {
         const data = await res.json();
 
         if (!res.ok) {
-          setFormError(data.message || "Google sign-in didnâ€™t work. Please try again.");
+          setFormError(data.message || "Google sign-in didn’t work. Please try again.");
           return;
         }
 
@@ -145,7 +145,7 @@ export default function Login() {
                 }}
               />
               <button type="button" className="ls-eyeBtn" aria-label="Show password">
-                ðŸ‘
+                👁
               </button>
             </div>
 

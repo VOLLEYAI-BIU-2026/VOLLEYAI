@@ -1,4 +1,4 @@
-﻿import { API_BASE } from "../config.js";
+import { API_BASE } from "../config.js";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Home_screen.css";
@@ -123,7 +123,7 @@ export default function HomeScreen() {
 
           <header className="hs-topbar">
             <div className="hs-brand">
-              <div className="hs-logo">ðŸ</div>
+              <div className="hs-logo">🏐</div>
               <div className="hs-brandName">VolleyAI</div>
             </div>
             <div className="hs-searchWrap">
@@ -159,15 +159,15 @@ export default function HomeScreen() {
                     <VideoThumb src={video.filePath} />
                     <div className="hs-mediaGradient" />
 
-                    {/* Badge â€” top left */}
+                    {/* Badge — top left */}
                     <span className={`hs-badge ${status}`}>
-                      {isProcessing && <span className="hs-spinner">âŸ³</span>}
+                      {isProcessing && <span className="hs-spinner">⟳</span>}
                       {isReady ? "Ready" : isProcessing ? "Processing" : "Uploaded"}
                     </span>
 
-                    {/* Date â€” top right, always visible */}
+                    {/* Date — top right, always visible */}
                     <div className="hs-cardDate">
-                      ðŸ“… {formatDate(video.createdAt, video._id)}
+                      📅 {formatDate(video.createdAt, video._id)}
                     </div>
 
                     {/* Teams + edit at the bottom */}
@@ -188,7 +188,7 @@ export default function HomeScreen() {
                             value={edits.teamB}
                             onChange={(e) => handleTeamChange(video._id, "teamB", e.target.value)}
                           />
-                          <button className="hs-saveOverlayBtn" onClick={() => handleEditSave(video._id)}>âœ“</button>
+                          <button className="hs-saveOverlayBtn" onClick={() => handleEditSave(video._id)}>✓</button>
                         </div>
                       ) : (
                         <>
@@ -201,7 +201,7 @@ export default function HomeScreen() {
                             className="hs-editOverlayBtn"
                             onClick={() => setEditingId(video._id)}
                             title="Edit team names"
-                          >âœï¸</button>
+                          >✏️</button>
                         </>
                       )}
                     </div>
@@ -214,7 +214,7 @@ export default function HomeScreen() {
                       onClick={() => navigate(`/match-analysis/${video._id}`)}
                       title="Video"
                     >
-                      <span className="hs-actionIcon">â–¶</span>
+                      <span className="hs-actionIcon">▶</span>
                       <span>VIDEO</span>
                     </button>
                     <button
@@ -222,7 +222,7 @@ export default function HomeScreen() {
                       onClick={() => navigate(`/match-statistics/${video._id}`)}
                       title="Stats"
                     >
-                      <span className="hs-actionIcon">ðŸ“ˆ</span>
+                      <span className="hs-actionIcon">📈</span>
                       <span>STATS</span>
                     </button>
                   </div>

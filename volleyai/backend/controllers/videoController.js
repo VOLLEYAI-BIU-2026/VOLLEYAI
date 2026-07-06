@@ -131,17 +131,31 @@ async function startCleanFrame(req, res) {
             return res.status(202).json({ message: "Already processing" });
         }
 
+        const inputAbs = path.join(__dirname, "..", video.filePath.replace(/^\//, ""));
+
+        // Validate file exists and is not empty
+        try {
+            const stat = fs.statSync(inputAbs);
+            if (stat.size === 0) {
+                video.cleanFrameStatus = "failed";
+                video.cleanFrameError = "Video file is empty (0 bytes). Please re-upload the video.";
+                await video.save();
+                return res.status(400).json({ message: "Video file is empty. Please re-upload." });
+            }
+        } catch {
+            video.cleanFrameStatus = "failed";
+            video.cleanFrameError = "Video file not found on disk. Please re-upload.";
+            await video.save();
+            return res.status(400).json({ message: "Video file not found. Please re-upload." });
+        }
+
         video.cleanFrameStatus = "processing";
         video.cleanFrameError = undefined;
         await video.save();
-
-        const inputAbs = path.join(__dirname, "..", video.filePath.replace(/^\//, ""));
         const outRel = `/uploads/cleanframe_${video._id}.png`;
         const outAbs = path.join(__dirname, "..", outRel.replace(/^\//, ""));
 
-        const fixedSecond = 2;
-
-        const pyCmd = process.platform === "win32" ? "py" : "python";
+        const pyCmd = process.platform === "win32" ? "py" : "python3";
         const py = spawn(pyCmd, [
             path.join(__dirname, "..", "python", "clean_frame.py"),
             "--input",
@@ -217,7 +231,7 @@ async function startPlayerDetection(req, res) {
         const thumbsDir = path.join(uploadsAbs, `player_thumbs_${video._id}`);
         const resultJsonAbs = path.join(uploadsAbs, `player_detection_${video._id}.json`);
         const scriptPath = path.join(__dirname, "..", "python", "detect_players.py");
-        const pyCmd = process.platform === "win32" ? "py" : "python";
+        const pyCmd = process.platform === "win32" ? "py" : "python3";
 
         if (!fs.existsSync(thumbsDir)) {
             fs.mkdirSync(thumbsDir, { recursive: true });
@@ -622,7 +636,7 @@ async function analyzeRallies(req, res) {
         const uploadsAbs = path.join(__dirname, "..", "uploads");
         const resultJsonAbs = path.join(uploadsAbs, `rally_analysis_${video._id}.json`);
 
-        const pyCmd = process.platform === "win32" ? "py" : "python";
+        const pyCmd = process.platform === "win32" ? "py" : "python3";
         const scriptPath = path.join(__dirname, "..", "python", "analyze_rallies.py");
 
         console.log("Starting rally analysis...");
@@ -770,7 +784,7 @@ async function analyzeBall(req, res) {
         const uploadsAbs = path.join(__dirname, "..", "uploads");
         const resultJsonAbs = path.join(uploadsAbs, `ball_analysis_${video._id}.json`);
 
-        const pyCmd = process.platform === "win32" ? "py" : "python";
+        const pyCmd = process.platform === "win32" ? "py" : "python3";
         const scriptPath = path.join(__dirname, "..", "python", "analyze_ball.py");
 
         const py = spawn(pyCmd, [
@@ -1045,13 +1059,17 @@ async function persistAnalysisOutputs(id) {
     const uploadsDir = path.join(__dirname, "..", "uploads");
     const dbUpdates = {};
 
-    // Processed video — prefer the raw AVI (ffmpeg-recoverable even if the
-    // process was killed mid-write) over the writer's own finalized mp4.
-    const destVideo = path.join(uploadsDir, `analyzed_${id}.mp4`);
-    const srcRawAvi = path.join(RUNS_DIR, "active_player_raw.avi");
-    const srcMp4    = path.join(RUNS_DIR, "active_player.mp4");
+    // Processed video — prefer rally_detect viz output (ball trail+box) if available,
+    // then raw AVI, then plain mp4.
+    const destVideo      = path.join(uploadsDir, `analyzed_${id}.mp4`);
+    const srcBallViz     = path.join(RUNS_DIR, "ball_tracking_viz_both.mp4");
+    const srcRawAvi      = path.join(RUNS_DIR, "active_player_raw.avi");
+    const srcMp4         = path.join(RUNS_DIR, "active_player.mp4");
 
-    if (fs.existsSync(srcRawAvi) && fs.statSync(srcRawAvi).size > 0) {
+    if (fs.existsSync(srcBallViz) && fs.statSync(srcBallViz).size > 0) {
+        fs.copyFileSync(srcBallViz, destVideo);
+        dbUpdates.analyzedVideoPath = `/uploads/analyzed_${id}.mp4`;
+    } else if (fs.existsSync(srcRawAvi) && fs.statSync(srcRawAvi).size > 0) {
         await new Promise(resolve => {
             const ff = spawn("ffmpeg", ["-y", "-fflags", "+genpts+discardcorrupt", "-i", srcRawAvi,
                 "-c:v", "libx264", "-preset", "fast", "-crf", "23", "-movflags", "+faststart", destVideo]);
@@ -1144,7 +1162,7 @@ async function startAnalysis(req, res) {
         analysisJobs[id] = { status: "processing", progress: 0, error: null, proc: null };
         await Video.findByIdAndUpdate(id, { "analytics.status": "processing", "analytics.error": "" });
 
-        const pyCmd = process.platform === "win32" ? "py" : "python";
+        const pyCmd = process.platform === "win32" ? "py" : "python3";
         const colorArg = [
             "--my-team-color", video.myTeamColor || "blue_white",
             "--opponent-color", video.opponentColor || "black_white",
@@ -1167,12 +1185,17 @@ async function startAnalysis(req, res) {
         // ── STEP 1: predict_pipeline (jersey OCR) ──────────────────────────
         console.log(`[JERSEY] Starting predict_pipeline for jersey map...`);
         let jerseyStderr = "";
+        const jerseyCalibArg = video.calibrationJsonPath ? [
+            "--calib-json",
+            path.join(__dirname, "..", video.calibrationJsonPath.replace(/^\//, "")),
+        ] : [];
         const jerseyProc = spawn(pyCmd, [
             JERSEY_PIPELINE,
-            "--video",           videoAbs,
-            "--output",          path.join(RUNS_DIR, "jersey_tracking.mp4"),
+            "--video",            videoAbs,
+            "--output",           path.join(RUNS_DIR, "jersey_tracking.mp4"),
             "--frame-jersey-map", frameJerseyMap,
             ...colorArg,
+            ...jerseyCalibArg,
         ]);
         analysisJobs[id].proc = jerseyProc;
 
@@ -1280,7 +1303,7 @@ async function saveCourtCalibration(req, res) {
 
         const calibJsonPath = path.join(__dirname, "..", "uploads", `calib_${id}.json`);
         const CALIB_SCRIPT  = path.join(__dirname, "..", "detection_models", "all_three", "court_calibration.py");
-        const pyCmd = process.platform === "win32" ? "py" : "python";
+        const pyCmd = process.platform === "win32" ? "py" : "python3";
         const flat = imagePoints.flat().map(String); // [x1,y1,x2,y2,x3,y3,x4,y4]
 
         await new Promise((resolve, reject) => {
@@ -1319,28 +1342,31 @@ async function saveCourtCalibration(req, res) {
 //  • Score is NEVER updated inside triple_detection.py — only here.
 //
 function buildRallyAnalysis(volleyAnalytics) {
-    const landings  = volleyAnalytics.ball_landings || [];
-    const frames    = volleyAnalytics.frames        || [];
-    const fps       = volleyAnalytics.fps           || 30;
-    const deadSegs  = volleyAnalytics.dead_segments || [];
-    const lastFrame = frames.length > 0 ? frames[frames.length - 1].frame : 0;
+    const landings     = volleyAnalytics.ball_landings || [];
+    const frames       = volleyAnalytics.frames        || [];
+    const fps          = volleyAnalytics.fps           || 30;
+    const deadSegs     = volleyAnalytics.dead_segments || [];
+    const rallyWins    = volleyAnalytics.rally_windows || [];
+    const lastFrame    = frames.length > 0 ? frames[frames.length - 1].frame : 0;
 
-    const MIN_CONF          = 0.25;                    // minimum ball detection confidence
-    const MIN_FRAMES_DELAY  = Math.round(fps * 0.5);  // ignore landings in first 0.5s of rally
+    const MIN_CONF          = 0.25;
+    const MIN_FRAMES_DELAY  = Math.round(fps * 0.5);
+    const LANDING_TOLERANCE = Math.round(fps * 0.5);
 
-    // Only these actions count as ball-touch for last_touch_team resolution
-    const TOUCH_ACTIONS = new Set(["serve", "spike", "set", "bump", "block", "dig", "defence"]);
+    // Touch actions for last_touch_team resolution
+    const TOUCH_ACTIONS = new Set(["serve", "receive", "set", "attack", "spike", "block", "dig", "bump"]);
+    const BALL_ACTIONS  = new Set([...TOUCH_ACTIONS, "setting", "defence"]);
 
-    // ── helpers ──────────────────────────────────────────────────────────────
+    // ── helpers ───────────────────────────────────────────────────────────────
     const toTimeSec = f => parseFloat((f / fps).toFixed(3));
     const toTimeStr = f => {
         const s = Math.floor(f / fps);
         return `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
     };
 
-    // Sorted list of {frame, team} for ball-touch actions only
+    // lastTouchBefore — search backwards for last meaningful ball-touch action
     const actionTimeline = frames
-        .filter(f => TOUCH_ACTIONS.has(f.action) && f.active_player_team)
+        .filter(f => TOUCH_ACTIONS.has(f.action) && (f.active_player_team === "my_team" || f.active_player_team === "opponent"))
         .map(f => ({ frame: f.frame, team: f.active_player_team }))
         .sort((a, b) => a.frame - b.frame);
 
@@ -1351,214 +1377,200 @@ function buildRallyAnalysis(volleyAnalytics) {
         return null;
     }
 
-    // ── 1. Build rally windows from dead_segments ─────────────────────────────
-    let rallyWindows = [];
-    let usingFallback = false;
-    if (deadSegs.length > 0) {
-        const sorted = [...deadSegs].sort((a, b) => a.start_frame - b.start_frame);
-        let cursor = 0;
-        for (const seg of sorted) {
-            if (seg.start_frame > cursor) {
-                rallyWindows.push({ start: cursor, end: seg.start_frame });
-            }
-            cursor = seg.end_frame ?? seg.start_frame;
-        }
-        if (cursor < lastFrame) rallyWindows.push({ start: cursor, end: lastFrame });
-    } else {
-        // Fallback: group landings with 3-second gap between them
-        usingFallback = true;
-        const GAP = Math.round(fps * 3);
-        let groupStart = null, groupEnd = null;
-        for (const land of landings) {
-            if (groupStart === null) {
-                groupStart = land.frame;
-                groupEnd   = land.frame;
-            } else if (land.frame - groupEnd <= GAP) {
-                groupEnd = land.frame;
-            } else {
-                rallyWindows.push({ start: groupStart, end: groupEnd });
-                groupStart = land.frame;
-                groupEnd   = land.frame;
-            }
-        }
-        if (groupStart !== null) rallyWindows.push({ start: groupStart, end: groupEnd });
+    // ── 1. Build rally windows — priority order ───────────────────────────────
+
+    // Method A: rally_windows built directly by rally_detect (analyze_rally_stats)
+    function buildFromRallyWindows() {
+        if (rallyWins.length === 0) return [];
+        return rallyWins.map(w => ({ start: w.start_frame, end: w.end_frame }));
     }
 
-    // ── 2. One valid landing per rally → one score_event ─────────────────────
-    // In fallback mode the window IS defined by the landings themselves,
-    // so MIN_FRAMES_DELAY would filter out every single-landing window.
-    const effectiveDelay = usingFallback ? 0 : MIN_FRAMES_DELAY;
+    // Method B: dead_segments → invert to get rally windows
+    function buildFromDeadSegments() {
+        if (deadSegs.length === 0) return [];
+        const sorted = [...deadSegs].sort((a, b) => a.start_frame - b.start_frame);
+        const windows = [];
+        let cursor = 0;
+        for (const seg of sorted) {
+            if (seg.start_frame > cursor) windows.push({ start: cursor, end: seg.start_frame });
+            cursor = seg.end_frame ?? seg.start_frame;
+        }
+        if (cursor < lastFrame) windows.push({ start: cursor, end: lastFrame });
+        return windows;
+    }
 
+    // Method C: fallback — group landings by 3-second gap
+    function buildFromLandingGaps() {
+        if (landings.length === 0) return [];
+        const GAP = Math.round(fps * 3);
+        const windows = [];
+        let groupStart = null, groupEnd = null;
+        for (const land of [...landings].sort((a, b) => a.frame - b.frame)) {
+            if (groupStart === null) { groupStart = land.frame; groupEnd = land.frame; }
+            else if (land.frame - groupEnd <= GAP) { groupEnd = land.frame; }
+            else {
+                windows.push({ start: groupStart, end: groupEnd });
+                groupStart = land.frame; groupEnd = land.frame;
+            }
+        }
+        if (groupStart !== null) windows.push({ start: groupStart, end: groupEnd });
+        return windows;
+    }
+
+    let rallyWindows = buildFromRallyWindows();
+    let windowSource = "rally_detect";
+    if (rallyWindows.length === 0) {
+        rallyWindows = buildFromDeadSegments();
+        windowSource = "dead_segments";
+    }
+    if (rallyWindows.length === 0) {
+        rallyWindows = buildFromLandingGaps();
+        windowSource = "landing_gaps";
+    }
+
+    // In landing_gaps fallback the window IS defined by the landings, skip the delay
+    const effectiveDelay = windowSource === "landing_gaps" ? 0 : MIN_FRAMES_DELAY;
+
+    // ── 2. Score one landing per rally ────────────────────────────────────────
     let usScore = 0, oppScore = 0;
     const scoreEvents = [];
     const rallyMeta   = [];
 
-    for (let rallyIdx = 0; rallyIdx < rallyWindows.length; rallyIdx++) {
-        const win    = rallyWindows[rallyIdx];
-        const rallyId = rallyIdx + 1;
+    for (let idx = 0; idx < rallyWindows.length; idx++) {
+        const win     = rallyWindows[idx];
+        const rallyId = idx + 1;
 
-        // All landings in this window, filtered for quality
-        const validLandings = landings.filter(l =>
-            l.frame >= win.start + effectiveDelay &&
-            l.frame <= win.end &&
-            (l.confidence == null || l.confidence >= MIN_CONF)
-        );
+        const validLandings = landings
+            .filter(l =>
+                l.frame >= win.start + effectiveDelay &&
+                l.frame <= win.end + LANDING_TOLERANCE &&
+                (l.confidence == null || l.confidence >= MIN_CONF)
+            )
+            .sort((a, b) => a.frame - b.frame);
 
         if (validLandings.length === 0) {
-            rallyMeta.push({ ...win, rallyId, result: "unknown", landing: null, scoreEvent: null });
+            rallyMeta.push({ win, rallyId, result: "unknown", landing: null, scoreEvent: null });
             continue;
         }
 
-        // Take the FIRST valid landing — not the last (avoids counting bounces/re-detections)
-        const land    = validLandings[0];
-        let   result  = "unknown";
-        let   scoring = null;
+        // Take FIRST valid landing — never last (avoids counting bounces)
+        const land = validLandings[0];
+        let result  = "unknown";
+        let scoring = null;
 
-        // No calibration → landed_side="unknown" → no scoring
         if (land.landed_side === "unknown") {
             scoring = {
-                rally_id:       rallyId,
-                type:           "no_calibration",
-                frame:          land.frame,
-                time_sec:       toTimeSec(land.frame),
-                us:             usScore,
-                opp:            oppScore,
-                landed_side:    "unknown",
-                court_position: null,
-                scoring_team:   "unknown",
+                rally_id: rallyId, type: "no_calibration",
+                frame: land.frame, time_sec: toTimeSec(land.frame),
+                us: usScore, opp: oppScore,
+                landed_side: "unknown", court_position: null, scoring_team: "unknown",
             };
-            rallyMeta.push({ ...win, rallyId, result: "unknown", landing: land, scoreEvent: scoring });
-            if (scoring) scoreEvents.push(scoring);
-            continue;
-        }
 
-        if (land.landed_side === "opponent") {
+        } else if (land.landed_side === "opponent") {
             usScore++;
-            result  = "won";
+            result  = "point_my_team";
             scoring = {
-                rally_id:       rallyId,
-                type:           "ball_landing",
-                frame:          land.frame,
-                time_sec:       toTimeSec(land.frame),
-                us:             usScore,
-                opp:            oppScore,
-                landed_side:    land.landed_side,
-                court_position: land.court_position || null,
-                scoring_team:   "my_team",
+                rally_id: rallyId, type: "ball_landing",
+                frame: land.frame, time_sec: toTimeSec(land.frame),
+                us: usScore, opp: oppScore,
+                landed_side: "opponent", court_position: land.court_position || null,
+                scoring_team: "my_team",
             };
 
         } else if (land.landed_side === "my_team") {
             oppScore++;
-            result  = "lost";
+            result  = "point_opponent";
             scoring = {
-                rally_id:       rallyId,
-                type:           "ball_landing",
-                frame:          land.frame,
-                time_sec:       toTimeSec(land.frame),
-                us:             usScore,
-                opp:            oppScore,
-                landed_side:    land.landed_side,
-                court_position: land.court_position || null,
-                scoring_team:   "opponent",
+                rally_id: rallyId, type: "ball_landing",
+                frame: land.frame, time_sec: toTimeSec(land.frame),
+                us: usScore, opp: oppScore,
+                landed_side: "my_team", court_position: land.court_position || null,
+                scoring_team: "opponent",
             };
 
         } else {
-            // landed_side === "outside" — resolve via last_touch_team
+            // outside — resolve by last touch
             result = "outside";
             const lastTeam = land.last_touch_team || lastTouchBefore(land.frame);
-
             if (lastTeam === "my_team") {
                 oppScore++;
                 scoring = {
-                    rally_id:        rallyId,
-                    type:            "ball_out",
-                    frame:           land.frame,
-                    time_sec:        toTimeSec(land.frame),
-                    us:              usScore,
-                    opp:             oppScore,
-                    landed_side:     "outside",
-                    court_position:  land.court_position || null,
-                    scoring_team:    "opponent",
-                    last_touch_team: lastTeam,
+                    rally_id: rallyId, type: "ball_out",
+                    frame: land.frame, time_sec: toTimeSec(land.frame),
+                    us: usScore, opp: oppScore,
+                    landed_side: "outside", court_position: land.court_position || null,
+                    scoring_team: "opponent", last_touch_team: lastTeam,
                 };
             } else if (lastTeam === "opponent") {
                 usScore++;
                 scoring = {
-                    rally_id:        rallyId,
-                    type:            "ball_out",
-                    frame:           land.frame,
-                    time_sec:        toTimeSec(land.frame),
-                    us:              usScore,
-                    opp:             oppScore,
-                    landed_side:     "outside",
-                    court_position:  land.court_position || null,
-                    scoring_team:    "my_team",
-                    last_touch_team: lastTeam,
+                    rally_id: rallyId, type: "ball_out",
+                    frame: land.frame, time_sec: toTimeSec(land.frame),
+                    us: usScore, opp: oppScore,
+                    landed_side: "outside", court_position: land.court_position || null,
+                    scoring_team: "my_team", last_touch_team: lastTeam,
                 };
             } else {
-                // last_touch_team unknown — record event but do NOT update score
                 scoring = {
-                    rally_id:       rallyId,
-                    type:           "unknown_out",
-                    frame:          land.frame,
-                    time_sec:       toTimeSec(land.frame),
-                    us:             usScore,
-                    opp:            oppScore,
-                    landed_side:    "outside",
-                    court_position: land.court_position || null,
-                    scoring_team:   "unknown",
+                    rally_id: rallyId, type: "unknown_out",
+                    frame: land.frame, time_sec: toTimeSec(land.frame),
+                    us: usScore, opp: oppScore,
+                    landed_side: "outside", court_position: land.court_position || null,
+                    scoring_team: "unknown",
                 };
             }
         }
 
-        if (scoring) scoreEvents.push(scoring);
-        rallyMeta.push({ ...win, rallyId, result, landing: land, scoreEvent: scoring });
+        scoreEvents.push(scoring);
+        rallyMeta.push({ win, rallyId, result, landing: land, scoreEvent: scoring });
     }
 
-    // ── 3. Build flat action list directly from action model (no rally grouping) ──
-    const BALL_ACTIONS = new Set(["serve", "spike", "attack", "set", "setting", "block", "dig", "bump", "receive"]);
-    const DEDUP_FRAMES = Math.round(fps * 0.5);
+    // ── 3. Flat action list ───────────────────────────────────────────────────
+    const DEDUP_FRAMES   = Math.round(fps * 0.5);
     const actionLastSeen = {};
-    const allActions = [];
+    const allActions     = [];
     for (const f of frames) {
         if (!f.action || f.action === "none") continue;
         if (!BALL_ACTIONS.has(f.action)) continue;
-        // Use jersey number as permanent player ID; fall back to tracker ID only for dedup
         const playerKey = f.active_player_jersey ?? f.active_player_id ?? "?";
         const key = `${playerKey}:${f.action}`;
         if (!actionLastSeen[key] || f.frame - actionLastSeen[key] >= DEDUP_FRAMES) {
             actionLastSeen[key] = f.frame;
             allActions.push({
-                frame:        f.frame,
-                time_sec:     toTimeSec(f.frame),
-                time_str:     toTimeStr(f.frame),
-                action:       f.action,
-                action_label: f.action,
-                result:       f.result || "unknown",
-                player_label: f.active_player_jersey ? `#${f.active_player_jersey}` : "?",
+                frame:         f.frame,
+                time_sec:      toTimeSec(f.frame),
+                time_str:      toTimeStr(f.frame),
+                action:        f.action,
+                action_label:  f.action,
+                result:        f.result || "unknown",
+                player_label:  f.active_player_jersey ? `#${f.active_player_jersey}` : "?",
                 player_jersey: f.active_player_jersey ?? null,
             });
         }
     }
 
-    // ── 4. Build rally docs (for score events only) ───────────────────────────
-    const rallies = rallyMeta.map((rm) => ({
+    // ── 4. Attach actions to rallies ──────────────────────────────────────────
+    const rallies = rallyMeta.map(rm => ({
         rally_id:    rm.rallyId,
-        result:      rm.result || "unknown",
+        start_frame: rm.win.start,
+        end_frame:   rm.win.end,
+        start_sec:   toTimeSec(rm.win.start),
+        end_sec:     toTimeSec(rm.win.end),
+        result:      rm.result,
         score_event: rm.scoreEvent || null,
-        actions:     [],
-    })).filter(r => r.score_event !== null);
+        actions:     allActions.filter(a => a.frame >= rm.win.start && a.frame <= rm.win.end),
+    }));
 
     return {
         rallies,
-        all_actions:   allActions,
-        score_events:  scoreEvents,
-        total_rallies: rallyMeta.length,
-        total_won:     usScore,
-        total_lost:    oppScore,
-        us_score:      usScore,
+        all_actions:    allActions,
+        score_events:   scoreEvents,
+        total_rallies:  rallyMeta.length,
+        total_won:      usScore,
+        total_lost:     oppScore,
+        us_score:       usScore,
         opponent_score: oppScore,
-        generated_from: "action_model",
+        window_source:  windowSource,
     };
 }
 

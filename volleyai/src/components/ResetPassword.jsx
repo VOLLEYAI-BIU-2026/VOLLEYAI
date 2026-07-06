@@ -1,4 +1,4 @@
-﻿import { API_BASE } from "../config.js";
+import { API_BASE } from "../config.js";
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import "./ForgotPassword.css";

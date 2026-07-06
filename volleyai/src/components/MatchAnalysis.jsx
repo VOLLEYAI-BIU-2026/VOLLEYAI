@@ -1,4 +1,4 @@
-﻿import { API_BASE } from "../config.js";
+import { API_BASE } from "../config.js";
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./MatchAnalysis.css";
@@ -28,11 +28,17 @@ const RESULT_LABEL = {
     unknown: { text: "",        cls: ""              },
 };
 
+function toTimeStr(sec) {
+    const s = Math.floor(sec ?? 0);
+    return `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
+}
+
 export default function MatchAnalysis() {
     const { videoId } = useParams();
     const navigate = useNavigate();
     const videoRef = useRef(null);
     const actionRefs = useRef({});
+    const rallyRefs  = useRef({});
     const pollRef = useRef(null);
 
     const [status, setStatus]       = useState("checking");
@@ -40,13 +46,15 @@ export default function MatchAnalysis() {
     const [rallies, setRallies]     = useState([]);
     const [rallyMeta, setRallyMeta] = useState(null);
     const [videoUrl, setVideoUrl]   = useState(null);
-    const [activeFrame, setActiveFrame] = useState(null);
+    const [activeFrame, setActiveFrame]     = useState(null);
+    const [activeRallyId, setActiveRallyId] = useState(null);
+    const [activeTab, setActiveTab]         = useState("actions");
     const [currentScore, setCurrentScore] = useState({ us: 0, opp: 0 });
     const [scoreEvents, setScoreEvents]   = useState([]);
     const [teamNames, setTeamNames]       = useState({ us: "Us", opp: "Opp" });
     const [allActions, setAllActions]     = useState([]);
 
-    // â”€â”€ Load team names â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Load team names ───────────────────────────────────────
     useEffect(() => {
         if (!videoId) return;
         fetch(`${API}/videos/${videoId}`, { credentials: "include" })
@@ -61,7 +69,7 @@ export default function MatchAnalysis() {
             .catch(() => {});
     }, [videoId]);
 
-    // â”€â”€ Load rally data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Load rally data ──────────────────────────────────────
     const loadRallies = useCallback(() => {
         if (!videoId) return;
         fetch(`${API}/videos/${videoId}/rally-analysis`, { credentials: "include" })
@@ -102,7 +110,7 @@ export default function MatchAnalysis() {
         loadRallies();
     }, [videoId, loadRallies]);
 
-    // â”€â”€ On mount: check analytics status, poll while processing â”€â”€
+    // ── On mount: check analytics status, poll while processing ──
     useEffect(() => {
         let cancelled = false;
 
@@ -154,14 +162,14 @@ export default function MatchAnalysis() {
         return () => { cancelled = true; clearInterval(pollRef.current); };
     }, [videoId, loadRallies, finishAnalysis]);
 
-    // â”€â”€ Video time sync â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Video time sync ───────────────────────────────────────
     useEffect(() => {
         const video = videoRef.current;
         if (!video || !allActions.length) return;
         const onTime = () => {
             const t = video.currentTime;
 
-            // Active action highlight â€” find the latest action at or before current time
+            // Active action highlight
             let best = null;
             for (const act of allActions) {
                 if (act.time_sec <= t + 0.5) best = act;
@@ -169,7 +177,11 @@ export default function MatchAnalysis() {
             }
             if (best) setActiveFrame(best.frame);
 
-            // Score dashboard: find latest score_event before current time
+            // Active rally highlight
+            const activeRally = rallies.find(r => t >= r.start_sec && t <= r.end_sec + 0.5);
+            setActiveRallyId(activeRally?.rally_id ?? null);
+
+            // Score dashboard
             let score = { us: 0, opp: 0 };
             for (const ev of scoreEvents) {
                 if (ev.time_sec <= t) score = { us: ev.us, opp: ev.opp };
@@ -180,12 +192,18 @@ export default function MatchAnalysis() {
         return () => video.removeEventListener("timeupdate", onTime);
     }, [allActions, scoreEvents]);
 
-    // â”€â”€ Auto-scroll active action â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Auto-scroll active action ─────────────────────────────
     useEffect(() => {
         if (activeFrame !== null && actionRefs.current[activeFrame]) {
             actionRefs.current[activeFrame].scrollIntoView({ behavior: "smooth", block: "nearest" });
         }
     }, [activeFrame]);
+
+    useEffect(() => {
+        if (activeRallyId !== null && rallyRefs.current[activeRallyId]) {
+            rallyRefs.current[activeRallyId].scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+    }, [activeRallyId]);
 
     const seekTo = useCallback((action) => {
         if (videoRef.current) {
@@ -195,14 +213,22 @@ export default function MatchAnalysis() {
         setActiveFrame(action.frame);
     }, []);
 
+    const seekToRally = useCallback((rally) => {
+        if (videoRef.current) {
+            videoRef.current.currentTime = rally.start_sec;
+            videoRef.current.play();
+        }
+        setActiveRallyId(rally.rally_id);
+    }, []);
+
     const displayActions = allActions;
 
-    // â”€â”€ Loading / Processing / Error screens â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Loading / Processing / Error screens ─────────────────
     if (status === "checking") {
         return (
             <div className="ma-page ma-center">
                 <div className="ma-processing-box">
-                    <button className="ma-back" style={{ alignSelf: "flex-start" }} onClick={() => navigate(-1)}>â†</button>
+                    <button className="ma-back" style={{ alignSelf: "flex-start" }} onClick={() => navigate(-1)}>←</button>
                     <div className="ma-spinner" />
                 </div>
             </div>
@@ -213,7 +239,7 @@ export default function MatchAnalysis() {
         return (
             <div className="ma-page ma-center">
                 <div className="ma-processing-box">
-                    <button className="ma-back" style={{ alignSelf: "flex-start" }} onClick={() => navigate(-1)}>â†</button>
+                    <button className="ma-back" style={{ alignSelf: "flex-start" }} onClick={() => navigate(-1)}>←</button>
                     <div className="ma-spinner" />
                     <div className="ma-proc-title">Processing Video...</div>
                     <div className="ma-proc-sub">Detecting players, ball &amp; actions</div>
@@ -259,13 +285,13 @@ export default function MatchAnalysis() {
         return (
             <div className="ma-page ma-center">
                 <div className="ma-processing-box">
-                    <div className="ma-proc-icon">ðŸ</div>
+                    <div className="ma-proc-icon">🏐</div>
                     <div className="ma-proc-title">Ready to Analyze</div>
                     <div className="ma-proc-sub">Run all 3 models: player detection, ball tracking &amp; action recognition.</div>
                     <button className="ma-start-btn ma-start-run" onClick={handleStartAnalysis}>
-                        â–¶ Start Analysis
+                        ▶ Start Analysis
                     </button>
-                    <button className="ma-back-link" onClick={() => navigate(-1)}>â† Go Back</button>
+                    <button className="ma-back-link" onClick={() => navigate(-1)}>← Go Back</button>
                 </div>
             </div>
         );
@@ -275,7 +301,7 @@ export default function MatchAnalysis() {
         return (
             <div className="ma-page ma-center">
                 <div className="ma-processing-box">
-                    <button className="ma-back" style={{ alignSelf: "flex-start" }} onClick={() => navigate(-1)}>â†</button>
+                    <button className="ma-back" style={{ alignSelf: "flex-start" }} onClick={() => navigate(-1)}>←</button>
                     <div className="ma-proc-title" style={{ color: "#f87171" }}>Analysis Failed</div>
                     <div className="ma-proc-sub">The main detection finished but a secondary step failed.</div>
                     <button className="ma-start-btn" style={{ marginTop: 12 }} onClick={async () => {
@@ -288,25 +314,25 @@ export default function MatchAnalysis() {
                     }}>
                         View Existing Results
                     </button>
-                    <button className="ma-back-link" onClick={() => navigate(-1)}>â† Go Back</button>
+                    <button className="ma-back-link" onClick={() => navigate(-1)}>← Go Back</button>
                 </div>
             </div>
         );
     }
 
-    // â”€â”€ Main screen (done) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Main screen (done) ────────────────────────────────────
     return (
         <div className="ma-page">
             <div className="ma-topbar">
-                <button className="ma-back" onClick={() => navigate(-1)}>â†</button>
+                <button className="ma-back" onClick={() => navigate(-1)}>←</button>
                 <span className="ma-title">Processed Video</span>
                 {rallyMeta && (
                     <span className="ma-summary">
-                        {rallyMeta.won}W â€“ {rallyMeta.lost}L Â· {rallyMeta.total} rallies
+                        {rallyMeta.won}W – {rallyMeta.lost}L · {rallyMeta.total} rallies
                     </span>
                 )}
                 <button className="ma-start-btn" onClick={() => navigate(`/match-statistics/${videoId}`)}>
-                    Start Statistics â†’
+                    Start Statistics →
                 </button>
             </div>
 
@@ -324,35 +350,64 @@ export default function MatchAnalysis() {
                         <span className="ma-score-team">{teamNames.us}</span>
                         <span className="ma-score-num">
                             {currentScore.us}
-                            <span className="ma-score-sep"> â€“ </span>
+                            <span className="ma-score-sep"> – </span>
                             {currentScore.opp}
                         </span>
                         <span className="ma-score-team">{teamNames.opp}</span>
                     </div>
                 </div>
 
-                {/* Rally panel */}
+                {/* Right panel */}
                 <div className="ma-panel">
                     <div className="ma-tabs">
-                        <button className="ma-tab active">
+                        <button
+                            className={`ma-tab ${activeTab === "actions" ? "active" : ""}`}
+                            onClick={() => setActiveTab("actions")}
+                        >
                             Actions {displayActions.length ? `(${displayActions.length})` : ""}
+                        </button>
+                        <button
+                            className={`ma-tab ${activeTab === "rallies" ? "active" : ""}`}
+                            onClick={() => setActiveTab("rallies")}
+                        >
+                            Rallies {rallies.length ? `(${rallies.length})` : ""}
                         </button>
                     </div>
 
                     <div className="ma-list">
-                        {!displayActions.length && (
-                            <div className="ma-state">No action data.<br />Click "Start Statistics" to generate.</div>
+                        {activeTab === "actions" && (
+                            <>
+                                {!displayActions.length && (
+                                    <div className="ma-state">No action data.<br />Click "Start Statistics" to generate.</div>
+                                )}
+                                {displayActions.map((act, i) => (
+                                    <ActionRow
+                                        key={i}
+                                        act={act}
+                                        active={activeFrame === act.frame}
+                                        onClick={() => seekTo(act)}
+                                        ref={el => { actionRefs.current[act.frame] = el; }}
+                                    />
+                                ))}
+                            </>
                         )}
 
-                        {displayActions.map((act, i) => (
-                            <ActionRow
-                                key={i}
-                                act={act}
-                                active={activeFrame === act.frame}
-                                onClick={() => seekTo(act)}
-                                ref={el => { actionRefs.current[act.frame] = el; }}
-                            />
-                        ))}
+                        {activeTab === "rallies" && (
+                            <>
+                                {!rallies.length && (
+                                    <div className="ma-state">No rally data detected.</div>
+                                )}
+                                {rallies.map(rally => (
+                                    <RallyRow
+                                        key={rally.rally_id}
+                                        rally={rally}
+                                        active={activeRallyId === rally.rally_id}
+                                        onClick={() => seekToRally(rally)}
+                                        ref={el => { rallyRefs.current[rally.rally_id] = el; }}
+                                    />
+                                ))}
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
@@ -379,3 +434,35 @@ const ActionRow = React.forwardRef(({ act, active, onClick }, ref) => {
     );
 });
 ActionRow.displayName = "ActionRow";
+
+const RallyRow = React.forwardRef(({ rally, active, onClick }, ref) => {
+    const durationSec = Math.max(0, Math.round((rally.end_sec ?? 0) - (rally.start_sec ?? 0)));
+    const startStr    = toTimeStr(rally.start_sec);
+    const endStr      = toTimeStr(rally.end_sec);
+
+    let resultCls  = "";
+    let resultText = "";
+    if      (rally.result === "point_my_team")  { resultCls = "won";  resultText = "Won";  }
+    else if (rally.result === "point_opponent") { resultCls = "lost"; resultText = "Lost"; }
+
+    const actionCount = rally.actions?.length ?? 0;
+
+    return (
+        <div
+            ref={ref}
+            className={`ma-rally-pill ${active ? "active" : ""}`}
+            onClick={onClick}
+        >
+            <span className="ma-rally-num">#{rally.rally_id}</span>
+            <span className="ma-rally-info">
+                <span className="ma-rally-timerange">{startStr} – {endStr}</span>
+                {actionCount > 0 && (
+                    <span className="ma-rally-actcount">{actionCount} action{actionCount !== 1 ? "s" : ""}</span>
+                )}
+            </span>
+            <span className="ma-rally-dur">{durationSec}s</span>
+            {resultText && <span className={`ma-rally-result ${resultCls}`}>{resultText}</span>}
+        </div>
+    );
+});
+RallyRow.displayName = "RallyRow";

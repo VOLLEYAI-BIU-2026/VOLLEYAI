@@ -1,0 +1,49 @@
+{
+  "ocr": {
+    "conf_threshold": 0.80,
+    "lock_votes": 3,
+    "unlock_consecutive": 10,
+    "min_crop_px": 15,
+    "min_blur_var": 60.0
+  },
+  "reid": {
+    "similarity_threshold": 0.70,
+    "embed_max_avg": 30
+  },
+  "fusion": {
+    "reid_weight": 0.55,
+    "ocr_weight": 0.25,
+    "position_weight": 0.10,
+    "temporal_weight": 0.10,
+    "merge_threshold": 0.55
+  },
+  "temporal": {
+    "max_teleport_frames": 10,
+    "max_court_fraction": 0.30,
+    "max_gap_frames": 90
+  },
+  "rally": {
+    "defer_updates": true,
+    "min_players": 4,
+    "movement_px_threshold": 6.0,
+    "end_still_frames": 30
+  },
+  "confidence_history": {
+    "window_size": 60
+  },
+  "impossible_change": {
+    "reid_certainty": 0.90
+  },
+  "debug": {
+    "enabled": true,
+    "locked_color": [0, 210, 0],
+    "tentative_color": [0, 165, 255],
+    "merged_color": [200, 0, 220],
+    "recently_merged_frames": 40
+  },
+  "team": {
+    "bootstrap_samples": 40,
+    "vote_min": 3,
+    "official_threshold": 80
+  }
+}

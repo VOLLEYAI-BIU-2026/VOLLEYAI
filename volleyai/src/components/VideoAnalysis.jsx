@@ -1,4 +1,4 @@
-﻿import { API_BASE } from "../config.js";
+import { API_BASE } from "../config.js";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./VideoAnalysis.css";
@@ -226,7 +226,7 @@ export default function VideoAnalysis() {
       <div className="va-topbar">
         <div className="va-topbarLeft">
           <button className="va-backBtn" type="button" onClick={() => navigate(-1)}>
-            â†
+            ←
           </button>
 
           <div className="va-titleWrap">

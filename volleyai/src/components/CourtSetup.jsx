@@ -1,4 +1,4 @@
-﻿import { API_BASE } from "../config.js";
+import { API_BASE } from "../config.js";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./CourtSetup.css";
@@ -6,10 +6,10 @@ import "./CourtSetup.css";
 const API = API_BASE;
 
 const POINT_LABELS = [
-    "1 â€” ×¤×™× ×” ×©×ž××œ×™×ª ×§×¨×•×‘×” (near left)",
-    "2 â€” ×¤×™× ×” ×™×ž× ×™×ª ×§×¨×•×‘×” (near right)",
-    "3 â€” ×§×• ×¨×©×ª ×©×ž××œ (net left)",
-    "4 â€” ×§×• ×¨×©×ª ×™×ž×™×Ÿ (net right)",
+    "1 — Near left corner",
+    "2 — Near right corner",
+    "3 — Net left end",
+    "4 — Net right end",
 ];
 
 export default function CourtSetup() {
@@ -24,14 +24,26 @@ export default function CourtSetup() {
     const [error, setError]             = useState("");
     const [done, setDone]               = useState(false);
     const [frameStatus, setFrameStatus] = useState("loading"); // "loading"|"generating"|"ready"|"error"
+    const [frameKey, setFrameKey]       = useState(0); // increment to re-trigger polling
 
-    // Load the clean frame â€” trigger generation if missing
+    async function handleRetry() {
+        setFrameStatus("generating");
+        setError("");
+        try {
+            await fetch(`${API}/videos/${videoId}/clean-frame`, { method: "POST", credentials: "include" });
+        } catch { /* backend will handle */ }
+        setFrameKey(k => k + 1);
+    }
+
+    // Load the clean frame — trigger generation if missing
     useEffect(() => {
         if (!videoId) return;
-        let pollTimer = null;
+        let cancelled = false;
 
         async function load() {
+            if (cancelled) return;
             const r = await fetch(`${API}/videos/${videoId}`, { credentials: "include" });
+            if (cancelled) return;
             const d = r.ok ? await r.json() : null;
             if (!d?.video) { setFrameStatus("error"); return; }
 
@@ -46,30 +58,27 @@ export default function CourtSetup() {
                 return;
             }
 
-            // Clean frame missing â€” trigger generation
-            if (d.video.cleanFrameStatus === "processing") {
-                setFrameStatus("generating");
-                pollTimer = setInterval(load, 3000);
-                return;
-            }
-
             if (d.video.cleanFrameStatus === "failed") {
                 setFrameStatus("error");
-                setError("×™×¦×™×¨×ª ×”×¤×¨×™×™× × ×›×©×œ×”. × ×¡×” ×©× ×™×ª.");
+                setError(d.video.cleanFrameError || "Failed to generate frame. Please try again.");
                 return;
             }
 
-            // Not started yet â€” kick it off
-            setFrameStatus("generating");
-            await fetch(`${API}/videos/${videoId}/clean-frame`, {
-                method: "POST", credentials: "include",
-            });
-            pollTimer = setInterval(load, 3000);
+            if (d.video.cleanFrameStatus !== "processing") {
+                setFrameStatus("generating");
+                await fetch(`${API}/videos/${videoId}/clean-frame`, {
+                    method: "POST", credentials: "include",
+                });
+            } else {
+                setFrameStatus("generating");
+            }
+
+            if (!cancelled) setTimeout(load, 3000);
         }
 
         load();
-        return () => clearInterval(pollTimer);
-    }, [videoId]);
+        return () => { cancelled = true; };
+    }, [videoId, frameKey]);
 
     // Draw points on canvas when they change
     useEffect(() => {
@@ -139,7 +148,7 @@ export default function CourtSetup() {
         const scaleX = img.naturalWidth  / img.clientWidth;
         const scaleY = img.naturalHeight / img.clientHeight;
 
-        // Convert display pixels â†’ actual image pixels
+        // Convert display pixels → actual image pixels
         const imagePoints = points.map(({ x, y }) => [
             Math.round(x * scaleX),
             Math.round(y * scaleY),
@@ -172,9 +181,9 @@ export default function CourtSetup() {
         return (
             <div className="cs-page cs-center">
                 <div className="cs-card">
-                    <div className="cs-check">âœ“</div>
-                    <div className="cs-title">×›×™×•×œ × ×©×ž×¨ ×‘×”×¦×œ×—×”</div>
-                    <div className="cs-sub">×”×›×™×•×œ ×™×©×ž×© ×œ×–×™×”×•×™ × ×¤×™×œ×•×ª ×›×“×•×¨ ×•× ×™×§×•×“ ××•×˜×•×ž×˜×™</div>
+                    <div className="cs-check">✓</div>
+                    <div className="cs-title">Calibration Saved</div>
+                    <div className="cs-sub">Calibration will be used for ball landing detection and automatic scoring</div>
                     <button className="cs-btn" onClick={async () => {
                         try {
                             await fetch(`${API}/videos/${videoId}/start-analysis`, {
@@ -182,7 +191,7 @@ export default function CourtSetup() {
                             });
                         } catch { /* starts in background */ }
                         navigate(`/match-analysis/${videoId}`);
-                    }}>×”×ž×©×š ×œ× ×™×ª×•×— â†’</button>
+                    }}>Continue to Analysis →</button>
                 </div>
             </div>
         );
@@ -191,18 +200,18 @@ export default function CourtSetup() {
     return (
         <div className="cs-page">
             <div className="cs-topbar">
-                <button className="cs-back" onClick={() => navigate(-1)}>â†</button>
-                <span className="cs-title">×›×™×•×œ ×ž×’×¨×©</span>
+                <button className="cs-back" onClick={() => navigate(-1)}>←</button>
+                <span className="cs-title">Court Calibration</span>
             </div>
 
             <div className="cs-body">
                 <div className="cs-instructions">
-                    <div className="cs-inst-title">×œ×—×¥ ×¢×œ 4 × ×§×•×“×•×ª ×‘×ª×ž×•× ×” ×œ×¤×™ ×”×¡×“×¨:</div>
+                    <div className="cs-inst-title">Click 4 points on the image in order:</div>
                     {POINT_LABELS.map((lbl, i) => (
                         <div key={i} className={`cs-inst-row ${points.length > i ? "cs-inst-done" : points.length === i ? "cs-inst-active" : ""}`}>
                             <span className={`cs-dot ${i < 2 ? "cs-dot-green" : "cs-dot-yellow"}`} />
                             {lbl}
-                            {points.length > i && <span className="cs-inst-check">âœ“</span>}
+                            {points.length > i && <span className="cs-inst-check">✓</span>}
                         </div>
                     ))}
                 </div>
@@ -233,16 +242,19 @@ export default function CourtSetup() {
                     ) : frameStatus === "generating" ? (
                         <div className="cs-loading">
                             <div className="cs-spinner" />
-                            ×ž×™×™×¦×¨ ×¤×¨×™×™× × ×§×™ ×ž×”×•×™×“××•...
+                            Generating clean frame from video...
                         </div>
                     ) : frameStatus === "error" ? (
-                        <div className="cs-loading" style={{ color: "#f87171" }}>
-                            {error || "×©×’×™××” ×‘×˜×¢×™× ×ª ×”×¤×¨×™×™×"}
+                        <div className="cs-loading" style={{ flexDirection: "column", gap: "16px" }}>
+                            <span style={{ color: "#f87171" }}>{error || "Error loading frame"}</span>
+                            <button className="cs-btn cs-btn-secondary" onClick={handleRetry}>
+                                Try Again
+                            </button>
                         </div>
                     ) : (
                         <div className="cs-loading">
                             <div className="cs-spinner" />
-                            ×˜×•×¢×Ÿ...
+                            Loading...
                         </div>
                     )}
                 </div>
@@ -250,14 +262,14 @@ export default function CourtSetup() {
                 <div className="cs-actions">
                     {error && <div className="cs-error">{error}</div>}
                     <button className="cs-btn cs-btn-secondary" onClick={handleReset} disabled={!points.length}>
-                        × ×§×” × ×§×•×“×•×ª
+                        Clear Points
                     </button>
                     <button
                         className="cs-btn cs-btn-primary"
                         onClick={handleSave}
                         disabled={points.length < 4 || saving}
                     >
-                        {saving ? "×©×•×ž×¨..." : "×©×ž×•×¨ ×›×™×•×œ"}
+                        {saving ? "Saving..." : "Save Calibration"}
                     </button>
                 </div>
             </div>

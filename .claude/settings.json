@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(docker info --format \"{{.OperatingSystem}} | CPUs: {{.NCPU}} | RAM: {{.MemTotal}} | Runtimes: {{range $k,$v := .Runtimes}}{{$k}} {{end}}\" 2>&1)",
+      "PowerShell(nvidia-smi --query-gpu=name,memory.total --format=csv,noheader 2>&1)",
+      "PowerShell(docker run --rm --gpus all nvidia/cuda:12.1.0-base-ubuntu22.04 nvidia-smi 2>&1)",
+      "PowerShell(netstat -ano)",
+      "PowerShell(Get-Process -Id 29656 2>&1)",
+      "Bash(Remove-Item -Recurse -Force \"c:\\\\Users\\\\user\\\\Desktop\\\\VOLLEYAI\\\\volleyai\\\\backend\\\\detection_models\\\\all_three\\\\rally_predictor\")",
+      "Bash(py -c \"import cv2; print\\('cv2:', cv2.__version__\\)\")",
+      "Bash(py -c \"from ultralytics import YOLO; print\\('ultralytics ok'\\)\")",
+      "Bash(py c:/Users/user/Desktop/VOLLEYAI/volleyai/backend/python/clean_frame.py --input c:/Users/user/Desktop/VOLLEYAI/volleyai/backend/uploads/1782640492460_Demo_Match_-_Trim.mp4 --output c:/Users/user/AppData/Local/Temp/claude/c--Users-user-Desktop-VOLLEYAI/118cc366-3452-4ccc-89be-ffd6744f2ea7/scratchpad/test_frame.png --start 2 --end 10 --step 2)",
+      "Bash(node -e ' *)",
+      "PowerShell(Get-Process -Name \"py\",\"python\",\"python3\" -ErrorAction SilentlyContinue)",
+      "PowerShell($p = Get-Process -Name \"python\" -ErrorAction SilentlyContinue; if \\($p\\) { \"Python still running. CPU: $\\([math]::Round\\($p.CPU/60,1\\)\\) min\" } else { \"Python FINISHED\" })",
+      "Bash(py -c ' *)",
+      "Bash(ffprobe -version)",
+      "Bash(py test_visual.py --frames 400)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\user\\Desktop\\VOLLEYAI\\volleyai\\backend\\detection_models\\all_three"
+    ]
+  }
+}

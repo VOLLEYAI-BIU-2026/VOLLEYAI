@@ -1,4 +1,4 @@
-﻿import { API_BASE } from "../config.js";
+import { API_BASE } from "../config.js";
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./JerseySetup.css";
@@ -118,9 +118,9 @@ export default function JerseySetup() {
     return (
         <div className="js-page">
             <div className="js-card">
-                <button className="js-back" onClick={() => navigate(-1)}>â†</button>
+                <button className="js-back" onClick={() => navigate(-1)}>←</button>
 
-                <div className="js-icon">ðŸ</div>
+                <div className="js-icon">🏐</div>
                 <h1 className="js-title">Setup Your Team</h1>
                 <p className="js-sub">
                     Pick each team's jersey colors so the AI can tell your players apart.
@@ -128,7 +128,7 @@ export default function JerseySetup() {
                 </p>
 
                 <div className="js-panels">
-                    {/* â”€â”€ My Team â”€â”€ */}
+                    {/* ── My Team ── */}
                     <div className="js-panel">
                         <div className="js-panel-header">
                             <span className="js-section-label">My Team</span>
@@ -152,7 +152,7 @@ export default function JerseySetup() {
                         </div>
                     </div>
 
-                    {/* â”€â”€ Opponent â”€â”€ */}
+                    {/* ── Opponent ── */}
                     <div className="js-panel">
                         <div className="js-panel-header">
                             <span className="js-section-label">Opponent</span>
@@ -195,7 +195,7 @@ export default function JerseySetup() {
                         navigate(`/court-setup/${videoId}`);
                     }}
                 >
-                    ðŸŽ¯ ×›×™×•×œ ×ž×’×¨×© (××•×¤×¦×™×•× ×œ×™)
+                    🎯 Court Calibration (optional)
                 </button>
 
                 <button
@@ -203,11 +203,11 @@ export default function JerseySetup() {
                     onClick={startAnalysis}
                     disabled={loading}
                 >
-                    {loading ? "Starting..." : "Start Analysis â†’"}
+                    {loading ? "Starting..." : "Start Analysis →"}
                 </button>
 
                 <button className="js-skip" onClick={() => navigate(`/match-analysis/${videoId}`)}>
-                    Skip â€” use default (blue / white)
+                    Skip — use default (blue / white)
                 </button>
             </div>
         </div>

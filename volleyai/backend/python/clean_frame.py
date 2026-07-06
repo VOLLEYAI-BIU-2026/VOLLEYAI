@@ -29,7 +29,6 @@ def remove_players(frame, mask):
     """Inpaint player regions so only the court is visible."""
     if np.count_nonzero(mask) == 0:
         return frame
-    # Dilate mask slightly to cover jersey edges and shadows
     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (15, 15))
     mask_dilated = cv2.dilate(mask, kernel, iterations=2)
     inpainted = cv2.inpaint(frame, mask_dilated, inpaintRadius=7, flags=cv2.INPAINT_TELEA)

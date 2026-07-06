@@ -309,6 +309,7 @@ BALL_TRAJ_WINDOW = 12
 COURT_MID_Y = 0.5
 
 ball_traj: list = []
+ball_detections_for_viz: list = []   # for rally_detect visualizer (frame,track_id,x1,y1,x2,y2,cx,cy,conf)
 landing_events: list = []
 last_nonball_frames: int = 0
 last_recorded_action: str = "none"
@@ -508,6 +509,12 @@ try:
             ball_traj.append((frame_idx, bx_n, by_n))
             if len(ball_traj) > BALL_TRAJ_WINDOW:
                 ball_traj.pop(0)
+            ball_detections_for_viz.append({
+                "frame": frame_idx, "track_id": 0,
+                "x1": int(_x1b), "y1": int(_y1b), "x2": int(_x2b), "y2": int(_y2b),
+                "cx": (_x1b + _x2b) / 2, "cy": (_y1b + _y2b) / 2,
+                "conf": round(best_ball_conf, 4),
+            })
             last_nonball_frames = 0
 
             _ball_det_for_landing = {
@@ -648,24 +655,9 @@ try:
                 json.dump(_reg, f, indent=4)
 
         # --- VISUALIZATION DRAWING ---
-        # 0. Draw ball trail (pink, narrow)
-        TRAIL_COLOR = (180, 105, 255)
-        TRAIL_LEN = 14
-        if len(ball_traj) >= 2:
-            trail_pts = ball_traj[-TRAIL_LEN:]
-            for i in range(1, len(trail_pts)):
-                pt1 = (int(trail_pts[i - 1][1] * w), int(trail_pts[i - 1][2] * h))
-                pt2 = (int(trail_pts[i][1] * w), int(trail_pts[i][2] * h))
-                thickness = 1 if i < len(trail_pts) - 3 else 2
-                cv2.line(frame, pt1, pt2, TRAIL_COLOR, thickness)
+        # Ball box + trail are added by rally_detect visualizer (post-processing pass)
 
-        # 1. Draw the ball (Yellow)
-        if ball_box is not None:
-            x1, y1, x2, y2 = map(int, ball_box)
-            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 255), 2)
-            cv2.putText(frame, "BALL", (x1, max(20, y1 - 10)), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 255), 2)
-
-        # 2. Draw players — my_team vivid, opponent grey
+        # 1. Draw players — my_team vivid, opponent grey
         confirmed_our_ids = {pid for pid, t in id_to_team.items() if t == "my_team"}
         confirmed_opp_ids = {pid for pid, t in id_to_team.items() if t == "opponent"}
 
@@ -761,7 +753,7 @@ DEAD_MIN_SEC    = 3.0
 _DEAD_MIN_FRAMES = int(DEAD_MIN_SEC * fps)
 dead_segments   = []
 
-_RF_MODEL_PATH = os.path.abspath(os.path.join(SCRIPT_DIR, "..", "..", "rally_predictor_rf_v4.pkl"))
+_RF_MODEL_PATH = os.path.abspath(os.path.join(SCRIPT_DIR, "..", "rally_detect", "models", "rally_prediction", "rally_predictor_rf_v4.pkl"))
 
 print("\n" + "=" * 60)
 print("[RF] Dead segment detection — Play/No-Play model")
@@ -783,91 +775,97 @@ else:
         import tempfile
         import traceback as _tb
         import sys as _sys
-        if SCRIPT_DIR not in _sys.path:
-            _sys.path.insert(0, SCRIPT_DIR)
-        from rally_predictor import extract_features, predict_rallies, smooth_predictions
+        import pandas as _pd
 
-        # Build ball tracking CSV (pixel coordinates — model was trained on pixels)
-        _tmp_in   = tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False)
-        _tmp_feat = tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False)
-        _tmp_in_path, _tmp_feat_path = _tmp_in.name, _tmp_feat.name
+        _RALLY_DETECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "..", "rally_detect"))
+        for _rp in [_RALLY_DETECT_ROOT, os.path.join(_RALLY_DETECT_ROOT, "src")]:
+            if _rp not in _sys.path:
+                _sys.path.insert(0, _rp)
 
-        _tmp_in.write("frame,cx,cy,conf\n")
-        for _e in tracking_data:
-            _b = _e.get("ball")
-            if _b and _b.get("x") is not None:
-                _tmp_in.write(f"{_e['frame']},{_b['x']},{_b['y']},1.0\n")
-            else:
-                _tmp_in.write(f"{_e['frame']},,,0.0\n")
-        _tmp_in.close()
-        _tmp_feat.close()
+        from src.ball_detector.track_ball_detections  import track_with_physics_predictive
+        from src.ball_detector.clean_tracking_data    import clean_noise
+        from src.rally_predictor                      import extract_features, predict_rallies, smooth_predictions
+        from src.rally_predictor.predictions_handler  import analyze_rally_stats as _analyze_rally_stats
 
-        print(f"[RF] Ball CSV written ({len(tracking_data)} rows) → extracting features...")
-        extract_features(_tmp_in_path, _tmp_feat_path)
+        # Temp files for each pipeline stage
+        _tmp_raw   = tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False)
+        _tmp_track = tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False)
+        _tmp_clean = tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False)
+        _tmp_feat  = tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False)
+        _tmp_raw_path, _tmp_track_path = _tmp_raw.name, _tmp_track.name
+        _tmp_clean_path, _tmp_feat_path = _tmp_clean.name, _tmp_feat.name
+        for _tf in [_tmp_raw, _tmp_track, _tmp_clean, _tmp_feat]:
+            _tf.close()
 
-        print(f"[RF] Running RF model predict...")
+        # ── Stage: raw detections (from main loop — skips re-running YOLO) ──
+        # track_with_physics_predictive expects: frame, x1, y1, x2, y2, conf
+        _pd.DataFrame(ball_detections_for_viz)[
+            ["frame", "x1", "y1", "x2", "y2", "conf"]
+        ].to_csv(_tmp_raw_path, index=False)
+        print(f"[RF] Stage raw   : {len(ball_detections_for_viz)} ball detections")
+
+        # ── Stage: Tracking ──────────────────────────────────────────────────
+        track_with_physics_predictive(input_csv=_tmp_raw_path, output_csv=_tmp_track_path)
+        _n_tracked = len(_pd.read_csv(_tmp_track_path))
+        print(f"[RF] Stage track : {_n_tracked} rows after physics tracking")
+
+        # ── Stage: Cleaning ──────────────────────────────────────────────────
+        clean_noise(tracking_csv=_tmp_track_path, output_csv=_tmp_clean_path)
+        _n_clean = len(_pd.read_csv(_tmp_clean_path))
+        print(f"[RF] Stage clean : {_n_clean} rows after noise removal")
+
+        # ── Stage: Features ──────────────────────────────────────────────────
+        extract_features(input_csv=_tmp_clean_path, output_csv=_tmp_feat_path)
+        print(f"[RF] Stage feat  : features extracted")
+
+        # ── Stage: Prediction ────────────────────────────────────────────────
         _raw_preds = predict_rallies(_RF_MODEL_PATH, _tmp_feat_path)
-
-        _n_play = int(sum(1 for p in _raw_preds if int(p) == 1))
-        _n_nplay = int(sum(1 for p in _raw_preds if int(p) == 0))
-        _total_p = len(_raw_preds)
-        print(f"[RF] Raw predictions  : {_total_p} total")
-        print(f"[RF]   PLAY    (1)    : {_n_play}  ({100 * _n_play // max(1, _total_p)}%)")
-        print(f"[RF]   NO_PLAY (0)    : {_n_nplay} ({100 * _n_nplay // max(1, _total_p)}%)")
+        _n_play  = sum(1 for p in _raw_preds if int(p) == 1)
+        _n_nplay = sum(1 for p in _raw_preds if int(p) == 0)
+        print(f"[RF] Stage pred  : {len(_raw_preds)} frames | PLAY={_n_play} | NO_PLAY={_n_nplay}")
 
         _smoothed = smooth_predictions(list(_raw_preds))
+        _n_play_s  = sum(1 for p in _smoothed if int(p) == 1)
+        _n_nplay_s = sum(1 for p in _smoothed if int(p) == 0)
+        print(f"[RF] After smooth: PLAY={_n_play_s} | NO_PLAY={_n_nplay_s}")
 
-        _n_play_s  = int(sum(1 for p in _smoothed if int(p) == 1))
-        _n_nplay_s = int(sum(1 for p in _smoothed if int(p) == 0))
-        print(f"[RF] After smoothing  : PLAY={_n_play_s} | NO_PLAY={_n_nplay_s}")
+        # Write play_state to every frame entry
+        _smoothed_len = len(_smoothed)
+        for _entry in tracking_data:
+            _fi = _entry["frame"]
+            _entry["play_state"] = "PLAY" if _fi < _smoothed_len and int(_smoothed[_fi]) == 1 else "NO_PLAY"
 
-        # Build frame-number list aligned with _smoothed.
-        # extract_features fills rows from frame 0 → max_frame, so _smoothed[i] = frame i.
-        _frame_nums = [_e["frame"] for _e in tracking_data]  # frames 1..N
-        _frame_set  = set(_frame_nums)
-        _max_f      = _frame_nums[-1] if _frame_nums else 0
+        # ── Stage: Analyze — builds rally_windows AND dead_segments ──────────
+        _stats, _segments_df = _analyze_rally_stats(_smoothed, fps)
+        print(f"[RF] Stats: { {k: v for k, v in _stats.items()} }")
 
-        # Walk predictions — index i corresponds to frame i (features start at frame 0)
-        _raw_segs = []
-        _in_dead, _dead_start_f = False, 0
-        for _i, _label in enumerate(_smoothed):
-            _curr_f = _i  # row i in features CSV = frame i
-            if int(_label) == 0:
-                if not _in_dead:
-                    _in_dead, _dead_start_f = True, _curr_f
-            else:
-                if _in_dead:
-                    _raw_segs.append((_dead_start_f, _curr_f - 1))
-                    _in_dead = False
-        if _in_dead:
-            _raw_segs.append((_dead_start_f, _max_f))
-
-        print(f"[RF] Raw dead segments (before {DEAD_MIN_SEC}s filter): {len(_raw_segs)}")
-        for _si, (_sf, _ef) in enumerate(_raw_segs):
-            _dur = (_ef - _sf) / fps
-            _verdict = "KEEP" if _ef - _sf >= _DEAD_MIN_FRAMES else f"DROP (< {DEAD_MIN_SEC}s)"
-            print(f"[RF]   seg {_si+1:3d}: frames {_sf:6d}–{_ef:6d}  ({_dur:5.1f}s)  → {_verdict}")
-            if _si >= 19 and len(_raw_segs) > 20:
-                print(f"[RF]   ... and {len(_raw_segs) - 20} more segments omitted")
-                break
-
-        for _sf, _ef in _raw_segs:
-            if _ef - _sf >= _DEAD_MIN_FRAMES:
-                dead_segments.append({
-                    "start_frame": _sf,
-                    "end_frame":   _ef,
+        rally_windows = []
+        _frame_cursor = 0
+        for _, _seg in _segments_df.iterrows():
+            _sf = _frame_cursor
+            _ef = _frame_cursor + int(_seg["frame_count"]) - 1
+            if int(_seg["label"]) == 1:
+                rally_windows.append({
+                    "start_frame": _sf, "end_frame": _ef,
                     "start_sec":   round(_sf / fps, 3),
                     "end_sec":     round(_ef / fps, 3),
                 })
+            elif int(_seg["label"]) == 0 and (_ef - _sf) >= _DEAD_MIN_FRAMES:
+                dead_segments.append({
+                    "start_frame": _sf, "end_frame": _ef,
+                    "start_sec":   round(_sf / fps, 3),
+                    "end_sec":     round(_ef / fps, 3),
+                })
+            _frame_cursor = _ef + 1
 
-        for _p in [_tmp_in_path, _tmp_feat_path]:
+        for _p in [_tmp_raw_path, _tmp_track_path, _tmp_clean_path, _tmp_feat_path]:
             try: os.remove(_p)
             except OSError: pass
 
-        _total_dead_sec = sum(d["end_sec"] - d["start_sec"] for d in dead_segments)
-        print(f"[RF] FINAL dead segments kept : {len(dead_segments)}")
-        print(f"[RF] Total dead time removed  : {_total_dead_sec:.1f}s  "
-              f"({100 * _total_dead_sec / max(1, frame_idx / fps):.1f}% of video)")
+        _total_dead = sum(d["end_sec"] - d["start_sec"] for d in dead_segments)
+        print(f"[RF] Rally windows  : {len(rally_windows)}")
+        print(f"[RF] Dead segments  : {len(dead_segments)}  ({_total_dead:.1f}s  "
+              f"{100 * _total_dead / max(1, frame_idx / fps):.1f}%)")
 
     except Exception as _rf_err:
         print(f"[RF] ERROR: {_rf_err}")
@@ -890,12 +888,15 @@ for _entry in tracking_data:
 for _land in landing_events:
     _land["time_sec"] = _trimmed_sec(_land["frame"] / fps)
 
-# --- CONVERT AVI → H264 MP4 ---
+# --- CONVERT AVI → H264 MP4 (with silent audio so rally_detect visualizer can use [1:a]) ---
 try:
     _r = _sp.run(
-        ["ffmpeg", "-y", "-i", OUTPUT_VIDEO_RAW,
+        ["ffmpeg", "-y",
+         "-i", OUTPUT_VIDEO_RAW,
+         "-f", "lavfi", "-i", f"anullsrc=r=44100:cl=stereo",
          "-c:v", "libx264", "-preset", "ultrafast", "-crf", "23",
-         "-threads", "0", "-movflags", "+faststart",
+         "-c:a", "aac", "-b:a", "64k",
+         "-shortest", "-threads", "0", "-movflags", "+faststart",
          OUTPUT_VIDEO],
         capture_output=True, timeout=3600
     )
@@ -970,7 +971,57 @@ with open(OUTPUT_JSON, "w") as f:
         "frames":        tracking_data,
         "ball_landings": landing_events,
         "dead_segments": dead_segments,
+        "rally_windows": rally_windows if 'rally_windows' in dir() else [],
     }, f, indent=4)
+
+# ── rally_detect visualizer — ball trail + box overlay ────────────────────────
+import tempfile as _tmpfile
+import pandas as _pd
+
+_RALLY_DETECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "..", "rally_detect"))
+if _RALLY_DETECT_ROOT not in sys.path:
+    sys.path.insert(0, _RALLY_DETECT_ROOT)
+
+try:
+    from src.visualizer.visualize_data import visualize as _rd_visualize
+
+    _ball_csv = _tmpfile.NamedTemporaryFile(suffix=".csv", delete=False, mode="w")
+    _pd.DataFrame(ball_detections_for_viz).to_csv(_ball_csv.name, index=False)
+    _ball_csv.close()
+
+    _pred_csv_path = None
+    if dead_segments:
+        _pred_rows = []
+        _seg_set = {(d["start_frame"], d["end_frame"]) for d in dead_segments}
+        for fi in range(frame_idx + 1):
+            _in_dead = any(s <= fi <= e for s, e in _seg_set)
+            _pred_rows.append({"label": 0 if _in_dead else 1})
+        _pred_csv = _tmpfile.NamedTemporaryFile(suffix=".csv", delete=False, mode="w")
+        _pd.DataFrame(_pred_rows).to_csv(_pred_csv.name, index=False)
+        _pred_csv.close()
+        _pred_csv_path = _pred_csv.name
+
+    BALL_VIZ_OUTPUT = os.path.join(OUTPUT_DIR, "ball_tracking_viz")
+    print("[VIZ] Running rally_detect visualizer on analyzed video...")
+    _rd_visualize(
+        video_path=OUTPUT_VIDEO,
+        output_path=BALL_VIZ_OUTPUT + ".mp4",
+        tracking_csv=_ball_csv.name,
+        predictions_csv=_pred_csv_path,
+        overlay_mode="both",
+        log_callback=print,
+    )
+    print(f"[VIZ] Ball tracking video saved → {BALL_VIZ_OUTPUT}_both.mp4")
+
+    for _f in [_ball_csv.name, _pred_csv_path]:
+        if _f:
+            try: os.remove(_f)
+            except OSError: pass
+
+except Exception as _viz_err:
+    import traceback as _viz_tb
+    print(f"[VIZ] rally_detect visualizer failed (non-fatal): {_viz_err}")
+    print(_viz_tb.format_exc())
 
 # Build registry keyed by jersey number (permanent ID), not bytetrack ID
 from collections import Counter

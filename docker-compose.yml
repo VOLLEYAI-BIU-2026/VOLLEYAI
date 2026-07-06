@@ -12,16 +12,10 @@ services:
       PORT: 5000
       CORS_ORIGINS: "http://localhost,http://frontend"
     volumes:
-      - uploads:/app/backend/uploads
-      - runs:/app/backend/detection_models/all_three/runs
-    # ── GPU support (הסר את הבלוק הזה אם אין NVIDIA GPU) ──
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
+      - ./volleyai/backend/uploads:/app/backend/uploads
+      - ./volleyai/backend/detection_models/all_three/runs:/app/backend/detection_models/all_three/runs
+      - torch_cache:/root/.cache/torch
+      - easyocr_cache:/root/.EasyOCR
 
   frontend:
     build:
@@ -36,5 +30,5 @@ services:
       - backend
 
 volumes:
-  uploads:
-  runs:
+  torch_cache:
+  easyocr_cache:

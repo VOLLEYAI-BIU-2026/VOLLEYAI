@@ -1,4 +1,4 @@
-﻿import { API_BASE } from "../config.js";
+import { API_BASE } from "../config.js";
 import "./ForgotPassword.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -29,7 +29,7 @@ export default function ForgotPassword() {
         return;
       }
 
-      // ×”×•×“×¢×” ××—×™×“×”, ×•××– ×—×•×–×¨×™× ×œ×œ×•×’×™×Ÿ
+      // הודעה אחידה, ואז חוזרים ללוגין
       alert(data.message || "If an account exists, a reset link will be sent");
       navigate("/");
     } catch (error) {

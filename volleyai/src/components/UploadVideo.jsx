@@ -1,4 +1,4 @@
-﻿import { API_BASE } from "../config.js";
+import { API_BASE } from "../config.js";
 import React, { useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./UploadVideo.css";
@@ -153,7 +153,7 @@ export default function UploadVideo({
       }
 
       if (!isValidYouTubeUrl(youtubeUrl)) {
-        setError("This doesnâ€™t look like a valid YouTube link. Please paste a full URL.");
+        setError("This doesn’t look like a valid YouTube link. Please paste a full URL.");
         return;
       }
 
@@ -167,7 +167,7 @@ export default function UploadVideo({
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.message || "Couldnâ€™t save the YouTube link. Please try again.");
+        setError(data.message || "Couldn’t save the YouTube link. Please try again.");
         return;
       }
 
@@ -198,7 +198,7 @@ export default function UploadVideo({
           onClick={() => navigate("/home")}
           aria-label="Back to home"
         >
-          â†
+          ←
         </button>
         <div className="uva-titleWrap">
           <div className="uva-title">New Match Analysis</div>
@@ -214,7 +214,7 @@ export default function UploadVideo({
             <div key={s.label} className="uva-step-h-wrap">
               <div className={`uva-step-h ${active ? "active" : ""} ${done ? "done" : ""}`}>
                 <div className="uva-step-h-circle">
-                  {done ? "âœ“" : stepNum}
+                  {done ? "✓" : stepNum}
                 </div>
                 <div className="uva-step-h-text">
                   <div className="uva-step-h-label">{s.label}</div>
@@ -232,7 +232,7 @@ export default function UploadVideo({
           <section className="uva-card">
             <div className="uva-cardHeader">
               <div className="uva-iconBadge" aria-hidden="true">
-                ðŸŽ¥
+                🎥
               </div>
 
               <h1 className="uva-h1">Video Source</h1>
@@ -249,7 +249,7 @@ export default function UploadVideo({
                   aria-selected={sourceType === "file"}
                   disabled={isSubmitting}
                 >
-                  â¬†ï¸ Upload File
+                  ⬆️ Upload File
                 </button>
 
                 <button
@@ -260,7 +260,7 @@ export default function UploadVideo({
                   aria-selected={sourceType === "youtube"}
                   disabled={isSubmitting}
                 >
-                  â–¶ï¸ YouTube Link
+                  ▶️ YouTube Link
                 </button>
               </div>
             </div>
@@ -293,7 +293,7 @@ export default function UploadVideo({
 
                 <div className="uva-dropContent">
                   <div className="uva-cloud" aria-hidden="true">
-                    â˜ï¸â¬†ï¸
+                    ☁️⬆️
                   </div>
 
                   {!selectedFile ? (
@@ -355,8 +355,8 @@ export default function UploadVideo({
                 {youtubeUrl.trim() ? (
                   <div className={`uva-urlStatus ${isValidYouTubeUrl(youtubeUrl) ? "ok" : "bad"}`}>
                     {isValidYouTubeUrl(youtubeUrl)
-                      ? "âœ“ Link looks valid"
-                      : "âœ• Invalid link format"}
+                      ? "✓ Link looks valid"
+                      : "✕ Invalid link format"}
                   </div>
                 ) : null}
               </div>
@@ -366,7 +366,7 @@ export default function UploadVideo({
 
             <div className="uva-tip">
               <span className="uva-tipIcon" aria-hidden="true">
-                âš ï¸
+                ⚠️
               </span>
               <span>
                 <strong>Tip:</strong> Ensure you have a clear view of the entire court. Fixed camera
@@ -385,7 +385,7 @@ export default function UploadVideo({
                 onClick={handleContinue}
                 disabled={!canContinue}
               >
-                {isSubmitting ? "Uploading..." : "Continue"} <span aria-hidden="true">â€º</span>
+                {isSubmitting ? "Uploading..." : "Continue"} <span aria-hidden="true">›</span>
               </button>
             </div>
           </section>

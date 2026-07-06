@@ -1,4 +1,4 @@
-﻿import { API_BASE } from "../config.js";
+import { API_BASE } from "../config.js";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./PlayerRegistry.css";
@@ -89,7 +89,7 @@ export default function PlayerRegistry() {
             <div className="pr-shell">
                 <div className="pr-header">
                     <div className="pr-headerLeft">
-                        <button className="pr-back" onClick={() => navigate(-1)}>â†</button>
+                        <button className="pr-back" onClick={() => navigate(-1)}>←</button>
                         <div>
                             <div className="pr-breadcrumb">Analytics / Player Registry</div>
                             <h1 className="pr-title">Player Registry</h1>
@@ -103,17 +103,17 @@ export default function PlayerRegistry() {
                             {saving ? "Calculating..." : "Save & Recalculate Stats"}
                         </button>
                         <button className="pr-statsBtn" onClick={() => navigate("/match-statistics")}>
-                            Statistics â†’
+                            Statistics →
                         </button>
                         <button className="pr-statsBtn" onClick={() => navigate("/match-analysis")}>
-                            Analysis â†’
+                            Analysis →
                         </button>
                     </div>
                 </div>
 
                 {error && <div className="pr-error">{error}</div>}
                 {saved === "saved" && <div className="pr-success">Saved! Click "Save & Recalculate Stats" to update statistics.</div>}
-                {saved === "recalculated" && <div className="pr-success">âœ“ Stats recalculated! <span className="pr-link" onClick={() => navigate("/match-statistics")}>View Statistics â†’</span></div>}
+                {saved === "recalculated" && <div className="pr-success">✓ Stats recalculated! <span className="pr-link" onClick={() => navigate("/match-statistics")}>View Statistics →</span></div>}
 
                 <div className="pr-hint">
                     Players with <span className="pr-green">green border</span> were detected automatically.
@@ -146,7 +146,7 @@ export default function PlayerRegistry() {
                                             value={jersey}
                                             onChange={(e) => handleChange(bid, e.target.value)}
                                         />
-                                        {isConfirmed && <span className="pr-check">âœ“</span>}
+                                        {isConfirmed && <span className="pr-check">✓</span>}
                                     </div>
                                     <div className="pr-bid">ID {bid}</div>
                                 </div>
