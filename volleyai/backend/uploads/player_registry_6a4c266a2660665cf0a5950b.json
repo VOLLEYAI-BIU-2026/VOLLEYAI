@@ -1,0 +1,452 @@
+{
+    "id_105": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            105
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id105.jpg",
+        "event_count": 187,
+        "team": "my_team"
+    },
+    "id_193": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            193
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id193.jpg",
+        "event_count": 93,
+        "team": "my_team"
+    },
+    "id_167": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            167
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id167.jpg",
+        "event_count": 83,
+        "team": "my_team"
+    },
+    "id_611": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            611
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id611.jpg",
+        "event_count": 34,
+        "team": "my_team"
+    },
+    "id_18": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            18
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id18.jpg",
+        "event_count": 33,
+        "team": "my_team"
+    },
+    "id_669": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            669
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id669.jpg",
+        "event_count": 31,
+        "team": "my_team"
+    },
+    "id_527": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            527
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id527.jpg",
+        "event_count": 25,
+        "team": "my_team"
+    },
+    "id_319": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            319
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id319.jpg",
+        "event_count": 21,
+        "team": "my_team"
+    },
+    "id_610": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            610
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id610.jpg",
+        "event_count": 21,
+        "team": "opponent"
+    },
+    "id_562": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            562
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id562.jpg",
+        "event_count": 20,
+        "team": "my_team"
+    },
+    "id_9": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            9
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id9.jpg",
+        "event_count": 19,
+        "team": "my_team"
+    },
+    "id_257": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            257
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id257.jpg",
+        "event_count": 14,
+        "team": "my_team"
+    },
+    "id_354": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            354
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id354.jpg",
+        "event_count": 13,
+        "team": "my_team"
+    },
+    "id_557": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            557
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id557.jpg",
+        "event_count": 12,
+        "team": "my_team"
+    },
+    "id_582": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            582
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id582.jpg",
+        "event_count": 10,
+        "team": "my_team"
+    },
+    "id_350": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            350
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id350.jpg",
+        "event_count": 9,
+        "team": "opponent"
+    },
+    "id_191": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            191
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id191.jpg",
+        "event_count": 7,
+        "team": "opponent"
+    },
+    "id_207": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            207
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id207.jpg",
+        "event_count": 6,
+        "team": "my_team"
+    },
+    "id_419": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            419
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id419.jpg",
+        "event_count": 6,
+        "team": "opponent"
+    },
+    "id_411": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            411
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id411.jpg",
+        "event_count": 5,
+        "team": "opponent"
+    },
+    "id_485": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            485
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id485.jpg",
+        "event_count": 5,
+        "team": "opponent"
+    },
+    "id_459": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            459
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id459.jpg",
+        "event_count": 5,
+        "team": "my_team"
+    },
+    "id_441": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            441
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id441.jpg",
+        "event_count": 4,
+        "team": "my_team"
+    },
+    "id_714": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            714
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id714.jpg",
+        "event_count": 4,
+        "team": "my_team"
+    },
+    "id_780": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            780
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id780.jpg",
+        "event_count": 4,
+        "team": "my_team"
+    },
+    "id_26": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            26
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id26.jpg",
+        "event_count": 3,
+        "team": "opponent"
+    },
+    "id_439": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            439
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id439.jpg",
+        "event_count": 3,
+        "team": "unknown"
+    },
+    "id_724": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            724
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id724.jpg",
+        "event_count": 3,
+        "team": "opponent"
+    },
+    "id_2": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            2
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id2.jpg",
+        "event_count": 2,
+        "team": "my_team"
+    },
+    "id_256": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            256
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id256.jpg",
+        "event_count": 2,
+        "team": "unknown"
+    },
+    "id_223": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            223
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id223.jpg",
+        "event_count": 2,
+        "team": "my_team"
+    },
+    "id_386": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            386
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id386.jpg",
+        "event_count": 2,
+        "team": "my_team"
+    },
+    "id_693": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            693
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id693.jpg",
+        "event_count": 2,
+        "team": "unknown"
+    },
+    "id_728": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            728
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id728.jpg",
+        "event_count": 2,
+        "team": "my_team"
+    },
+    "id_787": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            787
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id787.jpg",
+        "event_count": 2,
+        "team": "opponent"
+    },
+    "id_767": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            767
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id767.jpg",
+        "event_count": 2,
+        "team": "my_team"
+    },
+    "id_55": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            55
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id55.jpg",
+        "event_count": 1,
+        "team": "my_team"
+    },
+    "id_126": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            126
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id126.jpg",
+        "event_count": 1,
+        "team": "my_team"
+    },
+    "id_214": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            214
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id214.jpg",
+        "event_count": 1,
+        "team": "unknown"
+    },
+    "id_248": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            248
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id248.jpg",
+        "event_count": 1,
+        "team": "unknown"
+    },
+    "id_313": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            313
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id313.jpg",
+        "event_count": 1,
+        "team": "opponent"
+    },
+    "id_397": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            397
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id397.jpg",
+        "event_count": 1,
+        "team": "opponent"
+    },
+    "id_416": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            416
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id416.jpg",
+        "event_count": 1,
+        "team": "my_team"
+    },
+    "id_655": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            655
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id655.jpg",
+        "event_count": 1,
+        "team": "my_team"
+    },
+    "id_684": {
+        "confirmed": false,
+        "jersey": null,
+        "track_ids": [
+            684
+        ],
+        "thumbnail": "/home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/player_thumbs_6a4c266a2660665cf0a5950b/id684.jpg",
+        "event_count": 1,
+        "team": "unknown"
+    }
+}
