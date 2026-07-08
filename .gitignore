@@ -1,12 +1,38 @@
+# Node
+node_modules/
+dist/
+build/
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.env/
+rf_env/
+
+# Environment variables
+.env
+
+# Videos / large media
 *.mp4
+*.avi
+*.mov
+*.mkv
 *.zip
+
+# YOLO / training artifacts
 runs/
 **/volley.v4i.yolov8/
-# Ignore all large AI weights globally by default
-*.pt
-**/*.pt
 
-# EXCEPT these specific tracking folders/files
-!volleyai/backend/detection_models/action_detection/*.pt
-!volleyai/backend/detection_models/ball_tracking/ball_model.pt
-!volleyai/backend/detection_models/player_detection/yolo11s.pt
+# Per-video generated artifacts (uploads, thumbnails, calibration/analysis JSON) —
+# these are runtime output for a specific user's video, not source or dataset.
+volleyai/backend/uploads/
+
+# Legacy stray output files (pre-runs/ convention)
+volleyai/backend/detection_models/all_three/volley_analytics.json
+volleyai/backend/detection_models/all_three/player_stats.json
+volleyai/backend/detection_models/ball_and_player/volley_analytics.json
+
+# OS
+.DS_Store
+Thumbs.db

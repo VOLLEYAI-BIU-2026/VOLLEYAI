@@ -753,7 +753,7 @@ DEAD_MIN_SEC    = 3.0
 _DEAD_MIN_FRAMES = int(DEAD_MIN_SEC * fps)
 dead_segments   = []
 
-_RF_MODEL_PATH = os.path.abspath(os.path.join(SCRIPT_DIR, "..", "rally_detect", "models", "rally_prediction", "rally_predictor_rf_v4.pkl"))
+_RF_MODEL_PATH = os.path.abspath(os.path.join(SCRIPT_DIR, "..", "rally", "models", "rally_prediction", "rally_predictor_rf_v4.pkl"))
 
 print("\n" + "=" * 60)
 print("[RF] Dead segment detection — Play/No-Play model")
@@ -777,7 +777,7 @@ else:
         import sys as _sys
         import pandas as _pd
 
-        _RALLY_DETECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "..", "rally_detect"))
+        _RALLY_DETECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "..", "rally"))
         for _rp in [_RALLY_DETECT_ROOT, os.path.join(_RALLY_DETECT_ROOT, "src")]:
             if _rp not in _sys.path:
                 _sys.path.insert(0, _rp)
@@ -978,7 +978,7 @@ with open(OUTPUT_JSON, "w") as f:
 import tempfile as _tmpfile
 import pandas as _pd
 
-_RALLY_DETECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "..", "rally_detect"))
+_RALLY_DETECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "..", "rally"))
 if _RALLY_DETECT_ROOT not in sys.path:
     sys.path.insert(0, _RALLY_DETECT_ROOT)
 

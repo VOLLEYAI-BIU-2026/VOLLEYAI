@@ -183,6 +183,13 @@ export default function JerseySetup() {
 
                 <button
                     className="js-calib-btn"
+                    onClick={() => navigate(`/add-players/${videoId}`)}
+                >
+                    📋 Add Players (optional)
+                </button>
+
+                <button
+                    className="js-calib-btn"
                     onClick={async () => {
                         try {
                             await fetch(`${API}/videos/${videoId}/jerseys`, {

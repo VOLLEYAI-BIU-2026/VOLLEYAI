@@ -440,6 +440,28 @@ async function createRosterPlayer(req, res) {
     }
 }
 
+async function deleteRosterPlayer(req, res) {
+    try {
+        const { id, playerId } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid video id" });
+        }
+
+        const video = await Video.findOne({ _id: id, userId: req.user.id });
+        if (!video) return res.status(404).json({ message: "Video not found" });
+
+        if (!video.teamRoster) video.teamRoster = { players: [] };
+        video.teamRoster.players = video.teamRoster.players.filter(p => p.playerId !== playerId);
+
+        await video.save();
+
+        return res.status(200).json({ message: "Player removed", players: video.teamRoster.players });
+    } catch (err) {
+        return res.status(500).json({ message: "Server error", error: err.message });
+    }
+}
+
 async function assignDetectionsToPlayer(req, res) {
     try {
         const { id } = req.params;
@@ -1059,26 +1081,18 @@ async function persistAnalysisOutputs(id) {
     const uploadsDir = path.join(__dirname, "..", "uploads");
     const dbUpdates = {};
 
-    // Processed video — prefer rally_detect viz output (ball trail+box) if available,
-    // then raw AVI, then plain mp4.
-    const destVideo      = path.join(uploadsDir, `analyzed_${id}.mp4`);
-    const srcBallViz     = path.join(RUNS_DIR, "ball_tracking_viz_both.mp4");
-    const srcRawAvi      = path.join(RUNS_DIR, "active_player_raw.avi");
-    const srcMp4         = path.join(RUNS_DIR, "active_player.mp4");
+    // Processed video — prefer render_video.py's annotated output (jersey + action,
+    // built from the merged data), then the plain jersey-tracking video as a fallback
+    // if rendering failed. (No triple_detection.py in this pipeline — see startAnalysis.)
+    const destVideo         = path.join(uploadsDir, `analyzed_${id}.mp4`);
+    const srcRendered       = path.join(RUNS_DIR, "analyzed_video.mp4");
+    const srcJerseyTracking = path.join(RUNS_DIR, "jersey_tracking.mp4");
 
-    if (fs.existsSync(srcBallViz) && fs.statSync(srcBallViz).size > 0) {
-        fs.copyFileSync(srcBallViz, destVideo);
+    if (fs.existsSync(srcRendered) && fs.statSync(srcRendered).size > 0) {
+        fs.copyFileSync(srcRendered, destVideo);
         dbUpdates.analyzedVideoPath = `/uploads/analyzed_${id}.mp4`;
-    } else if (fs.existsSync(srcRawAvi) && fs.statSync(srcRawAvi).size > 0) {
-        await new Promise(resolve => {
-            const ff = spawn("ffmpeg", ["-y", "-fflags", "+genpts+discardcorrupt", "-i", srcRawAvi,
-                "-c:v", "libx264", "-preset", "fast", "-crf", "23", "-movflags", "+faststart", destVideo]);
-            ff.on("close", resolve);
-            ff.on("error", resolve);
-        });
-        if (fs.existsSync(destVideo)) dbUpdates.analyzedVideoPath = `/uploads/analyzed_${id}.mp4`;
-    } else if (fs.existsSync(srcMp4)) {
-        fs.copyFileSync(srcMp4, destVideo);
+    } else if (fs.existsSync(srcJerseyTracking) && fs.statSync(srcJerseyTracking).size > 0) {
+        fs.copyFileSync(srcJerseyTracking, destVideo);
         dbUpdates.analyzedVideoPath = `/uploads/analyzed_${id}.mp4`;
     }
 
@@ -1138,6 +1152,39 @@ async function persistAnalysisOutputs(id) {
     return dbUpdates;
 }
 
+// Runs one pipeline stage as a subprocess, tracking stdout/stderr progress (`NN%`)
+// into analysisJobs[id].progress, mapped from [progressStart, progressEnd].
+// Resolves with { code, error } instead of throwing — caller decides fatal vs non-fatal.
+function runStage(id, pyCmd, stage, scriptPath, scriptArgs, progressStart, progressEnd) {
+    return new Promise((resolve) => {
+        console.log(`[${stage}] Starting...`);
+        let stderrBuf = "";
+        const proc = spawn(pyCmd, [scriptPath, ...scriptArgs]);
+        analysisJobs[id].proc = proc;
+
+        const trackProgress = (txt) => {
+            const m = txt.match(/(\d+)%/);
+            if (m) analysisJobs[id].progress = progressStart + Math.round(parseInt(m[1]) * (progressEnd - progressStart) / 100);
+        };
+        proc.stdout.on("data", (data) => {
+            const txt = data.toString();
+            console.log(`[${stage}]`, txt.trim());
+            trackProgress(txt);
+        });
+        proc.stderr.on("data", (data) => {
+            const txt = data.toString();
+            stderrBuf += txt;
+            console.log(`[${stage}]`, txt.trim());
+            trackProgress(txt);
+        });
+        proc.on("error", (err) => resolve({ code: null, error: `Failed to start: ${err.message}` }));
+        proc.on("close", (code) => resolve({
+            code,
+            error: code !== 0 ? (stderrBuf.slice(-1500) || `exit code ${code}`) : null,
+        }));
+    });
+}
+
 async function startAnalysis(req, res) {
     try {
         const { id } = req.params;
@@ -1148,13 +1195,24 @@ async function startAnalysis(req, res) {
         const video = await Video.findOne({ _id: id, userId: req.user.id });
         if (!video) return res.status(404).json({ message: "Video not found" });
 
-        const videoAbs       = path.join(__dirname, "..", video.filePath.replace(/^\//, ""));
-        const DETECTOR       = path.join(__dirname, "..", "detection_models", "all_three", "triple_detection.py");
-        const JERSEY_PIPELINE = path.join(__dirname, "..", "detection_models", "player_detection", "predict_pipeline.py");
-        const frameJerseyMap = path.join(RUNS_DIR, "frame_jersey_map.json");
+        const videoAbs        = path.join(__dirname, "..", video.filePath.replace(/^\//, ""));
+        const JERSEY_PIPELINE  = path.join(__dirname, "..", "detection_models", "player_detection", "predict_pipeline.py");
+        const ACTION_STAGE     = path.join(__dirname, "..", "detection_models", "action_detection", "action.py");
+        const MERGE_STAGE      = path.join(__dirname, "..", "detection_models", "all_three", "merge_pipeline.py");
+        const RENDER_STAGE     = path.join(__dirname, "..", "detection_models", "all_three", "render_video.py");
+
+        const frameJerseyMap     = path.join(RUNS_DIR, "frame_jersey_map.json");
+        const jerseyRegistryPath = path.join(RUNS_DIR, "jersey_registry.json");
+        const actionDetPath      = path.join(RUNS_DIR, "action_detections.json");
+        const volleyAnalyticsPath = path.join(RUNS_DIR, "volley_analytics.json");
+        const renderedVideoPath  = path.join(RUNS_DIR, "analyzed_video.mp4");
 
         // Clear old output so status falls back to "none" on server restart while processing
-        for (const f of ["rally_analysis.json", "player_stats.json", "volley_analytics.json", "frame_jersey_map.json"]) {
+        for (const f of [
+            "rally_analysis.json", "player_stats.json", "volley_analytics.json",
+            "frame_jersey_map.json", "jersey_registry.json", "action_detections.json",
+            "player_registry.json", "analyzed_video.mp4",
+        ]) {
             const p = path.join(RUNS_DIR, f);
             if (fs.existsSync(p)) fs.unlinkSync(p);
         }
@@ -1167,6 +1225,20 @@ async function startAnalysis(req, res) {
             "--my-team-color", video.myTeamColor || "blue_white",
             "--opponent-color", video.opponentColor || "black_white",
         ];
+
+        // Optional roster pre-registration (AddPlayers page) — if the coach entered
+        // jersey numbers ahead of time, constrain OCR to only accept those numbers.
+        // Empty/omitted if no roster was entered, in which case predict_pipeline.py
+        // behaves exactly as before (accepts any 1-99 reading).
+        const knownJerseys = (video.teamRoster?.players || [])
+            .filter(p => p.teamSide === "my_team" && p.jerseyNumber && p.jerseyNumber.trim())
+            .map(p => p.jerseyNumber.trim())
+            .join(",");
+        const rosterArg = knownJerseys ? ["--known-jerseys", knownJerseys] : [];
+        const calibArg = video.calibrationJsonPath ? [
+            "--calib-json",
+            path.join(__dirname, "..", video.calibrationJsonPath.replace(/^\//, "")),
+        ] : [];
 
         // Helper: mark job as failed, persist error to DB, log clearly
         const failAnalysis = async (stage, rawError) => {
@@ -1182,94 +1254,83 @@ async function startAnalysis(req, res) {
             } catch {}
         };
 
-        // ── STEP 1: predict_pipeline (jersey OCR) ──────────────────────────
-        console.log(`[JERSEY] Starting predict_pipeline for jersey map...`);
-        let jerseyStderr = "";
-        const jerseyCalibArg = video.calibrationJsonPath ? [
-            "--calib-json",
-            path.join(__dirname, "..", video.calibrationJsonPath.replace(/^\//, "")),
-        ] : [];
-        const jerseyProc = spawn(pyCmd, [
-            JERSEY_PIPELINE,
-            "--video",            videoAbs,
-            "--output",           path.join(RUNS_DIR, "jersey_tracking.mp4"),
-            "--frame-jersey-map", frameJerseyMap,
-            ...colorArg,
-            ...jerseyCalibArg,
-        ]);
-        analysisJobs[id].proc = jerseyProc;
-
-        jerseyProc.stdout.on("data", d => console.log("[JERSEY]", d.toString().trim()));
-        jerseyProc.stderr.on("data", d => {
-            jerseyStderr += d.toString();
-            console.log("[JERSEY]", d.toString().trim());
-            const m = d.toString().match(/(\d+)%/);
-            if (m) analysisJobs[id].progress = Math.round(parseInt(m[1]) * 0.4); // 0-40%
-        });
-        jerseyProc.on("error", async (err) => {
-            await failAnalysis("predict_pipeline", `Failed to start: ${err.message}`);
-        });
-
-        jerseyProc.on("close", async (jerseyCode) => {
-            if (jerseyCode !== 0) {
-                console.warn(`[JERSEY] predict_pipeline failed (non-fatal) — continuing without jersey map`);
+        // Run the whole pipeline in the background; respond to the client immediately
+        // (status is polled via getAnalysisStatus). No triple_detection.py in this chain —
+        // it ran its own redundant player-tracking pass and reconciled it against
+        // frame_jersey_map via naive per-box IoU matching with no uniqueness constraint,
+        // which could label two different players with the same jersey number in one
+        // frame. predict_pipeline.py's own boxes are the single source of truth here;
+        // action detections get attached to them in the merge step instead.
+        (async () => {
+            // ── Stage 1: jersey OCR — non-fatal on failure ───────────────────
+            const jerseyResult = await runStage(id, pyCmd, "JERSEY", JERSEY_PIPELINE, [
+                "--video",            videoAbs,
+                "--output",           path.join(RUNS_DIR, "jersey_tracking.mp4"),
+                "--frame-jersey-map", frameJerseyMap,
+                "--output-json",      jerseyRegistryPath,
+                ...colorArg,
+                ...calibArg,
+                ...rosterArg,
+            ], 0, 35);
+            if (jerseyResult.error) {
+                console.warn(`[JERSEY] predict_pipeline failed (non-fatal) — continuing without jersey map: ${jerseyResult.error}`);
             } else {
                 console.log(`[JERSEY] predict_pipeline done. Jersey map: ${frameJerseyMap}`);
             }
 
-            // ── STEP 2: triple_detection (main pipeline) ───────────────────
-            const calibArg = video.calibrationJsonPath ? [
-                "--calib-json",
-                path.join(__dirname, "..", video.calibrationJsonPath.replace(/^\//, "")),
-            ] : [];
-            const jerseyArg = fs.existsSync(frameJerseyMap)
-                ? ["--frame-jersey-map", frameJerseyMap]
-                : [];
+            // ── Stage 2: action detection — non-fatal on failure ─────────────
+            const actionResult = await runStage(id, pyCmd, "ACTION", ACTION_STAGE, [
+                "--video",  videoAbs,
+                "--output", actionDetPath,
+            ], 35, 65);
+            if (actionResult.error) {
+                console.warn(`[ACTION] action.py failed (non-fatal) — continuing without action data: ${actionResult.error}`);
+            }
 
-            console.log(`[DETECTOR] Starting triple_detection...`);
-            let detectorStderr = "";
-            const proc = spawn(pyCmd, [DETECTOR, "--video", videoAbs, ...colorArg, ...calibArg, ...jerseyArg]);
-            analysisJobs[id].proc = proc;
+            // ── Stage 3: merge — fatal on failure ────────────────────────────
+            const mergeArgs = [
+                "--video",           videoAbs,
+                "--output",          volleyAnalyticsPath,
+                "--registry-output", REGISTRY_PATH,
+                ...calibArg,
+            ];
+            if (fs.existsSync(frameJerseyMap))     mergeArgs.push("--frame-jersey-map", frameJerseyMap);
+            if (fs.existsSync(jerseyRegistryPath)) mergeArgs.push("--jersey-registry", jerseyRegistryPath);
+            if (fs.existsSync(actionDetPath))      mergeArgs.push("--action-detections", actionDetPath);
 
-            proc.stdout.on("data", (data) => {
-                const txt = data.toString();
-                console.log("[DETECTOR]", txt.trim());
-                const match = txt.match(/(\d+)%/);
-                if (match) analysisJobs[id].progress = 40 + Math.round(parseInt(match[1]) * 0.6); // 40-100%
-            });
-            proc.stderr.on("data", (data) => {
-                const txt = data.toString();
-                detectorStderr += txt;
-                console.log("[DETECTOR]", txt.trim());
-                const match = txt.match(/(\d+)%/);
-                if (match) analysisJobs[id].progress = 40 + Math.round(parseInt(match[1]) * 0.6);
-            });
-            proc.on("error", async (err) => {
-                await failAnalysis("triple_detection", `Failed to start: ${err.message}`);
-            });
+            const mergeResult = await runStage(id, pyCmd, "MERGE", MERGE_STAGE, mergeArgs, 65, 80);
+            if (mergeResult.error) { await failAnalysis("merge_pipeline", mergeResult.error); return; }
 
-            proc.on("close", async (code) => {
-                if (code !== 0) {
-                    const reason = detectorStderr.slice(-1500) || `exit code ${code}`;
-                    await failAnalysis("triple_detection", reason);
-                    return;
-                }
+            // ── Stage 4: render annotated video — non-fatal on failure ──────
+            // (persistAnalysisOutputs falls back to jersey_tracking.mp4 if this is missing;
+            // no rally stage yet, so no dead-time trimming — output is full-length.)
+            const renderArgs = [
+                "--video",            videoAbs,
+                "--output",           renderedVideoPath,
+                "--volley-analytics", volleyAnalyticsPath,
+            ];
+            if (fs.existsSync(frameJerseyMap))     renderArgs.push("--frame-jersey-map", frameJerseyMap);
+            if (fs.existsSync(jerseyRegistryPath)) renderArgs.push("--jersey-registry", jerseyRegistryPath);
 
-                let dbUpdates = {
-                    "analytics.status": "done",
-                    "analytics.error":  "",
-                    "analytics.lastProcessedAt": new Date(),
-                };
-                try {
-                    const persisted = await persistAnalysisOutputs(id);
-                    dbUpdates = { ...dbUpdates, ...persisted };
-                } catch (e) { console.log("[PERSIST] failed:", e.message); }
-                try { await Video.findByIdAndUpdate(id, dbUpdates); } catch {}
-                analysisJobs[id].status   = "done";
-                analysisJobs[id].progress = 100;
-                console.log(`[ANALYSIS] Done for video ${id}.`);
-            });
-        }); // jerseyProc.on("close")
+            const renderResult = await runStage(id, pyCmd, "RENDER", RENDER_STAGE, renderArgs, 80, 100);
+            if (renderResult.error) {
+                console.warn(`[RENDER] render_video.py failed (non-fatal) — falling back to jersey_tracking.mp4: ${renderResult.error}`);
+            }
+
+            let dbUpdates = {
+                "analytics.status": "done",
+                "analytics.error":  "",
+                "analytics.lastProcessedAt": new Date(),
+            };
+            try {
+                const persisted = await persistAnalysisOutputs(id);
+                dbUpdates = { ...dbUpdates, ...persisted };
+            } catch (e) { console.log("[PERSIST] failed:", e.message); }
+            try { await Video.findByIdAndUpdate(id, dbUpdates); } catch {}
+            analysisJobs[id].status   = "done";
+            analysisJobs[id].progress = 100;
+            console.log(`[ANALYSIS] Done for video ${id}.`);
+        })();
 
         return res.json({ status: "started" });
     } catch (err) {
@@ -1353,9 +1414,13 @@ function buildRallyAnalysis(volleyAnalytics) {
     const MIN_FRAMES_DELAY  = Math.round(fps * 0.5);
     const LANDING_TOLERANCE = Math.round(fps * 0.5);
 
-    // Touch actions for last_touch_team resolution
-    const TOUCH_ACTIONS = new Set(["serve", "receive", "set", "attack", "spike", "block", "dig", "bump"]);
-    const BALL_ACTIONS  = new Set([...TOUCH_ACTIONS, "setting", "defence"]);
+    // Touch actions for last_touch_team resolution — must match action.py's
+    // actual model class names exactly (see ACTION_COLORS in action.py), not
+    // generic touch-type names. "serve"/"spike"/"dig"/"bump"/"defence" never
+    // occur in the real data, so every filter using this set was silently
+    // dropping every "service" and "defense-move" frame.
+    const TOUCH_ACTIONS = new Set(["attack", "block", "service", "setting", "defense-move"]);
+    const BALL_ACTIONS  = TOUCH_ACTIONS;
 
     // ── helpers ───────────────────────────────────────────────────────────────
     const toTimeSec = f => parseFloat((f / fps).toFixed(3));
@@ -1526,28 +1591,58 @@ function buildRallyAnalysis(volleyAnalytics) {
     }
 
     // ── 3. Flat action list ───────────────────────────────────────────────────
-    const DEDUP_FRAMES   = Math.round(fps * 0.5);
-    const actionLastSeen = {};
+    // The per-frame action detector flickers within a single real action (e.g.
+    // one serve fires "service" for a few frames, drops to "none", fires again
+    // a second later) and, separately, a contested play near the net (a double
+    // block) can have the IoU-based attribution flip between two players almost
+    // every frame. Both turn one real action into a dozen fake list entries if
+    // taken literally frame-by-frame. So: group by action type within a
+    // MAX_GAP_FRAMES tolerance (~1.5s — long enough to bridge both flicker and a
+    // brief re-occurrence of the same action, short enough not to fuse two
+    // genuinely separate plays). A run's attribution is either one dominant
+    // player (flicker noise around a single real actor — e.g. one player almost
+    // always wins the IoU, with a rare stray frame elsewhere) or a real split
+    // between two players who were both legitimately near the play the whole
+    // time (e.g. a double block, both jumping together at the net) — verified
+    // against real data: one such run split 20/16 frames between two players,
+    // and picking only the top vote-getter silently erased the other's block.
+    // So credit every player who accounts for a substantial share of the run,
+    // not just the single top vote-getter.
+    const MAX_GAP_FRAMES = Math.round(fps * 1.5);
+    const CO_PARTICIPANT_MIN_SHARE = 0.3;
     const allActions     = [];
+    const pushRun = (run) => {
+        const total = [...run.playerVotes.values()].reduce((s, c) => s + c, 0);
+        const participants = [...run.playerVotes.entries()]
+            .sort((a, b) => b[1] - a[1])
+            .filter(([, count]) => count / total >= CO_PARTICIPANT_MIN_SHARE)
+            .map(([player]) => player);
+        allActions.push({
+            frame:         run.startFrame,
+            time_sec:      toTimeSec(run.startFrame),
+            time_str:      toTimeStr(run.startFrame),
+            action:        run.action,
+            action_label:  run.action,
+            result:        "unknown",
+            player_label:  participants.length ? participants.map(p => `#${p}`).join(" & ") : "?",
+            player_jersey: participants[0] ?? null,
+            co_players:    participants.length > 1 ? participants : undefined,
+        });
+    };
+    let run = null; // { action, startFrame, lastFrame, playerVotes: Map }
     for (const f of frames) {
         if (!f.action || f.action === "none") continue;
         if (!BALL_ACTIONS.has(f.action)) continue;
-        const playerKey = f.active_player_jersey ?? f.active_player_id ?? "?";
-        const key = `${playerKey}:${f.action}`;
-        if (!actionLastSeen[key] || f.frame - actionLastSeen[key] >= DEDUP_FRAMES) {
-            actionLastSeen[key] = f.frame;
-            allActions.push({
-                frame:         f.frame,
-                time_sec:      toTimeSec(f.frame),
-                time_str:      toTimeStr(f.frame),
-                action:        f.action,
-                action_label:  f.action,
-                result:        f.result || "unknown",
-                player_label:  f.active_player_jersey ? `#${f.active_player_jersey}` : "?",
-                player_jersey: f.active_player_jersey ?? null,
-            });
+        const playerKey = f.active_player_jersey ?? f.active_player_id ?? null;
+        if (run && run.action === f.action && f.frame - run.lastFrame <= MAX_GAP_FRAMES) {
+            run.lastFrame = f.frame;
+            run.playerVotes.set(playerKey, (run.playerVotes.get(playerKey) || 0) + 1);
+        } else {
+            if (run) pushRun(run);
+            run = { action: f.action, startFrame: f.frame, lastFrame: f.frame, playerVotes: new Map([[playerKey, 1]]) };
         }
     }
+    if (run) pushRun(run);
 
     // ── 4. Attach actions to rallies ──────────────────────────────────────────
     const rallies = rallyMeta.map(rm => ({
@@ -1688,6 +1783,7 @@ module.exports = {
     startPlayerDetection,
     getTeamRoster,
     createRosterPlayer,
+    deleteRosterPlayer,
     assignDetectionsToPlayer,
     resetPlayerDetection,
     analyzeRallies,
