@@ -28,6 +28,9 @@ runs/
 # these are runtime output for a specific user's video, not source or dataset.
 volleyai/backend/uploads/
 
+# Scoreboard-model working data (raw video + extracted frame exports)
+volleyai/backend/export/
+
 # Legacy stray output files (pre-runs/ convention)
 volleyai/backend/detection_models/all_three/volley_analytics.json
 volleyai/backend/detection_models/all_three/player_stats.json
