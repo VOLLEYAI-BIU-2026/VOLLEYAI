@@ -459,6 +459,16 @@ const RallyRow = React.forwardRef(({ rally, active, onClick }, ref) => {
                 {actionCount > 0 && (
                     <span className="ma-rally-actcount">{actionCount} action{actionCount !== 1 ? "s" : ""}</span>
                 )}
+                {rally.defensive_player && (
+                    <span className="ma-rally-defense" title={
+                        rally.defensive_player.source === "action"
+                            ? "Last classified action by our team before the point was lost"
+                            : "No action classified — nearest player to the ball when the point was lost"
+                    }>
+                        Defense: #{rally.defensive_player.jersey}
+                        {rally.defensive_player.action ? ` (${rally.defensive_player.action})` : " (no action detected)"}
+                    </span>
+                )}
             </span>
             <span className="ma-rally-dur">{durationSec}s</span>
             {resultText && <span className={`ma-rally-result ${resultCls}`}>{resultText}</span>}

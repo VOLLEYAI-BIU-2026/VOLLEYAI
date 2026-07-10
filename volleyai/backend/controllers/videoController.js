@@ -170,6 +170,16 @@ async function startCleanFrame(req, res) {
         let stderr = "";
         py.stderr.on("data", (d) => (stderr += d.toString()));
 
+        py.on("error", async (err) => {
+            try {
+                const v = await Video.findById(video._id);
+                if (!v) return;
+                v.cleanFrameStatus = "failed";
+                v.cleanFrameError = `Failed to start Python process: ${err.message}`;
+                await v.save();
+            } catch { }
+        });
+
         py.on("close", async (code) => {
             try {
                 const v = await Video.findById(video._id);
@@ -254,6 +264,16 @@ async function startPlayerDetection(req, res) {
 
         py.stdout.on("data", (d) => {
             console.log("PYTHON STDOUT:", d.toString());
+        });
+
+        py.on("error", async (err) => {
+            try {
+                const v = await Video.findById(video._id);
+                if (!v) return;
+                v.playerDetection.status = "failed";
+                v.playerDetection.error = `Failed to start Python process: ${err.message}`;
+                await v.save();
+            } catch { }
         });
 
         py.on("close", async (code) => {
@@ -685,6 +705,16 @@ async function analyzeRallies(req, res) {
             console.log("RALLY PYTHON STDERR:", d.toString());
         });
 
+        py.on("error", async (err) => {
+            try {
+                const v = await Video.findById(video._id);
+                if (!v) return;
+                v.videoAnalysis.status = "failed";
+                v.videoAnalysis.error = `Failed to start Python process: ${err.message}`;
+                await v.save();
+            } catch { }
+        });
+
         py.on("close", async (code) => {
             try {
                 const v = await Video.findById(video._id);
@@ -824,6 +854,16 @@ async function analyzeBall(req, res) {
         py.stderr.on("data", (d) => {
             stderr += d.toString();
             console.log("BALL PYTHON STDERR:", d.toString());
+        });
+
+        py.on("error", async (err) => {
+            try {
+                const v = await Video.findById(video._id);
+                if (!v) return;
+                v.ballAnalysis.status = "failed";
+                v.ballAnalysis.error = `Failed to start Python process: ${err.message}`;
+                await v.save();
+            } catch { }
         });
 
         py.on("close", async (code) => {
@@ -1034,8 +1074,8 @@ const TEAM_COLOR_PRESETS = new Set([
 async function saveJerseys(req, res) {
     try {
         const { id } = req.params;
-        // Accept either {players:[{jersey,name}]} (legacy) or {myTeamColor,opponentColor} (current)
-        const { players, jerseys, myTeamColor, opponentColor } = req.body;
+        // Accept either {players:[{jersey,name}]} (legacy) or {myTeamColor,opponentColor,liberoColor,opponentLiberoColor,isHomeTeam} (current)
+        const { players, jerseys, myTeamColor, opponentColor, liberoColor, opponentLiberoColor, isHomeTeam } = req.body;
         if (!mongoose.Types.ObjectId.isValid(id))
             return res.status(400).json({ message: "Invalid id" });
 
@@ -1058,6 +1098,19 @@ async function saveJerseys(req, res) {
         }
         if (opponentColor && TEAM_COLOR_PRESETS.has(opponentColor) && opponentColor !== update.myTeamColor) {
             update.opponentColor = opponentColor;
+        }
+        if (liberoColor && TEAM_COLOR_PRESETS.has(liberoColor)) {
+            update.liberoColor = liberoColor;
+        } else if (liberoColor === "") {
+            update.liberoColor = ""; // explicit clear (e.g. coach unchecks "has a libero")
+        }
+        if (opponentLiberoColor && TEAM_COLOR_PRESETS.has(opponentLiberoColor)) {
+            update.opponentLiberoColor = opponentLiberoColor;
+        } else if (opponentLiberoColor === "") {
+            update.opponentLiberoColor = "";
+        }
+        if (typeof isHomeTeam === "boolean") {
+            update.isHomeTeam = isHomeTeam;
         }
 
         const video = await Video.findOneAndUpdate(
@@ -1134,16 +1187,35 @@ async function persistAnalysisOutputs(id) {
         dbUpdates.jerseyRegistryPath = `/uploads/jersey_registry_${id}.json`;
     }
 
+    // Scoreboard OCR — optional, non-fatal. Copy alongside the other per-video
+    // outputs so it survives the next run's RUNS_DIR wipe, same as everything else.
+    const srcScoreboard = path.join(RUNS_DIR, "scoreboard_readings.json");
+    let scoreboardData = null;
+    if (fs.existsSync(srcScoreboard)) {
+        fs.copyFileSync(srcScoreboard, path.join(uploadsDir, `scoreboard_readings_${id}.json`));
+        dbUpdates.scoreboardReadingsPath = `/uploads/scoreboard_readings_${id}.json`;
+        try {
+            scoreboardData = JSON.parse(fs.readFileSync(srcScoreboard, "utf8"));
+        } catch (e) {
+            console.warn("[SCORE] Failed to parse scoreboard_readings.json:", e.message);
+        }
+    }
+
     // Generate rally_analysis.json from ball_landings in volley_analytics.json
     const srcAnalyticsForRally = path.join(uploadsDir, `volley_analytics_${id}.json`);
     if (fs.existsSync(srcAnalyticsForRally)) {
         try {
+            const video      = await Video.findById(id);
             const volleyData = JSON.parse(fs.readFileSync(srcAnalyticsForRally, "utf8"));
-            const rallyData  = buildRallyAnalysis(volleyData);
+            const rallyData  = buildRallyAnalysis(volleyData, {
+                scoreboardData,
+                isHomeTeam: video?.isHomeTeam ?? true,
+            });
             const rallyDest  = path.join(uploadsDir, `rally_analysis_${id}.json`);
             fs.writeFileSync(rallyDest, JSON.stringify(rallyData, null, 2));
             dbUpdates.rallyAnalysisPath = `/uploads/rally_analysis_${id}.json`;
-            console.log(`[RALLY] Generated rally_analysis.json: ${rallyData.total_won}W ${rallyData.total_lost}L, ${rallyData.score_events.length} score events`);
+            console.log(`[RALLY] Generated rally_analysis.json (score source: ${rallyData.score_source}): `
+                + `${rallyData.total_won}W ${rallyData.total_lost}L, ${rallyData.score_events.length} score events`);
         } catch (e) {
             console.warn("[RALLY] Failed to generate rally_analysis.json:", e.message);
         }
@@ -1198,12 +1270,33 @@ async function startAnalysis(req, res) {
         const videoAbs        = path.join(__dirname, "..", video.filePath.replace(/^\//, ""));
         const JERSEY_PIPELINE  = path.join(__dirname, "..", "detection_models", "player_detection", "predict_pipeline.py");
         const ACTION_STAGE     = path.join(__dirname, "..", "detection_models", "action_detection", "action.py");
+        const RALLY_STAGE      = path.join(__dirname, "..", "detection_models", "rally_detect", "mini_court", "run_rally_stage.py");
+        const SCORE_STAGE      = path.join(__dirname, "..", "detection_models", "score_detection", "read_scoreboard.py");
+        // Full-frame-trained model (guest_points/home_points/score_board) — detects
+        // digit regions directly on the raw frame, no crop+upscale stage needed.
+        // Verified directly against real footage: 100% board-detection rate,
+        // accurate boxes, matches known-correct final values. Toggle to false to
+        // instantly roll back to the original crop-based score.pt/score_board.pt
+        // path (still fully intact in read_scoreboard.py) if this ever underperforms.
+        const USE_SCORE_FULLFRAME_MODEL = true;
+        const SCORE_FULLFRAME_MODEL = path.join(__dirname, "..", "detection_models", "score_detection", "home_guest.pt");
+        // Dedicated single-digit (0-9) classifier, replacing EasyOCR for reading a
+        // digit crop's value. Verified directly against real footage: correctly
+        // composed two-digit values (e.g. 20, 10) matching an already-validated
+        // score progression, 100% board detection across a real test clip. Toggle
+        // to false to instantly fall back to EasyOCR (still fully intact in
+        // read_scoreboard.py) if this ever underperforms.
+        const USE_SCORE_LED_MODEL = true;
+        const SCORE_LED_MODEL = path.join(__dirname, "..", "detection_models", "score_detection", "led_read.pt");
         const MERGE_STAGE      = path.join(__dirname, "..", "detection_models", "all_three", "merge_pipeline.py");
         const RENDER_STAGE     = path.join(__dirname, "..", "detection_models", "all_three", "render_video.py");
 
         const frameJerseyMap     = path.join(RUNS_DIR, "frame_jersey_map.json");
         const jerseyRegistryPath = path.join(RUNS_DIR, "jersey_registry.json");
         const actionDetPath      = path.join(RUNS_DIR, "action_detections.json");
+        const ballTrackPath      = path.join(RUNS_DIR, "ball_track.json");
+        const rallyWindowsPath   = path.join(RUNS_DIR, "rally_windows.json");
+        const scoreboardReadingsPath = path.join(RUNS_DIR, "scoreboard_readings.json");
         const volleyAnalyticsPath = path.join(RUNS_DIR, "volley_analytics.json");
         const renderedVideoPath  = path.join(RUNS_DIR, "analyzed_video.mp4");
 
@@ -1211,11 +1304,14 @@ async function startAnalysis(req, res) {
         for (const f of [
             "rally_analysis.json", "player_stats.json", "volley_analytics.json",
             "frame_jersey_map.json", "jersey_registry.json", "action_detections.json",
+            "ball_track.json", "rally_windows.json", "scoreboard_readings.json",
             "player_registry.json", "analyzed_video.mp4",
         ]) {
             const p = path.join(RUNS_DIR, f);
             if (fs.existsSync(p)) fs.unlinkSync(p);
         }
+        const rallyWorkDir = path.join(RUNS_DIR, "rally_detect_work");
+        if (fs.existsSync(rallyWorkDir)) fs.rmSync(rallyWorkDir, { recursive: true, force: true });
 
         analysisJobs[id] = { status: "processing", progress: 0, error: null, proc: null };
         await Video.findByIdAndUpdate(id, { "analytics.status": "processing", "analytics.error": "" });
@@ -1225,6 +1321,11 @@ async function startAnalysis(req, res) {
             "--my-team-color", video.myTeamColor || "blue_white",
             "--opponent-color", video.opponentColor || "black_white",
         ];
+        // Optional third/fourth k-means cluster for a libero's contrasting jersey —
+        // without this, a libero who doesn't match the main/opponent color hint
+        // falls into OPPONENT/OTHER and never gets tracked/OCR'd (see predict_pipeline.py).
+        if (video.liberoColor) colorArg.push("--libero-color", video.liberoColor);
+        if (video.opponentLiberoColor) colorArg.push("--opponent-libero-color", video.opponentLiberoColor);
 
         // Optional roster pre-registration (AddPlayers page) — if the coach entered
         // jersey numbers ahead of time, constrain OCR to only accept those numbers.
@@ -1271,7 +1372,7 @@ async function startAnalysis(req, res) {
                 ...colorArg,
                 ...calibArg,
                 ...rosterArg,
-            ], 0, 35);
+            ], 0, 30);
             if (jerseyResult.error) {
                 console.warn(`[JERSEY] predict_pipeline failed (non-fatal) — continuing without jersey map: ${jerseyResult.error}`);
             } else {
@@ -1282,12 +1383,54 @@ async function startAnalysis(req, res) {
             const actionResult = await runStage(id, pyCmd, "ACTION", ACTION_STAGE, [
                 "--video",  videoAbs,
                 "--output", actionDetPath,
-            ], 35, 65);
+            ], 30, 55);
             if (actionResult.error) {
                 console.warn(`[ACTION] action.py failed (non-fatal) — continuing without action data: ${actionResult.error}`);
             }
 
-            // ── Stage 3: merge — fatal on failure ────────────────────────────
+            // ── Stage 3: rally + ball — non-fatal on failure. Independent of
+            // jersey/action (reads only the raw video), runs on CPU so it never
+            // contends with them for the single GPU. If this fails or is slow to
+            // set up (first run needs `uv` to resolve rally_detect's own venv),
+            // the rest of the pipeline still produces jersey+action analytics
+            // exactly as before — rally/ball data is a pure enhancement (dead-time
+            // trimming, ball landing/scoring, mini-court overlay), never required.
+            const rallyResult = await runStage(id, pyCmd, "RALLY", RALLY_STAGE, [
+                "--video",               videoAbs,
+                "--output-ball-track",   ballTrackPath,
+                "--output-rally-windows", rallyWindowsPath,
+                "--work-dir",            rallyWorkDir,
+                "--device",              "cpu",
+            ], 55, 65);
+            if (rallyResult.error) {
+                console.warn(`[RALLY] run_rally_stage failed (non-fatal) — continuing without rally/ball data: ${rallyResult.error}`);
+            }
+
+            // ── Stage 3b: scoreboard OCR — non-fatal on failure. Independent of
+            // every other stage (own two models, own crop/upscale pipeline), so it
+            // can only ever add data, never break jersey/action/rally analytics.
+            // When rally windows are available, this switches into rally-boundary
+            // attribution mode (one point per completed rally, timed to the rally's
+            // own dead-time boundaries and attributed by image comparison rather than
+            // OCR vote-accumulation) — falls back to continuous-scan mode otherwise.
+            const scoreArgs = [
+                "--video",        videoAbs,
+                "--output",       scoreboardReadingsPath,
+                "--sample-every", "5",
+            ];
+            if (fs.existsSync(rallyWindowsPath)) scoreArgs.push("--rally-windows", rallyWindowsPath);
+            if (USE_SCORE_FULLFRAME_MODEL && fs.existsSync(SCORE_FULLFRAME_MODEL)) {
+                scoreArgs.push("--fullframe-model", SCORE_FULLFRAME_MODEL);
+            }
+            if (USE_SCORE_LED_MODEL && fs.existsSync(SCORE_LED_MODEL)) {
+                scoreArgs.push("--led-model", SCORE_LED_MODEL);
+            }
+            const scoreResult = await runStage(id, pyCmd, "SCORE", SCORE_STAGE, scoreArgs, 65, 70);
+            if (scoreResult.error) {
+                console.warn(`[SCORE] read_scoreboard failed (non-fatal) — continuing without scoreboard data: ${scoreResult.error}`);
+            }
+
+            // ── Stage 4: merge — fatal on failure ────────────────────────────
             const mergeArgs = [
                 "--video",           videoAbs,
                 "--output",          volleyAnalyticsPath,
@@ -1297,13 +1440,16 @@ async function startAnalysis(req, res) {
             if (fs.existsSync(frameJerseyMap))     mergeArgs.push("--frame-jersey-map", frameJerseyMap);
             if (fs.existsSync(jerseyRegistryPath)) mergeArgs.push("--jersey-registry", jerseyRegistryPath);
             if (fs.existsSync(actionDetPath))      mergeArgs.push("--action-detections", actionDetPath);
+            if (fs.existsSync(ballTrackPath))      mergeArgs.push("--ball-track", ballTrackPath);
+            if (fs.existsSync(rallyWindowsPath))   mergeArgs.push("--rally-windows", rallyWindowsPath);
 
-            const mergeResult = await runStage(id, pyCmd, "MERGE", MERGE_STAGE, mergeArgs, 65, 80);
+            const mergeResult = await runStage(id, pyCmd, "MERGE", MERGE_STAGE, mergeArgs, 70, 85);
             if (mergeResult.error) { await failAnalysis("merge_pipeline", mergeResult.error); return; }
 
-            // ── Stage 4: render annotated video — non-fatal on failure ──────
-            // (persistAnalysisOutputs falls back to jersey_tracking.mp4 if this is missing;
-            // no rally stage yet, so no dead-time trimming — output is full-length.)
+            // ── Stage 5: render annotated video — non-fatal on failure ──────
+            // (persistAnalysisOutputs falls back to jersey_tracking.mp4 if this is missing.
+            // Dead-time trimming + mini-court/ball-trail overlay both activate automatically
+            // whenever rally/ball data exists; render_video.py degrades gracefully without it.)
             const renderArgs = [
                 "--video",            videoAbs,
                 "--output",           renderedVideoPath,
@@ -1311,8 +1457,11 @@ async function startAnalysis(req, res) {
             ];
             if (fs.existsSync(frameJerseyMap))     renderArgs.push("--frame-jersey-map", frameJerseyMap);
             if (fs.existsSync(jerseyRegistryPath)) renderArgs.push("--jersey-registry", jerseyRegistryPath);
+            if (fs.existsSync(ballTrackPath))      renderArgs.push("--ball-track", ballTrackPath);
+            if (fs.existsSync(rallyWindowsPath))   renderArgs.push("--rally-windows", rallyWindowsPath);
+            if (calibArg.length)                   renderArgs.push(...calibArg);
 
-            const renderResult = await runStage(id, pyCmd, "RENDER", RENDER_STAGE, renderArgs, 80, 100);
+            const renderResult = await runStage(id, pyCmd, "RENDER", RENDER_STAGE, renderArgs, 85, 100);
             if (renderResult.error) {
                 console.warn(`[RENDER] render_video.py failed (non-fatal) — falling back to jersey_tracking.mp4: ${renderResult.error}`);
             }
@@ -1363,7 +1512,7 @@ async function saveCourtCalibration(req, res) {
         }
 
         const calibJsonPath = path.join(__dirname, "..", "uploads", `calib_${id}.json`);
-        const CALIB_SCRIPT  = path.join(__dirname, "..", "detection_models", "all_three", "court_calibration.py");
+        const CALIB_SCRIPT  = path.join(__dirname, "..", "detection_models", "rally_detect", "mini_court", "court_calibration.py");
         const pyCmd = process.platform === "win32" ? "py" : "python3";
         const flat = imagePoints.flat().map(String); // [x1,y1,x2,y2,x3,y3,x4,y4]
 
@@ -1402,7 +1551,26 @@ async function saveCourtCalibration(req, res) {
 //  • "outside" landings resolve via last_touch_team inferred from action frames.
 //  • Score is NEVER updated inside triple_detection.py — only here.
 //
-function buildRallyAnalysis(volleyAnalytics) {
+// Whoever serves a rally is whoever WON the previous rally — side-out scoring
+// rule, not a guess. "service" actions are already detected and already
+// team-attributed by the existing action+jersey merge, so this needs no new
+// model or scoreboard dependency at all: rally i's server tells us rally
+// (i-1)'s winner. Only the very last rally is structurally unresolvable this
+// way (no next rally to observe a serve from).
+function buildServiceBasedWinners(rallyWindows, frames) {
+    const winners = {}; // rallyIndex -> "my_team" | "opponent"
+    for (let i = 1; i < rallyWindows.length; i++) {
+        const win = rallyWindows[i];
+        const serve = frames
+            .filter(f => f.frame >= win.start && f.frame <= win.end && f.action === "service"
+                         && (f.active_player_team === "my_team" || f.active_player_team === "opponent"))
+            .sort((a, b) => a.frame - b.frame)[0];
+        if (serve) winners[i - 1] = serve.active_player_team;
+    }
+    return winners;
+}
+
+function buildRallyAnalysis(volleyAnalytics, { scoreboardData, isHomeTeam = true } = {}) {
     const landings     = volleyAnalytics.ball_landings || [];
     const frames       = volleyAnalytics.frames        || [];
     const fps          = volleyAnalytics.fps           || 30;
@@ -1496,99 +1664,266 @@ function buildRallyAnalysis(volleyAnalytics) {
     // In landing_gaps fallback the window IS defined by the landings, skip the delay
     const effectiveDelay = windowSource === "landing_gaps" ? 0 : MIN_FRAMES_DELAY;
 
-    // ── 2. Score one landing per rally ────────────────────────────────────────
+    // render_video.py cuts every dead-time gap out of the rendered "Processed
+    // Video" the frontend actually plays back (see its --rally-windows /
+    // dead-time-trimming logic, active by default whenever dead_segments
+    // exist) — so that video's own currentTime runs on a *compressed* clock:
+    // only the rally windows survive, back-to-back, in order. Any timestamp
+    // handed to the frontend for comparison against that currentTime (rally
+    // boundaries, actions, score events) has to be expressed on that same
+    // compressed clock, not the original recording's frame/fps time —
+    // otherwise it drifts out of sync by however much dead time was cut
+    // before it, and once it exceeds the trimmed video's own (much shorter)
+    // total duration it becomes permanently unreachable during playback.
+    // Verified directly: a scoreboard-confirmed point sitting in a dead-time
+    // gap (its frame is *never included* in the trimmed video at all) had a
+    // raw time_sec past the trimmed video's total length, so the live score
+    // overlay could never reach it and stayed frozen at an earlier tally for
+    // the rest of playback even though the final aggregate was correct.
+    const trimActive = deadSegs.length > 0;
+    const trimmedStartSec = [];
+    let cumulativeTrimmedSec = 0;
+    for (const win of rallyWindows) {
+        trimmedStartSec.push(cumulativeTrimmedSec);
+        cumulativeTrimmedSec += (win.end - win.start) / fps;
+    }
+    function toTrimmedTimeSec(frame) {
+        if (!trimActive) return toTimeSec(frame);
+        for (let idx = 0; idx < rallyWindows.length; idx++) {
+            const win = rallyWindows[idx];
+            if (frame <= win.end) {
+                const clamped = Math.max(frame, win.start);
+                return parseFloat((trimmedStartSec[idx] + (clamped - win.start) / fps).toFixed(3));
+            }
+        }
+        return parseFloat(cumulativeTrimmedSec.toFixed(3)); // past the last rally — anchor to the trimmed video's end
+    }
+    function toTrimmedTimeStr(frame) {
+        const s = Math.floor(toTrimmedTimeSec(frame));
+        return `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
+    }
+
+    // ── 2. Score events ────────────────────────────────────────────────────────
+    // Prefer the scoreboard OCR reading when available — it's ground truth off
+    // the physical board rather than an inference from where the ball landed,
+    // so it takes over entirely rather than being blended with the heuristic.
+    // Falls back to the original ball-landing-per-rally logic exactly as before
+    // when the scoreboard stage didn't run or never confirmed anything (same
+    // non-fatal, additive pattern as every other optional stage in this pipeline).
     let usScore = 0, oppScore = 0;
-    const scoreEvents = [];
-    const rallyMeta   = [];
+    let scoreEvents = [];
+    let scoreSource = "ball_landing";
+    const rallyMeta = [];
+
+    const scoreboardChanges = (scoreboardData?.score_changes || [])
+        .filter(c => c.field === "home_points" || c.field === "guest_points")
+        .sort((a, b) => a.frame - b.frame);
+
+    // Rally groups the scoreboard stage couldn't resolve on its own — it runs
+    // before this merge step, so it has no action/team data (see
+    // read_scoreboard.py's run_rally_attribution). It confirmed via OCR that
+    // the run split one point to each team, just not which rally is whose.
+    // Resolve using each rally's last recorded action: a team's own attack
+    // landing is the most common way a rally actually ends in that team's
+    // favor. Not certain (an attack can still be dug/blocked), but a
+    // reasonable signal — falls back to a deterministic chronological split
+    // if the heuristic's guesses don't add up to the OCR-confirmed totals.
+    const resolvedAmbiguous = [];
+    for (const group of (scoreboardData?.ambiguous_groups || [])) {
+        const usDelta  = isHomeTeam ? group.home_points_delta : group.guest_points_delta;
+        const oppDelta = isHomeTeam ? group.guest_points_delta : group.home_points_delta;
+
+        const guesses = group.rally_indices.map(idx => {
+            const win = rallyWindows[idx];
+            if (!win) return { idx, win: null, team: "opponent" };
+            const lastAction = frames
+                .filter(f => f.frame >= win.start && f.frame <= win.end && f.action && f.action !== "none"
+                             && (f.active_player_team === "my_team" || f.active_player_team === "opponent"))
+                .sort((a, b) => a.frame - b.frame)
+                .pop();
+            const team = (lastAction && lastAction.action === "attack" && lastAction.active_player_team === "my_team")
+                ? "my_team" : "opponent";
+            return { idx, win, team };
+        });
+
+        const guessedUs = guesses.filter(g => g.team === "my_team").length;
+        const matches = guessedUs === usDelta && (guesses.length - guessedUs) === oppDelta;
+
+        guesses.forEach((g, i) => {
+            const team = matches ? g.team : (i < usDelta ? "my_team" : "opponent");
+            if (g.win) resolvedAmbiguous.push({ frame: g.win.end, team, ambiguous: true, rally_index: g.idx });
+        });
+    }
+
+    const scoreTimeline = [
+        ...scoreboardChanges.map(c => ({
+            frame: c.frame,
+            team: (c.field === "home_points") === isHomeTeam ? "my_team" : "opponent",
+        })),
+        ...resolvedAmbiguous,
+    ].sort((a, b) => a.frame - b.frame);
+
+    // rally_events (rally_attribution mode only) already carries the rally_index
+    // read_scoreboard.py resolved each confirmed change to — it can legitimately
+    // land several seconds after the rally's own end (a scoreboard operator
+    // updating late), which is exactly why gap_reference_frame_after samples
+    // deep into the gap rather than right at the rally boundary. Matching by
+    // that already-resolved rally_index avoids re-deriving attribution from raw
+    // frame position against LANDING_TOLERANCE (~0.5s, sized for ball landings,
+    // not for a delayed board update), which was silently dropping confirmed
+    // scoreboard reads whenever the operator lagged more than half a second.
+    const scoreByRallyIndex = new Map();
+    for (const ev of (scoreboardData?.rally_events || [])) {
+        if (!ev.field) continue; // inconclusive rally, no direct confirmation
+        scoreByRallyIndex.set(ev.rally_index, {
+            frame: ev.frame,
+            team: (ev.field === "home_points") === isHomeTeam ? "my_team" : "opponent",
+            ambiguous: false,
+        });
+    }
+    for (const resolved of resolvedAmbiguous) {
+        scoreByRallyIndex.set(resolved.rally_index, { frame: resolved.frame, team: resolved.team, ambiguous: true });
+    }
+
+    // Per-rally cascading fallback — try the most reliable source first, and
+    // only fall through to the next for whichever *specific* rallies the
+    // stronger source couldn't resolve, rather than picking one source for
+    // the whole match. A missed serve detection (e.g. the server was out of
+    // frame) shouldn't throw away an otherwise-good signal for every other
+    // rally — it should just mean that ONE rally falls through to the next
+    // available source instead.
+    //   1. Service-detection — tied to an actual game rule, no visual
+    //      board/landing dependency at all.
+    //   2. Scoreboard OCR — direct confirmed changes + last-action-resolved
+    //      ambiguous groups.
+    //   3. Ball-landing + court-calibration heuristic — the original method.
+    const serviceWinners = buildServiceBasedWinners(rallyWindows, frames);
+    const sourceCounts = { service_detection: 0, scoreboard_ocr: 0, ball_landing: 0, unknown: 0 };
 
     for (let idx = 0; idx < rallyWindows.length; idx++) {
         const win     = rallyWindows[idx];
         const rallyId = idx + 1;
+        let scoring = null;
+        let result  = "unknown";
+        let landingUsed = null;
 
-        const validLandings = landings
-            .filter(l =>
-                l.frame >= win.start + effectiveDelay &&
-                l.frame <= win.end + LANDING_TOLERANCE &&
-                (l.confidence == null || l.confidence >= MIN_CONF)
-            )
-            .sort((a, b) => a.frame - b.frame);
-
-        if (validLandings.length === 0) {
-            rallyMeta.push({ win, rallyId, result: "unknown", landing: null, scoreEvent: null });
-            continue;
+        const serviceTeam = serviceWinners[idx];
+        if (serviceTeam) {
+            const isUs = serviceTeam === "my_team";
+            if (isUs) usScore++; else oppScore++;
+            scoring = {
+                type: "service_detection", rally_id: rallyId,
+                frame: win.end, time_sec: toTrimmedTimeSec(win.end),
+                us: usScore, opp: oppScore, scoring_team: serviceTeam,
+            };
+            result = isUs ? "point_my_team" : "point_opponent";
+            sourceCounts.service_detection++;
         }
 
-        // Take FIRST valid landing — never last (avoids counting bounces)
-        const land = validLandings[0];
-        let result  = "unknown";
-        let scoring = null;
-
-        if (land.landed_side === "unknown") {
-            scoring = {
-                rally_id: rallyId, type: "no_calibration",
-                frame: land.frame, time_sec: toTimeSec(land.frame),
-                us: usScore, opp: oppScore,
-                landed_side: "unknown", court_position: null, scoring_team: "unknown",
-            };
-
-        } else if (land.landed_side === "opponent") {
-            usScore++;
-            result  = "point_my_team";
-            scoring = {
-                rally_id: rallyId, type: "ball_landing",
-                frame: land.frame, time_sec: toTimeSec(land.frame),
-                us: usScore, opp: oppScore,
-                landed_side: "opponent", court_position: land.court_position || null,
-                scoring_team: "my_team",
-            };
-
-        } else if (land.landed_side === "my_team") {
-            oppScore++;
-            result  = "point_opponent";
-            scoring = {
-                rally_id: rallyId, type: "ball_landing",
-                frame: land.frame, time_sec: toTimeSec(land.frame),
-                us: usScore, opp: oppScore,
-                landed_side: "my_team", court_position: land.court_position || null,
-                scoring_team: "opponent",
-            };
-
-        } else {
-            // outside — resolve by last touch
-            result = "outside";
-            const lastTeam = land.last_touch_team || lastTouchBefore(land.frame);
-            if (lastTeam === "my_team") {
-                oppScore++;
+        if (!scoring) {
+            const sbPoint = scoreByRallyIndex.get(idx) || scoreTimeline.find(p =>
+                p.frame >= win.start + effectiveDelay && p.frame <= win.end + LANDING_TOLERANCE);
+            if (sbPoint) {
+                const isUs = sbPoint.team === "my_team";
+                if (isUs) usScore++; else oppScore++;
                 scoring = {
-                    rally_id: rallyId, type: "ball_out",
-                    frame: land.frame, time_sec: toTimeSec(land.frame),
-                    us: usScore, opp: oppScore,
-                    landed_side: "outside", court_position: land.court_position || null,
-                    scoring_team: "opponent", last_touch_team: lastTeam,
+                    type: sbPoint.ambiguous ? "scoreboard_ocr_ambiguous_resolved" : "scoreboard_ocr",
+                    rally_id: rallyId, frame: sbPoint.frame, time_sec: toTrimmedTimeSec(sbPoint.frame),
+                    us: usScore, opp: oppScore, scoring_team: sbPoint.team,
                 };
-            } else if (lastTeam === "opponent") {
-                usScore++;
-                scoring = {
-                    rally_id: rallyId, type: "ball_out",
-                    frame: land.frame, time_sec: toTimeSec(land.frame),
-                    us: usScore, opp: oppScore,
-                    landed_side: "outside", court_position: land.court_position || null,
-                    scoring_team: "my_team", last_touch_team: lastTeam,
-                };
-            } else {
-                scoring = {
-                    rally_id: rallyId, type: "unknown_out",
-                    frame: land.frame, time_sec: toTimeSec(land.frame),
-                    us: usScore, opp: oppScore,
-                    landed_side: "outside", court_position: land.court_position || null,
-                    scoring_team: "unknown",
-                };
+                result = isUs ? "point_my_team" : "point_opponent";
+                sourceCounts.scoreboard_ocr++;
             }
         }
 
-        scoreEvents.push(scoring);
-        rallyMeta.push({ win, rallyId, result, landing: land, scoreEvent: scoring });
+        if (!scoring) {
+            const validLandings = landings
+                .filter(l =>
+                    l.frame >= win.start + effectiveDelay &&
+                    l.frame <= win.end + LANDING_TOLERANCE &&
+                    (l.confidence == null || l.confidence >= MIN_CONF)
+                )
+                .sort((a, b) => a.frame - b.frame);
+
+            if (validLandings.length > 0) {
+                const land = validLandings[0];
+                landingUsed = land;
+
+                if (land.landed_side === "unknown") {
+                    scoring = {
+                        rally_id: rallyId, type: "no_calibration",
+                        frame: land.frame, time_sec: toTrimmedTimeSec(land.frame),
+                        us: usScore, opp: oppScore,
+                        landed_side: "unknown", court_position: null, scoring_team: "unknown",
+                    };
+
+                } else if (land.landed_side === "opponent") {
+                    usScore++;
+                    result  = "point_my_team";
+                    scoring = {
+                        rally_id: rallyId, type: "ball_landing",
+                        frame: land.frame, time_sec: toTrimmedTimeSec(land.frame),
+                        us: usScore, opp: oppScore,
+                        landed_side: "opponent", court_position: land.court_position || null,
+                        scoring_team: "my_team",
+                    };
+
+                } else if (land.landed_side === "my_team") {
+                    oppScore++;
+                    result  = "point_opponent";
+                    scoring = {
+                        rally_id: rallyId, type: "ball_landing",
+                        frame: land.frame, time_sec: toTrimmedTimeSec(land.frame),
+                        us: usScore, opp: oppScore,
+                        landed_side: "my_team", court_position: land.court_position || null,
+                        scoring_team: "opponent",
+                    };
+
+                } else {
+                    // outside — resolve by last touch
+                    result = "outside";
+                    const lastTeam = land.last_touch_team || lastTouchBefore(land.frame);
+                    if (lastTeam === "my_team") {
+                        oppScore++;
+                        scoring = {
+                            rally_id: rallyId, type: "ball_out",
+                            frame: land.frame, time_sec: toTrimmedTimeSec(land.frame),
+                            us: usScore, opp: oppScore,
+                            landed_side: "outside", court_position: land.court_position || null,
+                            scoring_team: "opponent", last_touch_team: lastTeam,
+                        };
+                    } else if (lastTeam === "opponent") {
+                        usScore++;
+                        scoring = {
+                            rally_id: rallyId, type: "ball_out",
+                            frame: land.frame, time_sec: toTrimmedTimeSec(land.frame),
+                            us: usScore, opp: oppScore,
+                            landed_side: "outside", court_position: land.court_position || null,
+                            scoring_team: "my_team", last_touch_team: lastTeam,
+                        };
+                    } else {
+                        scoring = {
+                            rally_id: rallyId, type: "unknown_out",
+                            frame: land.frame, time_sec: toTrimmedTimeSec(land.frame),
+                            us: usScore, opp: oppScore,
+                            landed_side: "outside", court_position: land.court_position || null,
+                            scoring_team: "unknown",
+                        };
+                    }
+                }
+                sourceCounts.ball_landing++;
+            } else {
+                sourceCounts.unknown++;
+            }
+        }
+
+        if (scoring) scoreEvents.push(scoring);
+        rallyMeta.push({ win, rallyId, result, landing: landingUsed, scoreEvent: scoring });
     }
+
+    // Informational summary of which source actually resolved how many
+    // rallies — the dominant one, for the single existing score_source field.
+    scoreSource = Object.entries(sourceCounts).sort((a, b) => b[1] - a[1])[0][0];
 
     // ── 3. Flat action list ───────────────────────────────────────────────────
     // The per-frame action detector flickers within a single real action (e.g.
@@ -1619,8 +1954,8 @@ function buildRallyAnalysis(volleyAnalytics) {
             .map(([player]) => player);
         allActions.push({
             frame:         run.startFrame,
-            time_sec:      toTimeSec(run.startFrame),
-            time_str:      toTimeStr(run.startFrame),
+            time_sec:      toTrimmedTimeSec(run.startFrame),
+            time_str:      toTrimmedTimeStr(run.startFrame),
             action:        run.action,
             action_label:  run.action,
             result:        "unknown",
@@ -1644,16 +1979,59 @@ function buildRallyAnalysis(volleyAnalytics) {
     }
     if (run) pushRun(run);
 
+    // A rally can only legitimately start with one serve — verified against
+    // real footage that a single genuine serve can still produce multiple
+    // separate "service" runs in one rally (the model drops to "none" for
+    // longer than MAX_GAP_FRAMES mid-motion — e.g. toss, then contact, then
+    // follow-through — each re-triggering as its own run instead of being
+    // bridged into the first). Keep only the earliest "service" per rally;
+    // any later ones in the same rally are the same real serve, not repeats.
+    for (const win of rallyWindows) {
+        const servesInRally = allActions
+            .filter(a => a.action === "service" && a.frame >= win.start && a.frame <= win.end)
+            .sort((a, b) => a.frame - b.frame);
+        for (const extra of servesInRally.slice(1)) {
+            const idx = allActions.indexOf(extra);
+            if (idx !== -1) allActions.splice(idx, 1);
+        }
+    }
+
+    // For a lost rally, identifies which of our players was most likely
+    // responsible for failing to stop/return the point-winning play — tiered
+    // fallback since the action model doesn't classify every real defensive
+    // attempt (a dive/fall/mistimed contact often shows no recognized action
+    // at all): prefer the last frame with an actual classified action by our
+    // team, falling back to the last frame where our team simply has the
+    // ball-proximity "active player" (computed independently of action
+    // classification, see merge_pipeline.py), so a player clearly in the play
+    // who didn't register a clean action still gets surfaced instead of
+    // showing up as "no data".
+    function findResponsiblePlayer(win, team) {
+        const inWindow = frames.filter(f => f.frame >= win.start && f.frame <= win.end
+                                              && f.active_player_team === team);
+        const withAction = inWindow.filter(f => f.action && f.action !== "none");
+        if (withAction.length > 0) {
+            const last = withAction[withAction.length - 1];
+            return { jersey: last.active_player_jersey, action: last.action, source: "action" };
+        }
+        if (inWindow.length > 0) {
+            const last = inWindow[inWindow.length - 1];
+            return { jersey: last.active_player_jersey, action: null, source: "ball_proximity" };
+        }
+        return null;
+    }
+
     // ── 4. Attach actions to rallies ──────────────────────────────────────────
     const rallies = rallyMeta.map(rm => ({
         rally_id:    rm.rallyId,
         start_frame: rm.win.start,
         end_frame:   rm.win.end,
-        start_sec:   toTimeSec(rm.win.start),
-        end_sec:     toTimeSec(rm.win.end),
+        start_sec:   toTrimmedTimeSec(rm.win.start),
+        end_sec:     toTrimmedTimeSec(rm.win.end),
         result:      rm.result,
         score_event: rm.scoreEvent || null,
         actions:     allActions.filter(a => a.frame >= rm.win.start && a.frame <= rm.win.end),
+        defensive_player: rm.result === "point_opponent" ? findResponsiblePlayer(rm.win, "my_team") : null,
     }));
 
     return {
@@ -1666,6 +2044,8 @@ function buildRallyAnalysis(volleyAnalytics) {
         us_score:       usScore,
         opponent_score: oppScore,
         window_source:  windowSource,
+        score_source:   scoreSource,
+        score_sources_breakdown: sourceCounts,
     };
 }
 

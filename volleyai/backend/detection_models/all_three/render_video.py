@@ -6,14 +6,18 @@ import subprocess
 
 import cv2
 
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+MINI_COURT_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, "..", "rally_detect", "mini_court"))
+if MINI_COURT_DIR not in sys.path:
+    sys.path.insert(0, MINI_COURT_DIR)
+from mini_court_overlay import draw_mini_court, draw_ball_trail
+
 ACTION_COLORS = {
-    "serve": (0, 165, 255),    # Orange
-    "spike": (0, 0, 255),      # Red
-    "block": (255, 0, 255),    # Magenta
-    "bump": (255, 255, 0),     # Cyan
-    "set": (0, 255, 255),      # Yellow
-    "defence": (0, 128, 255),  # Light Orange
-    "dig": (0, 128, 255),      # Legacy alias
+    "attack":       (0, 0, 255),     # red
+    "block":        (255, 0, 255),   # magenta
+    "service":      (0, 165, 255),   # orange
+    "setting":      (0, 255, 255),   # yellow
+    "defense-move": (0, 128, 255),   # light orange
     "none": (255, 0, 0),
 }
 MY_TEAM_COLOR = (60, 220, 100)
@@ -32,6 +36,8 @@ def parse_args():
     parser.add_argument("--volley-analytics", default=None, help="merged volley_analytics.json from merge_pipeline.py")
     parser.add_argument("--rally-windows", default=None, help="rally_windows.json from run_rally_stage.py (for dead-time trimming)")
     parser.add_argument("--no-trim", action="store_true", help="Keep dead-time segments in the output instead of cutting them")
+    parser.add_argument("--ball-track", default=None, help="ball_track.json from run_ball_stage.py (enables mini-court overlay)")
+    parser.add_argument("--calib-json", default=None, help="Court calibration JSON (precise mini-court ball position; falls back to rough pixel position without it)")
     return parser.parse_args()
 
 
@@ -75,6 +81,19 @@ def main():
     dead_segments = rally_data.get("dead_segments", [])
     is_dead_frame = build_dead_frame_checker(dead_segments) if (dead_segments and not args.no_trim) else (lambda f: False)
 
+    ball_data = load_json(args.ball_track, {}) or {}
+    ball_by_frame = {b["frame"]: b for b in ball_data.get("ball_track", [])}
+    ball_landings = analytics.get("ball_landings", [])
+    show_mini_court = bool(ball_by_frame) or bool(ball_landings)
+    LANDING_DISPLAY_FRAMES = 150  # ~2.5s at 60fps — keep a landing marker visible briefly after it happens
+    ball_trail = []  # rolling list of (frame_idx, cx, cy) within the trailing window
+
+    court_calibrator = None
+    if args.calib_json and os.path.exists(args.calib_json):
+        from court_calibration import CourtCalibrator
+        court_calibrator = CourtCalibrator()
+        court_calibrator.load(args.calib_json)
+
     cap = cv2.VideoCapture(args.video)
     if not cap.isOpened():
         raise RuntimeError(f"Cannot open video: {args.video}")
@@ -82,6 +101,7 @@ def main():
     w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT)) or 0
+    TRAIL_WINDOW_FRAMES = round(fps * 1.5)
 
     os.makedirs(os.path.dirname(os.path.abspath(args.output)), exist_ok=True)
     ffmpeg_cmd = [
@@ -89,7 +109,7 @@ def main():
         "-f", "rawvideo", "-vcodec", "rawvideo", "-s", f"{w}x{h}",
         "-pix_fmt", "bgr24", "-r", str(fps),
         "-i", "-",
-        "-c:v", "libx264", "-preset", "fast", "-crf", "23",
+        "-c:v", "libx264", "-preset", "medium", "-crf", "18",
         "-pix_fmt", "yuv420p", "-movflags", "+faststart",
         args.output,
     ]
@@ -146,6 +166,28 @@ def main():
                 cv2.rectangle(frame, (rx1, ry1), (rx2, ry2), OPPONENT_COLOR, 1)
 
         cv2.putText(frame, f"Frame {frame_idx}", (20, 32), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2)
+
+        if show_mini_court:
+            ball_entry = ball_by_frame.get(frame_idx)
+
+            if ball_entry is not None:
+                ball_trail.append((frame_idx, ball_entry["cx"], ball_entry["cy"]))
+            ball_trail[:] = [p for p in ball_trail if frame_idx - p[0] <= TRAIL_WINDOW_FRAMES]
+            draw_ball_trail(frame, ball_trail)
+
+            ball_cp = None
+            if ball_entry is not None:
+                if court_calibrator is not None:
+                    t = court_calibrator.transform(ball_entry["cx"], ball_entry["cy"])
+                    ball_cp = (t["court_x"], t["court_y"])
+                else:
+                    # No calibration — rough pixel-fraction position (not
+                    # perspective-corrected, but enough for a live "which side
+                    # is the ball on" indicator).
+                    ball_cp = (ball_entry["cx"] / w, ball_entry["cy"] / h)
+            recent_land = [ev for ev in ball_landings
+                           if 0 <= frame_idx - ev.get("frame", -10**9) <= LANDING_DISPLAY_FRAMES]
+            draw_mini_court(frame, ball_cp, recent_land)
 
         proc.stdin.write(frame.tobytes())
         frames_written += 1

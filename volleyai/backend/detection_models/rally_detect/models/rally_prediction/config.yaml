@@ -1,0 +1,21 @@
+# Volleyball Analytics: Random Forest Experiment Tracking
+
+models:
+  v3:
+    description: "First working version"
+    path: "./models/rally_prediction/rally_predictor_rf_v3.pkl"
+    feature_extraction:
+      window_size: 60
+      interpolation_size: 5
+    hyperparameters:
+      n_estimators: 200
+      num_min_samples: 30
+  v4:
+    description: "First working version"
+    path: "./models/rally_prediction/rally_predictor_rf_v4.pkl"
+    feature_extraction:
+      window_size: 60
+      interpolation_size: 5
+    hyperparameters:
+      n_estimators: 300
+      num_min_samples: 50

@@ -1,0 +1,1880 @@
+[dotenv@17.3.1] injecting env (4) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+Server running on port 5000
+MongoDB connected: ac-haruip5-shard-00-00.rqxlozc.mongodb.net
+(node:4550) [MONGOOSE] Warning: mongoose: the `new` option for `findOneAndUpdate()` and `findOneAndReplace()` is deprecated. Use `returnDocument: 'after'` instead.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[JERSEY] Starting...
+[JERSEY] [INIT] Loading EasyOCR...
+[START] Processing video (team filter: ON)...
+[INFO] k-means done (k=4) from 40 samples:
+  Centroid 0 (MAIN): HSV=[118.0, 172.3000030517578, 84.9000015258789]
+  Centroid 1 (OPP_LIBERO): HSV=[100.0999984741211, 81.4000015258789, 64.4000015258789]
+  Centroid 2 (LIBERO): HSV=[61.900001525878906, 64.0999984741211, 182.8000030517578]
+  Centroid 3 (OPPONENT): HSV=[41.5, 114.0, 23.100000381469727]
+  Frame 100 | 4 players ID'd by jersey
+0%
+[Jersey BRIDGE] track_id=27 candidate=#9 (dist=118px)
+  Frame 200 | 4 players ID'd by jersey
+1%
+  Frame 300 | 4 players ID'd by jersey
+1%
+  Frame 400 | 4 players ID'd by jersey
+2%
+  Frame 500 | 5 players ID'd by jersey
+3%
+[Jersey BRIDGE] track_id=54 candidate=#10 (dist=124px)
+  Frame 600 | 5 players ID'd by jersey
+3%
+[Jersey BRIDGE] track_id=67 candidate=#9 (dist=228px)
+  Frame 700 | 5 players ID'd by jersey
+4%
+[Jersey BRIDGE] track_id=75 candidate=#10 (dist=34px)
+  Frame 800 | 6 players ID'd by jersey
+4%
+  Frame 900 | 6 players ID'd by jersey
+5%
+  Frame 1000 | 7 players ID'd by jersey
+6%
+  Frame 1100 | 7 players ID'd by jersey
+6%
+[Jersey BRIDGE] track_id=111 candidate=#18 (dist=120px)
+  Frame 1200 | 7 players ID'd by jersey
+7%
+[Jersey BRIDGE] track_id=120 candidate=#18 (dist=222px)
+  Frame 1300 | 7 players ID'd by jersey
+7%
+[Jersey BRIDGE] track_id=130 candidate=#1 (dist=52px)
+  Frame 1400 | 7 players ID'd by jersey
+8%
+  Frame 1500 | 7 players ID'd by jersey
+9%
+[Jersey BRIDGE] track_id=137 candidate=#1 (dist=83px)
+  Frame 1600 | 7 players ID'd by jersey
+9%
+[Jersey BRIDGE] track_id=145 candidate=#1 (dist=78px)
+  Frame 1700 | 7 players ID'd by jersey
+10%
+  Frame 1800 | 7 players ID'd by jersey
+10%
+[Jersey BRIDGE] track_id=159 candidate=#1 (dist=43px)
+  Frame 1900 | 7 players ID'd by jersey
+11%
+  Frame 2000 | 7 players ID'd by jersey
+12%
+[Jersey BRIDGE] track_id=169 candidate=#8 (dist=81px)
+[Jersey BRIDGE] track_id=172 candidate=#1 (dist=68px)
+  Frame 2100 | 7 players ID'd by jersey
+12%
+  Frame 2200 | 7 players ID'd by jersey
+13%
+[Jersey BRIDGE] track_id=183 candidate=#1 (dist=76px)
+  Frame 2300 | 7 players ID'd by jersey
+13%
+  Frame 2400 | 7 players ID'd by jersey
+14%
+[Jersey BRIDGE] track_id=207 candidate=#7 (dist=194px)
+  Frame 2500 | 7 players ID'd by jersey
+15%
+[Jersey BRIDGE] track_id=211 candidate=#8 (dist=202px)
+  Frame 2600 | 8 players ID'd by jersey
+15%
+  Frame 2700 | 8 players ID'd by jersey
+16%
+[Jersey BRIDGE] track_id=229 candidate=#3 (dist=56px)
+[Jersey BRIDGE] track_id=231 candidate=#10 (dist=45px)
+  Frame 2800 | 8 players ID'd by jersey
+16%
+  Frame 2900 | 8 players ID'd by jersey
+17%
+[Jersey BRIDGE] track_id=247 candidate=#10 (dist=129px)
+  Frame 3000 | 8 players ID'd by jersey
+18%
+[Jersey BRIDGE] track_id=258 candidate=#1 (dist=44px)
+  Frame 3100 | 9 players ID'd by jersey
+18%
+[Jersey BRIDGE] track_id=265 candidate=#8 (dist=96px)
+  Frame 3200 | 10 players ID'd by jersey
+19%
+  Frame 3300 | 10 players ID'd by jersey
+19%
+  Frame 3400 | 10 players ID'd by jersey
+20%
+  Frame 3500 | 10 players ID'd by jersey
+21%
+  Frame 3600 | 10 players ID'd by jersey
+21%
+  Frame 3700 | 10 players ID'd by jersey
+22%
+[Jersey BRIDGE] track_id=302 candidate=#2 (dist=119px)
+  Frame 3800 | 10 players ID'd by jersey
+22%
+  Frame 3900 | 10 players ID'd by jersey
+23%
+  Frame 4000 | 10 players ID'd by jersey
+24%
+  Frame 4100 | 10 players ID'd by jersey
+24%
+  Frame 4200 | 10 players ID'd by jersey
+25%
+[Jersey BRIDGE] track_id=345 candidate=#10 (dist=26px)
+  Frame 4300 | 10 players ID'd by jersey
+25%
+  Frame 4400 | 10 players ID'd by jersey
+26%
+  Frame 4500 | 10 players ID'd by jersey
+27%
+  Frame 4600 | 10 players ID'd by jersey
+27%
+  Frame 4700 | 10 players ID'd by jersey
+28%
+[Jersey BRIDGE] track_id=379 candidate=#7 (dist=129px)
+[Jersey BRIDGE] track_id=388 candidate=#7 (dist=205px)
+[Jersey BRIDGE] track_id=389 candidate=#10 (dist=136px)
+  Frame 4800 | 10 players ID'd by jersey
+28%
+  Frame 4900 | 10 players ID'd by jersey
+29%
+[Jersey BRIDGE] track_id=400 candidate=#7 (dist=8px)
+  Frame 5000 | 10 players ID'd by jersey
+30%
+[Jersey BRIDGE] track_id=408 candidate=#7 (dist=58px)
+[Jersey BRIDGE] track_id=412 candidate=#7 (dist=14px)
+  Frame 5100 | 10 players ID'd by jersey
+30%
+[Jersey BRIDGE] track_id=419 candidate=#1 (dist=62px)
+[Jersey BRIDGE] track_id=422 candidate=#10 (dist=120px)
+  Frame 5200 | 10 players ID'd by jersey
+31%
+  Frame 5300 | 10 players ID'd by jersey
+31%
+[Jersey BRIDGE] track_id=445 candidate=#10 (dist=95px)
+  Frame 5400 | 10 players ID'd by jersey
+32%
+  Frame 5500 | 10 players ID'd by jersey
+33%
+  Frame 5600 | 10 players ID'd by jersey
+33%
+[Jersey BRIDGE] track_id=461 candidate=#2 (dist=5px)
+[Jersey BRIDGE] track_id=468 candidate=#2 (dist=39px)
+  Frame 5700 | 10 players ID'd by jersey
+34%
+[Jersey BRIDGE] track_id=474 candidate=#8 (dist=34px)
+  Frame 5800 | 10 players ID'd by jersey
+34%
+  Frame 5900 | 10 players ID'd by jersey
+35%
+[Jersey BRIDGE] track_id=478 candidate=#13 (dist=114px)
+  Frame 6000 | 10 players ID'd by jersey
+36%
+[Jersey BRIDGE] track_id=481 candidate=#2 (dist=67px)
+[Jersey BRIDGE] track_id=486 candidate=#13 (dist=31px)
+  Frame 6100 | 10 players ID'd by jersey
+36%
+[Jersey BRIDGE] track_id=487 candidate=#8 (dist=110px)
+[Jersey BRIDGE] track_id=493 candidate=#13 (dist=60px)
+  Frame 6200 | 10 players ID'd by jersey
+37%
+  Frame 6300 | 10 players ID'd by jersey
+37%
+[Jersey BRIDGE] track_id=513 candidate=#8 (dist=11px)
+[Jersey BRIDGE] track_id=514 candidate=#13 (dist=215px)
+  Frame 6400 | 10 players ID'd by jersey
+38%
+  Frame 6500 | 10 players ID'd by jersey
+39%
+  Frame 6600 | 10 players ID'd by jersey
+39%
+[Jersey BRIDGE] track_id=546 candidate=#1 (dist=96px)
+  Frame 6700 | 10 players ID'd by jersey
+40%
+  Frame 6800 | 10 players ID'd by jersey
+41%
+  Frame 6900 | 10 players ID'd by jersey
+41%
+  Frame 7000 | 10 players ID'd by jersey
+42%
+  Frame 7100 | 10 players ID'd by jersey
+42%
+  Frame 7200 | 10 players ID'd by jersey
+43%
+  Frame 7300 | 10 players ID'd by jersey
+44%
+  Frame 7400 | 10 players ID'd by jersey
+44%
+[Jersey BRIDGE] track_id=599 candidate=#10 (dist=102px)
+  Frame 7500 | 10 players ID'd by jersey
+45%
+[Jersey BRIDGE] track_id=602 candidate=#13 (dist=198px)
+  Frame 7600 | 10 players ID'd by jersey
+45%
+[Jersey BRIDGE] track_id=619 candidate=#10 (dist=195px)
+  Frame 7700 | 10 players ID'd by jersey
+46%
+  Frame 7800 | 10 players ID'd by jersey
+47%
+  Frame 7900 | 10 players ID'd by jersey
+47%
+[Jersey BRIDGE] track_id=645 candidate=#2 (dist=76px)
+[Jersey BRIDGE] track_id=647 candidate=#10 (dist=104px)
+  Frame 8000 | 10 players ID'd by jersey
+48%
+  Frame 8100 | 10 players ID'd by jersey
+48%
+[Jersey BRIDGE] track_id=654 candidate=#2 (dist=66px)
+[Jersey BRIDGE] track_id=657 candidate=#13 (dist=124px)
+  Frame 8200 | 10 players ID'd by jersey
+49%
+  Frame 8300 | 10 players ID'd by jersey
+50%
+  Frame 8400 | 10 players ID'd by jersey
+50%
+  Frame 8500 | 10 players ID'd by jersey
+51%
+  Frame 8600 | 10 players ID'd by jersey
+51%
+  Frame 8700 | 10 players ID'd by jersey
+52%
+  Frame 8800 | 10 players ID'd by jersey
+53%
+  Frame 8900 | 10 players ID'd by jersey
+53%
+[Jersey BRIDGE] track_id=698 candidate=#8 (dist=37px)
+  Frame 9000 | 10 players ID'd by jersey
+54%
+[Jersey BRIDGE] track_id=719 candidate=#2 (dist=63px)
+  Frame 9100 | 10 players ID'd by jersey
+54%
+[Jersey BRIDGE] track_id=730 candidate=#7 (dist=35px)
+  Frame 9200 | 10 players ID'd by jersey
+55%
+[Jersey BRIDGE] track_id=739 candidate=#7 (dist=109px)
+  Frame 9300 | 10 players ID'd by jersey
+56%
+  Frame 9400 | 10 players ID'd by jersey
+56%
+  Frame 9500 | 10 players ID'd by jersey
+57%
+[Jersey BRIDGE] track_id=762 candidate=#1 (dist=52px)
+[Jersey BRIDGE] track_id=764 candidate=#1 (dist=131px)
+  Frame 9600 | 10 players ID'd by jersey
+57%
+  Frame 9700 | 10 players ID'd by jersey
+58%
+[Jersey BRIDGE] track_id=783 candidate=#1 (dist=22px)
+  Frame 9800 | 10 players ID'd by jersey
+59%
+  Frame 9900 | 10 players ID'd by jersey
+59%
+  Frame 10000 | 10 players ID'd by jersey
+60%
+  Frame 10100 | 10 players ID'd by jersey
+60%
+[Jersey BRIDGE] track_id=821 candidate=#8 (dist=61px)
+[Jersey BRIDGE] track_id=823 candidate=#10 (dist=11px)
+  Frame 10200 | 10 players ID'd by jersey
+61%
+  Frame 10300 | 10 players ID'd by jersey
+62%
+[JERSEY] [Jersey BRIDGE] track_id=840 candidate=#1 (dist=159px)
+  Frame 10400 | 10 players ID'd by jersey
+62%
+  Frame 10500 | 10 players ID'd by jersey
+63%
+  Frame 10600 | 10 players ID'd by jersey
+63%
+  Frame 10700 | 10 players ID'd by jersey
+64%
+  Frame 10800 | 11 players ID'd by jersey
+65%
+  Frame 10900 | 11 players ID'd by jersey
+65%
+[Jersey BRIDGE] track_id=868 candidate=#1 (dist=85px)
+[Jersey BRIDGE] track_id=873 candidate=#6 (dist=44px)
+  Frame 11000 | 11 players ID'd by jersey
+66%
+[Jersey BRIDGE] track_id=876 candidate=#1 (dist=15px)
+[Jersey BRIDGE] track_id=877 candidate=#10 (dist=162px)
+  Frame 11100 | 11 players ID'd by jersey
+66%
+[Jersey BRIDGE] track_id=884 candidate=#1 (dist=112px)
+  Frame 11200 | 11 players ID'd by jersey
+67%
+[Jersey BRIDGE] track_id=894 candidate=#10 (dist=34px)
+  Frame 11300 | 11 players ID'd by jersey
+68%
+[Jersey BRIDGE] track_id=897 candidate=#1 (dist=129px)
+[Jersey BRIDGE] track_id=901 candidate=#10 (dist=113px)
+  Frame 11400 | 11 players ID'd by jersey
+68%
+  Frame 11500 | 11 players ID'd by jersey
+69%
+[Jersey BRIDGE] track_id=911 candidate=#10 (dist=132px)
+  Frame 11600 | 11 players ID'd by jersey
+69%
+[Jersey BRIDGE] track_id=915 candidate=#1 (dist=27px)
+[Jersey BRIDGE] track_id=920 candidate=#10 (dist=224px)
+  Frame 11700 | 11 players ID'd by jersey
+70%
+  Frame 11800 | 11 players ID'd by jersey
+71%
+  Frame 11900 | 11 players ID'd by jersey
+71%
+[Jersey BRIDGE] track_id=935 candidate=#13 (dist=60px)
+  Frame 12000 | 11 players ID'd by jersey
+72%
+  Frame 12100 | 11 players ID'd by jersey
+72%
+  Frame 12200 | 11 players ID'd by jersey
+73%
+  Frame 12300 | 11 players ID'd by jersey
+74%
+  Frame 12400 | 11 players ID'd by jersey
+74%
+  Frame 12500 | 11 players ID'd by jersey
+75%
+  Frame 12600 | 11 players ID'd by jersey
+75%
+[Jersey BRIDGE] track_id=978 candidate=#1 (dist=47px)
+  Frame 12700 | 11 players ID'd by jersey
+76%
+[Jersey BRIDGE] track_id=985 candidate=#8 (dist=49px)
+  Frame 12800 | 11 players ID'd by jersey
+77%
+  Frame 12900 | 11 players ID'd by jersey
+77%
+  Frame 13000 | 11 players ID'd by jersey
+78%
+  Frame 13100 | 11 players ID'd by jersey
+79%
+[Jersey BRIDGE] track_id=1011 candidate=#7 (dist=4px)
+[Jersey BRIDGE] track_id=1015 candidate=#12 (dist=143px)
+  Frame 13200 | 11 players ID'd by jersey
+79%
+  Frame 13300 | 11 players ID'd by jersey
+80%
+[Jersey BRIDGE] track_id=1025 candidate=#8 (dist=114px)
+[Jersey BRIDGE] track_id=1027 candidate=#1 (dist=170px)
+[Jersey BRIDGE] track_id=1028 candidate=#1 (dist=115px)
+  Frame 13400 | 11 players ID'd by jersey
+80%
+  Frame 13500 | 11 players ID'd by jersey
+81%
+  Frame 13600 | 11 players ID'd by jersey
+82%
+[Jersey BRIDGE] track_id=1045 candidate=#8 (dist=44px)
+  Frame 13700 | 11 players ID'd by jersey
+82%
+[Jersey BRIDGE] track_id=1068 candidate=#8 (dist=74px)
+[Jersey BRIDGE] track_id=1070 candidate=#13 (dist=10px)
+  Frame 13800 | 11 players ID'd by jersey
+83%
+[Jersey BRIDGE] track_id=1089 candidate=#9 (dist=19px)
+  Frame 13900 | 11 players ID'd by jersey
+83%
+  Frame 14000 | 11 players ID'd by jersey
+84%
+  Frame 14100 | 11 players ID'd by jersey
+85%
+[Jersey BRIDGE] track_id=1117 candidate=#3 (dist=72px)
+  Frame 14200 | 11 players ID'd by jersey
+85%
+  Frame 14300 | 11 players ID'd by jersey
+86%
+  Frame 14400 | 11 players ID'd by jersey
+86%
+  Frame 14500 | 11 players ID'd by jersey
+87%
+[Jersey BRIDGE] track_id=1154 candidate=#8 (dist=87px)
+  Frame 14600 | 11 players ID'd by jersey
+88%
+[Jersey BRIDGE] track_id=1164 candidate=#1 (dist=52px)
+  Frame 14700 | 11 players ID'd by jersey
+88%
+[Jersey BRIDGE] track_id=1165 candidate=#8 (dist=141px)
+  Frame 14800 | 11 players ID'd by jersey
+89%
+  Frame 14900 | 11 players ID'd by jersey
+89%
+[Jersey BRIDGE] track_id=1178 candidate=#1 (dist=205px)
+  Frame 15000 | 11 players ID'd by jersey
+90%
+[Jersey BRIDGE] track_id=1185 candidate=#8 (dist=122px)
+  Frame 15100 | 11 players ID'd by jersey
+91%
+[Jersey BRIDGE] track_id=1195 candidate=#12 (dist=26px)
+  Frame 15200 | 11 players ID'd by jersey
+91%
+  Frame 15300 | 11 players ID'd by jersey
+92%
+[Jersey BRIDGE] track_id=1229 candidate=#12 (dist=97px)
+  Frame 15400 | 11 players ID'd by jersey
+92%
+  Frame 15500 | 11 players ID'd by jersey
+93%
+[Jersey BRIDGE] track_id=1243 candidate=#8 (dist=28px)
+[Jersey BRIDGE] track_id=1247 candidate=#3 (dist=78px)
+  Frame 15600 | 11 players ID'd by jersey
+94%
+  Frame 15700 | 11 players ID'd by jersey
+94%
+  Frame 15800 | 11 players ID'd by jersey
+95%
+  Frame 15900 | 11 players ID'd by jersey
+95%
+[Jersey BRIDGE] track_id=1268 candidate=#1 (dist=1px)
+  Frame 16000 | 11 players ID'd by jersey
+96%
+  Frame 16100 | 11 players ID'd by jersey
+97%
+  Frame 16200 | 11 players ID'd by jersey
+97%
+  Frame 16300 | 11 players ID'd by jersey
+98%
+  Frame 16400 | 11 players ID'd by jersey
+98%
+  Frame 16500 | 11 players ID'd by jersey
+99%
+[SUCCESS] Done. Output: /home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/all_three/runs/jersey_tracking.mp4
+[INFO] Jersey map: {1: 1309, 13: 1024, 8: 1286, 9: 1089, 10: 901, 7: 1045, 18: 94, 3: 1025, 2: 915, 12: 1282, 6: 854}
+[INFO] Team labels: {1: 'MAIN', 2: 'OTHER', 3: 'MAIN', 4: 'MAIN', 5: 'OPP_LIBERO', 6: 'MAIN', 7: 'OPP_LIBERO', 8: 'OPPONENT', 9: 'OPPONENT', 10: 'OPP_LIBERO', 11: 'OPP_LIBERO', 16: 'OPPONENT', 17: 'OPP_LIBERO', 18: 'OPPONENT', 20: 'OPPONENT', 22: 'OPPONENT', 21: 'OPPONENT', 24: 'OPP_LIBERO', 25: 'OPPONENT', 27: 'MAIN', 28: 'OPP_LIBERO', 34: 'OPP_LIBERO', 38: 'MAIN', 40: 'OPP_LIBERO', 41: 'OPP_LIBERO', 42: 'OPPONENT', 43: 'OPPONENT', 44: 'OPP_LIBERO', 46: 'OPPONENT', 47: 'OPP_LIBERO', 48: 'OPP_LIBERO', 49: 'OTHER', 51: 'OPPONENT', 52: 'MAIN', 53: 'OPP_LIBERO', 54: 'MAIN', 57: 'LIBERO', 58: 'OTHER', 62: 'OTHER', 65: 'OPPONENT', 63: 'OPPONENT', 64: 'OPP_LIBERO', 67: 'MAIN', 68: 'OPP_LIBERO', 69: 'OPPONENT', 70: 'OTHER', 75: 'MAIN', 77: 'MAIN', 79: 'OPPONENT', 81: 'OPPONENT', 82: 'OPP_LIBERO', 83: 'OPP_LIBERO', 87: 'OPPONENT', 89: 'OPP_LIBERO', 90: 'OPPONENT', 91: 'OPPONENT', 92: 'OPPONENT', 93: 'OPPONENT', 94: 'MAIN', 95: 'OTHER', 96: 'OPP_LIBERO', 97: 'OPPONENT', 99: 'OPPONENT', 100: 'OPPONENT', 102: 'OPP_LIBERO', 103: 'OPP_LIBERO', 105: 'OPP_LIBERO', 106: 'OPPONENT', 110: 'OPPONENT', 111: 'MAIN', 113: 'OPPONENT', 114: 'OPPONENT', 118: 'OPP_LIBERO', 119: 'OPP_LIBERO', 120: 'MAIN', 121: 'OPPONENT', 122: 'LIBERO', 124: 'OTHER', 125: 'OPPONENT', 127: 'OPP_LIBERO', 128: 'OPPONENT', 130: 'MAIN', 133: 'OPPONENT', 134: 'OTHER', 136: 'OPP_LIBERO', 137: 'MAIN', 138: 'OTHER', 139: 'OTHER', 142: 'OPPONENT', 143: 'OPP_LIBERO', 145: 'MAIN', 146: 'MAIN', 148: 'OPPONENT', 150: 'OPP_LIBERO', 151: 'OPP_LIBERO', 152: 'OTHER', 153: 'OPPONENT', 159: 'MAIN', 160: 'MAIN', 161: 'OPP_LIBERO', 162: 'OPPONENT', 164: 'OPPONENT', 165: 'OPP_LIBERO', 166: 'OPPONENT', 167: 'OPPONENT', 168: 'OPPONENT', 169: 'MAIN', 172: 'MAIN', 173: 'OPPONENT', 174: 'OPP_LIBERO', 177: 'OPPONENT', 178: 'OPP_LIBERO', 179: 'OPPONENT', 181: 'OPPONENT', 182: 'OTHER', 183: 'MAIN', 186: 'OPP_LIBERO', 185: 'OPPONENT', 189: 'OPPONENT', 192: 'OPPONENT', 195: 'OPPONENT', 197: 'OPPONENT', 198: 'OPP_LIBERO', 204: 'OPP_LIBERO', 206: 'OPPONENT', 207: 'MAIN', 209: 'OPPONENT', 210: 'OPPONENT', 211: 'MAIN', 212: 'OPPONENT', 213: 'MAIN', 216: 'OPPONENT', 218: 'OPPONENT', 219: 'OPPONENT', 220: 'OPPONENT', 226: 'OTHER', 227: 'OPPONENT', 229: 'MAIN', 230: 'MAIN', 231: 'MAIN', 232: 'OPPONENT', 234: 'OTHER', 236: 'OPP_LIBERO', 239: 'OPPONENT', 240: 'OPPONENT', 241: 'OPPONENT', 242: 'OPP_LIBERO', 243: 'OPPONENT', 245: 'OPPONENT', 246: 'OPP_LIBERO', 247: 'MAIN', 248: 'OPP_LIBERO', 251: 'OPP_LIBERO', 250: 'OPPONENT', 254: 'OPP_LIBERO', 255: 'MAIN', 258: 'MAIN', 260: 'OPP_LIBERO', 257: 'OPP_LIBERO', 261: 'MAIN', 265: 'MAIN', 266: 'MAIN', 267: 'OPP_LIBERO', 270: 'MAIN', 272: 'OPPONENT', 274: 'OPPONENT', 278: 'OPPONENT', 280: 'OPPONENT', 281: 'OPPONENT', 285: 'OPPONENT', 288: 'OPPONENT', 289: 'OPPONENT', 290: 'OPPONENT', 291: 'OPPONENT', 298: 'OPPONENT', 299: 'MAIN', 301: 'OPP_LIBERO', 302: 'MAIN', 303: 'OPP_LIBERO', 304: 'OPPONENT', 308: 'OPP_LIBERO', 310: 'OPP_LIBERO', 312: 'OPP_LIBERO', 316: 'OPPONENT', 317: 'OTHER', 318: 'OPPONENT', 319: 'OPPONENT', 320: 'OPPONENT', 322: 'OPP_LIBERO', 324: 'OPPONENT', 325: 'OPPONENT', 327: 'OPPONENT', 328: 'OPPONENT', 329: 'OPPONENT', 331: 'OPPONENT', 336: 'OPPONENT', 335: 'OPP_LIBERO', 338: 'LIBERO', 337: 'OPPONENT', 340: 'OTHER', 343: 'OPP_LIBERO', 344: 'OPPONENT', 345: 'MAIN', 348: 'OPPONENT', 350: 'OPPONENT', 349: 'OPPONENT', 354: 'OPP_LIBERO', 357: 'OPPONENT', 358: 'OPP_LIBERO', 362: 'OPPONENT', 365: 'OPP_LIBERO', 366: 'OPPONENT', 367: 'OPPONENT', 368: 'OTHER', 369: 'MAIN', 372: 'OPPONENT', 373: 'OPPONENT', 376: 'OPP_LIBERO', 377: 'OPPONENT', 378: 'OPPONENT', 379: 'MAIN', 380: 'OTHER', 382: 'OPP_LIBERO', 383: 'OPPONENT', 387: 'OPPONENT', 388: 'LIBERO', 389: 'MAIN', 390: 'OPP_LIBERO', 394: 'OPPONENT', 397: 'OPP_LIBERO', 400: 'MAIN', 406: 'OPPONENT', 408: 'MAIN', 409: 'OTHER', 411: 'OPPONENT', 412: 'MAIN', 413: 'OPP_LIBERO', 414: 'OPPONENT', 415: 'OTHER', 417: 'OPP_LIBERO', 419: 'MAIN', 422: 'MAIN', 424: 'OTHER', 426: 'OPP_LIBERO', 427: 'OPPONENT', 428: 'OPPONENT', 432: 'OPPONENT', 436: 'OPPONENT', 437: 'OPP_LIBERO', 439: 'OPPONENT', 441: 'OPPONENT', 445: 'MAIN', 446: 'OPP_LIBERO', 447: 'OTHER', 448: 'MAIN', 449: 'MAIN', 450: 'MAIN', 451: 'OPPONENT', 454: 'OPPONENT', 455: 'LIBERO', 456: 'OPP_LIBERO', 458: 'OPPONENT', 460: 'OPP_LIBERO', 461: 'LIBERO', 462: 'OPPONENT', 464: 'OPPONENT', 465: 'OPP_LIBERO', 466: 'OPP_LIBERO', 468: 'LIBERO', 469: 'OPPONENT', 474: 'MAIN', 476: 'OPPONENT', 477: 'OPPONENT', 478: 'MAIN', 479: 'OTHER', 481: 'MAIN', 482: 'OPP_LIBERO', 484: 'OPPONENT', 486: 'MAIN', 487: 'MAIN', 489: 'OPPONENT', 490: 'OPPONENT', 492: 'OPP_LIBERO', 493: 'MAIN', 494: 'OPPONENT', 496: 'OPPONENT', 497: 'OPP_LIBERO', 498: 'OPP_LIBERO', 504: 'OPPONENT', 507: 'OPPONENT', 508: 'OPP_LIBERO', 512: 'OPPONENT', 513: 'MAIN', 514: 'MAIN', 515: 'OPP_LIBERO', 517: 'OPPONENT', 520: 'OPP_LIBERO', 528: 'OPP_LIBERO', 527: 'OPPONENT', 531: 'MAIN', 532: 'OPPONENT', 534: 'MAIN', 535: 'MAIN', 536: 'OPP_LIBERO', 540: 'OPP_LIBERO', 541: 'OPPONENT', 542: 'OPP_LIBERO', 543: 'MAIN', 544: 'OPPONENT', 546: 'MAIN', 547: 'OPPONENT', 549: 'OPPONENT', 550: 'OTHER', 551: 'OPPONENT', 552: 'MAIN', 554: 'OPPONENT', 555: 'OPPONENT', 556: 'OPP_LIBERO', 557: 'OPP_LIBERO', 560: 'OTHER', 561: 'OTHER', 562: 'OTHER', 565: 'OPP_LIBERO', 566: 'OPP_LIBERO', 567: 'OPP_LIBERO', 569: 'OPPONENT', 570: 'OPP_LIBERO', 571: 'OPP_LIBERO', 573: 'OPP_LIBERO', 574: 'OTHER', 575: 'OTHER', 577: 'OPP_LIBERO', 578: 'OPP_LIBERO', 581: 'OPPONENT', 582: 'MAIN', 584: 'OPP_LIBERO', 585: 'OPPONENT', 586: 'OPP_LIBERO', 587: 'MAIN', 588: 'OPP_LIBERO', 592: 'OPPONENT', 599: 'MAIN', 601: 'OPPONENT', 602: 'LIBERO', 603: 'OPPONENT', 605: 'OPP_LIBERO', 608: 'OPP_LIBERO', 609: 'MAIN', 610: 'OPP_LIBERO', 612: 'MAIN', 614: 'OPPONENT', 618: 'OPPONENT', 619: 'MAIN', 621: 'OPP_LIBERO', 622: 'OPPONENT', 623: 'OPPONENT', 626: 'OPP_LIBERO', 630: 'OPPONENT', 629: 'OPPONENT', 632: 'OPPONENT', 633: 'OPP_LIBERO', 634: 'MAIN', 635: 'OPPONENT', 637: 'OPPONENT', 639: 'OPPONENT', 640: 'MAIN', 644: 'OPPONENT', 645: 'LIBERO', 647: 'MAIN', 648: 'OPP_LIBERO', 650: 'MAIN', 652: 'OPPONENT', 653: 'OPPONENT', 654: 'LIBERO', 655: 'OPPONENT', 656: 'OPP_LIBERO', 657: 'MAIN', 658: 'OPPONENT', 659: 'OPPONENT', 660: 'OPP_LIBERO', 661: 'OPP_LIBERO', 664: 'OPPONENT', 665: 'OPP_LIBERO', 666: 'OPPONENT', 668: 'OPPONENT', 669: 'OPPONENT', 670: 'OPP_LIBERO', 673: 'OPPONENT', 674: 'MAIN', 676: 'MAIN', 677: 'MAIN', 678: 'OTHER', 680: 'MAIN', 682: 'OTHER', 683: 'OPP_LIBERO', 684: 'OTHER', 687: 'OPP_LIBERO', 689: 'OPPONENT', 690: 'MAIN', 691: 'OPP_LIBERO', 692: 'OPP_LIBERO', 693: 'OPPONENT', 696: 'OPP_LIBERO', 697: 'OPP_LIBERO', 698: 'MAIN', 701: 'OPP_LIBERO', 702: 'OPP_LIBERO', 704: 'OPP_LIBERO', 705: 'OPPONENT', 710: 'OPP_LIBERO', 715: 'OPPONENT', 718: 'OPPONENT', 719: 'MAIN', 720: 'OPP_LIBERO', 725: 'OPPONENT', 726: 'OPPONENT', 727: 'OPPONENT', 729: 'OPPONENT', 730: 'MAIN', 731: 'OPPONENT', 732: 'OPPONENT', 733: 'OPP_LIBERO', 736: 'OPP_LIBERO', 737: 'OPP_LIBERO', 739: 'MAIN', 743: 'OPPONENT', 744: 'OTHER', 745: 'OPPONENT', 747: 'OPP_LIBERO', 748: 'OPPONENT', 749: 'OPPONENT', 751: 'OPPONENT', 753: 'OPPONENT', 758: 'OPPONENT', 760: 'MAIN', 761: 'OPP_LIBERO', 762: 'MAIN', 763: 'OPP_LIBERO', 764: 'MAIN', 769: 'OPPONENT', 771: 'OPPONENT', 772: 'OPPONENT', 774: 'OPP_LIBERO', 775: 'OTHER', 777: 'OPPONENT', 778: 'OPP_LIBERO', 779: 'OPP_LIBERO', 781: 'OPP_LIBERO', 783: 'MAIN', 782: 'OPPONENT', 784: 'OPPONENT', 785: 'OPP_LIBERO', 787: 'OPP_LIBERO', 788: 'MAIN', 789: 'OTHER', 791: 'OPP_LIBERO', 792: 'MAIN', 793: 'MAIN', 797: 'OTHER', 801: 'OPPONENT', 802: 'OPPONENT', 803: 'OPP_LIBERO', 806: 'OPP_LIBERO', 807: 'MAIN', 809: 'OPPONENT', 812: 'OTHER', 816: 'OTHER', 817: 'OPP_LIBERO', 820: 'OPP_LIBERO', 821: 'MAIN', 823: 'MAIN', 824: 'OPP_LIBERO', 826: 'OPP_LIBERO', 829: 'OPP_LIBERO', 831: 'OPP_LIBERO', 832: 'OPP_LIBERO', 833: 'OPP_LIBERO', 830: 'OPP_LIBERO', 836: 'OTHER', 840: 'MAIN', 837: 'OTHER', 842: 'OPP_LIBERO', 844: 'OPP_LIBERO', 847: 'OPP_LIBERO', 848: 'OPP_LIBERO', 846: 'OTHER', 849: 'OPPONENT', 850: 'MAIN', 854: 'MAIN', 855: 'OPPONENT', 857: 'OPP_LIBERO', 858: 'LIBERO', 859: 'OPP_LIBERO', 860: 'OPPONENT', 861: 'OPPONENT', 863: 'OPPONENT', 864: 'OPPONENT', 867: 'OPPONENT', 868: 'MAIN', 871: 'OTHER', 872: 'OPP_LIBERO', 873: 'MAIN', 876: 'MAIN', 877: 'MAIN', 879: 'OPP_LIBERO', 880: 'OPPONENT', 881: 'OPPONENT', 882: 'OPPONENT', 884: 'MAIN', 883: 'OPP_LIBERO', 885: 'OPP_LIBERO', 887: 'OPPONENT', 893: 'MAIN', 894: 'MAIN', 895: 'OPPONENT', 897: 'MAIN', 898: 'OPPONENT', 901: 'MAIN', 902: 'MAIN', 903: 'OPP_LIBERO', 906: 'OPP_LIBERO', 909: 'OPPONENT', 911: 'MAIN', 912: 'OPP_LIBERO', 914: 'OPPONENT', 915: 'MAIN', 917: 'OPPONENT', 920: 'MAIN', 921: 'OPP_LIBERO', 922: 'OPPONENT', 923: 'OPPONENT', 924: 'MAIN', 925: 'OPP_LIBERO', 926: 'OPP_LIBERO', 928: 'OPPONENT', 930: 'OPP_LIBERO', 933: 'OPPONENT', 935: 'MAIN', 938: 'OTHER', 940: 'OPPONENT', 943: 'OPP_LIBERO', 946: 'OTHER', 948: 'OPPONENT', 951: 'OPPONENT', 952: 'MAIN', 953: 'OPP_LIBERO', 954: 'OPPONENT', 956: 'MAIN', 957: 'OTHER', 958: 'MAIN', 959: 'OPPONENT', 960: 'MAIN', 961: 'OPPONENT', 962: 'OPPONENT', 964: 'OPPONENT', 965: 'OPP_LIBERO', 967: 'OPPONENT', 970: 'OTHER', 971: 'OPPONENT', 973: 'OPPONENT', 974: 'OPPONENT', 975: 'OPP_LIBERO', 978: 'MAIN', 979: 'OPP_LIBERO', 980: 'OPP_LIBERO', 982: 'OPPONENT', 985: 'MAIN', 987: 'OTHER', 988: 'OPPONENT', 986: 'OPP_LIBERO', 989: 'MAIN', 991: 'MAIN', 990: 'OPPONENT', 993: 'OPPONENT', 994: 'OTHER', 995: 'LIBERO', 996: 'OPP_LIBERO', 998: 'OPP_LIBERO', 1000: 'OPPONENT', 1003: 'OPPONENT', 1004: 'OPPONENT', 1006: 'OTHER', 1007: 'OPP_LIBERO', 1008: 'OPP_LIBERO', 1009: 'OPP_LIBERO', 1011: 'MAIN', 1015: 'MAIN', 1017: 'OPPONENT', 1020: 'OTHER', 1022: 'OPPONENT', 1023: 'OPPONENT', 1024: 'MAIN', 1025: 'MAIN', 1026: 'MAIN', 1027: 'MAIN', 1028: 'MAIN', 1029: 'OPPONENT', 1030: 'OPPONENT', 1031: 'OPPONENT', 1033: 'OPPONENT', 1034: 'OPP_LIBERO', 1035: 'OPPONENT', 1039: 'OPP_LIBERO', 1037: 'OPP_LIBERO', 1041: 'OPP_LIBERO', 1045: 'MAIN', 1046: 'OPPONENT', 1047: 'OPPONENT', 1048: 'OPPONENT', 1051: 'OPPONENT', 1053: 'OPP_LIBERO', 1057: 'OPPONENT', 1059: 'MAIN', 1062: 'OPPONENT', 1068: 'MAIN', 1070: 'MAIN', 1064: 'OTHER', 1071: 'OPPONENT', 1073: 'OTHER', 1076: 'OPP_LIBERO', 1081: 'OTHER', 1083: 'OPPONENT', 1084: 'OPP_LIBERO', 1086: 'OPP_LIBERO', 1087: 'OPP_LIBERO', 1089: 'MAIN', 1093: 'OPP_LIBERO', 1094: 'OPP_LIBERO', 1095: 'LIBERO', 1096: 'OPPONENT', 1091: 'OPPONENT', 1099: 'OPP_LIBERO', 1098: 'OTHER', 1105: 'OPPONENT', 1107: 'OPPONENT', 1109: 'OPP_LIBERO', 1110: 'OPPONENT', 1111: 'OPPONENT', 1116: 'OPP_LIBERO', 1117: 'MAIN', 1118: 'MAIN', 1122: 'OPPONENT', 1125: 'OPP_LIBERO', 1128: 'OPP_LIBERO', 1130: 'OPPONENT', 1132: 'MAIN', 1133: 'OPP_LIBERO', 1135: 'MAIN', 1136: 'OPP_LIBERO', 1137: 'OPPONENT', 1140: 'OPPONENT', 1142: 'OPP_LIBERO', 1143: 'OPPONENT', 1144: 'OPP_LIBERO', 1146: 'OPP_LIBERO', 1150: 'OPP_LIBERO', 1153: 'MAIN', 1154: 'MAIN', 1155: 'OPPONENT', 1156: 'OPPONENT', 1157: 'OPPONENT', 1158: 'OPP_LIBERO', 1159: 'OPPONENT', 1160: 'OPP_LIBERO', 1161: 'OPP_LIBERO', 1162: 'OPPONENT', 1164: 'MAIN', 1165: 'MAIN', 1166: 'OPPONENT', 1168: 'MAIN', 1169: 'OPPONENT', 1170: 'MAIN', 1171: 'MAIN', 1172: 'OPPONENT', 1175: 'OPP_LIBERO', 1176: 'OPP_LIBERO', 1177: 'MAIN', 1178: 'MAIN', 1179: 'OPPONENT', 1180: 'MAIN', 1181: 'OPPONENT', 1183: 'OPP_LIBERO', 1185: 'MAIN', 1184: 'OPPONENT', 1186: 'OPP_LIBERO', 1195: 'MAIN', 1200: 'OPP_LIBERO', 1199: 'OTHER', 1202: 'OPPONENT', 1203: 'OPP_LIBERO', 1204: 'OPP_LIBERO', 1208: 'OPPONENT', 1214: 'OPP_LIBERO', 1215: 'OPPONENT', 1216: 'OTHER', 1217: 'OPP_LIBERO', 1227: 'OPP_LIBERO', 1228: 'OPPONENT', 1229: 'MAIN', 1230: 'OPPONENT', 1233: 'OTHER', 1235: 'MAIN', 1236: 'OTHER', 1238: 'OTHER', 1239: 'OPP_LIBERO', 1240: 'OPP_LIBERO', 1243: 'MAIN', 1244: 'OPP_LIBERO', 1247: 'MAIN', 1253: 'OPPONENT', 1254: 'OPPONENT', 1255: 'OPP_LIBERO', 1256: 'OPPONENT', 1257: 'OPP_LIBERO', 1258: 'OPP_LIBERO', 1259: 'OPP_LIBERO', 1261: 'OPPONENT', 1262: 'OPPONENT', 1264: 'OPPONENT', 1265: 'MAIN', 1266: 'OPPONENT', 1267: 'OPPONENT', 1269: 'OPPONENT', 1268: 'MAIN', 1271: 'MAIN', 1273: 'OPP_LIBERO', 1275: 'OTHER', 1278: 'OPP_LIBERO', 1279: 'OPPONENT', 1281: 'OPP_LIBERO', 1282: 'MAIN', 1283: 'OPPONENT', 1284: 'OPP_LIBERO', 1285: 'OPPONENT', 1286: 'MAIN', 1287: 'MAIN', 1292: 'OPPONENT', 1293: 'OTHER', 1294: 'OPP_LIBERO', 1304: 'OPP_LIBERO', 1306: 'OPPONENT', 1307: 'OPP_LIBERO', 1308: 'OPPONENT', 1309: 'MAIN', 1312: 'OPPONENT', 1316: 'OPPONENT', 1317: 'OPPONENT', 1319: 'OPPONENT', 1321: 'OPP_LIBERO'}
+[JERSEY] [INFO] Frame-jersey map saved -> /home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/all_three/runs/frame_jersey_map.json (15453 frames)
+[INFO] Registry saved -> /home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/all_three/runs/jersey_registry.json (11 players)
+[JERSEY] predict_pipeline done. Jersey map: /home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/all_three/runs/frame_jersey_map.json
+[ACTION] Starting...
+[ACTION] [ACTION] Loading model: /home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/action_detection/best_robo_with_git.pt
+[ACTION] Analyzing /home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/1783718423870_test_clip-4.5-_1digit.mp4 (16581 frames)...
+[ACTION] 0%
+[ACTION] 1%
+[ACTION] 2%
+[ACTION] 3%
+[ACTION] 4%
+[ACTION] 5%
+[ACTION] 6%
+[ACTION] 7%
+[ACTION] 8%
+[ACTION] 9%
+[ACTION] 10%
+[ACTION] 11%
+[ACTION] 12%
+[ACTION] 13%
+[ACTION] 14%
+[ACTION] 15%
+[ACTION] 16%
+[ACTION] 17%
+[ACTION] 18%
+[ACTION] 19%
+[ACTION] 20%
+[ACTION] 21%
+[ACTION] 22%
+[ACTION] 23%
+[ACTION] 24%
+[ACTION] 25%
+[ACTION] 26%
+[ACTION] 27%
+[ACTION] 28%
+[ACTION] 29%
+[ACTION] 30%
+[ACTION] 31%
+[ACTION] 32%
+[ACTION] 33%
+[ACTION] 34%
+[ACTION] 35%
+[ACTION] 36%
+[ACTION] 37%
+[ACTION] 38%
+[ACTION] 39%
+[ACTION] 40%
+[ACTION] 41%
+[ACTION] 42%
+[ACTION] 43%
+[ACTION] 44%
+[ACTION] 45%
+[ACTION] 46%
+[ACTION] 47%
+[ACTION] 48%
+[ACTION] 49%
+[ACTION] 50%
+[ACTION] 51%
+[ACTION] 52%
+[ACTION] 53%
+[ACTION] 54%
+[ACTION] 55%
+[ACTION] 56%
+[ACTION] 57%
+[ACTION] 58%
+[ACTION] 59%
+[ACTION] 60%
+[ACTION] 61%
+[ACTION] 62%
+[ACTION] 63%
+[ACTION] 64%
+[ACTION] 65%
+[ACTION] 66%
+[ACTION] 67%
+[ACTION] 68%
+[ACTION] 69%
+[ACTION] 70%
+[ACTION] 71%
+[ACTION] 72%
+[ACTION] 73%
+[ACTION] 74%
+[ACTION] 75%
+[ACTION] 76%
+[ACTION] 77%
+[ACTION] 78%
+[ACTION] 79%
+[ACTION] 80%
+[ACTION] 81%
+[ACTION] 82%
+[ACTION] 83%
+[ACTION] 84%
+[ACTION] 85%
+[ACTION] 86%
+[ACTION] 87%
+[ACTION] 88%
+[ACTION] 89%
+[ACTION] 90%
+[ACTION] 91%
+[ACTION] 92%
+[ACTION] 93%
+[ACTION] 94%
+[ACTION] 95%
+[ACTION] 96%
+[ACTION] 97%
+[ACTION] 98%
+[ACTION] 99%
+[ACTION] 100%
+[ACTION] Done. 2569 detections across 16581 frames -> /home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/all_three/runs/action_detections.json
+[RALLY] Starting...
+[RALLY] [RALLY] Running rally_detect pipeline (device=cpu, original_fps=60.00 -> internal_fps=30.00)...
+[RALLY] Traceback (most recent call last):
+  File "/home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/rally_detect/mini_court/run_rally_stage.py", line 100, in <module>
+[RALLY] main()
+  File "/home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/rally_detect/mini_court/run_rally_stage.py", line 54, in main
+    subprocess.run(
+  File "/usr/lib/python3.10/subprocess.py", line 503, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/usr/lib/python3.10/subprocess.py", line 971, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.10/subprocess.py", line 1863, in _execute_child
+[RALLY] raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'uv'
+[RALLY] run_rally_stage failed (non-fatal) — continuing without rally/ball data: Traceback (most recent call last):
+  File "/home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/rally_detect/mini_court/run_rally_stage.py", line 100, in <module>
+    main()
+  File "/home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/rally_detect/mini_court/run_rally_stage.py", line 54, in main
+    subprocess.run(
+  File "/usr/lib/python3.10/subprocess.py", line 503, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/usr/lib/python3.10/subprocess.py", line 971, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.10/subprocess.py", line 1863, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'uv'
+
+[SCORE] Starting...
+[SCORE] [SCORE] Processing video...
+0%
+1%
+1%
+2%
+3%
+3%
+4%
+4%
+5%
+6%
+6%
+7%
+7%
+8%
+9%
+9%
+10%
+10%
+11%
+12%
+12%
+13%
+13%
+14%
+15%
+15%
+16%
+16%
+17%
+18%
+18%
+19%
+19%
+20%
+21%
+21%
+22%
+22%
+23%
+24%
+24%
+25%
+25%
+26%
+27%
+27%
+28%
+28%
+29%
+30%
+30%
+31%
+31%
+32%
+33%
+33%
+34%
+34%
+35%
+36%
+36%
+37%
+37%
+38%
+39%
+39%
+40%
+41%
+41%
+42%
+42%
+43%
+44%
+44%
+45%
+45%
+46%
+47%
+47%
+48%
+48%
+49%
+50%
+50%
+51%
+51%
+52%
+53%
+53%
+54%
+54%
+55%
+56%
+56%
+57%
+57%
+58%
+59%
+59%
+60%
+60%
+61%
+62%
+62%
+63%
+63%
+64%
+65%
+65%
+66%
+66%
+67%
+68%
+68%
+69%
+69%
+70%
+71%
+71%
+72%
+72%
+73%
+74%
+74%
+75%
+75%
+76%
+77%
+77%
+78%
+79%
+79%
+80%
+80%
+81%
+82%
+82%
+83%
+83%
+84%
+85%
+85%
+86%
+86%
+87%
+88%
+88%
+89%
+89%
+90%
+91%
+91%
+92%
+92%
+93%
+94%
+94%
+95%
+95%
+96%
+97%
+97%
+98%
+98%
+99%
+[SCORE] board located in 3314 sampled frames, final values: {'guest_points': 8, 'home_points': 6}, 14 confirmed score changes -> /home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/all_three/runs/scoreboard_readings.json
+[MERGE] Starting...
+[MERGE] Calibration loaded <- /home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/calib_6a5162192e654d863136abb3.json
+[MERGE] 16581 frames, 0 landing events -> /home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/all_three/runs/volley_analytics.json
+[MERGE] Enriched registry (11 players) -> /home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/all_three/runs/player_registry.json
+[RENDER] Starting...
+[RENDER] Calibration loaded <- /home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/calib_6a5162192e654d863136abb3.json
+[RENDER] Rendering 16581 frames (trimming dead time)...
+[RENDER] 0%
+[RENDER] 1%
+[RENDER] 2%
+[RENDER] 3%
+[RENDER] 4%
+[RENDER] 5%
+[RENDER] 6%
+[RENDER] 7%
+[RENDER] 8%
+[RENDER] 9%
+[RENDER] 10%
+[RENDER] 11%
+[RENDER] 12%
+[RENDER] 13%
+[RENDER] 14%
+[RENDER] 15%
+[RENDER] 16%
+[RENDER] 17%
+[RENDER] 18%
+[RENDER] 19%
+[RENDER] 20%
+[RENDER] 21%
+[RENDER] 22%
+[RENDER] 23%
+[RENDER] 24%
+[RENDER] 25%
+[RENDER] 26%
+[RENDER] 27%
+[RENDER] 28%
+[RENDER] 29%
+[RENDER] 30%
+[RENDER] 31%
+[RENDER] 32%
+[RENDER] 33%
+[RENDER] 34%
+[RENDER] 35%
+[RENDER] 36%
+[RENDER] 37%
+[RENDER] 38%
+[RENDER] 39%
+[RENDER] 40%
+[RENDER] 41%
+[RENDER] 42%
+[RENDER] 43%
+[RENDER] 44%
+[RENDER] 45%
+[RENDER] 46%
+[RENDER] 47%
+[RENDER] 48%
+[RENDER] 49%
+[RENDER] 50%
+[RENDER] 51%
+[RENDER] 52%
+[RENDER] 53%
+[RENDER] 54%
+[RENDER] 55%
+[RENDER] 56%
+[RENDER] 57%
+[RENDER] 58%
+[RENDER] 59%
+[RENDER] 60%
+[RENDER] 61%
+[RENDER] 62%
+[RENDER] 63%
+[RENDER] 64%
+[RENDER] 65%
+[RENDER] 66%
+[RENDER] 67%
+[RENDER] 68%
+[RENDER] 69%
+[RENDER] 70%
+[RENDER] 71%
+[RENDER] 72%
+[RENDER] 73%
+[RENDER] 74%
+[RENDER] 75%
+[RENDER] 76%
+[RENDER] 77%
+[RENDER] 78%
+[RENDER] 79%
+[RENDER] 80%
+[RENDER] 81%
+[RENDER] 82%
+[RENDER] 83%
+[RENDER] 84%
+[RENDER] 85%
+[RENDER] 86%
+[RENDER] 87%
+[RENDER] 88%
+[RENDER] 89%
+[RENDER] 90%
+[RENDER] 91%
+[RENDER] 92%
+[RENDER] 93%
+[RENDER] 94%
+[RENDER] 95%
+[RENDER] 96%
+[RENDER] 97%
+[RENDER] 98%
+[RENDER] 99%
+[RENDER] 100%
+[RENDER] Done. 16581 frames written, 0 dead-time frames cut -> /home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/all_three/runs/analyzed_video.mp4
+[RALLY] Generated rally_analysis.json (score source: service_detection): 0W 0L, 0 score events
+[ANALYSIS] Done for video 6a5162192e654d863136abb3.
+[dotenv@17.3.1] injecting env (4) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+Server running on port 5000
+MongoDB connected: ac-haruip5-shard-00-00.rqxlozc.mongodb.net
+(node:22160) [MONGOOSE] Warning: mongoose: the `new` option for `findOneAndUpdate()` and `findOneAndReplace()` is deprecated. Use `returnDocument: 'after'` instead.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[JERSEY] Starting...
+[JERSEY] [INIT] Loading EasyOCR...
+[START] Processing video (team filter: ON)...
+[INFO] k-means done (k=4) from 40 samples:
+  Centroid 0 (MAIN): HSV=[119.9000015258789, 146.6999969482422, 92.30000305175781]
+  Centroid 1 (OPPONENT): HSV=[13.399999618530273, 87.0999984741211, 24.799999237060547]
+  Centroid 2 (LIBERO): HSV=[14.5, 56.5, 142.1999969482422]
+  Centroid 3 (OPP_LIBERO): HSV=[133.89999389648438, 142.3000030517578, 35.400001525878906]
+  Frame 100 | 3 players ID'd by jersey
+4%
+[Jersey BRIDGE] track_id=24 candidate=#10 (dist=34px)
+  Frame 200 | 4 players ID'd by jersey
+9%
+[Jersey BRIDGE] track_id=35 candidate=#8 (dist=244px)
+[Jersey BRIDGE] track_id=36 candidate=#8 (dist=86px)
+[Jersey BRIDGE] track_id=39 candidate=#42 (dist=31px)
+  Frame 300 | 4 players ID'd by jersey
+13%
+[Jersey BRIDGE] track_id=42 candidate=#8 (dist=208px)
+[Jersey BRIDGE] track_id=51 candidate=#8 (dist=38px)
+  Frame 400 | 6 players ID'd by jersey
+18%
+[Jersey BRIDGE] track_id=54 candidate=#7 (dist=33px)
+[Jersey BRIDGE] track_id=55 candidate=#18 (dist=81px)
+[Jersey BRIDGE] track_id=56 candidate=#8 (dist=57px)
+  Frame 500 | 6 players ID'd by jersey
+22%
+[Jersey BRIDGE] track_id=66 candidate=#42 (dist=56px)
+  Frame 600 | 6 players ID'd by jersey
+27%
+[Jersey BRIDGE] track_id=68 candidate=#7 (dist=57px)
+[Jersey BRIDGE] track_id=70 candidate=#8 (dist=27px)
+[Jersey BRIDGE] track_id=73 candidate=#7 (dist=7px)
+[Jersey BRIDGE] track_id=74 candidate=#42 (dist=31px)
+[Jersey BRIDGE] track_id=77 candidate=#10 (dist=4px)
+[Jersey BRIDGE] track_id=78 candidate=#13 (dist=36px)
+[Jersey BRIDGE] track_id=79 candidate=#13 (dist=121px)
+  Frame 700 | 8 players ID'd by jersey
+31%
+[Jersey BRIDGE] track_id=88 candidate=#10 (dist=234px)
+  Frame 800 | 9 players ID'd by jersey
+36%
+  Frame 900 | 9 players ID'd by jersey
+40%
+  Frame 1000 | 9 players ID'd by jersey
+45%
+[Jersey BRIDGE] track_id=99 candidate=#13 (dist=37px)
+  Frame 1100 | 9 players ID'd by jersey
+49%
+  Frame 1200 | 9 players ID'd by jersey
+54%
+[Jersey BRIDGE] track_id=116 candidate=#8 (dist=172px)
+  Frame 1300 | 9 players ID'd by jersey
+58%
+[Jersey BRIDGE] track_id=126 candidate=#3 (dist=113px)
+[Jersey BRIDGE] track_id=131 candidate=#10 (dist=182px)
+  Frame 1400 | 9 players ID'd by jersey
+63%
+[Jersey BRIDGE] track_id=135 candidate=#4 (dist=32px)
+  Frame 1500 | 9 players ID'd by jersey
+67%
+[Jersey BRIDGE] track_id=145 candidate=#13 (dist=126px)
+  Frame 1600 | 9 players ID'd by jersey
+72%
+  Frame 1700 | 9 players ID'd by jersey
+76%
+[Jersey BRIDGE] track_id=161 candidate=#10 (dist=247px)
+[Jersey BRIDGE] track_id=165 candidate=#1 (dist=162px)
+  Frame 1800 | 9 players ID'd by jersey
+81%
+  Frame 1900 | 9 players ID'd by jersey
+85%
+[Jersey BRIDGE] track_id=176 candidate=#8 (dist=59px)
+  Frame 2000 | 9 players ID'd by jersey
+90%
+  Frame 2100 | 9 players ID'd by jersey
+94%
+  Frame 2200 | 9 players ID'd by jersey
+99%
+[SUCCESS] Done. Output: /home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/all_three/runs/jersey_tracking.mp4
+[INFO] Jersey map: {10: 145, 42: 79, 7: 3, 8: 176, 18: 39, 3: 117, 13: 104, 4: 68, 1: 165}
+[INFO] Team labels: {6: 'OPPONENT', 8: 'LIBERO', 1: 'MAIN', 2: 'MAIN', 3: 'MAIN', 4: 'OPP_LIBERO', 5: 'MAIN', 9: 'OPPONENT', 10: 'MAIN', 11: 'MAIN', 13: 'OPP_LIBERO', 15: 'OPPONENT', 17: 'OTHER', 21: 'OPPONENT', 23: 'OPPONENT', 24: 'MAIN', 27: 'OPPONENT', 26: 'LIBERO', 29: 'MAIN', 30: 'OPPONENT', 31: 'OPPONENT', 33: 'LIBERO', 35: 'MAIN', 36: 'LIBERO', 39: 'MAIN', 40: 'OTHER', 41: 'OTHER', 42: 'MAIN', 43: 'OPPONENT', 48: 'OTHER', 49: 'OPPONENT', 50: 'OTHER', 51: 'MAIN', 52: 'OPPONENT', 53: 'OPPONENT', 54: 'MAIN', 55: 'MAIN', 56: 'LIBERO', 57: 'OPPONENT', 61: 'OPPONENT', 60: 'OPPONENT', 62: 'OPP_LIBERO', 63: 'OPPONENT', 64: 'OTHER', 66: 'MAIN', 67: 'LIBERO', 68: 'LIBERO', 69: 'OPPONENT', 70: 'MAIN', 71: 'OPP_LIBERO', 72: 'OPPONENT', 73: 'MAIN', 74: 'MAIN', 77: 'MAIN', 78: 'LIBERO', 79: 'MAIN', 81: 'OPP_LIBERO', 83: 'OTHER', 85: 'OPPONENT', 88: 'MAIN', 89: 'OTHER', 91: 'OPPONENT', 94: 'OPPONENT', 95: 'OTHER', 97: 'OPPONENT', 99: 'MAIN', 101: 'MAIN', 104: 'MAIN', 103: 'OPPONENT', 106: 'MAIN', 108: 'OPPONENT', 109: 'OTHER', 111: 'OPP_LIBERO', 115: 'OPP_LIBERO', 116: 'MAIN', 117: 'MAIN', 118: 'OPPONENT', 123: 'OPP_LIBERO', 124: 'OTHER', 126: 'MAIN', 127: 'OPP_LIBERO', 129: 'OPP_LIBERO', 131: 'MAIN', 132: 'OPPONENT', 135: 'MAIN', 137: 'OPPONENT', 138: 'OPPONENT', 139: 'OTHER', 140: 'OPPONENT', 142: 'OPPONENT', 145: 'MAIN', 148: 'LIBERO', 147: 'OPP_LIBERO', 151: 'OTHER', 152: 'OPPONENT', 150: 'OPP_LIBERO', 156: 'OTHER', 157: 'MAIN', 160: 'OPPONENT', 161: 'LIBERO', 165: 'MAIN', 166: 'LIBERO', 168: 'OPPONENT', 169: 'OPP_LIBERO', 170: 'OTHER', 172: 'OPPONENT', 171: 'OPPONENT', 173: 'OPPONENT', 174: 'OPP_LIBERO', 175: 'OPP_LIBERO', 176: 'MAIN', 177: 'OPPONENT', 181: 'OPPONENT', 182: 'OPP_LIBERO', 184: 'OPPONENT', 186: 'OPPONENT', 187: 'OPPONENT', 189: 'OPPONENT', 193: 'OPPONENT', 195: 'OPP_LIBERO', 199: 'OPP_LIBERO'}
+[INFO] Frame-jersey map saved -> /home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/all_three/runs/frame_jersey_map.json (2207 frames)
+[INFO] Registry saved -> /home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/all_three/runs/jersey_registry.json (9 players)
+[JERSEY] predict_pipeline done. Jersey map: /home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/all_three/runs/frame_jersey_map.json
+[ACTION] Starting...
+[ACTION] [ACTION] Loading model: /home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/action_detection/best_robo_with_git.pt
+[ACTION] Analyzing /home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/1783720959483_test_clip-36s.mp4 (2214 frames)...
+[ACTION] 0%
+[ACTION] 1%
+[ACTION] 2%
+[ACTION] 3%
+[ACTION] 4%
+[ACTION] 5%
+[ACTION] 6%
+[ACTION] 7%
+[ACTION] 8%
+[ACTION] 9%
+[ACTION] 10%
+[ACTION] 11%
+[ACTION] 12%
+[ACTION] 13%
+[ACTION] 14%
+[ACTION] 15%
+[ACTION] 16%
+[ACTION] 17%
+[ACTION] 18%
+[ACTION] 19%
+[ACTION] 20%
+[ACTION] 21%
+[ACTION] 22%
+[ACTION] 23%
+[ACTION] 24%
+[ACTION] 25%
+[ACTION] 26%
+[ACTION] 27%
+[ACTION] 28%
+[ACTION] 29%
+[ACTION] 30%
+[ACTION] 31%
+[ACTION] 32%
+[ACTION] 33%
+[ACTION] 34%
+[ACTION] 35%
+[ACTION] 36%
+[ACTION] 37%
+[ACTION] 38%
+[ACTION] 39%
+[ACTION] 40%
+[ACTION] 41%
+[ACTION] 42%
+[ACTION] 43%
+[ACTION] 44%
+[ACTION] 45%
+[ACTION] 46%
+[ACTION] 47%
+[ACTION] 48%
+[ACTION] 49%
+[ACTION] 50%
+[ACTION] 51%
+[ACTION] 52%
+[ACTION] 53%
+[ACTION] 54%
+[ACTION] 55%
+[ACTION] 56%
+[ACTION] 57%
+[ACTION] 58%
+[ACTION] 59%
+[ACTION] 60%
+[ACTION] 61%
+[ACTION] 62%
+[ACTION] 63%
+[ACTION] 64%
+[ACTION] 65%
+[ACTION] 66%
+[ACTION] 67%
+[ACTION] 68%
+[ACTION] 69%
+[ACTION] 70%
+[ACTION] 71%
+[ACTION] 72%
+[ACTION] 73%
+[ACTION] 74%
+[ACTION] 75%
+[ACTION] 76%
+[ACTION] 77%
+[ACTION] 78%
+[ACTION] 79%
+[ACTION] 80%
+[ACTION] 81%
+[ACTION] 82%
+[ACTION] 83%
+[ACTION] 84%
+[ACTION] 85%
+[ACTION] 86%
+[ACTION] 87%
+[ACTION] 88%
+[ACTION] 89%
+[ACTION] 90%
+[ACTION] 91%
+[ACTION] 92%
+[ACTION] 93%
+[ACTION] 94%
+[ACTION] 95%
+[ACTION] 96%
+[ACTION] 97%
+[ACTION] 98%
+[ACTION] 99%
+[ACTION] 100%
+[ACTION] Done. 648 detections across 2214 frames -> /home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/all_three/runs/action_detections.json
+[RALLY] Starting...
+[RALLY] --- Initializing Volleyball Analytics Pipeline ---
+Development mode: base path set to /home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/rally_detect
+Development mode: base path set to /home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/rally_detect
+[PIPELINE] --- Running Stage: Detection ---
+[PIPELINE] Video FPS is 60.00. Downsampling to 30 FPS...
+[RALLY] Processing Video:   0%|          | 0/1107 [00:00<?, ?frame/s]
+[RALLY] Processing Video:   0%|          | 1/1107 [00:00<04:44,  3.89frame/s]
+[RALLY] Processing Video:   0%|          | 2/1107 [00:00<03:03,  6.02frame/s]
+[RALLY] Processing Video:   0%|          | 3/1107 [00:00<02:44,  6.70frame/s]
+[RALLY] Processing Video:   0%|          | 4/1107 [00:00<02:34,  7.15frame/s]
+[RALLY] Processing Video:   0%|          | 5/1107 [00:00<02:19,  7.88frame/s]
+[RALLY] Processing Video:   1%|          | 7/1107 [00:00<02:07,  8.62frame/s]
+[RALLY] Processing Video:   1%|          | 8/1107 [00:01<02:09,  8.48frame/s]
+[RALLY] Processing Video:   1%|          | 9/1107 [00:01<02:08,  8.56frame/s]
+[RALLY] Processing Video:   1%|          | 10/1107 [00:01<02:07,  8.62frame/s]
+[RALLY] Processing Video:   1%|          | 11/1107 [00:01<02:07,  8.62frame/s]
+[RALLY] Processing Video:   1%|          | 12/1107 [00:01<02:03,  8.85frame/s]
+[RALLY] Processing Video:   1%|          | 13/1107 [00:01<02:00,  9.11frame/s]
+[RALLY] Processing Video:   1%|▏         | 14/1107 [00:01<01:56,  9.35frame/s]
+[RALLY] Processing Video:   1%|▏         | 15/1107 [00:01<01:55,  9.45frame/s]
+[RALLY] Processing Video:   2%|▏         | 17/1107 [00:02<01:52,  9.65frame/s]
+[RALLY] Processing Video:   2%|▏         | 18/1107 [00:02<01:52,  9.64frame/s]
+[RALLY] Processing Video:   2%|▏         | 19/1107 [00:02<01:57,  9.27frame/s]
+[RALLY] Processing Video:   2%|▏         | 20/1107 [00:02<02:01,  8.92frame/s]
+[RALLY] Processing Video:   2%|▏         | 21/1107 [00:02<02:01,  8.90frame/s]
+[RALLY] Processing Video:   2%|▏         | 23/1107 [00:02<01:55,  9.39frame/s]
+[RALLY] Processing Video:   2%|▏         | 25/1107 [00:02<01:51,  9.74frame/s]
+[RALLY] Processing Video:   2%|▏         | 26/1107 [00:02<01:50,  9.79frame/s]
+[RALLY] Processing Video:   2%|▏         | 27/1107 [00:03<01:55,  9.39frame/s]
+[RALLY] Processing Video:   3%|▎         | 28/1107 [00:03<01:58,  9.11frame/s]
+[RALLY] Processing Video:   3%|▎         | 29/1107 [00:03<02:00,  8.93frame/s]
+[RALLY] Processing Video:   3%|▎         | 30/1107 [00:03<02:02,  8.76frame/s]
+[RALLY] Processing Video:   3%|▎         | 31/1107 [00:03<02:00,  8.90frame/s]
+[RALLY] Processing Video:   3%|▎         | 32/1107 [00:03<01:59,  8.96frame/s]
+[RALLY] Processing Video:   3%|▎         | 33/1107 [00:03<01:57,  9.17frame/s]
+[RALLY] Processing Video:   3%|▎         | 34/1107 [00:03<01:54,  9.39frame/s]
+[RALLY] Processing Video:   3%|▎         | 35/1107 [00:03<01:52,  9.51frame/s]
+[RALLY] Processing Video:   3%|▎         | 36/1107 [00:04<01:52,  9.55frame/s]
+[RALLY] Processing Video:   3%|▎         | 37/1107 [00:04<01:50,  9.65frame/s]
+[RALLY] Processing Video:   3%|▎         | 38/1107 [00:04<01:52,  9.54frame/s]
+[RALLY] Processing Video:   4%|▎         | 39/1107 [00:04<01:56,  9.15frame/s]
+[RALLY] Processing Video:   4%|▎         | 41/1107 [00:04<01:50,  9.66frame/s]
+[RALLY] Processing Video:   4%|▍         | 43/1107 [00:04<01:49,  9.73frame/s]
+[RALLY] Processing Video:   4%|▍         | 44/1107 [00:04<01:49,  9.72frame/s]
+[RALLY] Processing Video:   4%|▍         | 45/1107 [00:04<01:48,  9.77frame/s]
+[RALLY] Processing Video:   4%|▍         | 46/1107 [00:05<01:48,  9.75frame/s]
+[RALLY] Processing Video:   4%|▍         | 47/1107 [00:05<01:48,  9.74frame/s]
+[RALLY] Processing Video:   4%|▍         | 48/1107 [00:05<01:48,  9.75frame/s]
+[RALLY] Processing Video:   4%|▍         | 49/1107 [00:05<01:49,  9.68frame/s]
+[RALLY] Processing Video:   5%|▍         | 50/1107 [00:05<01:50,  9.55frame/s]
+[RALLY] Processing Video:   5%|▍         | 51/1107 [00:05<02:11,  8.04frame/s]
+[RALLY] Processing Video:   5%|▍         | 52/1107 [00:05<02:13,  7.88frame/s]
+[RALLY] Processing Video:   5%|▍         | 53/1107 [00:05<02:09,  8.13frame/s]
+[RALLY] Processing Video:   5%|▍         | 54/1107 [00:06<02:07,  8.25frame/s]
+[RALLY] Processing Video:   5%|▍         | 55/1107 [00:06<02:09,  8.13frame/s]
+[RALLY] Processing Video:   5%|▌         | 56/1107 [00:06<02:07,  8.22frame/s]
+[RALLY] Processing Video:   5%|▌         | 57/1107 [00:06<02:04,  8.41frame/s]
+[RALLY] Processing Video:   5%|▌         | 58/1107 [00:06<02:00,  8.69frame/s]
+[RALLY] Processing Video:   5%|▌         | 60/1107 [00:06<01:51,  9.42frame/s]
+[RALLY] Processing Video:   6%|▌         | 62/1107 [00:06<01:46,  9.82frame/s]
+[RALLY] Processing Video:   6%|▌         | 64/1107 [00:07<01:45,  9.87frame/s]
+[RALLY] Processing Video:   6%|▌         | 65/1107 [00:07<01:46,  9.83frame/s]
+[RALLY] Processing Video:   6%|▌         | 67/1107 [00:07<01:43, 10.05frame/s]
+[RALLY] Processing Video:   6%|▌         | 69/1107 [00:07<01:42, 10.09frame/s]
+[RALLY] Processing Video:   6%|▋         | 71/1107 [00:07<01:44,  9.95frame/s]
+[RALLY] Processing Video:   7%|▋         | 73/1107 [00:08<01:45,  9.84frame/s]
+[RALLY] Processing Video:   7%|▋         | 74/1107 [00:08<01:49,  9.43frame/s]
+[RALLY] Processing Video:   7%|▋         | 75/1107 [00:08<01:49,  9.40frame/s]
+[RALLY] Processing Video:   7%|▋         | 76/1107 [00:08<01:50,  9.34frame/s]
+[RALLY] Processing Video:   7%|▋         | 77/1107 [00:08<01:54,  8.98frame/s]
+[RALLY] Processing Video:   7%|▋         | 78/1107 [00:08<01:58,  8.69frame/s]
+[RALLY] Processing Video:   7%|▋         | 79/1107 [00:08<01:58,  8.67frame/s]
+[RALLY] Processing Video:   7%|▋         | 80/1107 [00:08<01:56,  8.78frame/s]
+[RALLY] Processing Video:   7%|▋         | 81/1107 [00:08<01:53,  9.02frame/s]
+[RALLY] Processing Video:   7%|▋         | 82/1107 [00:09<01:51,  9.22frame/s]
+[RALLY] Processing Video:   7%|▋         | 83/1107 [00:09<01:50,  9.28frame/s]
+[RALLY] Processing Video:   8%|▊         | 84/1107 [00:09<01:50,  9.23frame/s]
+[RALLY] Processing Video:   8%|▊         | 85/1107 [00:09<01:49,  9.34frame/s]
+[RALLY] Processing Video:   8%|▊         | 86/1107 [00:09<01:47,  9.47frame/s]
+[RALLY] Processing Video:   8%|▊         | 87/1107 [00:09<01:47,  9.45frame/s]
+[RALLY] Processing Video:   8%|▊         | 88/1107 [00:09<01:49,  9.34frame/s]
+[RALLY] Processing Video:   8%|▊         | 89/1107 [00:09<01:50,  9.19frame/s]
+[RALLY] Processing Video:   8%|▊         | 90/1107 [00:09<01:53,  8.96frame/s]
+[RALLY] Processing Video:   8%|▊         | 92/1107 [00:10<01:47,  9.42frame/s]
+[RALLY] Processing Video:   8%|▊         | 93/1107 [00:10<02:06,  8.00frame/s]
+[RALLY] Processing Video:   8%|▊         | 94/1107 [00:10<02:05,  8.09frame/s]
+[RALLY] Processing Video:   9%|▊         | 95/1107 [00:10<02:01,  8.33frame/s]
+[RALLY] Processing Video:   9%|▊         | 96/1107 [00:10<01:58,  8.53frame/s]
+[RALLY] Processing Video:   9%|▉         | 97/1107 [00:10<01:54,  8.84frame/s]
+[RALLY] Processing Video:   9%|▉         | 98/1107 [00:10<01:55,  8.76frame/s]
+[RALLY] Processing Video:   9%|▉         | 99/1107 [00:10<01:53,  8.85frame/s]
+[RALLY] Processing Video:   9%|▉         | 100/1107 [00:11<01:56,  8.62frame/s]
+[RALLY] Processing Video:   9%|▉         | 101/1107 [00:11<02:05,  7.99frame/s]
+[RALLY] Processing Video:   9%|▉         | 102/1107 [00:11<02:10,  7.71frame/s]
+[RALLY] Processing Video:   9%|▉         | 103/1107 [00:11<02:10,  7.69frame/s]
+[RALLY] Processing Video:   9%|▉         | 104/1107 [00:11<02:08,  7.78frame/s]
+[RALLY] Processing Video:   9%|▉         | 105/1107 [00:11<02:04,  8.04frame/s]
+[RALLY] Processing Video:  10%|▉         | 106/1107 [00:11<01:58,  8.43frame/s]
+[RALLY] Processing Video:  10%|▉         | 107/1107 [00:11<01:55,  8.69frame/s]
+[RALLY] Processing Video:  10%|▉         | 108/1107 [00:12<01:52,  8.85frame/s]
+[RALLY] Processing Video:  10%|▉         | 109/1107 [00:12<01:50,  9.05frame/s]
+[RALLY] Processing Video:  10%|▉         | 110/1107 [00:12<01:48,  9.22frame/s]
+[RALLY] Processing Video:  10%|█         | 111/1107 [00:12<01:50,  9.05frame/s]
+[RALLY] Processing Video:  10%|█         | 112/1107 [00:12<01:48,  9.18frame/s]
+[RALLY] Processing Video:  10%|█         | 113/1107 [00:12<01:50,  8.96frame/s]
+[RALLY] Processing Video:  10%|█         | 114/1107 [00:12<01:50,  9.00frame/s]
+[RALLY] Processing Video:  10%|█         | 115/1107 [00:12<01:48,  9.12frame/s]
+[RALLY] Processing Video:  10%|█         | 116/1107 [00:12<01:51,  8.91frame/s]
+[RALLY] Processing Video:  11%|█         | 117/1107 [00:13<01:49,  9.00frame/s]
+[RALLY] Processing Video:  11%|█         | 118/1107 [00:13<01:46,  9.28frame/s]
+[RALLY] Processing Video:  11%|█         | 120/1107 [00:13<01:40,  9.84frame/s]
+[RALLY] Processing Video:  11%|█         | 122/1107 [00:13<01:38,  9.98frame/s]
+[RALLY] Processing Video:  11%|█         | 123/1107 [00:13<01:39,  9.88frame/s]
+[RALLY] Processing Video:  11%|█         | 124/1107 [00:13<01:42,  9.58frame/s]
+[RALLY] Processing Video:  11%|█▏        | 125/1107 [00:13<01:43,  9.52frame/s]
+[RALLY] Processing Video:  11%|█▏        | 126/1107 [00:13<01:41,  9.63frame/s]
+[RALLY] Processing Video:  12%|█▏        | 128/1107 [00:14<01:37, 10.06frame/s]
+[RALLY] Processing Video:  12%|█▏        | 130/1107 [00:14<01:34, 10.35frame/s]
+[RALLY] Processing Video:  12%|█▏        | 132/1107 [00:14<01:34, 10.28frame/s]
+[RALLY] Processing Video:  12%|█▏        | 134/1107 [00:14<01:35, 10.22frame/s]
+[RALLY] Processing Video:  12%|█▏        | 136/1107 [00:14<01:33, 10.34frame/s]
+[RALLY] Processing Video:  12%|█▏        | 138/1107 [00:15<01:36, 10.09frame/s]
+[RALLY] Processing Video:  13%|█▎        | 140/1107 [00:15<01:37,  9.96frame/s]
+[RALLY] Processing Video:  13%|█▎        | 141/1107 [00:15<01:38,  9.79frame/s]
+[RALLY] Processing Video:  13%|█▎        | 142/1107 [00:15<01:41,  9.53frame/s]
+[RALLY] Processing Video:  13%|█▎        | 143/1107 [00:15<01:41,  9.47frame/s]
+[RALLY] Processing Video:  13%|█▎        | 145/1107 [00:15<01:39,  9.69frame/s]
+[RALLY] Processing Video:  13%|█▎        | 146/1107 [00:15<01:38,  9.73frame/s]
+[RALLY] Processing Video:  13%|█▎        | 148/1107 [00:16<01:37,  9.84frame/s]
+[RALLY] Processing Video:  13%|█▎        | 149/1107 [00:16<01:38,  9.71frame/s]
+[RALLY] Processing Video:  14%|█▎        | 150/1107 [00:16<01:40,  9.55frame/s]
+[RALLY] Processing Video:  14%|█▎        | 151/1107 [00:16<01:42,  9.37frame/s]
+[RALLY] Processing Video:  14%|█▎        | 152/1107 [00:16<01:40,  9.49frame/s]
+[RALLY] Processing Video:  14%|█▍        | 154/1107 [00:16<01:36,  9.84frame/s]
+[RALLY] Processing Video:  14%|█▍        | 155/1107 [00:16<01:36,  9.88frame/s]
+[RALLY] Processing Video:  14%|█▍        | 156/1107 [00:16<01:36,  9.85frame/s]
+[RALLY] Processing Video:  14%|█▍        | 158/1107 [00:17<01:34, 10.06frame/s]
+[RALLY] Processing Video:  14%|█▍        | 160/1107 [00:17<01:33, 10.15frame/s]
+[RALLY] Processing Video:  15%|█▍        | 162/1107 [00:17<01:33, 10.10frame/s]
+[RALLY] Processing Video:  15%|█▍        | 164/1107 [00:17<01:30, 10.38frame/s]
+[RALLY] Processing Video:  15%|█▍        | 166/1107 [00:17<01:30, 10.37frame/s]
+[RALLY] Processing Video:  15%|█▌        | 168/1107 [00:18<01:31, 10.26frame/s]
+[RALLY] Processing Video:  15%|█▌        | 170/1107 [00:18<01:29, 10.47frame/s]
+[RALLY] Processing Video:  16%|█▌        | 172/1107 [00:18<01:36,  9.68frame/s]
+[RALLY] Processing Video:  16%|█▌        | 173/1107 [00:18<01:37,  9.62frame/s]
+[RALLY] Processing Video:  16%|█▌        | 175/1107 [00:18<01:35,  9.79frame/s]
+[RALLY] Processing Video:  16%|█▌        | 177/1107 [00:19<01:32, 10.06frame/s]
+[RALLY] Processing Video:  16%|█▌        | 179/1107 [00:19<01:30, 10.23frame/s]
+[RALLY] Processing Video:  16%|█▋        | 181/1107 [00:19<01:30, 10.21frame/s]
+[RALLY] Processing Video:  17%|█▋        | 183/1107 [00:19<01:33,  9.93frame/s]
+[RALLY] Processing Video:  17%|█▋        | 185/1107 [00:19<01:31, 10.08frame/s]
+[RALLY] Processing Video:  17%|█▋        | 187/1107 [00:20<01:29, 10.23frame/s]
+[RALLY] Processing Video:  17%|█▋        | 189/1107 [00:20<01:28, 10.33frame/s]
+[RALLY] Processing Video:  17%|█▋        | 191/1107 [00:20<01:29, 10.28frame/s]
+[RALLY] Processing Video:  17%|█▋        | 193/1107 [00:20<01:29, 10.22frame/s]
+[RALLY] Processing Video:  18%|█▊        | 195/1107 [00:20<01:29, 10.17frame/s]
+[RALLY] Processing Video:  19%|█▊        | 207/1107 [00:21<00:36, 24.99frame/s]
+[RALLY] Processing Video:  19%|█▉        | 210/1107 [00:21<00:48, 18.59frame/s]
+[RALLY] Processing Video:  19%|█▉        | 212/1107 [00:21<00:55, 16.11frame/s]
+[RALLY] Processing Video:  19%|█▉        | 214/1107 [00:21<01:03, 14.02frame/s]
+[RALLY] Processing Video:  20%|█▉        | 216/1107 [00:21<01:08, 13.01frame/s]
+[RALLY] Processing Video:  20%|█▉        | 218/1107 [00:22<01:12, 12.34frame/s]
+[RALLY] Processing Video:  20%|█▉        | 220/1107 [00:22<01:15, 11.81frame/s]
+[RALLY] Processing Video:  20%|██        | 222/1107 [00:22<01:16, 11.62frame/s]
+[RALLY] Processing Video:  20%|██        | 224/1107 [00:22<01:18, 11.24frame/s]
+[RALLY] Processing Video:  20%|██        | 226/1107 [00:22<01:20, 10.97frame/s]
+[RALLY] Processing Video:  21%|██        | 228/1107 [00:23<01:21, 10.82frame/s]
+[RALLY] Processing Video:  21%|██        | 230/1107 [00:23<01:24, 10.42frame/s]
+[RALLY] Processing Video:  21%|██        | 232/1107 [00:23<01:28,  9.92frame/s]
+[RALLY] Processing Video:  21%|██        | 233/1107 [00:23<01:28,  9.89frame/s]
+[RALLY] Processing Video:  21%|██        | 234/1107 [00:23<01:28,  9.90frame/s]
+[RALLY] Processing Video:  21%|██        | 235/1107 [00:23<01:28,  9.88frame/s]
+[RALLY] Processing Video:  21%|██▏       | 236/1107 [00:23<01:28,  9.84frame/s]
+[RALLY] Processing Video:  21%|██▏       | 237/1107 [00:24<01:31,  9.52frame/s]
+[RALLY] Processing Video:  22%|██▏       | 239/1107 [00:24<01:31,  9.45frame/s]
+[RALLY] Processing Video:  22%|██▏       | 240/1107 [00:24<01:35,  9.10frame/s]
+[RALLY] Processing Video:  22%|██▏       | 241/1107 [00:24<01:36,  9.01frame/s]
+[RALLY] Processing Video:  22%|██▏       | 242/1107 [00:24<01:35,  9.07frame/s]
+[RALLY] Processing Video:  22%|██▏       | 243/1107 [00:24<01:35,  9.05frame/s]
+[RALLY] Processing Video:  22%|██▏       | 244/1107 [00:24<01:37,  8.86frame/s]
+[RALLY] Processing Video:  22%|██▏       | 245/1107 [00:25<01:43,  8.29frame/s]
+[RALLY] Processing Video:  22%|██▏       | 246/1107 [00:25<01:46,  8.10frame/s]
+[RALLY] Processing Video:  22%|██▏       | 247/1107 [00:25<01:42,  8.36frame/s]
+[RALLY] Processing Video:  22%|██▏       | 248/1107 [00:25<01:38,  8.72frame/s]
+[RALLY] Processing Video:  22%|██▏       | 249/1107 [00:25<01:34,  9.07frame/s]
+[RALLY] Processing Video:  23%|██▎       | 250/1107 [00:25<01:33,  9.17frame/s]
+[RALLY] Processing Video:  23%|██▎       | 251/1107 [00:25<01:32,  9.21frame/s]
+[RALLY] Processing Video:  23%|██▎       | 252/1107 [00:25<01:34,  9.08frame/s]
+[RALLY] Processing Video:  23%|██▎       | 253/1107 [00:25<01:36,  8.88frame/s]
+[RALLY] Processing Video:  23%|██▎       | 254/1107 [00:26<01:39,  8.60frame/s]
+[RALLY] Processing Video:  23%|██▎       | 255/1107 [00:26<01:42,  8.32frame/s]
+[RALLY] Processing Video:  23%|██▎       | 256/1107 [00:26<01:41,  8.39frame/s]
+[RALLY] Processing Video:  23%|██▎       | 257/1107 [00:26<01:42,  8.26frame/s]
+[RALLY] Processing Video:  23%|██▎       | 258/1107 [00:26<01:43,  8.18frame/s]
+[RALLY] Processing Video:  23%|██▎       | 259/1107 [00:26<01:44,  8.15frame/s]
+[RALLY] Processing Video:  23%|██▎       | 260/1107 [00:26<01:42,  8.28frame/s]
+[RALLY] Processing Video:  24%|██▎       | 261/1107 [00:26<01:39,  8.51frame/s]
+[RALLY] Processing Video:  24%|██▎       | 262/1107 [00:26<01:36,  8.74frame/s]
+[RALLY] Processing Video:  24%|██▍       | 263/1107 [00:27<01:33,  9.01frame/s]
+[RALLY] Processing Video:  24%|██▍       | 265/1107 [00:27<01:29,  9.44frame/s]
+[RALLY] Processing Video:  24%|██▍       | 267/1107 [00:27<01:26,  9.72frame/s]
+[RALLY] Processing Video:  24%|██▍       | 268/1107 [00:27<01:26,  9.73frame/s]
+[RALLY] Processing Video:  24%|██▍       | 269/1107 [00:27<01:25,  9.76frame/s]
+[RALLY] Processing Video:  24%|██▍       | 270/1107 [00:27<01:25,  9.77frame/s]
+[RALLY] Processing Video:  24%|██▍       | 271/1107 [00:27<01:27,  9.57frame/s]
+[RALLY] Processing Video:  25%|██▍       | 272/1107 [00:28<01:28,  9.41frame/s]
+[RALLY] Processing Video:  25%|██▍       | 273/1107 [00:28<01:29,  9.36frame/s]
+[RALLY] Processing Video:  25%|██▍       | 274/1107 [00:28<01:27,  9.47frame/s]
+[RALLY] Processing Video:  25%|██▍       | 275/1107 [00:28<01:28,  9.39frame/s]
+[RALLY] Processing Video:  25%|██▍       | 276/1107 [00:28<01:31,  9.09frame/s]
+[RALLY] Processing Video:  25%|██▌       | 277/1107 [00:28<01:31,  9.08frame/s]
+[RALLY] Processing Video:  25%|██▌       | 278/1107 [00:28<01:29,  9.26frame/s]
+[RALLY] Processing Video:  25%|██▌       | 279/1107 [00:28<01:28,  9.41frame/s]
+[RALLY] Processing Video:  25%|██▌       | 280/1107 [00:28<01:27,  9.42frame/s]
+[RALLY] Processing Video:  25%|██▌       | 281/1107 [00:28<01:27,  9.46frame/s]
+[RALLY] Processing Video:  25%|██▌       | 282/1107 [00:29<01:27,  9.47frame/s]
+[RALLY] Processing Video:  26%|██▌       | 283/1107 [00:29<01:29,  9.18frame/s]
+[RALLY] Processing Video:  26%|██▌       | 284/1107 [00:29<01:28,  9.31frame/s]
+[RALLY] Processing Video:  26%|██▌       | 285/1107 [00:29<01:30,  9.04frame/s]
+[RALLY] Processing Video:  26%|██▌       | 286/1107 [00:29<01:28,  9.29frame/s]
+[RALLY] Processing Video:  26%|██▌       | 287/1107 [00:29<01:28,  9.28frame/s]
+[RALLY] Processing Video:  26%|██▌       | 288/1107 [00:29<01:30,  9.08frame/s]
+[RALLY] Processing Video:  26%|██▌       | 289/1107 [00:29<01:28,  9.26frame/s]
+[RALLY] Processing Video:  26%|██▌       | 290/1107 [00:29<01:37,  8.37frame/s]
+[RALLY] Processing Video:  26%|██▋       | 291/1107 [00:30<01:34,  8.66frame/s]
+[RALLY] Processing Video:  26%|██▋       | 292/1107 [00:30<01:33,  8.73frame/s]
+[RALLY] Processing Video:  26%|██▋       | 293/1107 [00:30<01:33,  8.72frame/s]
+[RALLY] Processing Video:  27%|██▋       | 294/1107 [00:30<01:34,  8.64frame/s]
+[RALLY] Processing Video:  27%|██▋       | 295/1107 [00:30<01:30,  8.93frame/s]
+[RALLY] Processing Video:  27%|██▋       | 296/1107 [00:30<01:28,  9.12frame/s]
+[RALLY] Processing Video:  27%|██▋       | 297/1107 [00:30<01:27,  9.24frame/s]
+[RALLY] Processing Video:  27%|██▋       | 298/1107 [00:30<01:26,  9.38frame/s]
+[RALLY] Processing Video:  27%|██▋       | 299/1107 [00:30<01:27,  9.27frame/s]
+[RALLY] Processing Video:  27%|██▋       | 300/1107 [00:31<01:26,  9.28frame/s]
+[RALLY] Processing Video:  27%|██▋       | 301/1107 [00:31<01:26,  9.35frame/s]
+[RALLY] Processing Video:  27%|██▋       | 302/1107 [00:31<01:30,  8.91frame/s]
+[RALLY] Processing Video:  27%|██▋       | 303/1107 [00:31<01:37,  8.29frame/s]
+[RALLY] Processing Video:  27%|██▋       | 304/1107 [00:31<01:37,  8.25frame/s]
+[RALLY] Processing Video:  28%|██▊       | 305/1107 [00:31<01:36,  8.28frame/s]
+[RALLY] Processing Video:  28%|██▊       | 306/1107 [00:31<01:35,  8.42frame/s]
+[RALLY] Processing Video:  28%|██▊       | 307/1107 [00:31<01:45,  7.61frame/s]
+[RALLY] Processing Video:  28%|██▊       | 308/1107 [00:32<01:46,  7.50frame/s]
+[RALLY] Processing Video:  28%|██▊       | 309/1107 [00:32<01:38,  8.10frame/s]
+[RALLY] Processing Video:  28%|██▊       | 310/1107 [00:32<01:33,  8.49frame/s]
+[RALLY] Processing Video:  28%|██▊       | 311/1107 [00:32<01:33,  8.50frame/s]
+[RALLY] Processing Video:  28%|██▊       | 312/1107 [00:32<01:31,  8.69frame/s]
+[RALLY] Processing Video:  28%|██▊       | 313/1107 [00:32<01:30,  8.76frame/s]
+[RALLY] Processing Video:  28%|██▊       | 314/1107 [00:32<01:27,  9.05frame/s]
+[RALLY] Processing Video:  28%|██▊       | 315/1107 [00:32<01:26,  9.20frame/s]
+[RALLY] Processing Video:  29%|██▊       | 317/1107 [00:33<01:22,  9.57frame/s]
+[RALLY] Processing Video:  29%|██▉       | 319/1107 [00:33<01:19,  9.89frame/s]
+[RALLY] Processing Video:  29%|██▉       | 321/1107 [00:33<01:17, 10.08frame/s]
+[RALLY] Processing Video:  29%|██▉       | 322/1107 [00:33<01:19,  9.89frame/s]
+[RALLY] Processing Video:  29%|██▉       | 324/1107 [00:33<01:17, 10.08frame/s]
+[RALLY] Processing Video:  29%|██▉       | 326/1107 [00:33<01:15, 10.38frame/s]
+[RALLY] Processing Video:  30%|██▉       | 328/1107 [00:34<01:13, 10.53frame/s]
+[RALLY] Processing Video:  30%|██▉       | 330/1107 [00:34<01:16, 10.15frame/s]
+[RALLY] Processing Video:  30%|██▉       | 332/1107 [00:34<01:18,  9.89frame/s]
+[RALLY] Processing Video:  30%|███       | 333/1107 [00:34<01:18,  9.89frame/s]
+[RALLY] Processing Video:  30%|███       | 335/1107 [00:34<01:14, 10.32frame/s]
+[RALLY] Processing Video:  30%|███       | 337/1107 [00:34<01:13, 10.45frame/s]
+[RALLY] Processing Video:  31%|███       | 339/1107 [00:35<01:13, 10.44frame/s]
+[RALLY] Processing Video:  31%|███       | 341/1107 [00:35<01:12, 10.55frame/s]
+[RALLY] Processing Video:  31%|███       | 343/1107 [00:35<01:11, 10.69frame/s]
+[RALLY] Processing Video:  31%|███       | 345/1107 [00:35<01:10, 10.88frame/s]
+[RALLY] Processing Video:  31%|███▏      | 347/1107 [00:35<01:10, 10.82frame/s]
+[RALLY] Processing Video:  32%|███▏      | 349/1107 [00:36<01:12, 10.41frame/s]
+[RALLY] Processing Video:  32%|███▏      | 351/1107 [00:36<01:12, 10.42frame/s]
+[RALLY] Processing Video:  32%|███▏      | 353/1107 [00:36<01:11, 10.58frame/s]
+[RALLY] Processing Video:  32%|███▏      | 355/1107 [00:36<01:10, 10.60frame/s]
+[RALLY] Processing Video:  32%|███▏      | 357/1107 [00:36<01:10, 10.57frame/s]
+[RALLY] Processing Video:  32%|███▏      | 359/1107 [00:37<01:10, 10.54frame/s]
+[RALLY] Processing Video:  33%|███▎      | 361/1107 [00:37<01:10, 10.59frame/s]
+[RALLY] Processing Video:  33%|███▎      | 363/1107 [00:37<01:10, 10.57frame/s]
+[RALLY] Processing Video:  33%|███▎      | 365/1107 [00:37<01:09, 10.65frame/s]
+[RALLY] Processing Video:  33%|███▎      | 367/1107 [00:37<01:09, 10.62frame/s]
+[RALLY] Processing Video:  33%|███▎      | 369/1107 [00:37<01:09, 10.61frame/s]
+[RALLY] Processing Video:  34%|███▎      | 371/1107 [00:38<01:08, 10.77frame/s]
+[RALLY] Processing Video:  34%|███▎      | 373/1107 [00:38<01:08, 10.76frame/s]
+[RALLY] Processing Video:  34%|███▍      | 375/1107 [00:38<01:07, 10.81frame/s]
+[RALLY] Processing Video:  34%|███▍      | 377/1107 [00:38<01:10, 10.40frame/s]
+[RALLY] Processing Video:  34%|███▍      | 379/1107 [00:38<01:09, 10.45frame/s]
+[RALLY] Processing Video:  34%|███▍      | 381/1107 [00:39<01:08, 10.56frame/s]
+[RALLY] Processing Video:  35%|███▍      | 383/1107 [00:39<01:07, 10.68frame/s]
+[RALLY] Processing Video:  35%|███▍      | 385/1107 [00:39<01:09, 10.41frame/s]
+[RALLY] Processing Video:  35%|███▍      | 387/1107 [00:39<01:09, 10.36frame/s]
+[RALLY] Processing Video:  35%|███▌      | 389/1107 [00:39<01:08, 10.55frame/s]
+[RALLY] Processing Video:  35%|███▌      | 391/1107 [00:40<01:06, 10.69frame/s]
+[RALLY] Processing Video:  36%|███▌      | 393/1107 [00:40<01:04, 11.03frame/s]
+[RALLY] Processing Video:  36%|███▌      | 395/1107 [00:40<01:05, 10.90frame/s]
+[RALLY] Processing Video:  36%|███▌      | 397/1107 [00:40<01:05, 10.88frame/s]
+[RALLY] Processing Video:  36%|███▌      | 399/1107 [00:40<01:05, 10.73frame/s]
+[RALLY] Processing Video:  36%|███▌      | 401/1107 [00:40<01:06, 10.67frame/s]
+[RALLY] Processing Video:  36%|███▋      | 403/1107 [00:41<01:05, 10.71frame/s]
+[RALLY] Processing Video:  37%|███▋      | 405/1107 [00:41<01:05, 10.79frame/s]
+[RALLY] Processing Video:  37%|███▋      | 407/1107 [00:41<01:04, 10.78frame/s]
+[RALLY] Processing Video:  37%|███▋      | 409/1107 [00:41<01:04, 10.84frame/s]
+[RALLY] Processing Video:  37%|███▋      | 411/1107 [00:41<01:05, 10.67frame/s]
+[RALLY] Processing Video:  37%|███▋      | 413/1107 [00:42<01:05, 10.63frame/s]
+[RALLY] Processing Video:  37%|███▋      | 415/1107 [00:42<01:05, 10.52frame/s]
+[RALLY] Processing Video:  38%|███▊      | 417/1107 [00:42<01:05, 10.52frame/s]
+[RALLY] Processing Video:  38%|███▊      | 419/1107 [00:42<01:04, 10.61frame/s]
+[RALLY] Processing Video:  38%|███▊      | 421/1107 [00:42<01:04, 10.66frame/s]
+[RALLY] Processing Video:  38%|███▊      | 423/1107 [00:43<01:06, 10.32frame/s]
+[RALLY] Processing Video:  38%|███▊      | 425/1107 [00:43<01:05, 10.47frame/s]
+[RALLY] Processing Video:  39%|███▊      | 427/1107 [00:43<01:04, 10.60frame/s]
+[RALLY] Processing Video:  39%|███▉      | 429/1107 [00:43<01:03, 10.66frame/s]
+[RALLY] Processing Video:  39%|███▉      | 431/1107 [00:43<01:02, 10.80frame/s]
+[RALLY] Processing Video:  39%|███▉      | 433/1107 [00:44<01:03, 10.69frame/s]
+[RALLY] Processing Video:  39%|███▉      | 435/1107 [00:44<01:04, 10.41frame/s]
+[RALLY] Processing Video:  39%|███▉      | 437/1107 [00:44<01:04, 10.36frame/s]
+[RALLY] Processing Video:  40%|███▉      | 439/1107 [00:44<01:03, 10.45frame/s]
+[RALLY] Processing Video:  40%|███▉      | 441/1107 [00:44<01:04, 10.37frame/s]
+[RALLY] Processing Video:  40%|████      | 443/1107 [00:44<01:05, 10.14frame/s]
+[RALLY] Processing Video:  40%|████      | 445/1107 [00:45<01:05, 10.16frame/s]
+[RALLY] Processing Video:  40%|████      | 447/1107 [00:45<01:03, 10.32frame/s]
+[RALLY] Processing Video:  41%|████      | 449/1107 [00:45<01:06,  9.91frame/s]
+[RALLY] Processing Video:  41%|████      | 450/1107 [00:45<01:07,  9.73frame/s]
+[RALLY] Processing Video:  41%|████      | 451/1107 [00:45<01:16,  8.58frame/s]
+[RALLY] Processing Video:  41%|████      | 452/1107 [00:45<01:14,  8.73frame/s]
+[RALLY] Processing Video:  41%|████      | 453/1107 [00:46<01:13,  8.94frame/s]
+[RALLY] Processing Video:  41%|████      | 454/1107 [00:46<01:11,  9.13frame/s]
+[RALLY] Processing Video:  41%|████      | 455/1107 [00:46<01:10,  9.30frame/s]
+[RALLY] Processing Video:  41%|████      | 456/1107 [00:46<01:09,  9.33frame/s]
+[RALLY] Processing Video:  41%|████▏     | 457/1107 [00:46<01:11,  9.08frame/s]
+[RALLY] Processing Video:  41%|████▏     | 458/1107 [00:46<01:13,  8.89frame/s]
+[RALLY] Processing Video:  41%|████▏     | 459/1107 [00:46<01:12,  8.89frame/s]
+[RALLY] Processing Video:  42%|████▏     | 460/1107 [00:46<01:11,  9.07frame/s]
+[RALLY] Processing Video:  42%|████▏     | 461/1107 [00:46<01:09,  9.26frame/s]
+[RALLY] Processing Video:  42%|████▏     | 462/1107 [00:47<01:09,  9.32frame/s]
+[RALLY] Processing Video:  42%|████▏     | 464/1107 [00:47<01:06,  9.60frame/s]
+[RALLY] Processing Video:  42%|████▏     | 465/1107 [00:47<01:09,  9.23frame/s]
+[RALLY] Processing Video:  42%|████▏     | 466/1107 [00:47<01:12,  8.82frame/s]
+[RALLY] Processing Video:  42%|████▏     | 467/1107 [00:47<01:12,  8.82frame/s]
+[RALLY] Processing Video:  42%|████▏     | 468/1107 [00:47<01:10,  9.01frame/s]
+[RALLY] Processing Video:  42%|████▏     | 469/1107 [00:47<01:11,  8.98frame/s]
+[RALLY] Processing Video:  42%|████▏     | 470/1107 [00:47<01:10,  9.09frame/s]
+[RALLY] Processing Video:  43%|████▎     | 471/1107 [00:48<01:09,  9.12frame/s]
+[RALLY] Processing Video:  43%|████▎     | 472/1107 [00:48<01:14,  8.57frame/s]
+[RALLY] Processing Video:  43%|████▎     | 473/1107 [00:48<01:18,  8.04frame/s]
+[RALLY] Processing Video:  43%|████▎     | 474/1107 [00:48<01:18,  8.11frame/s]
+[RALLY] Processing Video:  43%|████▎     | 475/1107 [00:48<01:16,  8.29frame/s]
+[RALLY] Processing Video:  43%|████▎     | 476/1107 [00:48<01:14,  8.46frame/s]
+[RALLY] Processing Video:  43%|████▎     | 477/1107 [00:48<01:12,  8.66frame/s]
+[RALLY] Processing Video:  43%|████▎     | 478/1107 [00:48<01:10,  8.90frame/s]
+[RALLY] Processing Video:  43%|████▎     | 479/1107 [00:49<01:11,  8.75frame/s]
+[RALLY] Processing Video:  43%|████▎     | 480/1107 [00:49<01:16,  8.15frame/s]
+[RALLY] Processing Video:  43%|████▎     | 481/1107 [00:49<01:13,  8.47frame/s]
+[RALLY] Processing Video:  44%|████▎     | 483/1107 [00:49<01:17,  8.02frame/s]
+[RALLY] Processing Video:  44%|████▎     | 484/1107 [00:49<01:16,  8.12frame/s]
+[RALLY] Processing Video:  44%|████▍     | 485/1107 [00:49<01:14,  8.39frame/s]
+[RALLY] Processing Video:  44%|████▍     | 486/1107 [00:49<01:11,  8.73frame/s]
+[RALLY] Processing Video:  44%|████▍     | 487/1107 [00:49<01:12,  8.57frame/s]
+[RALLY] Processing Video:  44%|████▍     | 488/1107 [00:50<01:14,  8.34frame/s]
+[RALLY] Processing Video:  44%|████▍     | 489/1107 [00:50<01:14,  8.34frame/s]
+[RALLY] Processing Video:  44%|████▍     | 490/1107 [00:50<01:12,  8.46frame/s]
+[RALLY] Processing Video:  44%|████▍     | 491/1107 [00:50<01:11,  8.65frame/s]
+[RALLY] Processing Video:  44%|████▍     | 492/1107 [00:50<01:11,  8.62frame/s]
+[RALLY] Processing Video:  45%|████▍     | 494/1107 [00:50<01:08,  8.98frame/s]
+[RALLY] Processing Video:  45%|████▍     | 495/1107 [00:50<01:08,  8.93frame/s]
+[RALLY] Processing Video:  45%|████▍     | 496/1107 [00:51<01:08,  8.86frame/s]
+[RALLY] Processing Video:  45%|████▍     | 497/1107 [00:51<01:10,  8.66frame/s]
+[RALLY] Processing Video:  45%|████▍     | 498/1107 [00:51<01:09,  8.72frame/s]
+[RALLY] Processing Video:  45%|████▌     | 499/1107 [00:51<01:08,  8.88frame/s]
+[RALLY] Processing Video:  45%|████▌     | 500/1107 [00:51<01:09,  8.79frame/s]
+[RALLY] Processing Video:  45%|████▌     | 501/1107 [00:51<01:08,  8.80frame/s]
+[RALLY] Processing Video:  45%|████▌     | 502/1107 [00:51<01:07,  9.01frame/s]
+[RALLY] Processing Video:  46%|████▌     | 504/1107 [00:51<01:02,  9.66frame/s]
+[RALLY] Processing Video:  46%|████▌     | 506/1107 [00:52<01:00, 10.00frame/s]
+[RALLY] Processing Video:  46%|████▌     | 508/1107 [00:52<00:58, 10.26frame/s]
+[RALLY] Processing Video:  47%|████▋     | 519/1107 [00:52<00:19, 30.50frame/s]
+[RALLY] Processing Video:  47%|████▋     | 523/1107 [00:52<00:29, 19.48frame/s]
+[RALLY] Processing Video:  48%|████▊     | 526/1107 [00:53<00:36, 16.07frame/s]
+[RALLY] Processing Video:  48%|████▊     | 529/1107 [00:53<00:41, 14.09frame/s]
+[RALLY] Processing Video:  48%|████▊     | 531/1107 [00:53<00:45, 12.69frame/s]
+[RALLY] Processing Video:  48%|████▊     | 533/1107 [00:53<00:47, 12.18frame/s]
+[RALLY] Processing Video:  48%|████▊     | 535/1107 [00:53<00:48, 11.81frame/s]
+[RALLY] Processing Video:  49%|████▊     | 537/1107 [00:54<00:49, 11.43frame/s]
+[RALLY] Processing Video:  49%|████▊     | 539/1107 [00:54<00:52, 10.76frame/s]
+[RALLY] Processing Video:  49%|████▉     | 541/1107 [00:54<00:53, 10.50frame/s]
+[RALLY] Processing Video:  49%|████▉     | 543/1107 [00:54<00:53, 10.47frame/s]
+[RALLY] Processing Video:  49%|████▉     | 545/1107 [00:54<00:54, 10.33frame/s]
+[RALLY] Processing Video:  49%|████▉     | 547/1107 [00:55<00:54, 10.29frame/s]
+[RALLY] Processing Video:  50%|████▉     | 549/1107 [00:55<00:54, 10.19frame/s]
+[RALLY] Processing Video:  50%|████▉     | 551/1107 [00:55<00:54, 10.25frame/s]
+[RALLY] Processing Video:  50%|████▉     | 553/1107 [00:55<00:53, 10.35frame/s]
+[RALLY] Processing Video:  50%|█████     | 555/1107 [00:55<00:53, 10.34frame/s]
+[RALLY] Processing Video:  50%|█████     | 557/1107 [00:56<00:55,  9.99frame/s]
+[RALLY] Processing Video:  50%|█████     | 559/1107 [00:56<00:54, 10.15frame/s]
+[RALLY] Processing Video:  51%|█████     | 561/1107 [00:56<00:53, 10.22frame/s]
+[RALLY] Processing Video:  51%|█████     | 563/1107 [00:56<00:53, 10.16frame/s]
+[RALLY] Processing Video:  51%|█████     | 565/1107 [00:56<00:53, 10.08frame/s]
+[RALLY] Processing Video:  51%|█████     | 567/1107 [00:57<00:55,  9.71frame/s]
+[RALLY] Processing Video:  51%|█████▏    | 568/1107 [00:57<00:56,  9.58frame/s]
+[RALLY] Processing Video:  51%|█████▏    | 569/1107 [00:57<00:56,  9.45frame/s]
+[RALLY] Processing Video:  51%|█████▏    | 570/1107 [00:57<00:57,  9.32frame/s]
+[RALLY] Processing Video:  52%|█████▏    | 572/1107 [00:57<00:54,  9.78frame/s]
+[RALLY] Processing Video:  52%|█████▏    | 573/1107 [00:57<00:55,  9.65frame/s]
+[RALLY] Processing Video:  52%|█████▏    | 575/1107 [00:57<00:53,  9.88frame/s]
+[RALLY] Processing Video:  52%|█████▏    | 577/1107 [00:58<00:52, 10.15frame/s]
+[RALLY] Processing Video:  52%|█████▏    | 579/1107 [00:58<00:50, 10.46frame/s]
+[RALLY] Processing Video:  52%|█████▏    | 581/1107 [00:58<00:50, 10.35frame/s]
+[RALLY] Processing Video:  53%|█████▎    | 583/1107 [00:58<00:52, 10.04frame/s]
+[RALLY] Processing Video:  53%|█████▎    | 585/1107 [00:58<00:50, 10.33frame/s]
+[RALLY] Processing Video:  53%|█████▎    | 587/1107 [00:59<00:49, 10.53frame/s]
+[RALLY] Processing Video:  53%|█████▎    | 589/1107 [00:59<00:49, 10.39frame/s]
+[RALLY] Processing Video:  53%|█████▎    | 591/1107 [00:59<00:49, 10.40frame/s]
+[RALLY] Processing Video:  54%|█████▎    | 593/1107 [00:59<00:49, 10.43frame/s]
+[RALLY] Processing Video:  54%|█████▎    | 595/1107 [00:59<00:49, 10.36frame/s]
+[RALLY] Processing Video:  54%|█████▍    | 597/1107 [01:00<00:48, 10.42frame/s]
+[RALLY] Processing Video:  54%|█████▍    | 599/1107 [01:00<00:48, 10.47frame/s]
+[RALLY] Processing Video:  54%|█████▍    | 601/1107 [01:00<00:49, 10.12frame/s]
+[RALLY] Processing Video:  54%|█████▍    | 603/1107 [01:00<00:49, 10.19frame/s]
+[RALLY] Processing Video:  55%|█████▍    | 605/1107 [01:00<00:49, 10.12frame/s]
+[RALLY] Processing Video:  55%|█████▍    | 607/1107 [01:01<00:48, 10.31frame/s]
+[RALLY] Processing Video:  55%|█████▌    | 609/1107 [01:01<00:48, 10.30frame/s]
+[RALLY] Processing Video:  55%|█████▌    | 611/1107 [01:01<00:47, 10.34frame/s]
+[RALLY] Processing Video:  55%|█████▌    | 613/1107 [01:01<00:47, 10.31frame/s]
+[RALLY] Processing Video:  56%|█████▌    | 615/1107 [01:01<00:47, 10.33frame/s]
+[RALLY] Processing Video:  56%|█████▌    | 617/1107 [01:02<00:47, 10.37frame/s]
+[RALLY] Processing Video:  56%|█████▌    | 619/1107 [01:02<00:47, 10.31frame/s]
+[RALLY] Processing Video:  56%|█████▌    | 621/1107 [01:02<00:47, 10.18frame/s]
+[RALLY] Processing Video:  56%|█████▋    | 623/1107 [01:02<00:47, 10.25frame/s]
+[RALLY] Processing Video:  56%|█████▋    | 625/1107 [01:02<00:48,  9.92frame/s]
+[RALLY] Processing Video:  57%|█████▋    | 627/1107 [01:03<00:47, 10.11frame/s]
+[RALLY] Processing Video:  57%|█████▋    | 629/1107 [01:03<00:48,  9.91frame/s]
+[RALLY] Processing Video:  57%|█████▋    | 631/1107 [01:03<00:46, 10.18frame/s]
+[RALLY] Processing Video:  57%|█████▋    | 633/1107 [01:03<00:45, 10.40frame/s]
+[RALLY] Processing Video:  57%|█████▋    | 635/1107 [01:03<00:45, 10.48frame/s]
+[RALLY] Processing Video:  58%|█████▊    | 637/1107 [01:03<00:45, 10.41frame/s]
+[RALLY] Processing Video:  58%|█████▊    | 639/1107 [01:04<00:45, 10.39frame/s]
+[RALLY] Processing Video:  58%|█████▊    | 641/1107 [01:04<00:45, 10.18frame/s]
+[RALLY] Processing Video:  58%|█████▊    | 643/1107 [01:04<00:45, 10.17frame/s]
+[RALLY] Processing Video:  58%|█████▊    | 645/1107 [01:04<00:45, 10.22frame/s]
+[RALLY] Processing Video:  58%|█████▊    | 647/1107 [01:04<00:44, 10.38frame/s]
+[RALLY] Processing Video:  59%|█████▊    | 649/1107 [01:05<00:44, 10.19frame/s]
+[RALLY] Processing Video:  59%|█████▉    | 651/1107 [01:05<00:46,  9.89frame/s]
+[RALLY] Processing Video:  59%|█████▉    | 652/1107 [01:05<00:47,  9.66frame/s]
+[RALLY] Processing Video:  59%|█████▉    | 653/1107 [01:05<00:48,  9.42frame/s]
+[RALLY] Processing Video:  59%|█████▉    | 654/1107 [01:05<00:47,  9.48frame/s]
+[RALLY] Processing Video:  59%|█████▉    | 655/1107 [01:05<00:47,  9.53frame/s]
+[RALLY] Processing Video:  59%|█████▉    | 656/1107 [01:05<00:48,  9.37frame/s]
+[RALLY] Processing Video:  59%|█████▉    | 657/1107 [01:06<00:47,  9.48frame/s]
+[RALLY] Processing Video:  59%|█████▉    | 658/1107 [01:06<00:48,  9.18frame/s]
+[RALLY] Processing Video:  60%|█████▉    | 659/1107 [01:06<00:48,  9.15frame/s]
+[RALLY] Processing Video:  60%|█████▉    | 660/1107 [01:06<00:48,  9.21frame/s]
+[RALLY] Processing Video:  60%|█████▉    | 661/1107 [01:06<00:48,  9.21frame/s]
+[RALLY] Processing Video:  60%|█████▉    | 663/1107 [01:06<00:45,  9.67frame/s]
+[RALLY] Processing Video:  60%|█████▉    | 664/1107 [01:06<00:45,  9.71frame/s]
+[RALLY] Processing Video:  60%|██████    | 665/1107 [01:06<00:46,  9.55frame/s]
+[RALLY] Processing Video:  60%|██████    | 666/1107 [01:06<00:47,  9.30frame/s]
+[RALLY] Processing Video:  60%|██████    | 667/1107 [01:07<00:47,  9.26frame/s]
+[RALLY] Processing Video:  60%|██████    | 669/1107 [01:07<00:47,  9.31frame/s]
+[RALLY] Processing Video:  61%|██████    | 670/1107 [01:07<00:47,  9.24frame/s]
+[RALLY] Processing Video:  61%|██████    | 671/1107 [01:07<00:47,  9.26frame/s]
+[RALLY] Processing Video:  61%|██████    | 672/1107 [01:07<00:47,  9.23frame/s]
+[RALLY] Processing Video:  61%|██████    | 673/1107 [01:07<00:48,  8.92frame/s]
+[RALLY] Processing Video:  61%|██████    | 674/1107 [01:07<00:51,  8.46frame/s]
+[RALLY] Processing Video:  61%|██████    | 675/1107 [01:08<00:52,  8.24frame/s]
+[RALLY] Processing Video:  61%|██████    | 676/1107 [01:08<00:52,  8.16frame/s]
+[RALLY] Processing Video:  61%|██████    | 677/1107 [01:08<00:52,  8.22frame/s]
+[RALLY] Processing Video:  61%|██████    | 678/1107 [01:08<00:50,  8.55frame/s]
+[RALLY] Processing Video:  61%|██████▏   | 680/1107 [01:08<00:46,  9.14frame/s]
+[RALLY] Processing Video:  62%|██████▏   | 681/1107 [01:08<00:45,  9.27frame/s]
+[RALLY] Processing Video:  62%|██████▏   | 682/1107 [01:08<00:46,  9.17frame/s]
+[RALLY] Processing Video:  62%|██████▏   | 683/1107 [01:08<00:45,  9.29frame/s]
+[RALLY] Processing Video:  62%|██████▏   | 684/1107 [01:09<00:45,  9.30frame/s]
+[RALLY] Processing Video:  62%|██████▏   | 685/1107 [01:09<00:44,  9.39frame/s]
+[RALLY] Processing Video:  62%|██████▏   | 686/1107 [01:09<00:44,  9.55frame/s]
+[RALLY] Processing Video:  62%|██████▏   | 687/1107 [01:09<00:43,  9.57frame/s]
+[RALLY] Processing Video:  62%|██████▏   | 688/1107 [01:09<00:43,  9.55frame/s]
+[RALLY] Processing Video:  62%|██████▏   | 690/1107 [01:09<00:42,  9.81frame/s]
+[RALLY] Processing Video:  63%|██████▎   | 692/1107 [01:09<00:41, 10.04frame/s]
+[RALLY] Processing Video:  63%|██████▎   | 694/1107 [01:10<00:40, 10.28frame/s]
+[RALLY] Processing Video:  63%|██████▎   | 696/1107 [01:10<00:39, 10.54frame/s]
+[RALLY] Processing Video:  63%|██████▎   | 698/1107 [01:10<00:38, 10.57frame/s]
+[RALLY] Processing Video:  63%|██████▎   | 700/1107 [01:10<00:38, 10.53frame/s]
+[RALLY] Processing Video:  63%|██████▎   | 702/1107 [01:10<00:38, 10.55frame/s]
+[RALLY] Processing Video:  64%|██████▎   | 704/1107 [01:10<00:39, 10.30frame/s]
+[RALLY] Processing Video:  64%|██████▍   | 706/1107 [01:11<00:38, 10.40frame/s]
+[RALLY] Processing Video:  64%|██████▍   | 708/1107 [01:11<00:38, 10.46frame/s]
+[RALLY] Processing Video:  64%|██████▍   | 710/1107 [01:11<00:38, 10.39frame/s]
+[RALLY] Processing Video:  64%|██████▍   | 712/1107 [01:11<00:37, 10.61frame/s]
+[RALLY] Processing Video:  64%|██████▍   | 714/1107 [01:11<00:36, 10.75frame/s]
+[RALLY] Processing Video:  65%|██████▍   | 716/1107 [01:12<00:37, 10.34frame/s]
+[RALLY] Processing Video:  65%|██████▍   | 718/1107 [01:12<00:37, 10.36frame/s]
+[RALLY] Processing Video:  65%|██████▌   | 720/1107 [01:12<00:36, 10.58frame/s]
+[RALLY] Processing Video:  65%|██████▌   | 722/1107 [01:12<00:36, 10.68frame/s]
+[RALLY] Processing Video:  65%|██████▌   | 724/1107 [01:12<00:35, 10.70frame/s]
+[RALLY] Processing Video:  66%|██████▌   | 726/1107 [01:13<00:36, 10.57frame/s]
+[RALLY] Processing Video:  66%|██████▌   | 728/1107 [01:13<00:36, 10.49frame/s]
+[RALLY] Processing Video:  66%|██████▌   | 730/1107 [01:13<00:36, 10.42frame/s]
+[RALLY] Processing Video:  66%|██████▌   | 732/1107 [01:13<00:36, 10.41frame/s]
+[RALLY] Processing Video:  66%|██████▋   | 734/1107 [01:13<00:36, 10.15frame/s]
+[RALLY] Processing Video:  66%|██████▋   | 736/1107 [01:14<00:36, 10.06frame/s]
+[RALLY] Processing Video:  67%|██████▋   | 738/1107 [01:14<00:37,  9.84frame/s]
+[RALLY] Processing Video:  67%|██████▋   | 740/1107 [01:14<00:36, 10.05frame/s]
+[RALLY] Processing Video:  67%|██████▋   | 742/1107 [01:14<00:35, 10.14frame/s]
+[RALLY] Processing Video:  67%|██████▋   | 744/1107 [01:14<00:35, 10.31frame/s]
+[RALLY] Processing Video:  67%|██████▋   | 746/1107 [01:14<00:34, 10.49frame/s]
+[RALLY] Processing Video:  68%|██████▊   | 748/1107 [01:15<00:34, 10.48frame/s]
+[RALLY] Processing Video:  68%|██████▊   | 750/1107 [01:15<00:33, 10.58frame/s]
+[RALLY] Processing Video:  68%|██████▊   | 752/1107 [01:15<00:33, 10.53frame/s]
+[RALLY] Processing Video:  68%|██████▊   | 754/1107 [01:15<00:33, 10.55frame/s]
+[RALLY] Processing Video:  68%|██████▊   | 756/1107 [01:15<00:33, 10.52frame/s]
+[RALLY] Processing Video:  68%|██████▊   | 758/1107 [01:16<00:33, 10.56frame/s]
+[RALLY] Processing Video:  69%|██████▊   | 760/1107 [01:16<00:33, 10.33frame/s]
+[RALLY] Processing Video:  69%|██████▉   | 762/1107 [01:16<00:33, 10.20frame/s]
+[RALLY] Processing Video:  69%|██████▉   | 764/1107 [01:16<00:32, 10.47frame/s]
+[RALLY] Processing Video:  69%|██████▉   | 766/1107 [01:16<00:31, 10.73frame/s]
+[RALLY] Processing Video:  69%|██████▉   | 768/1107 [01:17<00:31, 10.73frame/s]
+[RALLY] Processing Video:  70%|██████▉   | 770/1107 [01:17<00:31, 10.71frame/s]
+[RALLY] Processing Video:  70%|██████▉   | 772/1107 [01:17<00:31, 10.51frame/s]
+[RALLY] Processing Video:  70%|██████▉   | 774/1107 [01:17<00:31, 10.52frame/s]
+[RALLY] Processing Video:  70%|███████   | 776/1107 [01:17<00:31, 10.50frame/s]
+[RALLY] Processing Video:  70%|███████   | 778/1107 [01:18<00:32, 10.25frame/s]
+[RALLY] Processing Video:  70%|███████   | 780/1107 [01:18<00:32, 10.18frame/s]
+[RALLY] Processing Video:  71%|███████   | 782/1107 [01:18<00:31, 10.30frame/s]
+[RALLY] Processing Video:  71%|███████   | 784/1107 [01:18<00:30, 10.50frame/s]
+[RALLY] Processing Video:  71%|███████   | 786/1107 [01:18<00:30, 10.47frame/s]
+[RALLY] Processing Video:  71%|███████   | 788/1107 [01:18<00:30, 10.53frame/s]
+[RALLY] Processing Video:  71%|███████▏  | 790/1107 [01:19<00:29, 10.57frame/s]
+[RALLY] Processing Video:  72%|███████▏  | 792/1107 [01:19<00:32,  9.74frame/s]
+[RALLY] Processing Video:  72%|███████▏  | 793/1107 [01:19<00:33,  9.32frame/s]
+[RALLY] Processing Video:  72%|███████▏  | 794/1107 [01:19<00:34,  9.11frame/s]
+[RALLY] Processing Video:  72%|███████▏  | 795/1107 [01:19<00:34,  8.99frame/s]
+[RALLY] Processing Video:  72%|███████▏  | 796/1107 [01:19<00:33,  9.20frame/s]
+[RALLY] Processing Video:  72%|███████▏  | 798/1107 [01:20<00:32,  9.56frame/s]
+[RALLY] Processing Video:  72%|███████▏  | 799/1107 [01:20<00:32,  9.58frame/s]
+[RALLY] Processing Video:  72%|███████▏  | 800/1107 [01:20<00:31,  9.67frame/s]
+[RALLY] Processing Video:  72%|███████▏  | 802/1107 [01:20<00:31,  9.79frame/s]
+[RALLY] Processing Video:  73%|███████▎  | 803/1107 [01:20<00:31,  9.68frame/s]
+[RALLY] Processing Video:  73%|███████▎  | 804/1107 [01:20<00:31,  9.64frame/s]
+[RALLY] Processing Video:  73%|███████▎  | 805/1107 [01:20<00:31,  9.53frame/s]
+[RALLY] Processing Video:  73%|███████▎  | 806/1107 [01:20<00:31,  9.65frame/s]
+[RALLY] Processing Video:  73%|███████▎  | 807/1107 [01:21<00:30,  9.70frame/s]
+[RALLY] Processing Video:  73%|███████▎  | 808/1107 [01:21<00:32,  9.34frame/s]
+[RALLY] Processing Video:  73%|███████▎  | 809/1107 [01:21<00:31,  9.38frame/s]
+[RALLY] Processing Video:  73%|███████▎  | 810/1107 [01:21<00:31,  9.44frame/s]
+[RALLY] Processing Video:  73%|███████▎  | 812/1107 [01:21<00:29,  9.88frame/s]
+[RALLY] Processing Video:  73%|███████▎  | 813/1107 [01:21<00:29,  9.90frame/s]
+[RALLY] Processing Video:  74%|███████▎  | 815/1107 [01:21<00:28, 10.11frame/s]
+[RALLY] Processing Video:  74%|███████▍  | 817/1107 [01:22<00:28, 10.22frame/s]
+[RALLY] Processing Video:  74%|███████▍  | 819/1107 [01:22<00:27, 10.35frame/s]
+[RALLY] Processing Video:  74%|███████▍  | 821/1107 [01:22<00:27, 10.24frame/s]
+[RALLY] Processing Video:  74%|███████▍  | 823/1107 [01:22<00:28, 10.01frame/s]
+[RALLY] Processing Video:  75%|███████▍  | 825/1107 [01:22<00:28,  9.90frame/s]
+[RALLY] Processing Video:  75%|███████▍  | 827/1107 [01:23<00:27, 10.06frame/s]
+[RALLY] Processing Video:  75%|███████▍  | 829/1107 [01:23<00:27, 10.06frame/s]
+[RALLY] Processing Video:  75%|███████▌  | 831/1107 [01:23<00:27,  9.99frame/s]
+[RALLY] Processing Video:  76%|███████▌  | 842/1107 [01:23<00:10, 24.48frame/s]
+[RALLY] Processing Video:  76%|███████▋  | 845/1107 [01:23<00:14, 17.61frame/s]
+[RALLY] Processing Video:  77%|███████▋  | 848/1107 [01:24<00:17, 14.54frame/s]
+[RALLY] Processing Video:  77%|███████▋  | 850/1107 [01:24<00:19, 12.91frame/s]
+[RALLY] Processing Video:  77%|███████▋  | 852/1107 [01:24<00:21, 12.03frame/s]
+[RALLY] Processing Video:  77%|███████▋  | 854/1107 [01:24<00:22, 11.32frame/s]
+[RALLY] Processing Video:  77%|███████▋  | 856/1107 [01:25<00:23, 10.68frame/s]
+[RALLY] Processing Video:  78%|███████▊  | 858/1107 [01:25<00:24, 10.30frame/s]
+[RALLY] Processing Video:  78%|███████▊  | 860/1107 [01:25<00:24, 10.13frame/s]
+[RALLY] Processing Video:  78%|███████▊  | 862/1107 [01:25<00:24,  9.97frame/s]
+[RALLY] Processing Video:  78%|███████▊  | 864/1107 [01:25<00:24,  9.83frame/s]
+[RALLY] Processing Video:  78%|███████▊  | 865/1107 [01:26<00:24,  9.71frame/s]
+[RALLY] Processing Video:  78%|███████▊  | 866/1107 [01:26<00:25,  9.56frame/s]
+[RALLY] Processing Video:  78%|███████▊  | 867/1107 [01:26<00:25,  9.59frame/s]
+[RALLY] Processing Video:  78%|███████▊  | 868/1107 [01:26<00:25,  9.26frame/s]
+[RALLY] Processing Video:  79%|███████▊  | 869/1107 [01:26<00:26,  9.07frame/s]
+[RALLY] Processing Video:  79%|███████▊  | 870/1107 [01:26<00:27,  8.60frame/s]
+[RALLY] Processing Video:  79%|███████▊  | 871/1107 [01:26<00:28,  8.41frame/s]
+[RALLY] Processing Video:  79%|███████▉  | 872/1107 [01:26<00:27,  8.47frame/s]
+[RALLY] Processing Video:  79%|███████▉  | 873/1107 [01:27<00:26,  8.74frame/s]
+[RALLY] Processing Video:  79%|███████▉  | 874/1107 [01:27<00:26,  8.65frame/s]
+[RALLY] Processing Video:  79%|███████▉  | 875/1107 [01:27<00:26,  8.73frame/s]
+[RALLY] Processing Video:  79%|███████▉  | 876/1107 [01:27<00:25,  8.99frame/s]
+[RALLY] Processing Video:  79%|███████▉  | 877/1107 [01:27<00:25,  9.10frame/s]
+[RALLY] Processing Video:  79%|███████▉  | 878/1107 [01:27<00:25,  9.15frame/s]
+[RALLY] Processing Video:  79%|███████▉  | 879/1107 [01:27<00:24,  9.29frame/s]
+[RALLY] Processing Video:  79%|███████▉  | 880/1107 [01:27<00:24,  9.32frame/s]
+[RALLY] Processing Video:  80%|███████▉  | 881/1107 [01:27<00:24,  9.08frame/s]
+[RALLY] Processing Video:  80%|███████▉  | 882/1107 [01:28<00:25,  8.87frame/s]
+[RALLY] Processing Video:  80%|███████▉  | 883/1107 [01:28<00:25,  8.84frame/s]
+[RALLY] Processing Video:  80%|███████▉  | 884/1107 [01:28<00:25,  8.88frame/s]
+[RALLY] Processing Video:  80%|███████▉  | 885/1107 [01:28<00:24,  9.09frame/s]
+[RALLY] Processing Video:  80%|████████  | 886/1107 [01:28<00:24,  9.08frame/s]
+[RALLY] Processing Video:  80%|████████  | 887/1107 [01:28<00:23,  9.21frame/s]
+[RALLY] Processing Video:  80%|████████  | 888/1107 [01:28<00:23,  9.23frame/s]
+[RALLY] Processing Video:  80%|████████  | 889/1107 [01:28<00:23,  9.23frame/s]
+[RALLY] Processing Video:  80%|████████  | 890/1107 [01:28<00:23,  9.39frame/s]
+[RALLY] Processing Video:  80%|████████  | 891/1107 [01:28<00:23,  9.27frame/s]
+[RALLY] Processing Video:  81%|████████  | 892/1107 [01:29<00:23,  9.25frame/s]
+[RALLY] Processing Video:  81%|████████  | 893/1107 [01:29<00:23,  9.11frame/s]
+[RALLY] Processing Video:  81%|████████  | 894/1107 [01:29<00:23,  9.21frame/s]
+[RALLY] Processing Video:  81%|████████  | 895/1107 [01:29<00:23,  9.15frame/s]
+[RALLY] Processing Video:  81%|████████  | 896/1107 [01:29<00:23,  9.12frame/s]
+[RALLY] Processing Video:  81%|████████  | 897/1107 [01:29<00:22,  9.13frame/s]
+[RALLY] Processing Video:  81%|████████  | 898/1107 [01:29<00:22,  9.33frame/s]
+[RALLY] Processing Video:  81%|████████  | 899/1107 [01:29<00:22,  9.25frame/s]
+[RALLY] Processing Video:  81%|████████▏ | 901/1107 [01:30<00:21,  9.76frame/s]
+[RALLY] Processing Video:  82%|████████▏ | 903/1107 [01:30<00:20, 10.15frame/s]
+[RALLY] Processing Video:  82%|████████▏ | 904/1107 [01:30<00:20,  9.91frame/s]
+[RALLY] Processing Video:  82%|████████▏ | 906/1107 [01:30<00:19, 10.16frame/s]
+[RALLY] Processing Video:  82%|████████▏ | 908/1107 [01:30<00:19, 10.25frame/s]
+[RALLY] Processing Video:  82%|████████▏ | 910/1107 [01:30<00:18, 10.53frame/s]
+[RALLY] Processing Video:  82%|████████▏ | 912/1107 [01:31<00:18, 10.48frame/s]
+[RALLY] Processing Video:  83%|████████▎ | 914/1107 [01:31<00:18, 10.46frame/s]
+[RALLY] Processing Video:  83%|████████▎ | 916/1107 [01:31<00:18, 10.46frame/s]
+[RALLY] Processing Video:  83%|████████▎ | 918/1107 [01:31<00:17, 10.59frame/s]
+[RALLY] Processing Video:  83%|████████▎ | 920/1107 [01:31<00:17, 10.53frame/s]
+[RALLY] Processing Video:  83%|████████▎ | 922/1107 [01:32<00:17, 10.28frame/s]
+[RALLY] Processing Video:  83%|████████▎ | 924/1107 [01:32<00:17, 10.28frame/s]
+[RALLY] Processing Video:  84%|████████▎ | 926/1107 [01:32<00:17, 10.52frame/s]
+[RALLY] Processing Video:  84%|████████▍ | 928/1107 [01:32<00:16, 10.71frame/s]
+[RALLY] Processing Video:  84%|████████▍ | 930/1107 [01:32<00:16, 10.48frame/s]
+[RALLY] Processing Video:  84%|████████▍ | 932/1107 [01:33<00:17, 10.17frame/s]
+[RALLY] Processing Video:  84%|████████▍ | 934/1107 [01:33<00:16, 10.24frame/s]
+[RALLY] Processing Video:  85%|████████▍ | 936/1107 [01:33<00:16, 10.35frame/s]
+[RALLY] Processing Video:  85%|████████▍ | 938/1107 [01:33<00:16, 10.42frame/s]
+[RALLY] Processing Video:  85%|████████▍ | 940/1107 [01:33<00:16, 10.08frame/s]
+[RALLY] Processing Video:  85%|████████▌ | 942/1107 [01:33<00:16, 10.22frame/s]
+[RALLY] Processing Video:  85%|████████▌ | 944/1107 [01:34<00:15, 10.53frame/s]
+[RALLY] Processing Video:  85%|████████▌ | 946/1107 [01:34<00:15, 10.47frame/s]
+[RALLY] Processing Video:  86%|████████▌ | 948/1107 [01:34<00:15, 10.43frame/s]
+[RALLY] Processing Video:  86%|████████▌ | 950/1107 [01:34<00:15, 10.06frame/s]
+[RALLY] Processing Video:  86%|████████▌ | 952/1107 [01:34<00:15, 10.10frame/s]
+[RALLY] Processing Video:  86%|████████▌ | 954/1107 [01:35<00:14, 10.27frame/s]
+[RALLY] Processing Video:  86%|████████▋ | 956/1107 [01:35<00:14, 10.28frame/s]
+[RALLY] Processing Video:  87%|████████▋ | 958/1107 [01:35<00:14, 10.28frame/s]
+[RALLY] Processing Video:  87%|████████▋ | 960/1107 [01:35<00:14, 10.33frame/s]
+[RALLY] Processing Video:  87%|████████▋ | 962/1107 [01:35<00:14, 10.35frame/s]
+[RALLY] Processing Video:  87%|████████▋ | 964/1107 [01:36<00:13, 10.38frame/s]
+[RALLY] Processing Video:  87%|████████▋ | 966/1107 [01:36<00:13, 10.23frame/s]
+[RALLY] Processing Video:  87%|████████▋ | 968/1107 [01:36<00:13, 10.20frame/s]
+[RALLY] Processing Video:  88%|████████▊ | 970/1107 [01:36<00:13, 10.47frame/s]
+[RALLY] Processing Video:  88%|████████▊ | 972/1107 [01:36<00:12, 10.64frame/s]
+[RALLY] Processing Video:  88%|████████▊ | 974/1107 [01:37<00:13, 10.20frame/s]
+[RALLY] Processing Video:  88%|████████▊ | 976/1107 [01:37<00:12, 10.30frame/s]
+[RALLY] Processing Video:  88%|████████▊ | 978/1107 [01:37<00:12, 10.30frame/s]
+[RALLY] Processing Video:  89%|████████▊ | 980/1107 [01:37<00:12, 10.31frame/s]
+[RALLY] Processing Video:  89%|████████▊ | 982/1107 [01:37<00:12, 10.32frame/s]
+[RALLY] Processing Video:  89%|████████▉ | 984/1107 [01:38<00:12, 10.01frame/s]
+[RALLY] Processing Video:  89%|████████▉ | 986/1107 [01:38<00:11, 10.10frame/s]
+[RALLY] Processing Video:  89%|████████▉ | 988/1107 [01:38<00:12,  9.66frame/s]
+[RALLY] Processing Video:  89%|████████▉ | 990/1107 [01:38<00:11,  9.83frame/s]
+[RALLY] Processing Video:  90%|████████▉ | 991/1107 [01:38<00:11,  9.82frame/s]
+[RALLY] Processing Video:  90%|████████▉ | 992/1107 [01:38<00:12,  9.17frame/s]
+[RALLY] Processing Video:  90%|████████▉ | 993/1107 [01:39<00:12,  9.27frame/s]
+[RALLY] Processing Video:  90%|████████▉ | 995/1107 [01:39<00:11,  9.79frame/s]
+[RALLY] Processing Video:  90%|█████████ | 997/1107 [01:39<00:10, 10.00frame/s]
+[RALLY] Processing Video:  90%|█████████ | 999/1107 [01:39<00:10, 10.26frame/s]
+[RALLY] Processing Video:  90%|█████████ | 1001/1107 [01:39<00:10, 10.47frame/s]
+[RALLY] Processing Video:  91%|█████████ | 1003/1107 [01:39<00:10, 10.33frame/s]
+[RALLY] Processing Video:  91%|█████████ | 1005/1107 [01:40<00:09, 10.49frame/s]
+[RALLY] Processing Video:  91%|█████████ | 1007/1107 [01:40<00:09, 10.18frame/s]
+[RALLY] Processing Video:  91%|█████████ | 1009/1107 [01:40<00:10,  9.32frame/s]
+[RALLY] Processing Video:  91%|█████████ | 1010/1107 [01:40<00:10,  9.30frame/s]
+[RALLY] Processing Video:  91%|█████████▏| 1011/1107 [01:40<00:10,  9.24frame/s]
+[RALLY] Processing Video:  92%|█████████▏| 1013/1107 [01:41<00:09,  9.43frame/s]
+[RALLY] Processing Video:  92%|█████████▏| 1014/1107 [01:41<00:09,  9.33frame/s]
+[RALLY] Processing Video:  92%|█████████▏| 1016/1107 [01:41<00:09,  9.76frame/s]
+[RALLY] Processing Video:  92%|█████████▏| 1018/1107 [01:41<00:09,  9.55frame/s]
+[RALLY] Processing Video:  92%|█████████▏| 1019/1107 [01:41<00:09,  9.46frame/s]
+[RALLY] Processing Video:  92%|█████████▏| 1020/1107 [01:41<00:09,  9.06frame/s]
+[RALLY] Processing Video:  92%|█████████▏| 1021/1107 [01:41<00:09,  8.92frame/s]
+[RALLY] Processing Video:  92%|█████████▏| 1022/1107 [01:42<00:10,  8.37frame/s]
+[RALLY] Processing Video:  92%|█████████▏| 1023/1107 [01:42<00:11,  7.52frame/s]
+[RALLY] Processing Video:  93%|█████████▎| 1024/1107 [01:42<00:10,  7.81frame/s]
+[RALLY] Processing Video:  93%|█████████▎| 1025/1107 [01:42<00:10,  8.04frame/s]
+[RALLY] Processing Video:  93%|█████████▎| 1026/1107 [01:42<00:09,  8.26frame/s]
+[RALLY] Processing Video:  93%|█████████▎| 1027/1107 [01:42<00:09,  8.35frame/s]
+[RALLY] Processing Video:  93%|█████████▎| 1028/1107 [01:42<00:09,  8.31frame/s]
+[RALLY] Processing Video:  93%|█████████▎| 1029/1107 [01:42<00:09,  8.55frame/s]
+[RALLY] Processing Video:  93%|█████████▎| 1030/1107 [01:43<00:08,  8.80frame/s]
+[RALLY] Processing Video:  93%|█████████▎| 1031/1107 [01:43<00:08,  9.10frame/s]
+[RALLY] Processing Video:  93%|█████████▎| 1032/1107 [01:43<00:08,  9.14frame/s]
+[RALLY] Processing Video:  93%|█████████▎| 1033/1107 [01:43<00:08,  9.19frame/s]
+[RALLY] Processing Video:  93%|█████████▎| 1034/1107 [01:43<00:07,  9.40frame/s]
+[RALLY] Processing Video:  94%|█████████▎| 1036/1107 [01:43<00:07,  9.65frame/s]
+[RALLY] Processing Video:  94%|█████████▎| 1037/1107 [01:43<00:07,  9.58frame/s]
+[RALLY] Processing Video:  94%|█████████▍| 1038/1107 [01:43<00:07,  9.44frame/s]
+[RALLY] Processing Video:  94%|█████████▍| 1039/1107 [01:43<00:07,  9.14frame/s]
+[RALLY] Processing Video:  94%|█████████▍| 1040/1107 [01:44<00:07,  9.08frame/s]
+[RALLY] Processing Video:  94%|█████████▍| 1041/1107 [01:44<00:07,  9.21frame/s]
+[RALLY] Processing Video:  94%|█████████▍| 1042/1107 [01:44<00:07,  9.21frame/s]
+[RALLY] Processing Video:  94%|█████████▍| 1043/1107 [01:44<00:07,  8.93frame/s]
+[RALLY] Processing Video:  94%|█████████▍| 1044/1107 [01:44<00:07,  8.85frame/s]
+[RALLY] Processing Video:  94%|█████████▍| 1045/1107 [01:44<00:06,  9.03frame/s]
+[RALLY] Processing Video:  95%|█████████▍| 1047/1107 [01:44<00:06,  9.34frame/s]
+[RALLY] Processing Video:  95%|█████████▍| 1048/1107 [01:44<00:06,  9.40frame/s]
+[RALLY] Processing Video:  95%|█████████▍| 1049/1107 [01:45<00:06,  9.46frame/s]
+[RALLY] Processing Video:  95%|█████████▍| 1050/1107 [01:45<00:06,  9.30frame/s]
+[RALLY] Processing Video:  95%|█████████▍| 1051/1107 [01:45<00:06,  9.03frame/s]
+[RALLY] Processing Video:  95%|█████████▌| 1052/1107 [01:45<00:06,  8.96frame/s]
+[RALLY] Processing Video:  95%|█████████▌| 1053/1107 [01:45<00:05,  9.02frame/s]
+[RALLY] Processing Video:  95%|█████████▌| 1055/1107 [01:45<00:05,  8.93frame/s]
+[RALLY] Processing Video:  95%|█████████▌| 1056/1107 [01:45<00:05,  9.05frame/s]
+[RALLY] Processing Video:  95%|█████████▌| 1057/1107 [01:45<00:05,  9.09frame/s]
+[RALLY] Processing Video:  96%|█████████▌| 1058/1107 [01:46<00:05,  9.28frame/s]
+[RALLY] Processing Video:  96%|█████████▌| 1059/1107 [01:46<00:05,  9.40frame/s]
+[RALLY] Processing Video:  96%|█████████▌| 1060/1107 [01:46<00:05,  9.02frame/s]
+[RALLY] Processing Video:  96%|█████████▌| 1061/1107 [01:46<00:05,  9.05frame/s]
+[RALLY] Processing Video:  96%|█████████▌| 1062/1107 [01:46<00:04,  9.08frame/s]
+[RALLY] Processing Video:  96%|█████████▌| 1063/1107 [01:46<00:04,  9.30frame/s]
+[RALLY] Processing Video:  96%|█████████▌| 1064/1107 [01:46<00:04,  9.12frame/s]
+[RALLY] Processing Video:  96%|█████████▌| 1065/1107 [01:46<00:04,  9.32frame/s]
+[RALLY] Processing Video:  96%|█████████▋| 1066/1107 [01:46<00:04,  8.95frame/s]
+[RALLY] Processing Video:  96%|█████████▋| 1067/1107 [01:47<00:04,  8.88frame/s]
+[RALLY] Processing Video:  96%|█████████▋| 1068/1107 [01:47<00:04,  9.08frame/s]
+[RALLY] Processing Video:  97%|█████████▋| 1069/1107 [01:47<00:04,  9.28frame/s]
+[RALLY] Processing Video:  97%|█████████▋| 1070/1107 [01:47<00:03,  9.44frame/s]
+[RALLY] Processing Video:  97%|█████████▋| 1071/1107 [01:47<00:03,  9.46frame/s]
+[RALLY] Processing Video:  97%|█████████▋| 1072/1107 [01:47<00:03,  9.61frame/s]
+[RALLY] Processing Video:  97%|█████████▋| 1073/1107 [01:47<00:03,  9.67frame/s]
+[RALLY] Processing Video:  97%|█████████▋| 1075/1107 [01:47<00:03,  9.91frame/s]
+[RALLY] Processing Video:  97%|█████████▋| 1077/1107 [01:48<00:02, 10.05frame/s]
+[RALLY] Processing Video:  97%|█████████▋| 1079/1107 [01:48<00:02, 10.12frame/s]
+[RALLY] Processing Video:  98%|█████████▊| 1081/1107 [01:48<00:02, 10.27frame/s]
+[RALLY] Processing Video:  98%|█████████▊| 1083/1107 [01:48<00:02, 10.28frame/s]
+[RALLY] Processing Video:  98%|█████████▊| 1085/1107 [01:48<00:02, 10.49frame/s]
+[RALLY] Processing Video:  98%|█████████▊| 1087/1107 [01:49<00:01, 10.50frame/s]
+[RALLY] Processing Video:  98%|█████████▊| 1089/1107 [01:49<00:01, 10.46frame/s]
+[RALLY] Processing Video:  99%|█████████▊| 1091/1107 [01:49<00:01, 10.42frame/s]
+[RALLY] Processing Video:  99%|█████████▊| 1093/1107 [01:49<00:01,  9.90frame/s]
+[RALLY] Processing Video:  99%|█████████▉| 1094/1107 [01:49<00:01,  9.79frame/s]
+[RALLY] Processing Video:  99%|█████████▉| 1095/1107 [01:49<00:01,  9.80frame/s]
+[RALLY] Processing Video:  99%|█████████▉| 1096/1107 [01:49<00:01,  9.82frame/s]
+[RALLY] Processing Video:  99%|█████████▉| 1098/1107 [01:50<00:00, 10.11frame/s]
+[RALLY] Processing Video:  99%|█████████▉| 1100/1107 [01:50<00:00, 10.63frame/s]
+[RALLY] Processing Video: 100%|█████████▉| 1102/1107 [01:50<00:00, 10.83frame/s]
+[RALLY] Processing Video: 100%|█████████▉| 1104/1107 [01:50<00:00, 10.81frame/s]
+[RALLY] Processing Video: 100%|█████████▉| 1106/1107 [01:50<00:00, 10.81frame/s]
+[RALLY] Processing Video: 100%|██████████| 1107/1107 [01:50<00:00,  9.98frame/s]
+[RALLY] [PIPELINE] Starting inference on 1107 frames...
+[PIPELINE] 
+Processing complete. Results saved to /home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/all_three/runs/rally_detect_work/temp/1783720959483_test_clip-36s_detections.csv
+[PIPELINE] --- Running Stage: Tracking ---
+[PIPELINE] --- Running Stage: Cleaning ---
+[PIPELINE] --- Running Stage: Features ---
+[PIPELINE] --- Running Stage: Prediction ---
+[PIPELINE] 
+--- Rally Analysis Results ---
+[PIPELINE]  • Total Rallies: 2
+[PIPELINE]  • Shortest Rally (s): 2.77
+[PIPELINE]  • Longest Rally (s): 20.4
+[PIPELINE]  • Average Rally (s): 11.58
+[PIPELINE]  • Shortest Downtime (s): 13.73
+[PIPELINE]  • Total Playtime (s): 23.17
+[PIPELINE] ------------------------------
+
+
+Pipeline completed successfully!
+Final Output: /home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/all_three/runs/rally_detect_work/videos/1783720959483_test_clip-36s_prediction.mp4
+[RALLY] [RALLY] Running rally_detect pipeline (device=cpu, original_fps=60.00 -> internal_fps=30.00)...
+[RALLY] 539 ball positions -> /home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/all_three/runs/ball_track.json
+[RALLY] 2 rally windows, 1 dead segments -> /home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/all_three/runs/rally_windows.json
+[RALLY] stats: {'Total Rallies': 2, 'Total Playtime (s)': 23.1}
+[SCORE] Starting...
+[SCORE] [SCORE] rally attribution: 2 rallies, final values: {'home_points': 0, 'guest_points': 0} -> /home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/all_three/runs/scoreboard_readings.json
+[MERGE] Starting...
+[MERGE] Calibration loaded <- /home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/calib_6a516bff783708525574a667.json
+[MERGE] 2214 frames, 16 landing events -> /home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/all_three/runs/volley_analytics.json
+[MERGE] Enriched registry (9 players) -> /home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/all_three/runs/player_registry.json
+[RENDER] Starting...
+[RENDER] Calibration loaded <- /home/jesicemal/project/VOLLEYAI/volleyai/backend/uploads/calib_6a516bff783708525574a667.json
+[RENDER] Rendering 2214 frames (trimming dead time)...
+[RENDER] 0%
+[RENDER] 1%
+[RENDER] 2%
+[RENDER] 3%
+[RENDER] 4%
+[RENDER] 5%
+[RENDER] 6%
+[RENDER] 7%
+[RENDER] 44%
+[RENDER] 45%
+[RENDER] 46%
+[RENDER] 47%
+[RENDER] 48%
+[RENDER] 49%
+[RENDER] 50%
+[RENDER] 51%
+[RENDER] 52%
+[RENDER] 53%
+[RENDER] 54%
+[RENDER] 55%
+[RENDER] 56%
+[RENDER] 57%
+[RENDER] 58%
+[RENDER] 59%
+[RENDER] 60%
+[RENDER] 61%
+[RENDER] 62%
+[RENDER] 63%
+[RENDER] 64%
+[RENDER] 65%
+[RENDER] 66%
+[RENDER] 67%
+[RENDER] 68%
+[RENDER] 69%
+[RENDER] 70%
+[RENDER] 71%
+[RENDER] 72%
+[RENDER] 73%
+[RENDER] 74%
+[RENDER] 75%
+[RENDER] 76%
+[RENDER] 77%
+[RENDER] 78%
+[RENDER] 79%
+[RENDER] 80%
+[RENDER] 81%
+[RENDER] 82%
+[RENDER] 83%
+[RENDER] 84%
+[RENDER] 85%
+[RENDER] 86%
+[RENDER] 87%
+[RENDER] 88%
+[RENDER] 89%
+[RENDER] 90%
+[RENDER] 91%
+[RENDER] 92%
+[RENDER] 93%
+[RENDER] 94%
+[RENDER] 95%
+[RENDER] 96%
+[RENDER] 97%
+[RENDER] 98%
+[RENDER] 99%
+[RENDER] 100%
+[RENDER] Done. 1391 frames written, 823 dead-time frames cut -> /home/jesicemal/project/VOLLEYAI/volleyai/backend/detection_models/all_three/runs/analyzed_video.mp4
+[RALLY] Generated rally_analysis.json (score source: service_detection): 1W 1L, 2 score events
+[ANALYSIS] Done for video 6a516bff783708525574a667.

@@ -200,6 +200,7 @@ const VideoSchema = new mongoose.Schema(
         analyticsJsonPath: { type: String, default: null }, // /uploads/volley_analytics_<id>.json
         rallyAnalysisPath:    { type: String, default: null }, // /uploads/rally_analysis_<id>.json
         calibrationJsonPath:  { type: String, default: null }, // /uploads/calib_<id>.json
+        scoreboardReadingsPath: { type: String, default: null }, // /uploads/scoreboard_readings_<id>.json
 
         status: { type: String, default: "uploaded" },
         teamA: { type: String, default: "" },
@@ -211,6 +212,9 @@ const VideoSchema = new mongoose.Schema(
         },
         myTeamColor: { type: String, default: "blue_white" }, // preset key, see TEAM_COLOR_PRESETS in triple_detection.py
         opponentColor: { type: String, default: "black_white" }, // preset key, see TEAM_COLOR_PRESETS in triple_detection.py
+        liberoColor: { type: String, default: "" }, // preset key, optional — enables a dedicated k-means cluster for the libero's contrasting jersey
+        opponentLiberoColor: { type: String, default: "" }, // preset key, optional — same, for the opponent's libero
+        isHomeTeam: { type: Boolean, default: true }, // which side of the physical scoreboard is "us" — "home" if true, "guest" if false
     },
     { timestamps: true }
 );

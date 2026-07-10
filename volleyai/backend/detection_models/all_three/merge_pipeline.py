@@ -7,8 +7,9 @@ from collections import defaultdict, Counter
 import cv2
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-if SCRIPT_DIR not in sys.path:
-    sys.path.insert(0, SCRIPT_DIR)
+MINI_COURT_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, "..", "rally_detect", "mini_court"))
+if MINI_COURT_DIR not in sys.path:
+    sys.path.insert(0, MINI_COURT_DIR)
 
 from ball_landing_detector import BallLandingDetector
 
@@ -203,29 +204,37 @@ def main():
         # action with no overlapping "our team" player (e.g. an opponent's
         # action, since opponents aren't tracked at all) correctly gets no
         # attribution instead of being forced onto the nearest teammate.
+        #
+        # Try the ball-proximity "active player" first (it's usually right and
+        # keeps action attribution consistent with everything else keyed off
+        # active_player), but don't stop there if it doesn't overlap anything —
+        # ball-proximity is a distance heuristic, not ground truth for who's
+        # mid-action, and verified directly against real footage: a genuine
+        # "setting" detection had an almost perfect box match against a
+        # *different* tracked player than whichever the ball-proximity
+        # heuristic had currently latched onto, and was silently discarded as
+        # "none" because only the (wrong) active_player's box was checked.
         current_action, action_conf = "none", 0.0
         detected_actions = [
             (d["action"], [d["x1"], d["y1"], d["x2"], d["y2"]], d["conf"])
             for d in actions_by_frame.get(frame_idx, [])
         ]
-        if active_player is not None and detected_actions:
-            active_box = active_player["box"]
-            best_iou = MIN_ACTION_IOU
-            for cls_name, act_box, conf in detected_actions:
-                iou = box_iou(active_box, act_box)
-                if iou > best_iou:
-                    best_iou = iou
-                    current_action, action_conf = cls_name, conf
-        elif active_player is None and detected_actions and players:
-            best_player, best_action, best_conf, best_iou = None, "none", 0.0, MIN_ACTION_IOU
-            for cls_name, act_box, conf in detected_actions:
-                for p in players:
-                    iou = box_iou(p["box"], act_box)
+        if detected_actions:
+            best_player, best_action, best_conf, best_iou = active_player, "none", 0.0, MIN_ACTION_IOU
+            if active_player is not None:
+                active_box = active_player["box"]
+                for cls_name, act_box, conf in detected_actions:
+                    iou = box_iou(active_box, act_box)
                     if iou > best_iou:
-                        best_iou, best_player, best_action, best_conf = iou, p, cls_name, conf
-            if best_player is not None:
-                active_player = best_player
-                current_action, action_conf = best_action, best_conf
+                        best_iou, best_action, best_conf = iou, cls_name, conf
+            if best_action == "none" and players:
+                for cls_name, act_box, conf in detected_actions:
+                    for p in players:
+                        iou = box_iou(p["box"], act_box)
+                        if iou > best_iou:
+                            best_iou, best_player, best_action, best_conf = iou, p, cls_name, conf
+            active_player = best_player
+            current_action, action_conf = best_action, best_conf
 
         if current_action != "none":
             last_recorded_action = current_action

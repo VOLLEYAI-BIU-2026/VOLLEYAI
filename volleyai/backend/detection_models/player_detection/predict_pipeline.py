@@ -28,6 +28,7 @@ _parser.add_argument("--known-jerseys",    default="",
 _parser.add_argument("--my-team-color",    default="blue_white")
 _parser.add_argument("--libero-color",     default="")
 _parser.add_argument("--opponent-color",   default="black")  # accepted for CLI compatibility, unused
+_parser.add_argument("--opponent-libero-color", default="")
 _parser.add_argument("--calib-json",       default="")  # accepted for CLI compatibility, unused
 _args = _parser.parse_args()
 
@@ -95,10 +96,11 @@ TEAM_VOTE_MIN = 3             # votes per track before locking in a role
 OFFICIAL_THRESHOLD = 80       # dist to nearest centroid above this -> 'OTHER' (refs/crowd)
 
 ROLE_BOX_COLORS = {
-    'MAIN':     (0, 200, 0),      # green  - our team main jersey
-    'LIBERO':   (0, 215, 255),    # yellow - our libero
-    'OPPONENT': (255, 100, 0),    # orange - opponent (no OCR)
-    'OTHER':    (160, 160, 160),  # gray   - referee / crowd
+    'MAIN':       (0, 200, 0),      # green  - our team main jersey
+    'LIBERO':     (0, 215, 255),    # yellow - our libero
+    'OPPONENT':   (255, 100, 0),    # orange - opponent (no OCR)
+    'OPP_LIBERO': (0, 100, 255),    # red-orange - opponent's libero (no OCR)
+    'OTHER':      (160, 160, 160),  # gray   - referee / crowd
 }
 
 team_color_samples = []          # bootstrap buffer of HSV colours
@@ -129,16 +131,20 @@ def bgr_to_hsv(bgr: np.ndarray) -> np.ndarray:
     return cv2.cvtColor(patch, cv2.COLOR_BGR2HSV)[0, 0].astype(np.float32)
 
 
-# --- Team colour hints: main team (required) + optional libero. No opponent
-# hint — any k-means cluster left without a hint falls back to OPPONENT
-# automatically (see bootstrap_kmeans below).
-_main_bgr   = _preset_to_bgr(_args.my_team_color)
-_libero_bgr = _preset_to_bgr(_args.libero_color) if _args.libero_color else None
+# --- Team colour hints: main team (required) + optional libero + optional
+# opponent libero. No plain-opponent hint — any k-means cluster left without a
+# hint falls back to OPPONENT automatically (see bootstrap_kmeans below). An
+# opponent libero needs its own explicit hint though, since otherwise it would
+# just get lumped into the same generic OPPONENT bucket as everyone else.
+_main_bgr        = _preset_to_bgr(_args.my_team_color)
+_libero_bgr      = _preset_to_bgr(_args.libero_color) if _args.libero_color else None
+_opp_libero_bgr  = _preset_to_bgr(_args.opponent_libero_color) if _args.opponent_libero_color else None
 
-_main_hsv   = bgr_to_hsv(_main_bgr)
-_libero_hsv = bgr_to_hsv(_libero_bgr) if _libero_bgr is not None else None
+_main_hsv       = bgr_to_hsv(_main_bgr)
+_libero_hsv     = bgr_to_hsv(_libero_bgr) if _libero_bgr is not None else None
+_opp_libero_hsv = bgr_to_hsv(_opp_libero_bgr) if _opp_libero_bgr is not None else None
 TEAM_FILTER_ENABLED = _main_hsv is not None
-K_CLUSTERS = 3 if (_libero_bgr is not None) else 2
+K_CLUSTERS = 2 + (1 if _libero_bgr is not None else 0) + (1 if _opp_libero_bgr is not None else 0)
 
 
 def extract_torso_color(crop: np.ndarray):
@@ -183,6 +189,7 @@ def bootstrap_kmeans():
 
     hints = [('MAIN', _main_hsv)]
     if _libero_hsv is not None: hints.append(('LIBERO', _libero_hsv))
+    if _opp_libero_hsv is not None: hints.append(('OPP_LIBERO', _opp_libero_hsv))
 
     for role, ref in hints:
         dists = [hsv_distance(centers[i], ref) if i not in assigned else float('inf')
@@ -430,8 +437,10 @@ while cap.isOpened():
             label = "Other"
         elif role == 'OPPONENT':
             label = "Opp"
+        elif role == 'OPP_LIBERO':
+            label = "LOpp"
         else:
-            prefix = "L" if role == 'LIBERO' else ""
+            prefix = "L" if role == 'LIBERO' else "T"
             if track_id in tracker_to_jersey:
                 label = f"{prefix}#{tracker_to_jersey[track_id]}"
             else:
