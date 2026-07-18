@@ -950,11 +950,25 @@ if dead_segments and os.path.exists(OUTPUT_VIDEO):
         except OSError:
             pass
 
-# Resolve jersey numbers by majority vote across all frames
+# Resolve jersey numbers by majority vote across all frames — but only trust
+# the vote once it clears a minimum sample size. Without this floor, a track
+# fragment that only exists for a couple of frames (e.g. right after an
+# occlusion re-acquire) can have its own majority vote "won" by a single
+# misread, getting confirmed as an entirely different jersey number than the
+# same physical player's other, longer-lived fragments (observed in practice:
+# jersey 42 also showing up registered as jersey 2).
+MIN_JERSEY_VOTES = 5
+
 for pid, votes in pid_jersey_votes.items():
-    if votes:
-        pid_to_jersey[pid] = max(votes, key=votes.get)
-        print(f"[JERSEY] ID {pid} -> #{pid_to_jersey[pid]} (votes: {dict(votes)})")
+    if not votes:
+        continue
+    best_jersey = max(votes, key=votes.get)
+    best_count = votes[best_jersey]
+    if best_count >= MIN_JERSEY_VOTES:
+        pid_to_jersey[pid] = best_jersey
+        print(f"[JERSEY] ID {pid} -> #{best_jersey} (votes: {dict(votes)})")
+    else:
+        print(f"[JERSEY] ID {pid} -> unconfirmed (best guess #{best_jersey} only had {best_count} vote(s), need {MIN_JERSEY_VOTES}): {dict(votes)}")
 
 # Retroactively fill jersey numbers — only for my_team players
 for entry in tracking_data:
@@ -1057,6 +1071,41 @@ for jersey_num, count in jersey_event_count.most_common():
         "event_count": count,
         "team":        "my_team",
     }
+
+# Digit-truncation heuristic: a lightly-tracked jersey number that's just the
+# suffix of a much more heavily-tracked one (e.g. "2" vs "42") is very likely
+# the same physical player misread with a clipped/blurred leading digit, not
+# a distinct player — auto-fold the low-confidence one into the high-confidence
+# one rather than leaving them as two separate registry entries. Conservative
+# on purpose: only merges when the short number's support is low and the long
+# number's support is clearly dominant, so two real jerseys like "2" and "42"
+# both genuinely present on the roster are left alone. Anything this doesn't
+# catch (or gets wrong) can still be fixed by hand in the coach-facing merge UI.
+SUFFIX_MERGE_MAX_VOTES  = 3   # the short/truncated number must be rarely seen
+SUFFIX_MERGE_MIN_TARGET = 10  # the real number must be well-established
+
+jersey_keys = [k for k in registry if k.startswith("#")]
+for short_key in jersey_keys:
+    short = registry.get(short_key)
+    if not short or short["event_count"] > SUFFIX_MERGE_MAX_VOTES:
+        continue
+    short_jersey = str(short["jersey"])
+    for long_key in jersey_keys:
+        if long_key == short_key or long_key not in registry:
+            continue
+        long_entry = registry[long_key]
+        long_jersey = str(long_entry["jersey"])
+        if (long_jersey.endswith(short_jersey) and long_jersey != short_jersey
+                and long_entry["event_count"] >= SUFFIX_MERGE_MIN_TARGET
+                and long_entry["team"] == short["team"]):
+            print(f"[JERSEY] Folding #{short_jersey} ({short['event_count']} events) into "
+                  f"#{long_jersey} ({long_entry['event_count']} events) — likely a truncated OCR read")
+            long_entry["track_ids"] = list(set(long_entry["track_ids"] + short["track_ids"]))
+            long_entry["event_count"] += short["event_count"]
+            if not long_entry["thumbnail"] and short["thumbnail"]:
+                long_entry["thumbnail"] = short["thumbnail"]
+            del registry[short_key]
+            break
 
 # Unidentified players (no jersey confirmed) — keyed by tracker ID for debug only
 for bid, count in tracker_event_count.most_common():

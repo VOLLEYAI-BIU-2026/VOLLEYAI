@@ -9,6 +9,9 @@ const {
   googleAuth,
   me,
   logout,
+  getMyTeam,
+  addMyTeamPlayer,
+  deleteMyTeamPlayer,
 } = require("../controllers/authController");
 
 const requireAuth = require("../requireAuth");
@@ -21,5 +24,9 @@ router.post("/google", googleAuth);
 
 router.get("/me", requireAuth, me);
 router.post("/logout", logout);
+
+router.get("/my-team", requireAuth, getMyTeam);
+router.post("/my-team", requireAuth, addMyTeamPlayer);
+router.delete("/my-team/:playerId", requireAuth, deleteMyTeamPlayer);
 
 module.exports = router;

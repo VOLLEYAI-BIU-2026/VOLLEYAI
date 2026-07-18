@@ -58,6 +58,7 @@ const COLOR_PRESETS = [
     // Solid
     { key: "all_black",     label: "All Black",        c1: "#111418", c2: null },
     { key: "all_white",     label: "All White",        c1: "#f0f0f0", c2: null },
+    { key: "all_blue",      label: "All Blue",         c1: "#2563eb", c2: null },
 ];
 
 function swatchStyle(preset) {

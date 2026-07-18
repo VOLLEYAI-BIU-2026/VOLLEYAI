@@ -21,6 +21,11 @@ const TeamRosterPlayerSchema = new mongoose.Schema(
             enum: ["my_team", "opponent", "unknown"],
             default: "unknown",
         },
+        position: {
+            type: String,
+            enum: ["libero", "setter", "hitter", "blocker", ""],
+            default: "",
+        },
     },
     { _id: false }
 );
@@ -197,10 +202,12 @@ const VideoSchema = new mongoose.Schema(
         analyzedVideoPath: { type: String, default: null }, // /uploads/analyzed_<id>.mp4
         playerStatsPath:   { type: String, default: null }, // /uploads/player_stats_<id>.json
         playerRegistryPath:{ type: String, default: null }, // /uploads/player_registry_<id>.json
+        jerseyRegistryPath:{ type: String, default: null }, // /uploads/jersey_registry_<id>.json
         analyticsJsonPath: { type: String, default: null }, // /uploads/volley_analytics_<id>.json
         rallyAnalysisPath:    { type: String, default: null }, // /uploads/rally_analysis_<id>.json
         calibrationJsonPath:  { type: String, default: null }, // /uploads/calib_<id>.json
         scoreboardReadingsPath: { type: String, default: null }, // /uploads/scoreboard_readings_<id>.json
+        frameJerseyMapPath: { type: String, default: null }, // /uploads/frame_jersey_map_<id>.json -- per-track frame timelines, used by the merge endpoint to block merging two tracks that were ever active simultaneously (can't be the same real player)
 
         status: { type: String, default: "uploaded" },
         teamA: { type: String, default: "" },

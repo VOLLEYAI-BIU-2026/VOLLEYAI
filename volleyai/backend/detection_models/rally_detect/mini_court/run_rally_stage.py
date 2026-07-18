@@ -31,6 +31,11 @@ def parse_args():
     parser.add_argument("--output-rally-windows", required=True)
     parser.add_argument("--work-dir", default=None, help="Scratch dir for rally_detect's own CSV output (default: alongside --output-ball-track)")
     parser.add_argument("--device", default="cpu", help="cpu or cuda — passed through to rally_detect")
+    parser.add_argument("--action-detections", default=None,
+                         help="Optional action_detections.json from action.py — used to corroborate "
+                              "recover_missed_rallies' ball-movement signal with real action-classifier "
+                              "activity (ball movement alone can also just be a ball retrieval/toss "
+                              "between points, not a real rally).")
     return parser.parse_args()
 
 
@@ -74,8 +79,22 @@ def main():
             raise RuntimeError(f"Expected rally_detect output missing: {p}")
 
     ball_track = build_ball_track(cleaned_csv, internal_fps, original_fps)
+    # ball_track must be passed through here — recover_missed_rallies() (inside
+    # build_rally_windows) silently no-ops without it (ball_track=None is its
+    # default), meaning a rally the classifier mislabels as dead time never
+    # gets recovered. Verified directly on real footage: a real point was
+    # scored inside a segment the classifier called dead time (scoreboard
+    # moved from one value to the next entirely within it), and this call was
+    # the reason it never got its own rally window despite the recovery logic
+    # already existing and already being correctly wired up in
+    # convert_rally_output.py's own standalone entry point.
+    action_detections = None
+    if args.action_detections and os.path.exists(args.action_detections):
+        with open(args.action_detections) as f:
+            action_detections = json.load(f).get("detections", [])
     rally_windows, dead_segments, stats = build_rally_windows(
-        features_csv, predictions_csv, internal_fps, original_fps, original_total_frames
+        features_csv, predictions_csv, internal_fps, original_fps, original_total_frames,
+        ball_track=ball_track, action_detections=action_detections,
     )
 
     os.makedirs(os.path.dirname(os.path.abspath(args.output_ball_track)), exist_ok=True)

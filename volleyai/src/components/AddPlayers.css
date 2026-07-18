@@ -57,6 +57,60 @@
     max-width: 460px;
 }
 
+.ap-myTeamRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    background: #12151f;
+    border: 1px solid #1e2130;
+    border-radius: 14px;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+}
+
+.ap-myTeamLabel {
+    font-size: 13px;
+    font-weight: 700;
+    color: #e8eaf0;
+}
+
+.ap-toggle {
+    position: relative;
+    width: 44px;
+    height: 26px;
+    border-radius: 999px;
+    border: none;
+    background: #2a2f45;
+    cursor: pointer;
+    padding: 3px;
+    flex-shrink: 0;
+    transition: background 0.15s;
+}
+.ap-toggle.on { background: #3b82f6; }
+.ap-toggle:disabled { opacity: 0.6; cursor: default; }
+
+.ap-toggle-knob {
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #e8eaf0;
+    transition: transform 0.15s;
+}
+.ap-toggle.on .ap-toggle-knob { transform: translateX(18px); }
+
+.ap-position {
+    background: #14532d;
+    color: #86efac;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: capitalize;
+    border-radius: 6px;
+    padding: 3px 7px;
+    flex-shrink: 0;
+}
+
 .ap-form {
     width: 100%;
     display: flex;

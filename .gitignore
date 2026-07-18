@@ -39,3 +39,24 @@ volleyai/backend/detection_models/ball_and_player/volley_analytics.json
 # OS
 .DS_Store
 Thumbs.db
+
+# Player-detection debug/backup model checkpoints (not the active production model)
+volleyai/backend/detection_models/player_detection/my_team_model.pt
+volleyai/backend/detection_models/player_detection/player_model_both_teams_backup.pt
+volleyai/backend/detection_models/player_detection/player_model_new.pt
+volleyai/backend/detection_models/player_detection/player_model_old_backup.pt
+
+# Score-detection old/regressed model backups
+volleyai/backend/detection_models/score_detection/home_guest_old.pt
+volleyai/backend/detection_models/score_detection/home_guest_old2.pt
+volleyai/backend/detection_models/score_detection/home_guest_regressed.pt
+
+# One-off player-detection diagnostic/investigation scripts and their scratch output
+volleyai/backend/detection_models/player_detection/detect_only.py
+volleyai/backend/detection_models/player_detection/detect_with_calibration_only.py
+volleyai/backend/detection_models/player_detection/detect_with_jersey_region.py
+volleyai/backend/detection_models/player_detection/detect_with_ocr.py
+volleyai/backend/detection_models/player_detection/detect_with_team_color.py
+volleyai/backend/detection_models/player_detection/predict_no_color_calib.py
+volleyai/backend/detection_models/player_detection/predict_pipeline_old.py
+volleyai/backend/detection_models/player_detection/no_color_calib_fjm.json

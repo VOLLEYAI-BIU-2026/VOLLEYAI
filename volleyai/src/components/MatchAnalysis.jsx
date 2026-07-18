@@ -334,6 +334,9 @@ export default function MatchAnalysis() {
                 <button className="ma-start-btn" onClick={() => navigate(`/match-statistics/${videoId}`)}>
                     Start Statistics →
                 </button>
+                <button className="ma-rerun-btn" onClick={() => navigate(`/player-merge/${videoId}`)}>
+                    🔀 Merge Players
+                </button>
             </div>
 
             <div className="ma-body">

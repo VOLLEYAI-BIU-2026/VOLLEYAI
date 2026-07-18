@@ -5,7 +5,7 @@ import "./MatchStatistics.css";
 
 const API = API_BASE;
 
-const TABS = ["Attack", "Serve", "Receive", "Set", "Defence", "Block"];
+const TABS = ["Attack", "Serve", "Set", "Defence", "Block"];
 
 function fmt(val, decimals = 0) {
   if (val === null || val === undefined) return "-";
@@ -214,17 +214,6 @@ export default function MatchStatistics() {
                       </tr>
                     </>
                   )}
-                  {activeTab === "Receive" && (
-                    <>
-                      <tr className="ms-groupRow">
-                        <th rowSpan={2} className="ms-nameCol">NAME</th>
-                        <th colSpan={6} className="ms-groupHead">RECEIVE</th>
-                      </tr>
-                      <tr>
-                        <th>TA</th><th>3</th><th>2</th><th>1</th><th>0</th><th>PASS RTG</th>
-                      </tr>
-                    </>
-                  )}
                   {activeTab === "Set" && (
                     <>
                       <tr className="ms-groupRow">
@@ -240,10 +229,10 @@ export default function MatchStatistics() {
                     <>
                       <tr className="ms-groupRow">
                         <th rowSpan={2} className="ms-nameCol">NAME</th>
-                        <th colSpan={2} className="ms-groupHead">DEFENCE</th>
+                        <th colSpan={3} className="ms-groupHead">DEFENCE</th>
                       </tr>
                       <tr>
-                        <th>DS</th><th>DE</th>
+                        <th>DS</th><th>DE</th><th>DS%</th>
                       </tr>
                     </>
                   )}
@@ -292,20 +281,11 @@ export default function MatchStatistics() {
                           <td className="ms-highlight">{fmt(p.set?.RTG, 2)}</td>
                         </>
                       )}
-                      {activeTab === "Receive" && (
-                        <>
-                          <td>{fmt(p.receive?.TA)}</td>
-                          <td className="ms-highlight">{fmt(p.receive?.["3"])}</td>
-                          <td>{fmt(p.receive?.["2"])}</td>
-                          <td>{fmt(p.receive?.["1"])}</td>
-                          <td className="ms-error">{fmt(p.receive?.["0"])}</td>
-                          <td className="ms-highlight">{fmt(p.receive?.PASS_RTG, 2)}</td>
-                        </>
-                      )}
                       {activeTab === "Defence" && (
                         <>
                           <td className="ms-highlight">{fmt(p.defence?.DS)}</td>
                           <td className="ms-error">{fmt(p.defence?.DE)}</td>
+                          <td>{pct(p.defence?.["DS%"])}</td>
                         </>
                       )}
                       {activeTab === "Block" && (

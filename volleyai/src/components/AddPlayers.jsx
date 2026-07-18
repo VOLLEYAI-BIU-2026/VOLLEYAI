@@ -17,6 +17,8 @@ export default function AddPlayers() {
     const [jerseyNumber, setJerseyNumber] = useState("");
     const [manualName, setManualName] = useState("");
     const [teamSide, setTeamSide] = useState("my_team");
+    const [useMyTeam, setUseMyTeam] = useState(false);
+    const [importing, setImporting] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -31,6 +33,23 @@ export default function AddPlayers() {
             setLoading(false);
         })();
     }, [videoId]);
+
+    async function handleUseMyTeamToggle() {
+        const next = !useMyTeam;
+        setUseMyTeam(next);
+        if (!next) return; // turning off just stops future auto-imports — already-imported players stay
+
+        setImporting(true);
+        try {
+            const res = await fetch(`${API}/videos/${videoId}/team-roster/import-my-team`, {
+                method: "POST",
+                credentials: "include",
+            });
+            const data = await res.json();
+            if (res.ok) setPlayers(data.players || []);
+        } catch { /* leave roster as-is on failure */ }
+        setImporting(false);
+    }
 
     async function addPlayer(e) {
         e.preventDefault();
@@ -94,6 +113,7 @@ export default function AddPlayers() {
                         <div key={p.playerId} className="ap-row">
                             <span className="ap-badge">#{p.jerseyNumber || "?"}</span>
                             <span className="ap-name">{p.manualName || "—"}</span>
+                            {p.position && <span className="ap-position">{p.position}</span>}
                             <button className="ap-removeBtn" onClick={() => removePlayer(p.playerId)} aria-label="Remove">
                                 ✕
                             </button>
@@ -116,6 +136,22 @@ export default function AddPlayers() {
                     more accurately — it only has to match against your real numbers instead of
                     guessing blindly. Completely optional; you can skip this and analyze without it.
                 </p>
+
+                <div className="ap-myTeamRow">
+                    <button
+                        type="button"
+                        className={`ap-toggle ${useMyTeam ? "on" : ""}`}
+                        onClick={handleUseMyTeamToggle}
+                        aria-pressed={useMyTeam}
+                        aria-label="Use My Team roster"
+                        disabled={importing}
+                    >
+                        <span className="ap-toggle-knob" />
+                    </button>
+                    <span className="ap-myTeamLabel">
+                        Use My Team {importing && "— importing..."}
+                    </span>
+                </div>
 
                 <form className="ap-form" onSubmit={addPlayer}>
                     <input

@@ -136,6 +136,7 @@ export default function HomeScreen() {
               {menuOpen && (
                 <div className="hs-menu">
                   <div className="hs-menuEmail">{email}</div>
+                  <button type="button" className="hs-menuItem" onClick={() => navigate("/my-team")}>My Team</button>
                   <button type="button" className="hs-menuItem" onClick={handleLogout}>Sign out</button>
                 </div>
               )}

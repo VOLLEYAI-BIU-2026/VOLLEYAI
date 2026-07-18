@@ -221,6 +221,63 @@ async function logout(req, res) {
   return res.status(200).json({ message: "Logged out" });
 }
 
+async function getMyTeam(req, res) {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+    return res.status(200).json({ players: user.myTeamRoster?.players || [] });
+  } catch (error) {
+    return res.status(500).json({ message: "Server error", error: error.message });
+  }
+}
+
+async function addMyTeamPlayer(req, res) {
+  try {
+    const { jerseyNumber, name, position } = req.body;
+    const trimmedJersey = (jerseyNumber || "").trim();
+    if (!trimmedJersey) {
+      return res.status(400).json({ message: "Jersey number is required" });
+    }
+
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    if (!user.myTeamRoster) user.myTeamRoster = { players: [] };
+    if (user.myTeamRoster.players.some((p) => p.jerseyNumber === trimmedJersey)) {
+      return res.status(409).json({ message: `#${trimmedJersey} is already on your team.` });
+    }
+
+    const player = {
+      playerId: `myteam_${Date.now()}`,
+      jerseyNumber: trimmedJersey,
+      name: (name || "").trim(),
+      position: position || "",
+    };
+    user.myTeamRoster.players.push(player);
+    await user.save();
+
+    return res.status(201).json({ player, players: user.myTeamRoster.players });
+  } catch (error) {
+    return res.status(500).json({ message: "Server error", error: error.message });
+  }
+}
+
+async function deleteMyTeamPlayer(req, res) {
+  try {
+    const { playerId } = req.params;
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    if (!user.myTeamRoster) user.myTeamRoster = { players: [] };
+    user.myTeamRoster.players = user.myTeamRoster.players.filter((p) => p.playerId !== playerId);
+    await user.save();
+
+    return res.status(200).json({ players: user.myTeamRoster.players });
+  } catch (error) {
+    return res.status(500).json({ message: "Server error", error: error.message });
+  }
+}
+
 module.exports = {
   signup,
   login,
@@ -229,4 +286,7 @@ module.exports = {
   googleAuth,
   me,
   logout,
+  getMyTeam,
+  addMyTeamPlayer,
+  deleteMyTeamPlayer,
 };

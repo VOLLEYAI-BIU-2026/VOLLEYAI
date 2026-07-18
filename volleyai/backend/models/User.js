@@ -1,5 +1,19 @@
 const mongoose = require("mongoose");
 
+const MyTeamPlayerSchema = new mongoose.Schema(
+  {
+    playerId: { type: String, required: true },
+    jerseyNumber: { type: String, required: true },
+    name: { type: String, default: "" },
+    position: {
+      type: String,
+      enum: ["libero", "setter", "hitter", "blocker", ""],
+      default: "",
+    },
+  },
+  { _id: false }
+);
+
 const userSchema = new mongoose.Schema(
   {
     email: {
@@ -19,6 +33,16 @@ const userSchema = new mongoose.Schema(
 
     resetPasswordTokenHash: { type: String },
     resetPasswordExpiresAt: { type: Date },
+
+    // Persistent, account-level roster — reused across matches via the
+    // "Use My Team" toggle on the per-match Add Players screen, so the coach
+    // doesn't have to retype jersey numbers/names/positions every upload.
+    myTeamRoster: {
+      players: {
+        type: [MyTeamPlayerSchema],
+        default: [],
+      },
+    },
   },
   { timestamps: true }
 );

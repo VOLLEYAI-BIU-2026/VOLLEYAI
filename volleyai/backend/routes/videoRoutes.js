@@ -15,6 +15,9 @@ const {
     getTeamRoster,
     createRosterPlayer,
     deleteRosterPlayer,
+    importMyTeam,
+    getPlayerRegistryForVideo,
+    mergePlayerRegistry,
     assignDetectionsToPlayer,
     resetPlayerDetection,
     analyzeRallies,
@@ -75,6 +78,9 @@ router.post("/:id/detect-players", requireAuth, startPlayerDetection);
 router.get("/:id/team-roster", requireAuth, getTeamRoster);
 router.post("/:id/team-roster/create-player", requireAuth, createRosterPlayer);
 router.delete("/:id/team-roster/:playerId", requireAuth, deleteRosterPlayer);
+router.post("/:id/team-roster/import-my-team", requireAuth, importMyTeam);
+router.get("/:id/player-registry", requireAuth, getPlayerRegistryForVideo);
+router.post("/:id/player-registry/merge", requireAuth, mergePlayerRegistry);
 router.post("/:id/team-roster/assign", requireAuth, assignDetectionsToPlayer);
 router.post("/:id/reset-player-detection", requireAuth, resetPlayerDetection);
 router.post("/:id/analyze-rallies", requireAuth, analyzeRallies);
