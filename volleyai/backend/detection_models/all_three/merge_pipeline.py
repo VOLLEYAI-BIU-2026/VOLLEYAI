@@ -16,6 +16,13 @@ from ball_landing_detector import BallLandingDetector
 OUR_TEAM_SIDE = "bottom"
 COURT_MID_Y = 0.5
 
+
+def side_from_y_norm(y_norm):
+    """Which side of the net a normalized (0-1) ball y-position is on."""
+    if OUR_TEAM_SIDE == "bottom":
+        return "my_team" if y_norm > COURT_MID_Y else "opponent"
+    return "opponent" if y_norm > COURT_MID_Y else "my_team"
+
 # Minimum box overlap required to attribute an action to a player — not just
 # "greater than zero". Without a real floor, whichever player happens to be
 # tracked in the most frames (e.g. a libero who's visible almost constantly)
@@ -23,7 +30,23 @@ COURT_MID_Y = 0.5
 # because no better candidate is ever present to compete with. Observed in
 # practice: one such player absorbed 98.7% of all attributed actions in a
 # real match, including attacks/blocks a back-row player would never perform.
-MIN_ACTION_IOU = 0.10
+MIN_ACTION_IOU = 0.40
+
+# Max distance (fraction of frame diagonal) a fallback candidate may be from
+# the ball to receive an action attribution. The all-players fallback below
+# exists so a real action isn't discarded just because ball-proximity picked
+# the wrong "active player" (see comment there), but nothing about box-IoU
+# overlap alone guarantees the candidate is anywhere near the actual play —
+# any real touch (attack/block/set/dig/serve) happens right where the ball
+# is, so a candidate far from the ball is a bystander, not a missed real
+# attribution. Loose enough to still cover ball-tracking being briefly wrong
+# about *which nearby player* is active, tight enough to rule out the other
+# side of the court.
+ACTION_MAX_DIST_FRAC = 0.15
+# (Started at 0.35 — roughly half the court — but that was still letting
+# players nowhere near the play pick up actions. Tightened to something
+# closer to "within a step or two of the ball", the realistic reach for
+# any actual touch.)
 
 
 def parse_args():
@@ -99,6 +122,8 @@ def main():
     video_fps = cap.get(cv2.CAP_PROP_FPS)
     cap.release()
 
+    action_max_dist = ACTION_MAX_DIST_FRAC * ((frame_w ** 2 + frame_h ** 2) ** 0.5)
+
     rally_data = load_json(args.rally_windows, {}) or {}
     # Read fps from the actual video file, not the (often-absent, since the rally
     # stage is currently disabled) rally_windows.json — falling back to its value
@@ -168,11 +193,7 @@ def main():
             event["last_action"] = last_recorded_action
             if event.get("landed_side") == "unknown" and event.get("video_position"):
                 by_px = event["video_position"][1]
-                by_norm = by_px / frame_h
-                if OUR_TEAM_SIDE == "bottom":
-                    event["landed_side"] = "my_team" if by_norm > COURT_MID_Y else "opponent"
-                else:
-                    event["landed_side"] = "opponent" if by_norm > COURT_MID_Y else "my_team"
+                event["landed_side"] = side_from_y_norm(by_px / frame_h)
                 event["calibration_type"] = "pixel_fallback"
             landing_events.append(event)
 
@@ -198,42 +219,42 @@ def main():
                     active_player = p
                     break
 
-        # --- Action: match by box overlap (IoU), not center-distance — a player
+        # --- Action: match by box overlap (IoU), not ball-distance — a player
         # actually performing the action should meaningfully overlap the action
         # box, whereas a nearby bystander usually won't. This also means an
         # action with no overlapping "our team" player (e.g. an opponent's
         # action, since opponents aren't tracked at all) correctly gets no
         # attribution instead of being forced onto the nearest teammate.
         #
-        # Try the ball-proximity "active player" first (it's usually right and
-        # keeps action attribution consistent with everything else keyed off
-        # active_player), but don't stop there if it doesn't overlap anything —
-        # ball-proximity is a distance heuristic, not ground truth for who's
-        # mid-action, and verified directly against real footage: a genuine
-        # "setting" detection had an almost perfect box match against a
-        # *different* tracked player than whichever the ball-proximity
-        # heuristic had currently latched onto, and was silently discarded as
-        # "none" because only the (wrong) active_player's box was checked.
+        # Judge every one of our tracked players the same way instead of
+        # privileging whichever one is geometrically nearest the ball
+        # ("active_player") as the first/default guess — ball position only
+        # tells you *where* a touch is happening, not *who* is making it, and
+        # verified directly against real footage: at a contested net play, our
+        # own nearest-to-ball player and the true actor (often an untracked
+        # opponent standing right next to them) are both close to the ball at
+        # the same instant, so distance can't tell them apart — only a real,
+        # strong box match can. Still require real proximity to the ball for
+        # every candidate (not just the ball-nearest one) so a bystander
+        # standing well outside the play can't win on a stray IoU sliver.
         current_action, action_conf = "none", 0.0
         detected_actions = [
             (d["action"], [d["x1"], d["y1"], d["x2"], d["y2"]], d["conf"])
             for d in actions_by_frame.get(frame_idx, [])
         ]
         if detected_actions:
-            best_player, best_action, best_conf, best_iou = active_player, "none", 0.0, MIN_ACTION_IOU
-            if active_player is not None:
-                active_box = active_player["box"]
-                for cls_name, act_box, conf in detected_actions:
-                    iou = box_iou(active_box, act_box)
+            best_player, best_action, best_conf, best_iou = None, "none", 0.0, MIN_ACTION_IOU
+            for cls_name, act_box, conf in detected_actions:
+                for p in players:
+                    if ball_pixel_x is not None:
+                        d_to_ball = distance((ball_pixel_x, ball_pixel_y), box_center(p["box"]))
+                        if d_to_ball > action_max_dist:
+                            continue
+                    iou = box_iou(p["box"], act_box)
                     if iou > best_iou:
-                        best_iou, best_action, best_conf = iou, cls_name, conf
-            if best_action == "none" and players:
-                for cls_name, act_box, conf in detected_actions:
-                    for p in players:
-                        iou = box_iou(p["box"], act_box)
-                        if iou > best_iou:
-                            best_iou, best_player, best_action, best_conf = iou, p, cls_name, conf
-            active_player = best_player
+                        best_iou, best_player, best_action, best_conf = iou, p, cls_name, conf
+            if best_player is not None:
+                active_player = best_player
             current_action, action_conf = best_action, best_conf
 
         if current_action != "none":

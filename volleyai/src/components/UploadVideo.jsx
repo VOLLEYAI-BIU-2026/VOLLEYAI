@@ -20,6 +20,9 @@ export default function UploadVideo({
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const [isHomeTeam, setIsHomeTeam] = useState(false);
+  const [useRoster, setUseRoster] = useState(false);
+
   const acceptAttr = useMemo(() => {
     return allowedExtensions.map((ext) => `.${ext}`).join(",");
   }, [allowedExtensions]);
@@ -57,6 +60,26 @@ export default function UploadVideo({
 
   function resetErrors() {
     setError("");
+  }
+
+  async function applyGameSettings(videoId) {
+    try {
+      await fetch(`${API_BASE}/videos/${videoId}/jerseys`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ isHomeTeam }),
+      });
+    } catch { /* non-blocking */ }
+
+    if (useRoster) {
+      try {
+        await fetch(`${API_BASE}/videos/${videoId}/team-roster/import-my-team`, {
+          method: "POST",
+          credentials: "include",
+        });
+      } catch { /* non-blocking */ }
+    }
   }
 
   function switchSource(type) {
@@ -148,6 +171,7 @@ export default function UploadVideo({
           return;
         }
 
+        await applyGameSettings(data.video._id);
         navigate(`/jersey-setup/${data.video._id}`);
         return;
       }
@@ -171,6 +195,7 @@ export default function UploadVideo({
         return;
       }
 
+      await applyGameSettings(data.video._id);
       navigate(`/jersey-setup/${data.video._id}`);
     } catch (e) {
       setError("Server error. Please try again in a moment.");
@@ -372,6 +397,42 @@ export default function UploadVideo({
                 <strong>Tip:</strong> Ensure you have a clear view of the entire court. Fixed camera
                 angles work best for automatic tracking.
               </span>
+            </div>
+
+            <div className="uva-settings">
+              <div className="uva-settingRow">
+                <div className="uva-settingText">
+                  <span className="uva-settingTitle">Home</span>
+                  <span className="uva-settingSub">Is your team Home on the scoreboard?</span>
+                </div>
+                <button
+                  type="button"
+                  className={`uva-toggle ${isHomeTeam ? "on" : ""}`}
+                  onClick={() => setIsHomeTeam((v) => !v)}
+                  aria-pressed={isHomeTeam}
+                  aria-label="Toggle whether my team is Home or Guest on the scoreboard"
+                  disabled={isSubmitting}
+                >
+                  <span className="uva-toggle-knob" />
+                </button>
+              </div>
+
+              <div className="uva-settingRow">
+                <div className="uva-settingText">
+                  <span className="uva-settingTitle">Roster</span>
+                  <span className="uva-settingSub">Use your saved My Team roster for this game</span>
+                </div>
+                <button
+                  type="button"
+                  className={`uva-toggle ${useRoster ? "on" : ""}`}
+                  onClick={() => setUseRoster((v) => !v)}
+                  aria-pressed={useRoster}
+                  aria-label="Use My Team roster for this game"
+                  disabled={isSubmitting}
+                >
+                  <span className="uva-toggle-knob" />
+                </button>
+              </div>
             </div>
 
             <div className="uva-footer">

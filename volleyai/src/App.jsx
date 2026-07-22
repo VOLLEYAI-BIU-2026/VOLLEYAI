@@ -13,7 +13,6 @@ import PlayerRegistry from "./components/PlayerRegistry.jsx";
 import MatchAnalysis from "./components/MatchAnalysis.jsx";
 import JerseySetup from "./components/JerseySetup.jsx";
 import CourtSetup from "./components/CourtSetup.jsx";
-import AddPlayers from "./components/AddPlayers.jsx";
 import MyTeamRoster from "./components/MyTeamRoster.jsx";
 import PlayerMerge from "./components/PlayerMerge.jsx";
 
@@ -35,7 +34,6 @@ export default function App() {
       <Route path="/jersey-setup/:videoId" element={<JerseySetup />} />
       <Route path="/match-analysis/:videoId" element={<MatchAnalysis />} />
       <Route path="/court-setup/:videoId" element={<CourtSetup />} />
-      <Route path="/add-players/:videoId" element={<AddPlayers />} />
       <Route path="/my-team" element={<MyTeamRoster />} />
       <Route path="/player-merge/:videoId" element={<PlayerMerge />} />
     </Routes>

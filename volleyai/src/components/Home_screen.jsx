@@ -116,6 +116,24 @@ export default function HomeScreen() {
     setEditingId(null);
   }
 
+  async function handleDeleteVideo(videoId) {
+    if (!window.confirm("Delete this video and all its analysis data? This can't be undone.")) return;
+    try {
+      const res = await fetch(`${API}/videos/${videoId}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+      if (res.ok) {
+        setVideos((prev) => prev.filter((v) => v._id !== videoId));
+        setTeamEdits((prev) => {
+          const next = { ...prev };
+          delete next[videoId];
+          return next;
+        });
+      }
+    } catch {}
+  }
+
   return (
     <div className="hs-page">
       <div className="hs-container">
@@ -170,6 +188,12 @@ export default function HomeScreen() {
                     <div className="hs-cardDate">
                       📅 {formatDate(video.createdAt, video._id)}
                     </div>
+
+                    <button
+                      className="hs-deleteOverlayBtn"
+                      onClick={(e) => { e.stopPropagation(); handleDeleteVideo(video._id); }}
+                      title="Delete video"
+                    >🗑</button>
 
                     {/* Teams + edit at the bottom */}
                     <div className="hs-teamsOverlay">

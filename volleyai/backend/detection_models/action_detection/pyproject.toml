@@ -1,0 +1,9 @@
+[project]
+name = "action-detection"
+version = "1.0.0"
+description = "Standalone action-detection stage — isolated env because it needs a newer ultralytics than the rest of the pipeline (YOLOv11 checkpoints, e.g. action_only.pt, require ultralytics>=8.3 for the C3k2 block)."
+requires-python = ">=3.10"
+dependencies = [
+    "opencv-python>=4.12.0.88",
+    "ultralytics>=8.3.244",
+]

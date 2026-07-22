@@ -247,6 +247,7 @@ export default function MatchAnalysis() {
                         <div className="ma-prog-bar" style={{ width: `${progress}%` }} />
                     </div>
                     <div className="ma-prog-pct">{progress}%</div>
+                    <button className="ma-back-link" onClick={handleStopAnalysis}>■ Stop</button>
                 </div>
             </div>
         );
@@ -279,6 +280,31 @@ export default function MatchAnalysis() {
         } catch {
             setStatus("failed");
         }
+    }
+
+    async function handleStopAnalysis() {
+        if (!window.confirm("Stop analysis? Whatever's already been processed will be saved.")) return;
+        clearInterval(pollRef.current);
+        setStatus("checking");
+        try {
+            await fetch(`${API}/videos/${videoId}/stop-analysis`, {
+                method: "POST",
+                credentials: "include",
+            });
+        } catch {}
+        // stop-analysis responds immediately but kills the process and
+        // persists partial results asynchronously afterward (up to ~15s) —
+        // poll analysis-status until that's actually done before loading
+        // results, instead of racing it.
+        for (let i = 0; i < 20; i++) {
+            await new Promise(r => setTimeout(r, 1000));
+            try {
+                const pr = await fetch(`${API}/videos/${videoId}/analysis-status`, { credentials: "include" });
+                const pd = pr.ok ? await pr.json() : null;
+                if (pd?.status === "done") break;
+            } catch {}
+        }
+        await finishAnalysis();
     }
 
     if (status === "not_started") {
@@ -336,6 +362,16 @@ export default function MatchAnalysis() {
                 </button>
                 <button className="ma-rerun-btn" onClick={() => navigate(`/player-merge/${videoId}`)}>
                     🔀 Merge Players
+                </button>
+                <button
+                    className="ma-rerun-btn"
+                    onClick={() => {
+                        if (window.confirm("Re-run analysis for this video? This takes several minutes and replaces the current results.")) {
+                            handleStartAnalysis();
+                        }
+                    }}
+                >
+                    ↻ Re-analyze
                 </button>
             </div>
 
@@ -432,6 +468,11 @@ const ActionRow = React.forwardRef(({ act, active, onClick }, ref) => {
                 {act.action_label}
                 <span className="ma-action-player"> by {act.player_label}</span>
             </span>
+            {typeof act.confidence === "number" && (
+                <span className="ma-action-conf" title="Model confidence for this action">
+                    {Math.round(act.confidence * 100)}%
+                </span>
+            )}
             {res.text && <span className={`ma-res-badge ${res.cls}`}>{res.text}</span>}
         </div>
     );

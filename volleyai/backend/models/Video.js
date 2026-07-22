@@ -221,7 +221,7 @@ const VideoSchema = new mongoose.Schema(
         opponentColor: { type: String, default: "black_white" }, // preset key, see TEAM_COLOR_PRESETS in triple_detection.py
         liberoColor: { type: String, default: "" }, // preset key, optional — enables a dedicated k-means cluster for the libero's contrasting jersey
         opponentLiberoColor: { type: String, default: "" }, // preset key, optional — same, for the opponent's libero
-        isHomeTeam: { type: Boolean, default: true }, // which side of the physical scoreboard is "us" — "home" if true, "guest" if false
+        isHomeTeam: { type: Boolean, default: false }, // which side of the physical scoreboard is "us" — "home" if true, "guest" if false. Set from the Home toggle on the upload page.
     },
     { timestamps: true }
 );

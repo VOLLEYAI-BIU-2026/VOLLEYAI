@@ -5,9 +5,9 @@ from ultralytics import YOLO
 import cv2
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-DEFAULT_MODEL_PATH = os.path.join(SCRIPT_DIR, "best_robo_with_git.pt")
+DEFAULT_MODEL_PATH = os.path.join(SCRIPT_DIR, "best_volleyVision_finetune.pt")
 
-CONF_ACTION = 0.2
+CONF_ACTION = 0.36
 IMG_SIZE = 640
 ACTION_CLASSES = [0, 1, 3, 4, 5]  # excludes class 2 (ball)
 

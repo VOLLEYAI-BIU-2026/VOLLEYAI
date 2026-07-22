@@ -34,6 +34,8 @@ const {
     recoverAnalysis,
     saveJerseys,
     saveCourtCalibration,
+    stopAnalysis,
+    deleteVideo,
 } = require("../controllers/videoController");
 
 const uploadDir = path.join(__dirname, "..", "uploads");
@@ -66,7 +68,9 @@ router.patch("/:id/teams", requireAuth, updateTeamNames);
 router.post("/:id/jerseys", requireAuth, saveJerseys);
 router.post("/:id/start-analysis", requireAuth, startAnalysis);
 router.get("/:id/analysis-status", requireAuth, getAnalysisStatus);
+router.post("/:id/stop-analysis", requireAuth, stopAnalysis);
 router.post("/:id/recover-analysis", requireAuth, recoverAnalysis);
+router.delete("/:id", requireAuth, deleteVideo);
 router.post("/:id/calibrate", requireAuth, saveCourtCalibration);
 
 router.post("/:id/clean-frame", requireAuth, startCleanFrame);

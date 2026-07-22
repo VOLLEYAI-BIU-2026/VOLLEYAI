@@ -353,6 +353,29 @@ body {
   background: rgba(255,255,255,0.28);
 }
 
+.hs-deleteOverlayBtn {
+  position: absolute;
+  top: 34px;
+  right: 10px;
+  z-index: 2;
+  border: none;
+  background: rgba(255,255,255,0.15);
+  color: #e8eaf0;
+  border-radius: 6px;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  transition: background 0.15s;
+}
+
+.hs-deleteOverlayBtn:hover {
+  background: rgba(239,68,68,0.85);
+}
+
 .hs-teamsEditRow {
   display: flex;
   align-items: center;

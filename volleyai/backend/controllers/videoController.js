@@ -105,6 +105,54 @@ async function getVideoById(req, res) {
     }
 }
 
+async function deleteVideo(req, res) {
+    try {
+        const { id } = req.params;
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid video id" });
+        }
+
+        const video = await Video.findOne({ _id: id, userId: req.user.id });
+        if (!video) return res.status(404).json({ message: "Video not found" });
+
+        // Kill any in-flight analysis job first -- otherwise it keeps writing
+        // to files we're about to delete out from under it.
+        const job = analysisJobs[id];
+        if (job?.status === "processing" && job.proc) {
+            if (process.platform === "win32") {
+                spawn("taskkill", ["/pid", String(job.proc.pid), "/t"]);
+            } else {
+                job.proc.kill("SIGINT");
+            }
+        }
+        delete analysisJobs[id];
+
+        const uploadsDir = path.join(__dirname, "..", "uploads");
+        const filePaths = [
+            video.filePath, video.cleanFramePath, video.normalizedFilePath,
+            video.analyzedVideoPath, video.playerStatsPath, video.playerRegistryPath,
+            video.jerseyRegistryPath, video.analyticsJsonPath, video.rallyAnalysisPath,
+            video.calibrationJsonPath, video.scoreboardReadingsPath, video.frameJerseyMapPath,
+        ].filter(Boolean);
+        for (const rel of filePaths) {
+            try { fs.unlinkSync(path.join(__dirname, "..", rel.replace(/^\//, ""))); } catch {}
+        }
+
+        // Per-video directories/files that aren't tracked as single-path fields.
+        try { fs.rmSync(path.join(uploadsDir, `player_thumbs_${id}`), { recursive: true, force: true }); } catch {}
+        for (const d of video.detections || []) {
+            if (!d.imageUrl) continue;
+            try { fs.unlinkSync(path.join(__dirname, "..", d.imageUrl.replace(/^\//, ""))); } catch {}
+        }
+
+        await Video.findByIdAndDelete(id);
+
+        return res.status(200).json({ message: "Video deleted" });
+    } catch (err) {
+        return res.status(500).json({ message: "Server error", error: err.message });
+    }
+}
+
 async function startCleanFrame(req, res) {
     try {
         const { id } = req.params;
@@ -2061,6 +2109,22 @@ function buildRallyAnalysis(volleyAnalytics, { scoreboardData, isHomeTeam = true
         }
         return parseFloat(cumulativeTrimmedSec.toFixed(3)); // past the last rally — anchor to the trimmed video's end
     }
+    // A frame inside a dead-time gap has no corresponding moment in the
+    // rendered video at all -- render_video.py cuts those frames out
+    // entirely (see its own dead-time-trimming logic). toTrimmedTimeSec's
+    // clamp exists to place a rally-boundary frame at the right spot on the
+    // trimmed clock, but for a frame that's genuinely mid-dead-time it just
+    // silently snaps to whichever rally window comes next, collapsing
+    // every action detected during that entire gap onto the same borrowed
+    // timestamp -- verified directly against real output: six actions
+    // spanning 450+ original frames (defense-move, two services, another
+    // defense-move, a block, another defense-move) all displayed at the
+    // identical "00:32", each with no corresponding action actually visible
+    // there. Use this to drop those before they're ever displayed, rather
+    // than let them borrow a misleading timestamp.
+    function inAnyRallyWindow(frame) {
+        return rallyWindows.some(w => frame >= w.start && frame <= w.end);
+    }
     function toTrimmedTimeStr(frame) {
         const s = Math.floor(toTrimmedTimeSec(frame));
         return `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
@@ -2381,36 +2445,65 @@ function buildRallyAnalysis(volleyAnalytics, { scoreboardData, isHomeTeam = true
     // not just the single top vote-getter.
     const MAX_GAP_FRAMES = Math.round(fps * 1.5);
     const CO_PARTICIPANT_MIN_SHARE = 0.3;
+
     const allActions     = [];
+    const round3 = n => Math.round(n * 1000) / 1000;
     const pushRun = (run) => {
         const total = [...run.playerVotes.values()].reduce((s, c) => s + c, 0);
         const participants = [...run.playerVotes.entries()]
             .sort((a, b) => b[1] - a[1])
             .filter(([, count]) => count / total >= CO_PARTICIPANT_MIN_SHARE)
             .map(([player]) => player);
+        // Pick whichever label the model was most confident about on
+        // average, not just whichever had more supporting frames — a label
+        // that only won on frame count can still be the wrong one if the
+        // model was consistently unsure about it and consistently sure
+        // about the alternative.
+        const winningAction = [...run.actionVotes.keys()]
+            .map(action => [action, run.actionConfSum.get(action) / run.actionVotes.get(action)])
+            .sort((a, b) => b[1] - a[1])[0];
         allActions.push({
             frame:         run.startFrame,
             time_sec:      toTrimmedTimeSec(run.startFrame),
             time_str:      toTrimmedTimeStr(run.startFrame),
-            action:        run.action,
-            action_label:  run.action,
+            action:        winningAction[0],
+            action_label:  winningAction[0],
+            confidence:    round3(winningAction[1]),
+            // Closest the eventual "active player" actually got to the ball
+            // during this run — a real touch happens right where the ball
+            // is, so this is what lets a later pass tell a genuine actor
+            // apart from a bystander who was mis-attributed the action.
+            dist_to_ball:  run.minDistToBall,
             result:        "unknown",
             player_label:  participants.length ? participants.map(p => `#${p}`).join(" & ") : "?",
             player_jersey: participants[0] ?? null,
             co_players:    participants.length > 1 ? participants : undefined,
         });
     };
-    let run = null; // { action, startFrame, lastFrame, playerVotes: Map }
+    let run = null; // { startFrame, lastFrame, playerVotes: Map, actionVotes: Map, actionConfSum: Map, minDistToBall }
     for (const f of frames) {
         if (!f.action || f.action === "none") continue;
         if (!BALL_ACTIONS.has(f.action)) continue;
+        if (trimActive && !inAnyRallyWindow(f.frame)) continue;
         const playerKey = f.active_player_jersey ?? f.active_player_id ?? null;
-        if (run && run.action === f.action && f.frame - run.lastFrame <= MAX_GAP_FRAMES) {
+        const conf = f.action_confidence ?? 0;
+        const dist = typeof f.distance_to_ball === "number" ? f.distance_to_ball : null;
+        const sameRun = run && run.actionVotes.has(f.action) && f.frame - run.lastFrame <= MAX_GAP_FRAMES;
+        if (sameRun) {
             run.lastFrame = f.frame;
             run.playerVotes.set(playerKey, (run.playerVotes.get(playerKey) || 0) + 1);
+            run.actionVotes.set(f.action, (run.actionVotes.get(f.action) || 0) + 1);
+            run.actionConfSum.set(f.action, (run.actionConfSum.get(f.action) || 0) + conf);
+            if (dist !== null && (run.minDistToBall === null || dist < run.minDistToBall)) run.minDistToBall = dist;
         } else {
             if (run) pushRun(run);
-            run = { action: f.action, startFrame: f.frame, lastFrame: f.frame, playerVotes: new Map([[playerKey, 1]]) };
+            run = {
+                startFrame: f.frame, lastFrame: f.frame,
+                playerVotes: new Map([[playerKey, 1]]),
+                actionVotes: new Map([[f.action, 1]]),
+                actionConfSum: new Map([[f.action, conf]]),
+                minDistToBall: dist,
+            };
         }
     }
     if (run) pushRun(run);
@@ -2420,16 +2513,98 @@ function buildRallyAnalysis(volleyAnalytics, { scoreboardData, isHomeTeam = true
     // separate "service" runs in one rally (the model drops to "none" for
     // longer than MAX_GAP_FRAMES mid-motion — e.g. toss, then contact, then
     // follow-through — each re-triggering as its own run instead of being
-    // bridged into the first). Keep only the earliest "service" per rally;
-    // any later ones in the same rally are the same real serve, not repeats.
-    for (const win of rallyWindows) {
+    // bridged into the first). Keep only one "service" per rally — whichever
+    // the model was most confident about, not just whichever came first —
+    // any others in the same rally are the same real serve, not repeats.
+    // Scoped off rallyMeta (not the raw rallyWindows list it was built from)
+    // so this can never disagree with the window each rally is finally
+    // displayed with.
+    for (const rm of rallyMeta) {
         const servesInRally = allActions
-            .filter(a => a.action === "service" && a.frame >= win.start && a.frame <= win.end)
-            .sort((a, b) => a.frame - b.frame);
-        for (const extra of servesInRally.slice(1)) {
+            .filter(a => a.action === "service" && a.frame >= rm.win.start && a.frame <= rm.win.end);
+        if (servesInRally.length <= 1) continue;
+        const best = servesInRally.reduce((a, b) => (b.confidence ?? 0) > (a.confidence ?? 0) ? b : a);
+        for (const extra of servesInRally) {
+            if (extra === best) continue;
             const idx = allActions.indexOf(extra);
             if (idx !== -1) allActions.splice(idx, 1);
         }
+    }
+
+    // ── Compress immediately-repeated short action patterns ────────────────
+    // The same action on the same player can still be re-detected after a
+    // gap too long to bridge into one run, or a short multi-action exchange
+    // (e.g. "attack #13, defense #2") can get logged twice back-to-back —
+    // same players, same actions, same order — which is one real exchange
+    // re-triggered, not two. Detect a 1-3 event window that immediately
+    // repeats (same player + same action per position) within
+    // PATTERN_REPEAT_MAX_GAP of itself and drop the repeat. Kept
+    // order-sensitive and gap-limited so two genuinely separate exchanges
+    // later in a long rally are never collapsed — only a near-immediate
+    // literal repeat is.
+    const PATTERN_REPEAT_MAX_GAP = Math.round(fps * 3);
+    const sameActionEvent = (a, b) => a.player_jersey === b.player_jersey && a.action === b.action;
+    const avgConfidence = block => block.reduce((s, ev) => s + (ev.confidence ?? 0), 0) / block.length;
+    for (let i = 0; i < allActions.length; ) {
+        let collapsed = false;
+        for (const L of [3, 2, 1]) {
+            if (i + 2 * L > allActions.length) continue;
+            const first  = allActions.slice(i, i + L);
+            const repeat = allActions.slice(i + L, i + 2 * L);
+            if (!first.every((ev, k) => sameActionEvent(ev, repeat[k]))) continue;
+            if (repeat[0].frame - first[first.length - 1].frame > PATTERN_REPEAT_MAX_GAP) continue;
+            // Keep whichever occurrence the model was more confident about,
+            // not just whichever happened first.
+            if (avgConfidence(repeat) > avgConfidence(first)) {
+                allActions.splice(i, L);
+            } else {
+                allActions.splice(i + L, L);
+            }
+            collapsed = true;
+            break;
+        }
+        if (!collapsed) i++;
+    }
+
+    // ── Collapse one real touch fragmented across several different players ──
+    // Only one player is ever actually making a given touch at a real
+    // instant — a defensive scramble (several players clustered near the
+    // ball) is the noisiest case for both signals this pipeline leans on:
+    // ball-proximity swings between several close-together players, and a
+    // stray different label sneaking in for a frame or two ends a run
+    // early. One real defensive play can fragment into several short runs
+    // that each land on a *different* player, all within about the same
+    // instant — verified directly against real output: one real scramble
+    // produced three separate "defense-move" entries covering five
+    // different players, all at the same displayed second. Cluster
+    // same-action entries within BURST_WINDOW of each other
+    // regardless of player, and keep only the one whose recorded
+    // distance-to-ball was smallest — syncing the action to the ball's
+    // actual recorded position, the same idea already used to sync actions
+    // to players in merge_pipeline.py — tie-breaking on confidence when
+    // distance is unknown or equal. Trade-off worth knowing: a genuinely
+    // separate second real touch that happens to land inside the same
+    // window (e.g. a dig that's immediately re-touched by a different
+    // player) will also get collapsed to one; tighten BURST_WINDOW if that
+    // turns out to matter more than the fragmentation noise it's fixing.
+    const BURST_WINDOW = Math.round(fps * 2);
+    for (let i = 0; i < allActions.length; ) {
+        let j = i + 1;
+        while (
+            j < allActions.length &&
+            allActions[j - 1].action === allActions[j].action &&
+            allActions[j].frame - allActions[j - 1].frame <= BURST_WINDOW
+        ) j++;
+        if (j - i > 1) {
+            const cluster = allActions.slice(i, j);
+            const best = cluster.reduce((a, b) => {
+                const da = a.dist_to_ball ?? Infinity, db = b.dist_to_ball ?? Infinity;
+                if (da !== db) return db < da ? b : a;
+                return (b.confidence ?? 0) > (a.confidence ?? 0) ? b : a;
+            });
+            allActions.splice(i, j - i, best);
+        }
+        i++;
     }
 
     // For a lost rally, identifies which of our players was most likely
@@ -2512,18 +2687,20 @@ function buildRallyAnalysis(volleyAnalytics, { scoreboardData, isHomeTeam = true
         return winner;
     }
 
-    function classifyRallyOutcome(win, result) {
+    function classifyRallyOutcome(win, result, servingTeam) {
         const windowStart = Math.max(win.start, win.end - Math.round(fps * END_WINDOW_SEC));
         const finishers = frames.filter(f => f.frame >= windowStart && f.frame <= win.end
                                                && f.active_player_team === "my_team"
                                                && (f.action === "attack" || f.action === "block"));
         const lastFinisher = pickFinisher(finishers);
 
-        // A serve is always at the rally's start, not its end, so it's judged
-        // over the whole rally: if it's the only thing we did, it's the whole
-        // story (ace or service error), regardless of END_WINDOW_SEC.
-        const serve = frames.find(f => f.frame >= win.start && f.frame <= win.end
-                                         && f.active_player_team === "my_team" && f.action === "service");
+        // Whether we served this rally comes from the side-out chain
+        // (deriveServingTeams below), not a raw "did the action model detect
+        // a service action" check — that detection fires for only a handful
+        // of rallies in a full match and can never fire at all for the
+        // opponent's serve (predict_pipeline.py doesn't track them), so it's
+        // far too sparse to gate ace/service_error on by itself.
+        const weServed = servingTeam === "my_team";
         const anyOtherOurAction = frames.some(f => f.frame >= win.start && f.frame <= win.end
                                                      && f.active_player_team === "my_team"
                                                      && f.action && f.action !== "none" && f.action !== "service");
@@ -2534,12 +2711,18 @@ function buildRallyAnalysis(volleyAnalytics, { scoreboardData, isHomeTeam = true
                     ? { category: "kill", jersey: lastFinisher.active_player_jersey, action: "attack", source: "action", frame: lastFinisher.frame }
                     : { category: "block_kill", jersey: lastFinisher.active_player_jersey, action: "block", source: "action", frame: lastFinisher.frame };
             }
-            if (serve && !anyOtherOurAction) return { category: "ace", jersey: serve.active_player_jersey, action: "service", source: "action", frame: serve.frame };
+            if (weServed && !anyOtherOurAction) {
+                const jersey = resolveServerJersey(win);
+                return { category: "ace", jersey, action: "service", source: jersey != null ? "action" : "inferred", frame: win.start };
+            }
             return { category: "opponent_error", jersey: null, action: null, source: "inferred", frame: win.end };
         }
 
         if (result === "point_opponent") {
-            if (serve && !anyOtherOurAction) return { category: "service_error", jersey: serve.active_player_jersey, action: "service", source: "action", frame: serve.frame };
+            if (weServed && !anyOtherOurAction) {
+                const jersey = resolveServerJersey(win);
+                return { category: "service_error", jersey, action: "service", source: jersey != null ? "action" : "inferred", frame: win.start };
+            }
             // Unlike the win branch above, a lost rally's real final touch can
             // legitimately be a defense-move or a setting — a block can be
             // immediately followed by a failed dig that's the actual last thing
@@ -2570,8 +2753,72 @@ function buildRallyAnalysis(volleyAnalytics, { scoreboardData, isHomeTeam = true
         return null;
     }
 
+    // Which team served each rally — side-out scoring means whoever WON a
+    // rally serves the next one, a hard game rule rather than a guess. This
+    // is the only reliable way to know who served: the action model can
+    // detect a "service" action for AT MOST ~3 rallies in a full match (see
+    // real match verification, video 6a5668a6f0d3c15a183d2011 — 19 rallies,
+    // 3 detected serves total) and can NEVER detect the opponent's serve at
+    // all, since predict_pipeline.py only ever tracks our own team. Without
+    // this, "no detected service" is ambiguous between "opponent served" and
+    // "we served but the model missed it" — this resolves that ambiguity
+    // structurally instead of leaning on a rarely-firing detection.
+    //
+    // Re-anchors on any rally where the action model DID detect one of our
+    // own players serving (only ever fires for us, so it's direct evidence,
+    // stronger than the inferred chain) — this stops one "unknown" result
+    // from poisoning every rally after it; the chain just resumes from the
+    // next confirmed point. A void rally (no real point played) doesn't
+    // change who's serving.
+    function deriveServingTeams(rallyList) {
+        const serving = new Array(rallyList.length).fill(null);
+        let nextServerFromChain = null;
+        for (let i = 0; i < rallyList.length; i++) {
+            const r = rallyList[i];
+            const detectedServe = (r.actions || []).some(a => a.action === "service" && a.player_jersey != null);
+            const fromChainOrDetection = detectedServe ? "my_team" : nextServerFromChain;
+
+            if (r.void_rally) {
+                serving[i] = fromChainOrDetection;
+                continue; // no real point played -- server carries over unchanged
+            }
+            serving[i] = fromChainOrDetection;
+            nextServerFromChain =
+                r.result === "point_my_team" ? "my_team" :
+                r.result === "point_opponent" ? "opponent" :
+                null; // this rally's winner is unresolved -- chain breaks until the next detected serve re-anchors it
+        }
+        return serving;
+    }
+
+    // Who actually served, once we know the TEAM served (from
+    // deriveServingTeams above) — direct action-detection first (rare but
+    // precise when it fires), else whichever of our players is nearest the
+    // ball in the rally's opening beat (ball-proximity active_player is
+    // independent of action classification, so it's available even when the
+    // serve motion itself was never labeled).
+    const SERVER_LOOKUP_WINDOW_FRAMES = Math.round(fps * 1.0);
+    function resolveServerJersey(win) {
+        const detected = allActions.find(a => a.action === "service" && a.frame >= win.start && a.frame <= win.end
+                                                && a.player_jersey != null);
+        if (detected) return detected.player_jersey;
+
+        const windowEnd = win.start + SERVER_LOOKUP_WINDOW_FRAMES;
+        const early = frames.filter(f => f.frame >= win.start && f.frame <= windowEnd
+                                           && f.active_player_team === "my_team" && f.active_player_jersey != null);
+        if (!early.length) return null;
+        const counts = new Map();
+        for (const f of early) counts.set(f.active_player_jersey, (counts.get(f.active_player_jersey) || 0) + 1);
+        return [...counts.entries()].sort((a, b) => b[1] - a[1])[0][0];
+    }
+
     // ── 4. Attach actions to rallies ──────────────────────────────────────────
-    const rallies = rallyMeta.map((rm, idx) => {
+    // Two passes: first each rally's own window/result/actions/void status
+    // (independent of who served), then deriveServingTeams over the FULL
+    // sequence (the side-out chain needs every rally's result up front), and
+    // only then classifyRallyOutcome/findResponsiblePlayer — both of which
+    // now depend on serving_team for ace/service_error detection.
+    const rallyBase = rallyMeta.map((rm, idx) => {
         // A board-confirmed zero-zero diff means this window wasn't a real
         // point of play (see confirmedNoChangeRallyIndices) — its actions are
         // noise (e.g. a player's post-serve follow-through misread as a
@@ -2587,9 +2834,20 @@ function buildRallyAnalysis(volleyAnalytics, { scoreboardData, isHomeTeam = true
             result:      rm.result,
             score_event: rm.scoreEvent || null,
             actions:     voided ? [] : allActions.filter(a => a.frame >= rm.win.start && a.frame <= rm.win.end),
-            defensive_player: rm.result === "point_opponent" ? findResponsiblePlayer(rm.win, "my_team") : null,
-            point_outcome: classifyRallyOutcome(rm.win, rm.result),
             void_rally:  voided,
+        };
+    });
+
+    const servingTeams = deriveServingTeams(rallyBase);
+
+    const rallies = rallyBase.map((rb, idx) => {
+        const win = { start: rb.start_frame, end: rb.end_frame };
+        const servingTeam = servingTeams[idx];
+        return {
+            ...rb,
+            serving_team: servingTeam,
+            defensive_player: rb.result === "point_opponent" ? findResponsiblePlayer(win, "my_team") : null,
+            point_outcome: classifyRallyOutcome(win, rb.result, servingTeam),
         };
     });
 
@@ -2617,7 +2875,7 @@ function buildRallyAnalysis(volleyAnalytics, { scoreboardData, isHomeTeam = true
             if (!players[jersey]) {
                 players[jersey] = {
                     attack:  { K: 0, E: 0, TA: 0 },
-                    serve:   { SA: 0, SE: 0, TA: 0 },
+                    serve:   { SA: 0, SE: 0, TA: 0, RW: 0 },
                     block:   { BK: 0, BA: 0, BE: 0 },
                     defence: { DS: 0, DE: 0, TA: 0 },
                     set:     { AST: 0, SE: 0, TA: 0 },
@@ -2667,9 +2925,21 @@ function buildRallyAnalysis(volleyAnalytics, { scoreboardData, isHomeTeam = true
 
         for (const r of rallies) {
             if (r.void_rally) continue;
-            const serve = frames.find(f => f.frame >= r.start_frame && f.frame <= r.end_frame
-                                             && f.active_player_team === "my_team" && f.action === "service");
-            if (serve && serve.active_player_jersey != null) ensure(serve.active_player_jersey).serve.TA++;
+            // serving_team (side-out chain, see deriveServingTeams) decides
+            // WHETHER we served this rally at all -- far more complete than
+            // requiring a detected "service" action, which the model fires
+            // for only a small fraction of real serves. resolveServerJersey
+            // then figures out WHICH of our players it was.
+            if (r.serving_team !== "my_team") continue;
+            const jersey = resolveServerJersey({ start: r.start_frame, end: r.end_frame });
+            if (jersey != null) {
+                const p = ensure(jersey);
+                p.serve.TA++;
+                // Rally won on this player's serve — broader than an ace (SA):
+                // credits the serve for every point won during the rally it
+                // started, however many touches it took to get there.
+                if (r.result === "point_my_team") p.serve.RW++;
+            }
         }
 
         for (const r of rallies) {
@@ -2858,4 +3128,6 @@ module.exports = {
     recoverAnalysis,
     saveJerseys,
     saveCourtCalibration,
+    stopAnalysis,
+    deleteVideo,
 };

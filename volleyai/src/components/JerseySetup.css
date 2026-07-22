@@ -179,61 +179,6 @@
 }
 
 /* ── Home/Guest toggle ── */
-.js-home-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    width: 100%;
-    max-width: 400px;
-    background: #12151f;
-    border: 1px solid #1e2130;
-    border-radius: 14px;
-    padding: 12px 16px;
-    margin-bottom: 16px;
-}
-
-.js-home-label {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.js-home-title {
-    font-size: 13px;
-    font-weight: 700;
-    color: #e8eaf0;
-}
-
-.js-home-sub {
-    font-size: 11px;
-    color: #5a627a;
-}
-
-.js-toggle {
-    position: relative;
-    width: 44px;
-    height: 26px;
-    border-radius: 999px;
-    border: none;
-    background: #2a2f45;
-    cursor: pointer;
-    padding: 3px;
-    flex-shrink: 0;
-    transition: background 0.15s;
-}
-.js-toggle.on { background: #3b82f6; }
-
-.js-toggle-knob {
-    display: block;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: #e8eaf0;
-    transition: transform 0.15s;
-}
-.js-toggle.on .js-toggle-knob { transform: translateX(18px); }
-
 /* ── Bottom buttons ── */
 .js-calib-btn {
     width: 100%;

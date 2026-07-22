@@ -157,6 +157,64 @@
 .ms-table tbody tr:hover { background: #1e2235; }
 .ms-table tbody td { padding: 12px 14px; color: #a0a8c0; text-align: center; }
 .ms-nameCell { text-align: left !important; font-weight: 600; color: #e8eaf0 !important; font-size: 14px; }
+.ms-teamRow { background: #1a2545; border-bottom: 2px solid #2563eb !important; }
+.ms-teamRow:hover { background: #1a2545; }
+.ms-teamRow td { font-weight: 700; }
+.ms-teamRow .ms-nameCell { color: #93a4ff !important; }
+
+.ms-noContrib { padding: 24px 14px !important; color: #5a627a !important; font-size: 13px; }
+
+/* Stat header tooltips */
+.ms-statTh {
+  position: relative;
+  display: inline-block;
+  cursor: help;
+  border-bottom: 1px dotted #4a5080;
+}
+.ms-tooltip {
+  display: none;
+  position: absolute;
+  top: 130%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 210px;
+  background: #0f1117;
+  border: 1px solid #2a2f45;
+  border-radius: 8px;
+  padding: 10px 12px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+  z-index: 30;
+  text-align: left;
+}
+.ms-statTh:hover .ms-tooltip { display: block; }
+.ms-tooltip::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-bottom-color: #2a2f45;
+}
+.ms-tooltip strong {
+  display: block;
+  color: #e8eaf0;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: normal;
+  margin-bottom: 4px;
+}
+.ms-tooltip span {
+  display: block;
+  color: #a0a8c0;
+  font-size: 11px;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
+  line-height: 1.45;
+  white-space: normal;
+}
 .ms-highlight { color: #3b82f6 !important; font-weight: 600; }
 .ms-error { color: #ef4444 !important; }
 .ms-emptyState { text-align: center; padding: 60px 20px; }

@@ -152,14 +152,12 @@ export default function JerseySetup() {
     const team = useTLPicker("blue_white");
     const opp  = useTLPicker("black_white");
     const [loading, setLoading] = useState(false);
-    const [isHomeTeam, setIsHomeTeam] = useState(true);
 
     const jerseyBody = () => ({
         myTeamColor: team.tColor,
         opponentColor: opp.tColor,
         liberoColor: team.lColor || "",
         opponentLiberoColor: opp.lColor || "",
-        isHomeTeam,
     });
 
     const saveJerseys = async () => {
@@ -217,26 +215,6 @@ export default function JerseySetup() {
                     />
                 </div>
 
-                <div className="js-home-row">
-                    <span className="js-home-title">Home</span>
-                    <button
-                        type="button"
-                        className={`js-toggle ${isHomeTeam ? "on" : ""}`}
-                        onClick={() => setIsHomeTeam(v => !v)}
-                        aria-pressed={isHomeTeam}
-                        aria-label="Toggle whether my team is Home or Guest on the scoreboard"
-                    >
-                        <span className="js-toggle-knob" />
-                    </button>
-                </div>
-
-                <button
-                    className="js-calib-btn"
-                    onClick={() => navigate(`/add-players/${videoId}`)}
-                >
-                    📋 Add Players (optional)
-                </button>
-
                 <button
                     className="js-calib-btn"
                     onClick={async () => {
@@ -262,7 +240,7 @@ export default function JerseySetup() {
                         // means "don't require picking anything", not "discard any
                         // picks already made". Previously this navigated away with
                         // no save at all, silently dropping any in-progress color/
-                        // libero/home-toggle selection.
+                        // libero selection.
                         await saveJerseys();
                         navigate(`/match-analysis/${videoId}`);
                     }}
