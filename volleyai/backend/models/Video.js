@@ -212,6 +212,10 @@ const VideoSchema = new mongoose.Schema(
         status: { type: String, default: "uploaded" },
         teamA: { type: String, default: "" },
         teamB: { type: String, default: "" },
+        matchDate: { type: Date, default: null }, // when the match was actually played -- distinct from createdAt (upload time), coach-editable on the home screen
+        score: { type: String, default: "" }, // free-text final score (e.g. "3-1" or "25-20, 22-25, 25-18"), coach-editable, not derived from scoreboard OCR -- fallback shown only until the analysis has a real computed score
+        usScore: { type: Number, default: null }, // rally_analysis.json's us_score, mirrored here so the home screen list doesn't need a per-card rally-analysis fetch
+        opponentScore: { type: Number, default: null }, // same, opponent_score
         knownJerseys: { type: [Number], default: [] },
         knownPlayers: {
             type: [{ jersey: Number, name: { type: String, default: "" } }],

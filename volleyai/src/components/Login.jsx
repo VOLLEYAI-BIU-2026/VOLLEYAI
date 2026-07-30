@@ -1,6 +1,8 @@
 import { API_BASE } from "../config.js";
 import "./Login.css";
 import { FcGoogle } from "react-icons/fc";
+import { FiEye, FiEyeOff } from "react-icons/fi";
+import { GiVolleyballBall } from "react-icons/gi";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
@@ -10,6 +12,7 @@ export default function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -98,7 +101,7 @@ export default function Login() {
     <div className="ls-page">
       <div className="ls-card">
         <div className="ls-logoWrap">
-          <div className="ls-logo">V</div>
+          <div className="ls-logo"><GiVolleyballBall size={34} /></div>
         </div>
 
         <h1 className="ls-title">Welcome</h1>
@@ -135,7 +138,7 @@ export default function Login() {
             <div className="ls-passwordWrap">
               <input
                 id="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 className={`ls-input password ${passwordError ? "ls-input-error" : ""}`}
                 value={password}
                 onChange={(e) => {
@@ -144,8 +147,13 @@ export default function Login() {
                   if (formError) setFormError("");
                 }}
               />
-              <button type="button" className="ls-eyeBtn" aria-label="Show password">
-                👁
+              <button
+                type="button"
+                className="ls-eyeBtn"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+                onClick={() => setShowPassword((v) => !v)}
+              >
+                {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
               </button>
             </div>
 

@@ -9,12 +9,11 @@ import UploadVideo from "./components/UploadVideo.jsx";
 import TeamsRoster from "./components/TeamsRoster.jsx";
 import VideoAnalysis from "./components/VideoAnalysis.jsx";
 import MatchStatistics from "./components/MatchStatistics.jsx";
-import PlayerRegistry from "./components/PlayerRegistry.jsx";
 import MatchAnalysis from "./components/MatchAnalysis.jsx";
-import JerseySetup from "./components/JerseySetup.jsx";
-import CourtSetup from "./components/CourtSetup.jsx";
 import MyTeamRoster from "./components/MyTeamRoster.jsx";
 import PlayerMerge from "./components/PlayerMerge.jsx";
+import PlayerProfile from "./components/PlayerProfile.jsx";
+import PlayerSelect from "./components/PlayerSelect.jsx";
 
 
 export default function App() {
@@ -30,12 +29,11 @@ export default function App() {
       <Route path="/video-analysis/:videoId" element={<VideoAnalysis />} />
       <Route path="/match-statistics/:videoId" element={<MatchStatistics />} />
       <Route path="/match-statistics" element={<MatchStatistics />} />
-      <Route path="/player-registry" element={<PlayerRegistry />} />
-      <Route path="/jersey-setup/:videoId" element={<JerseySetup />} />
       <Route path="/match-analysis/:videoId" element={<MatchAnalysis />} />
-      <Route path="/court-setup/:videoId" element={<CourtSetup />} />
       <Route path="/my-team" element={<MyTeamRoster />} />
       <Route path="/player-merge/:videoId" element={<PlayerMerge />} />
+      <Route path="/player-profile/:videoId/:jersey" element={<PlayerProfile />} />
+      <Route path="/player-select/:videoId" element={<PlayerSelect />} />
     </Routes>
   );
 }

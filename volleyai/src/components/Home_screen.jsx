@@ -48,8 +48,14 @@ export default function HomeScreen() {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
   const [videos, setVideos] = useState([]);
+  const [search, setSearch] = useState("");
+  const [teamName, setTeamName] = useState("");
   const [teamEdits, setTeamEdits] = useState({});
   const [editingId, setEditingId] = useState(null);
+  const [dateEdits, setDateEdits] = useState({});
+  const [editingDateId, setEditingDateId] = useState(null);
+  const [scoreEdits, setScoreEdits] = useState({});
+  const [editingScoreId, setEditingScoreId] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -63,14 +69,32 @@ export default function HomeScreen() {
   }, [navigate]);
 
   useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch(`${API}/auth/my-team`, { credentials: "include", cache: "no-store" });
+        const data = await res.json();
+        if (res.ok) setTeamName(data.teamName || "");
+      } catch { /* leave blank */ }
+    })();
+  }, []);
+
+  useEffect(() => {
     fetch(`${API}/videos/list`, { credentials: "include" })
       .then((r) => r.json())
       .then((data) => {
         const vids = data.videos || [];
         setVideos(vids);
         const edits = {};
-        vids.forEach((v) => { edits[v._id] = { teamA: v.teamA || "", teamB: v.teamB || "" }; });
+        const dEdits = {};
+        const sEdits = {};
+        vids.forEach((v) => {
+          edits[v._id] = { teamA: v.teamA || "", teamB: v.teamB || "" };
+          dEdits[v._id] = v.matchDate ? new Date(v.matchDate).toISOString().slice(0, 10) : "";
+          sEdits[v._id] = v.score || "";
+        });
         setTeamEdits(edits);
+        setDateEdits(dEdits);
+        setScoreEdits(sEdits);
       })
       .catch(() => {});
   }, []);
@@ -116,6 +140,44 @@ export default function HomeScreen() {
     setEditingId(null);
   }
 
+  async function handleDateSave(videoId) {
+    const matchDate = dateEdits[videoId] || null;
+    try {
+      const res = await fetch(`${API}/videos/${videoId}/teams`, {
+        method: "PATCH",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ matchDate }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.video) {
+          setVideos((prev) => prev.map((v) => (v._id === videoId ? { ...v, matchDate: data.video.matchDate } : v)));
+        }
+      }
+    } catch {}
+    setEditingDateId(null);
+  }
+
+  async function handleScoreSave(videoId) {
+    const score = scoreEdits[videoId] ?? "";
+    try {
+      const res = await fetch(`${API}/videos/${videoId}/teams`, {
+        method: "PATCH",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ score }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.video) {
+          setVideos((prev) => prev.map((v) => (v._id === videoId ? { ...v, score: data.video.score } : v)));
+        }
+      }
+    } catch {}
+    setEditingScoreId(null);
+  }
+
   async function handleDeleteVideo(videoId) {
     if (!window.confirm("Delete this video and all its analysis data? This can't be undone.")) return;
     try {
@@ -141,11 +203,16 @@ export default function HomeScreen() {
 
           <header className="hs-topbar">
             <div className="hs-brand">
-              <div className="hs-logo">🏐</div>
               <div className="hs-brandName">VolleyAI</div>
             </div>
             <div className="hs-searchWrap">
-              <input className="hs-search" placeholder="Search matches..." />
+              {teamName && <div className="hs-teamNameBadge">{teamName}</div>}
+              <input
+                className="hs-search"
+                placeholder="Search matches..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
             </div>
             <div className="hs-avatarWrap" ref={menuRef}>
               <button type="button" className="hs-avatar" title={email || "Profile"} onClick={() => setMenuOpen((v) => !v)}>
@@ -163,12 +230,28 @@ export default function HomeScreen() {
 
           <main className="hs-grid">
 
-            {videos.map((video) => {
+            <button className="hs-newCard" type="button" onClick={() => navigate("/upload-video")}>
+              <div className="hs-plus">+</div>
+              <div className="hs-newText">Start New Analysis</div>
+            </button>
+
+            {videos
+              .filter((video) => {
+                if (!search.trim()) return true;
+                const q = search.trim().toLowerCase();
+                const edits = teamEdits[video._id] || {};
+                return (edits.teamA || video.teamA || "").toLowerCase().includes(q)
+                  || (edits.teamB || video.teamB || "").toLowerCase().includes(q)
+                  || (video.originalFileName || "").toLowerCase().includes(q);
+              })
+              .map((video) => {
               const status = cardStatus(video);
               const isReady = status === "ready";
               const isProcessing = status === "processing";
               const edits = teamEdits[video._id] || { teamA: "", teamB: "" };
               const isEditing = editingId === video._id;
+              const isEditingDate = editingDateId === video._id;
+              const isEditingScore = editingScoreId === video._id;
 
               return (
                 <div key={video._id} className="hs-card">
@@ -184,10 +267,63 @@ export default function HomeScreen() {
                       {isReady ? "Ready" : isProcessing ? "Processing" : "Uploaded"}
                     </span>
 
-                    {/* Date — top right, always visible */}
-                    <div className="hs-cardDate">
-                      📅 {formatDate(video.createdAt, video._id)}
-                    </div>
+                    {/* Score — below the status badge, top left. Once the
+                        analysis has computed a real score (usScore/opponentScore,
+                        from rally_analysis), that's authoritative and shown
+                        read-only — no point letting a manual guess override real
+                        data. Only falls back to the editable manual entry when
+                        there's no computed score yet (not analyzed, or scoreboard
+                        detection failed entirely). */}
+                    {video.usScore != null && video.opponentScore != null ? (
+                      <div className="hs-cardScore hs-cardScoreComputed" title="Computed from the analysis">
+                        🏆 {video.usScore} - {video.opponentScore}
+                      </div>
+                    ) : isEditingScore ? (
+                      <div className="hs-cardScore hs-cardScoreEditing" onClick={(e) => e.stopPropagation()}>
+                        <input
+                          type="text"
+                          className="hs-scoreInput"
+                          placeholder="e.g. 3-1"
+                          value={scoreEdits[video._id] ?? ""}
+                          onChange={(e) => setScoreEdits((prev) => ({ ...prev, [video._id]: e.target.value }))}
+                          autoFocus
+                        />
+                        <button className="hs-saveOverlayBtn" onClick={() => handleScoreSave(video._id)}>✓</button>
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        className="hs-cardScore hs-cardScoreBtn"
+                        onClick={(e) => { e.stopPropagation(); setEditingScoreId(video._id); }}
+                        title="Click to set the match score"
+                      >
+                        {video.score ? `🏆 ${video.score}` : "+ Score"}
+                      </button>
+                    )}
+
+                    {/* Match date — top right. Falls back to the upload date until
+                        set; click to set the actual date the match was played. */}
+                    {isEditingDate ? (
+                      <div className="hs-cardDate hs-cardDateEditing" onClick={(e) => e.stopPropagation()}>
+                        <input
+                          type="date"
+                          className="hs-dateInput"
+                          value={dateEdits[video._id] || ""}
+                          onChange={(e) => setDateEdits((prev) => ({ ...prev, [video._id]: e.target.value }))}
+                          autoFocus
+                        />
+                        <button className="hs-saveOverlayBtn" onClick={() => handleDateSave(video._id)}>✓</button>
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        className="hs-cardDate hs-cardDateBtn"
+                        onClick={(e) => { e.stopPropagation(); setEditingDateId(video._id); }}
+                        title="Click to set the match date"
+                      >
+                        📅 {video.matchDate ? formatDate(video.matchDate, video._id) : formatDate(video.createdAt, video._id)}
+                      </button>
+                    )}
 
                     <button
                       className="hs-deleteOverlayBtn"
@@ -255,11 +391,6 @@ export default function HomeScreen() {
                 </div>
               );
             })}
-
-            <button className="hs-newCard" type="button" onClick={() => navigate("/upload-video")}>
-              <div className="hs-plus">+</div>
-              <div className="hs-newText">Start New Analysis</div>
-            </button>
 
           </main>
         </div>

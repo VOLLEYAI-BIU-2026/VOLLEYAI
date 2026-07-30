@@ -14,10 +14,12 @@ const {
     startPlayerDetection,
     getTeamRoster,
     createRosterPlayer,
+    setRosterPlayerPosition,
     deleteRosterPlayer,
     importMyTeam,
     getPlayerRegistryForVideo,
     mergePlayerRegistry,
+    deletePlayerRegistryEntries,
     assignDetectionsToPlayer,
     resetPlayerDetection,
     analyzeRallies,
@@ -26,14 +28,11 @@ const {
     getBallAnalysis,
     getPlayerStats,
     getPlayerRegistry,
-    updatePlayerRegistry,
-    saveAndRecalculate,
     getRallyAnalysis,
     startAnalysis,
     getAnalysisStatus,
     recoverAnalysis,
     saveJerseys,
-    saveCourtCalibration,
     stopAnalysis,
     deleteVideo,
 } = require("../controllers/videoController");
@@ -60,8 +59,6 @@ router.post("/youtube", requireAuth, addYoutube);
 
 router.get("/latest/player-stats", requireAuth, (req, res) => { req.params.id = "latest"; return getPlayerStats(req, res); });
 router.get("/player-registry", requireAuth, getPlayerRegistry);
-router.post("/player-registry", requireAuth, updatePlayerRegistry);
-router.post("/player-registry/recalculate", requireAuth, saveAndRecalculate);
 router.get("/rally-analysis", requireAuth, getRallyAnalysis);
 router.get("/:id/rally-analysis", requireAuth, getRallyAnalysis);
 router.patch("/:id/teams", requireAuth, updateTeamNames);
@@ -71,7 +68,6 @@ router.get("/:id/analysis-status", requireAuth, getAnalysisStatus);
 router.post("/:id/stop-analysis", requireAuth, stopAnalysis);
 router.post("/:id/recover-analysis", requireAuth, recoverAnalysis);
 router.delete("/:id", requireAuth, deleteVideo);
-router.post("/:id/calibrate", requireAuth, saveCourtCalibration);
 
 router.post("/:id/clean-frame", requireAuth, startCleanFrame);
 router.get("/:id", requireAuth, getVideoById);
@@ -81,10 +77,12 @@ router.post("/:id/reset-player-detection", requireAuth, resetPlayerDetection);
 router.post("/:id/detect-players", requireAuth, startPlayerDetection);
 router.get("/:id/team-roster", requireAuth, getTeamRoster);
 router.post("/:id/team-roster/create-player", requireAuth, createRosterPlayer);
+router.patch("/:id/team-roster/position", requireAuth, setRosterPlayerPosition);
 router.delete("/:id/team-roster/:playerId", requireAuth, deleteRosterPlayer);
 router.post("/:id/team-roster/import-my-team", requireAuth, importMyTeam);
 router.get("/:id/player-registry", requireAuth, getPlayerRegistryForVideo);
 router.post("/:id/player-registry/merge", requireAuth, mergePlayerRegistry);
+router.post("/:id/player-registry/delete", requireAuth, deletePlayerRegistryEntries);
 router.post("/:id/team-roster/assign", requireAuth, assignDetectionsToPlayer);
 router.post("/:id/reset-player-detection", requireAuth, resetPlayerDetection);
 router.post("/:id/analyze-rallies", requireAuth, analyzeRallies);

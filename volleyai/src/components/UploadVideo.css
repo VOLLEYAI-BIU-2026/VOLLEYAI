@@ -1,19 +1,12 @@
 /* Page layout */
-html, body, #root {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-}
-
-body {
-  overflow-x: hidden;
-}
-
 .uva-page {
   min-height: 100vh;
-  background: #0f1117;
-  color: #e8eaf0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background: var(--bg);
+  color: var(--text);
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji",
     "Segoe UI Emoji";
 }
@@ -23,16 +16,16 @@ body {
   display: flex;
   align-items: center;
   padding: 0 18px;
-  background: #13151f;
-  border-bottom: 1px solid #2a2f45;
+  background: var(--card-alt);
+  border-bottom: 1px solid var(--border);
 }
 
 .uva-backIcon {
   width: 36px;
   height: 36px;
-  border: 1px solid #2a2f45;
-  background: #1e2130;
-  color: #a0a8c0;
+  border: 1px solid var(--border);
+  background: var(--card-alt);
+  color: var(--muted);
   border-radius: 10px;
   cursor: pointer;
   font-size: 18px;
@@ -50,12 +43,12 @@ body {
 .uva-title {
   font-weight: 700;
   font-size: 18px;
-  color: #e8eaf0;
+  color: var(--text);
 }
 
 .uva-stepText {
   font-size: 13px;
-  color: #5a627a;
+  color: var(--muted-2);
 }
 
 /* Horizontal stepper */
@@ -63,8 +56,8 @@ body {
   display: flex;
   align-items: center;
   padding: 18px 24px;
-  background: #13151f;
-  border-bottom: 1px solid #2a2f45;
+  background: var(--card-alt);
+  border-bottom: 1px solid var(--border);
   overflow-x: auto;
 }
 
@@ -86,8 +79,8 @@ body {
   width: 32px;
   height: 32px;
   border-radius: 999px;
-  border: 2px solid #3a4060;
-  color: #5a627a;
+  border: 2px solid var(--muted-3);
+  color: var(--muted-2);
   font-size: 13px;
   font-weight: 800;
   display: flex;
@@ -98,56 +91,56 @@ body {
 }
 
 .uva-step-h.active .uva-step-h-circle {
-  border-color: #6d5efc;
-  background: #6d5efc;
+  border-color: var(--primary);
+  background: var(--primary);
   color: #fff;
   box-shadow: 0 0 0 4px rgba(109, 94, 252, 0.2);
 }
 
 .uva-step-h.done .uva-step-h-circle {
-  border-color: #22c55e;
-  background: #22c55e;
+  border-color: var(--success);
+  background: var(--success);
   color: #fff;
 }
 
 .uva-step-h-label {
   font-weight: 700;
   font-size: 14px;
-  color: #5a627a;
+  color: var(--muted-2);
 }
 
 .uva-step-h.active .uva-step-h-label {
-  color: #e8eaf0;
+  color: var(--text);
 }
 
 .uva-step-h.done .uva-step-h-label {
-  color: #22c55e;
+  color: var(--success);
 }
 
 .uva-step-h-sub {
   font-size: 11px;
-  color: #3a4060;
+  color: var(--muted-3);
   margin-top: 1px;
 }
 
 .uva-step-h.active .uva-step-h-sub {
-  color: #a0a8c0;
+  color: var(--muted);
 }
 
 .uva-step-h.done .uva-step-h-sub {
-  color: #16a34a;
+  color: var(--success);
 }
 
 .uva-step-h-line {
   flex: 1;
   height: 2px;
-  background: #2a2f45;
+  background: var(--border);
   margin: 0 12px;
   min-width: 20px;
 }
 
 .uva-step-h-line.done {
-  background: #22c55e;
+  background: var(--success);
 }
 
 .uva-body {
@@ -166,8 +159,8 @@ body {
 
 .uva-card {
   width: min(920px, 100%);
-  background: #1e2130;
-  border: 1px solid #2a2f45;
+  background: var(--card-alt);
+  border: 1px solid var(--border);
   border-radius: 18px;
   padding: 22px;
 }
@@ -184,7 +177,7 @@ body {
   display: grid;
   place-items: center;
   border-radius: 16px;
-  background: #1a2040;
+  background: rgba(109, 94, 252, 0.14);
   color: #7c6fff;
   font-size: 24px;
 }
@@ -193,23 +186,23 @@ body {
   margin: 0;
   font-size: 26px;
   letter-spacing: -0.02em;
-  color: #e8eaf0;
+  color: var(--text);
 }
 
 .uva-subtitle {
   margin: 8px auto 0;
   max-width: 560px;
   font-size: 14px;
-  color: #a0a8c0;
+  color: var(--muted);
 }
 
 /* Dropzone */
 .uva-dropzone {
   margin: 14px auto 10px;
   width: min(720px, 100%);
-  border: 2px dashed #3a4060;
+  border: 2px dashed var(--muted-3);
   border-radius: 16px;
-  background: #13151f;
+  background: var(--card-alt);
   padding: 30px 14px;
   cursor: pointer;
   outline: none;
@@ -217,18 +210,18 @@ body {
 }
 
 .uva-dropzone:hover {
-  border-color: #4a5080;
+  border-color: var(--muted-2);
   transform: translateY(-1px);
 }
 
 .uva-dropzone.isDragOver {
-  border-color: #6d5efc;
-  background: #1a2040;
+  border-color: var(--primary);
+  background: rgba(109, 94, 252, 0.14);
 }
 
 .uva-dropzone.hasError {
-  border-color: #ef4444;
-  background: #2d1515;
+  border-color: var(--danger);
+  background: rgba(239, 68, 68, 0.14);
 }
 
 .uva-hiddenInput {
@@ -248,18 +241,18 @@ body {
 .uva-dropTitle {
   font-weight: 800;
   font-size: 16px;
-  color: #e8eaf0;
+  color: var(--text);
 }
 
 .uva-dropHint {
   margin-top: 4px;
-  color: #a0a8c0;
+  color: var(--muted);
   font-size: 13px;
 }
 
 .uva-dropMeta {
   margin-top: 10px;
-  color: #5a627a;
+  color: var(--muted-2);
   font-size: 12px;
 }
 
@@ -267,8 +260,8 @@ body {
 .uva-filePill {
   margin: 10px auto 0;
   width: min(520px, 100%);
-  border: 1px solid #2a2f45;
-  background: #262c42;
+  border: 1px solid var(--border);
+  background: var(--card-alt);
   border-radius: 14px;
   padding: 10px 12px;
   display: grid;
@@ -280,7 +273,7 @@ body {
 .uva-fileName {
   font-weight: 700;
   font-size: 13px;
-  color: #e8eaf0;
+  color: var(--text);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -288,13 +281,13 @@ body {
 
 .uva-fileSize {
   font-size: 12px;
-  color: #a0a8c0;
+  color: var(--muted);
 }
 
 .uva-removeBtn {
-  border: 1px solid #2a2f45;
-  background: #1e2130;
-  color: #a0a8c0;
+  border: 1px solid var(--border);
+  background: var(--card-alt);
+  color: var(--muted);
   border-radius: 10px;
   padding: 6px 10px;
   font-weight: 700;
@@ -302,7 +295,7 @@ body {
 }
 
 .uva-removeBtn:hover {
-  background: #262c42;
+  background: var(--card-alt);
 }
 
 .uva-error {
@@ -310,8 +303,8 @@ body {
   margin: 8px auto 0;
   padding: 10px 12px;
   border-radius: 12px;
-  border: 1px solid #7f1d1d;
-  background: #2d1515;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.14);
   color: #f87171;
   font-size: 13px;
 }
@@ -322,8 +315,8 @@ body {
   margin: 12px auto 0;
   padding: 12px 14px;
   border-radius: 14px;
-  border: 1px solid #4a3500;
-  background: #1c1a0e;
+  border: 1px solid rgba(251, 191, 36, 0.35);
+  background: rgba(251, 191, 36, 0.12);
   color: #fbbf24;
   display: flex;
   gap: 10px;
@@ -345,9 +338,9 @@ body {
 }
 
 .uva-secondary {
-  border: 1px solid #2a2f45;
-  background: #1e2130;
-  color: #a0a8c0;
+  border: 1px solid var(--border);
+  background: var(--card-alt);
+  color: var(--muted);
   border-radius: 12px;
   padding: 10px 14px;
   font-weight: 700;
@@ -355,11 +348,11 @@ body {
 }
 
 .uva-secondary:hover {
-  background: #262c42;
+  background: var(--card-alt);
 }
 
 .uva-primary {
-  background: #2563eb;
+  background: var(--primary-blue);
   color: #fff;
   border: none;
   border-radius: 12px;
@@ -391,8 +384,8 @@ body {
 .uva-sourceToggle {
   margin: 14px auto 0;
   width: min(520px, 100%);
-  background: #13151f;
-  border: 1px solid #2a2f45;
+  background: var(--card-alt);
+  border: 1px solid var(--border);
   border-radius: 14px;
   padding: 6px;
   display: grid;
@@ -407,29 +400,29 @@ body {
   padding: 10px 12px;
   font-weight: 800;
   cursor: pointer;
-  color: #5a627a;
+  color: var(--muted-2);
 }
 
 .uva-toggleBtn.active {
-  background: #262c42;
-  border: 1px solid #2a2f45;
+  background: var(--card-alt);
+  border: 1px solid var(--border);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
-  color: #e8eaf0;
+  color: var(--text);
 }
 
 /* YouTube box */
 .uva-youtubeBox {
   width: min(720px, 100%);
   margin: 14px auto 10px;
-  border: 1px solid #2a2f45;
+  border: 1px solid var(--border);
   border-radius: 16px;
   padding: 16px;
-  background: #13151f;
+  background: var(--card-alt);
 }
 
 .uva-youtubeBox.hasError {
-  border-color: #ef4444;
-  background: #2d1515;
+  border-color: var(--danger);
+  background: rgba(239, 68, 68, 0.14);
 }
 
 .uva-label {
@@ -437,14 +430,14 @@ body {
   font-weight: 800;
   font-size: 13px;
   margin-bottom: 8px;
-  color: #e8eaf0;
+  color: var(--text);
 }
 
 .uva-input {
   width: 100%;
-  border: 1px solid #2a2f45;
-  background: #1e2130;
-  color: #e8eaf0;
+  border: 1px solid var(--border);
+  background: var(--card-alt);
+  color: var(--text);
   border-radius: 12px;
   padding: 12px 12px;
   font-size: 14px;
@@ -453,18 +446,18 @@ body {
 }
 
 .uva-input::placeholder {
-  color: #5a627a;
+  color: var(--muted-2);
 }
 
 .uva-input:focus {
-  border-color: #6d5efc;
+  border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(109, 94, 252, 0.15);
 }
 
 .uva-inputHint {
   margin-top: 8px;
   font-size: 12px;
-  color: #5a627a;
+  color: var(--muted-2);
 }
 
 .uva-urlStatus {
@@ -478,14 +471,14 @@ body {
 
 .uva-urlStatus.ok {
   color: #34d399;
-  background: #0d2a1e;
-  border: 1px solid #064e3b;
+  background: rgba(34, 197, 94, 0.14);
+  border: 1px solid rgba(34, 197, 94, 0.4);
 }
 
 .uva-urlStatus.bad {
   color: #f87171;
-  background: #2d1515;
-  border: 1px solid #7f1d1d;
+  background: rgba(239, 68, 68, 0.14);
+  border: 1px solid rgba(239, 68, 68, 0.4);
 }
 
 /* Game settings (Home / Roster toggles) */
@@ -502,8 +495,8 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  border: 1px solid #2a2f45;
-  background: #13151f;
+  border: 1px solid var(--border);
+  background: var(--card-alt);
   border-radius: 14px;
   padding: 12px 16px;
 }
@@ -517,12 +510,12 @@ body {
 .uva-settingTitle {
   font-size: 13px;
   font-weight: 700;
-  color: #e8eaf0;
+  color: var(--text);
 }
 
 .uva-settingSub {
   font-size: 11px;
-  color: #5a627a;
+  color: var(--muted-2);
 }
 
 .uva-toggle {
@@ -531,7 +524,7 @@ body {
   height: 26px;
   border-radius: 999px;
   border: none;
-  background: #2a2f45;
+  background: var(--border);
   cursor: pointer;
   padding: 3px;
   flex-shrink: 0;
@@ -539,7 +532,7 @@ body {
 }
 
 .uva-toggle.on {
-  background: #6d5efc;
+  background: var(--primary);
 }
 
 .uva-toggle-knob {
@@ -547,7 +540,7 @@ body {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #e8eaf0;
+  background: var(--text);
   transition: transform 0.15s;
 }
 

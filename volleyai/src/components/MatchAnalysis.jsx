@@ -1,21 +1,25 @@
 import { API_BASE } from "../config.js";
 import React, { useEffect, useRef, useState, useCallback } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import "./MatchAnalysis.css";
 
 const API = API_BASE;
 
 const ACTION_COLOR = {
-    serve:          "#f97316",  // orange
-    spike:          "#ef4444",  // red
-    attack:         "#ef4444",  // red (alias)
-    set:            "#06b6d4",  // cyan
-    defence:        "#fb923c",  // light orange
-    "defense-move": "#fb923c",  // light orange (alias)
+    // Real action strings the model/pipeline actually produces:
+    service:        "#f97316",  // orange
+    attack:         "#ef4444",  // red
+    setting:        "#06b6d4",  // cyan
+    "defense-move": "#fb923c",  // light orange
     block:          "#a855f7",  // purple
-    dig:            "#22c55e",  // green
-    bump:           "#22c55e",  // green (alias)
-    receive:        "#3b82f6",  // blue
+    // Aliases kept for any older/alternate naming still floating around.
+    serve:  "#f97316",
+    spike:  "#ef4444",
+    set:    "#06b6d4",
+    defence:"#fb923c",
+    dig:    "#22c55e",
+    bump:   "#22c55e",
+    receive:"#3b82f6",
 };
 
 const RESULT_LABEL = {
@@ -36,6 +40,8 @@ function toTimeStr(sec) {
 export default function MatchAnalysis() {
     const { videoId } = useParams();
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const seekParam = searchParams.get("seek");
     const videoRef = useRef(null);
     const actionRefs = useRef({});
     const rallyRefs  = useRef({});
@@ -53,6 +59,8 @@ export default function MatchAnalysis() {
     const [scoreEvents, setScoreEvents]   = useState([]);
     const [teamNames, setTeamNames]       = useState({ us: "Us", opp: "Opp" });
     const [allActions, setAllActions]     = useState([]);
+    const [duration, setDuration]         = useState(0);
+    const [playheadSec, setPlayheadSec]   = useState(0);
 
     // ── Load team names ───────────────────────────────────────
     useEffect(() => {
@@ -168,6 +176,7 @@ export default function MatchAnalysis() {
         if (!video || !allActions.length) return;
         const onTime = () => {
             const t = video.currentTime;
+            setPlayheadSec(t);
 
             // Active action highlight
             let best = null;
@@ -376,7 +385,8 @@ export default function MatchAnalysis() {
             </div>
 
             <div className="ma-body">
-                {/* Processed video with boxes + trail */}
+                {/* Processed video with boxes + trail, plus timeline below it */}
+                <div className="ma-video-column">
                 <div className="ma-video-wrap">
                     <video
                         ref={videoRef}
@@ -384,6 +394,14 @@ export default function MatchAnalysis() {
                         src={videoUrl || `${API}/analysis-video/active_player.mp4`}
                         controls
                         playsInline
+                        onLoadedMetadata={(e) => {
+                            setDuration(e.currentTarget.duration || 0);
+                            const seekSec = parseFloat(seekParam);
+                            if (!isNaN(seekSec)) {
+                                e.currentTarget.currentTime = seekSec;
+                                e.currentTarget.play().catch(() => {});
+                            }
+                        }}
                     />
                     <div className="ma-score-overlay">
                         <span className="ma-score-team">{teamNames.us}</span>
@@ -394,6 +412,52 @@ export default function MatchAnalysis() {
                         </span>
                         <span className="ma-score-team">{teamNames.opp}</span>
                     </div>
+                </div>
+
+                {duration > 0 && (
+                    <div className="ma-timeline">
+                        <div
+                            className="ma-timeline-track"
+                            onClick={(e) => {
+                                const rect = e.currentTarget.getBoundingClientRect();
+                                const frac = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
+                                if (videoRef.current) videoRef.current.currentTime = frac * duration;
+                            }}
+                        >
+                            {rallies.map(rally => (
+                                <div
+                                    key={rally.rally_id}
+                                    className={`ma-timeline-rally ${activeRallyId === rally.rally_id ? "ma-timeline-rally-active" : ""}`}
+                                    style={{
+                                        left:  `${(rally.start_sec / duration) * 100}%`,
+                                        width: `${Math.max(0, (rally.end_sec - rally.start_sec) / duration) * 100}%`,
+                                    }}
+                                    title={`Rally ${rally.rally_id} (${toTimeStr(rally.start_sec)}–${toTimeStr(rally.end_sec)})`}
+                                    onClick={(e) => { e.stopPropagation(); seekToRally(rally); }}
+                                />
+                            ))}
+                            {allActions.map((act, i) => (
+                                <button
+                                    key={i}
+                                    type="button"
+                                    className={`ma-timeline-dot ${activeFrame === act.frame ? "ma-timeline-dot-active" : ""}`}
+                                    style={{ left: `${(act.time_sec / duration) * 100}%`, background: ACTION_COLOR[act.action] ?? "#888" }}
+                                    title={`${act.time_str} — ${act.action_label} by ${act.player_label}`}
+                                    onClick={(e) => { e.stopPropagation(); seekTo(act); }}
+                                />
+                            ))}
+                            <div className="ma-timeline-playhead" style={{ left: `${Math.min(100, (playheadSec / duration) * 100)}%` }} />
+                        </div>
+                        <div className="ma-timeline-legend">
+                            {[...new Set(allActions.map(a => a.action))].map(action => (
+                                <span key={action} className="ma-timeline-legend-item">
+                                    <span className="ma-timeline-legend-dot" style={{ background: ACTION_COLOR[action] ?? "#888" }} />
+                                    {action}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                )}
                 </div>
 
                 {/* Right panel */}

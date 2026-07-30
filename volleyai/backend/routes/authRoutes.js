@@ -10,6 +10,7 @@ const {
   me,
   logout,
   getMyTeam,
+  updateMyTeamName,
   addMyTeamPlayer,
   deleteMyTeamPlayer,
 } = require("../controllers/authController");
@@ -26,6 +27,7 @@ router.get("/me", requireAuth, me);
 router.post("/logout", logout);
 
 router.get("/my-team", requireAuth, getMyTeam);
+router.patch("/my-team/name", requireAuth, updateMyTeamName);
 router.post("/my-team", requireAuth, addMyTeamPlayer);
 router.delete("/my-team/:playerId", requireAuth, deleteMyTeamPlayer);
 

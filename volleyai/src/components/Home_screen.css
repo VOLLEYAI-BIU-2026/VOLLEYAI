@@ -1,13 +1,13 @@
 :root {
-  --bg: #0f1117;
-  --surface: #13151f;
-  --card: #1e2130;
-  --border: #2a2f45;
-  --text: #e8eaf0;
-  --muted: #a0a8c0;
-  --primary: #6d5efc;
-  --primary-soft: #1a1d2e;
+  /* --bg/--card/--border/--text/--muted/--primary come from the shared
+     app-wide theme in index.css; only genuinely page-local tokens live here. */
+  --surface: var(--card-alt);
+  --primary-soft: var(--card);
   --shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+:root[data-theme="light"] {
+  --surface: #ffffff;
+  --shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
 }
 
 html,
@@ -68,18 +68,6 @@ body {
   flex-shrink: 0;
 }
 
-.hs-logo {
-  width: 40px;
-  height: 40px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #6d5efc, #4f46e5);
-  color: #fff;
-  display: grid;
-  place-items: center;
-  font-size: 22px;
-  box-shadow: 0 6px 16px rgba(109, 94, 252, 0.35);
-  flex-shrink: 0;
-}
 
 .hs-brandName {
   font-weight: 900;
@@ -92,7 +80,7 @@ body {
 .hs-searchWrap {
   flex: 1;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
 }
 
 .hs-search {
@@ -103,17 +91,36 @@ body {
   border-radius: 14px;
   padding: 0 14px;
   outline: none;
-  background: #1a1d2e;
+  background: var(--card);
   color: var(--text);
 }
 
 .hs-search::placeholder {
-  color: #5a627a;
+  color: var(--muted-2);
 }
 
 .hs-search:focus {
-  border-color: #6d5efc;
+  border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(109, 94, 252, 0.15);
+}
+
+.hs-teamNameBadge {
+  margin-right: 12px;
+  flex-shrink: 0;
+  background: var(--card-alt);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-weight: 700;
+  font-size: 13px;
+  border-radius: 10px;
+  padding: 0 14px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Avatar */
@@ -125,7 +132,7 @@ body {
   width: 38px;
   height: 38px;
   border-radius: 999px;
-  background: linear-gradient(135deg, #6d5efc, #4f46e5);
+  background: linear-gradient(135deg, var(--primary), #4f46e5);
   border: none;
   cursor: pointer;
   font-weight: 800;
@@ -145,8 +152,8 @@ body {
   right: 0;
   top: calc(100% + 10px);
   min-width: 220px;
-  background: #1e2130;
-  border: 1px solid #2a2f45;
+  background: var(--card-alt);
+  border: 1px solid var(--border);
   border-radius: 14px;
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
   padding: 10px;
@@ -155,9 +162,9 @@ body {
 
 .hs-menuEmail {
   font-size: 14px;
-  color: #5a627a;
+  color: var(--muted-2);
   padding: 8px 10px;
-  border-bottom: 1px solid #2a2f45;
+  border-bottom: 1px solid var(--border);
   margin-bottom: 6px;
   word-break: break-all;
 }
@@ -172,12 +179,12 @@ body {
   text-align: left;
   font-size: 15px;
   font-weight: 600;
-  color: #e8eaf0;
+  color: var(--text);
   transition: background 0.15s;
 }
 
 .hs-menuItem:hover {
-  background: #262c42;
+  background: var(--card-alt);
 }
 
 /* Grid */
@@ -253,13 +260,75 @@ body {
   top: 10px;
   right: 10px;
   font-size: 11px;
-  color: #e8eaf0;
+  /* Fixed white, not var(--text) -- this sits on the video thumbnail, which
+     is always dark, not on the page surface, so it must not flip dark in
+     light mode the way theme-linked text does. */
+  color: #fff;
   text-shadow: 0 1px 3px rgba(0,0,0,0.9);
   z-index: 2;
   display: flex;
   align-items: center;
   gap: 4px;
 }
+.hs-cardDateBtn {
+  background: rgba(0, 0, 0, 0.35);
+  border: none;
+  border-radius: 999px;
+  padding: 4px 9px;
+  cursor: pointer;
+  text-shadow: none;
+}
+.hs-cardDateBtn:hover { background: rgba(0, 0, 0, 0.55); }
+.hs-cardDateEditing { background: rgba(0, 0, 0, 0.55); border-radius: 999px; padding: 3px 6px 3px 9px; }
+.hs-dateInput {
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 11px;
+  outline: none;
+  color-scheme: dark;
+  width: 108px;
+}
+
+/* Score — absolute top left, below the status badge */
+.hs-cardScore {
+  position: absolute;
+  top: 44px;
+  left: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff; /* fixed white — same reasoning as .hs-cardDate above */
+  text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.hs-cardScoreBtn {
+  background: rgba(0, 0, 0, 0.35);
+  border: none;
+  border-radius: 999px;
+  padding: 4px 9px;
+  cursor: pointer;
+}
+.hs-cardScoreComputed {
+  background: rgba(13, 42, 30, 0.9);
+  border: 1px solid #22c55e;
+  border-radius: 999px;
+  padding: 4px 9px;
+  color: #4ade80;
+}
+.hs-cardScoreBtn:hover { background: rgba(0, 0, 0, 0.55); }
+.hs-cardScoreEditing { background: rgba(0, 0, 0, 0.55); border-radius: 999px; padding: 3px 6px 3px 9px; }
+.hs-scoreInput {
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 11px;
+  outline: none;
+  width: 64px;
+}
+.hs-scoreInput::placeholder { color: rgba(255, 255, 255, 0.6); }
 
 .hs-badge.ready {
   background: rgba(13, 42, 30, 0.9);
@@ -275,8 +344,8 @@ body {
 
 .hs-badge.uploaded {
   background: rgba(26, 29, 46, 0.9);
-  color: #a0a8c0;
-  border-color: #2a2f45;
+  color: var(--muted);
+  border-color: var(--border);
 }
 
 .hs-spinner {
@@ -328,7 +397,7 @@ body {
 .hs-vsOverlay {
   font-size: 11px;
   font-weight: 700;
-  color: #a0a8c0;
+  color: var(--muted);
   text-align: center;
   flex-shrink: 0;
 }
@@ -336,7 +405,7 @@ body {
 .hs-editOverlayBtn {
   border: none;
   background: rgba(255,255,255,0.15);
-  color: #e8eaf0;
+  color: var(--text);
   border-radius: 6px;
   width: 26px;
   height: 26px;
@@ -360,7 +429,7 @@ body {
   z-index: 2;
   border: none;
   background: rgba(255,255,255,0.15);
-  color: #e8eaf0;
+  color: var(--text);
   border-radius: 6px;
   width: 26px;
   height: 26px;
@@ -429,12 +498,12 @@ body {
 .hs-teamName {
   font-weight: 700;
   font-size: 15px;
-  color: #e8eaf0;
+  color: var(--text);
 }
 
 .hs-videoLabel {
   font-size: 11px;
-  color: #5a627a;
+  color: var(--muted-2);
   margin-top: 4px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -444,7 +513,7 @@ body {
 .hs-vs {
   font-size: 12px;
   font-weight: 700;
-  color: #5a627a;
+  color: var(--muted-2);
   text-align: center;
   margin: 2px 0;
 }
@@ -455,14 +524,14 @@ body {
   justify-content: space-between;
   gap: 8px;
   padding-top: 12px;
-  border-top: 1px solid #2a2f45;
+  border-top: 1px solid var(--border);
 }
 
 .hs-action {
   flex: 1;
   border: none;
   background: transparent;
-  color: #6d5efc;
+  color: var(--primary);
   font-weight: 700;
   cursor: pointer;
   padding: 8px 4px;
@@ -480,7 +549,7 @@ body {
 }
 
 .hs-action-dim {
-  color: #3a4060;
+  color: var(--muted-3);
   opacity: 0.6;
 }
 
@@ -493,7 +562,7 @@ body {
   width: 100%;
   min-height: 240px;
   background: transparent;
-  border: 2px dashed #2a2f45;
+  border: 2px dashed var(--border);
   border-radius: 22px;
   cursor: pointer;
   display: grid;
@@ -503,25 +572,25 @@ body {
 }
 
 .hs-newCard:hover {
-  border-color: #6d5efc;
-  background: #1a1d2e;
+  border-color: var(--primary);
+  background: var(--card);
 }
 
 .hs-plus {
   width: 58px;
   height: 58px;
   border-radius: 999px;
-  border: 1px solid #2a2f45;
-  background: #1e2130;
+  border: 1px solid var(--border);
+  background: var(--card-alt);
   display: grid;
   place-items: center;
   font-size: 30px;
-  color: #6d5efc;
+  color: var(--primary);
 }
 
 .hs-newText {
   font-weight: 900;
-  color: #a0a8c0;
+  color: var(--muted);
   font-size: 15px;
   text-align: center;
 }
@@ -545,24 +614,24 @@ body {
 .hs-tab {
   min-height: 44px;
   border: 1px solid var(--border);
-  background: #1a1d2e;
+  background: var(--card);
   padding: 10px 16px;
   border-radius: 14px;
   font-weight: 800;
   cursor: pointer;
-  color: #a0a8c0;
+  color: var(--muted);
   transition: 0.15s ease;
 }
 
 .hs-tab:hover {
-  background: #262c42;
-  color: #e8eaf0;
+  background: var(--card-alt);
+  color: var(--text);
 }
 
 .hs-tab.active {
   background: #1e1a3a;
-  border: 2px solid #6d5efc;
-  color: #6d5efc;
+  border: 2px solid var(--primary);
+  color: var(--primary);
 }
 
 /* Responsive */

@@ -19,6 +19,7 @@ export default function PlayerMerge() {
     const [keepKey, setKeepKey] = useState(null);
     const [loading, setLoading] = useState(true);
     const [merging, setMerging] = useState(false);
+    const [erasing, setErasing] = useState(false);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
 
@@ -37,6 +38,50 @@ export default function PlayerMerge() {
     useEffect(loadRegistry, [videoId]);
 
     const entries = Object.entries(registry).sort(([, a], [, b]) => (b.event_count || 0) - (a.event_count || 0));
+    const emptyKeys = entries.filter(([, d]) => !(d.event_count > 0)).map(([k]) => k);
+
+    async function eraseKeys(keys) {
+        setErasing(true);
+        setError("");
+        setSuccess("");
+        try {
+            const res = await fetch(`${API}/videos/${videoId}/player-registry/delete`, {
+                method: "POST",
+                credentials: "include",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ keys }),
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || "Erase failed");
+            setRegistry((prev) => {
+                const next = { ...prev };
+                for (const k of keys) delete next[k];
+                return next;
+            });
+            setSelected((prev) => {
+                const next = new Set(prev);
+                for (const k of keys) next.delete(k);
+                return next;
+            });
+            if (keepKey && keys.includes(keepKey)) setKeepKey(null);
+            setSuccess(`Erased ${keys.length} entr${keys.length === 1 ? "y" : "ies"}.`);
+        } catch (err) {
+            setError(err.message || "Erase failed.");
+        } finally {
+            setErasing(false);
+        }
+    }
+
+    function handleErase(key, label) {
+        if (!window.confirm(`Erase ${label}? This can't be undone.`)) return;
+        eraseKeys([key]);
+    }
+
+    function handleEraseEmpty() {
+        if (emptyKeys.length === 0) return;
+        if (!window.confirm(`Erase ${emptyKeys.length} entr${emptyKeys.length === 1 ? "y" : "ies"} with 0 events?`)) return;
+        eraseKeys(emptyKeys);
+    }
 
     function toggleSelect(key) {
         setError("");
@@ -102,13 +147,25 @@ export default function PlayerMerge() {
                             <h1 className="pm-title">Merge Players</h1>
                         </div>
                     </div>
-                    <button
-                        className="pm-mergeBtn"
-                        onClick={handleMerge}
-                        disabled={selected.size < 2 || merging}
-                    >
-                        {merging ? "Merging..." : `Merge Selected (${selected.size})`}
-                    </button>
+                    <div className="pm-headerRight">
+                        {emptyKeys.length > 0 && (
+                            <button
+                                className="pm-eraseEmptyBtn"
+                                onClick={handleEraseEmpty}
+                                disabled={erasing}
+                                title="Remove every entry with 0 events"
+                            >
+                                Erase {emptyKeys.length} empty
+                            </button>
+                        )}
+                        <button
+                            className="pm-mergeBtn"
+                            onClick={handleMerge}
+                            disabled={selected.size < 2 || merging}
+                        >
+                            {merging ? "Merging..." : `Merge Selected (${selected.size})`}
+                        </button>
+                    </div>
                 </div>
 
                 {error && <div className="pm-error">{error}</div>}
@@ -117,7 +174,8 @@ export default function PlayerMerge() {
                 <div className="pm-hint">
                     Same physical player showing up as two different jersey numbers (e.g. a misread "2" that's
                     really "42")? Select both cards below, pick which number to keep, and merge them into one
-                    identity — their events and stats will be combined.
+                    identity — their events and stats will be combined. A card with a stray detection and no
+                    real events isn't worth merging — erase it (✕) instead.
                 </div>
 
                 <div className="pm-grid">
@@ -136,6 +194,15 @@ export default function PlayerMerge() {
                                     ) : (
                                         <div className="pm-noThumb">?</div>
                                     )}
+                                    <button
+                                        type="button"
+                                        className="pm-eraseBtn"
+                                        title="Erase this entry"
+                                        disabled={erasing}
+                                        onClick={(e) => { e.stopPropagation(); handleErase(key, labelFor(key, data)); }}
+                                    >
+                                        🗑️
+                                    </button>
                                     <input
                                         type="checkbox"
                                         className="pm-checkbox"

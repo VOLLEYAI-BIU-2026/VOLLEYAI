@@ -82,6 +82,17 @@ export default function UploadVideo({
     }
   }
 
+  async function startAnalysisAndGo(videoId) {
+    try {
+      await fetch(`${API_BASE}/videos/${videoId}/start-analysis`, {
+        method: "POST",
+        credentials: "include",
+      });
+    } catch { /* pipeline starts in background */ }
+
+    navigate(`/match-analysis/${videoId}`);
+  }
+
   function switchSource(type) {
     resetErrors();
     setSourceType(type);
@@ -172,7 +183,7 @@ export default function UploadVideo({
         }
 
         await applyGameSettings(data.video._id);
-        navigate(`/jersey-setup/${data.video._id}`);
+        await startAnalysisAndGo(data.video._id);
         return;
       }
 
@@ -196,7 +207,7 @@ export default function UploadVideo({
       }
 
       await applyGameSettings(data.video._id);
-      navigate(`/jersey-setup/${data.video._id}`);
+      await startAnalysisAndGo(data.video._id);
     } catch (e) {
       setError("Server error. Please try again in a moment.");
     } finally {

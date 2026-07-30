@@ -225,7 +225,26 @@ async function getMyTeam(req, res) {
   try {
     const user = await User.findById(req.user.id);
     if (!user) return res.status(404).json({ message: "User not found" });
-    return res.status(200).json({ players: user.myTeamRoster?.players || [] });
+    return res.status(200).json({
+      teamName: user.myTeamRoster?.teamName || "",
+      players: user.myTeamRoster?.players || [],
+    });
+  } catch (error) {
+    return res.status(500).json({ message: "Server error", error: error.message });
+  }
+}
+
+async function updateMyTeamName(req, res) {
+  try {
+    const { teamName } = req.body;
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    if (!user.myTeamRoster) user.myTeamRoster = { players: [] };
+    user.myTeamRoster.teamName = (teamName || "").trim();
+    await user.save();
+
+    return res.status(200).json({ teamName: user.myTeamRoster.teamName });
   } catch (error) {
     return res.status(500).json({ message: "Server error", error: error.message });
   }
@@ -287,6 +306,7 @@ module.exports = {
   me,
   logout,
   getMyTeam,
+  updateMyTeamName,
   addMyTeamPlayer,
   deleteMyTeamPlayer,
 };

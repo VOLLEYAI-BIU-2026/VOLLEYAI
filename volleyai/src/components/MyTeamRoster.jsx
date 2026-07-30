@@ -29,6 +29,10 @@ export default function MyTeamRoster() {
     const [name, setName] = useState("");
     const [position, setPosition] = useState("");
 
+    const [teamName, setTeamName] = useState("");
+    const [savedTeamName, setSavedTeamName] = useState("");
+    const [teamNameSaving, setTeamNameSaving] = useState(false);
+
     useEffect(() => {
         (async () => {
             try {
@@ -37,11 +41,35 @@ export default function MyTeamRoster() {
                     cache: "no-store",
                 });
                 const data = await res.json();
-                if (res.ok) setPlayers(data.players || []);
+                if (res.ok) {
+                    setPlayers(data.players || []);
+                    setTeamName(data.teamName || "");
+                    setSavedTeamName(data.teamName || "");
+                }
             } catch { /* start empty */ }
             setLoading(false);
         })();
     }, []);
+
+    async function saveTeamName() {
+        const trimmed = teamName.trim();
+        if (trimmed === savedTeamName) return;
+        setTeamNameSaving(true);
+        try {
+            const res = await fetch(`${API}/auth/my-team/name`, {
+                method: "PATCH",
+                credentials: "include",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ teamName: trimmed }),
+            });
+            const data = await res.json();
+            if (res.ok) {
+                setTeamName(data.teamName || "");
+                setSavedTeamName(data.teamName || "");
+            }
+        } catch { /* leave field as typed on failure */ }
+        setTeamNameSaving(false);
+    }
 
     async function addPlayer(e) {
         e.preventDefault();
@@ -104,6 +132,19 @@ export default function MyTeamRoster() {
                     it for every match instead of retyping it each time. Enable the
                     "Use My Team" toggle when setting up a new match to pull this in.
                 </p>
+
+                <div className="mt-teamNameRow">
+                    <label className="mt-teamNameLabel" htmlFor="teamName">Team name</label>
+                    <input
+                        id="teamName"
+                        className="mt-input mt-teamNameInput"
+                        placeholder="e.g. Maccabi"
+                        value={teamName}
+                        onChange={(e) => setTeamName(e.target.value)}
+                        onBlur={saveTeamName}
+                        disabled={teamNameSaving}
+                    />
+                </div>
 
                 <form className="mt-form" onSubmit={addPlayer}>
                     <input

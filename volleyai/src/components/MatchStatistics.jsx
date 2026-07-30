@@ -1,11 +1,29 @@
 import { API_BASE } from "../config.js";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import RallyActionChart from "./RallyActionChart.jsx";
+import RallyStatsTab from "./RallyStatsTab.jsx";
 import "./MatchStatistics.css";
 
 const API = API_BASE;
 
-const TABS = ["Attack", "Serve", "Set", "Defence", "Block"];
+const TABS = ["Rally", "Attack", "Serve", "Set", "Defence", "Block"];
+
+// Which raw action type each tab's chart counts per rally, and the chart's title.
+const TAB_ACTION_TYPE = {
+  Attack:  "attack",
+  Serve:   "service",
+  Set:     "setting",
+  Defence: "defense-move",
+  Block:   "block",
+};
+const TAB_CHART_TITLE = {
+  Attack:  "Attacks per rally",
+  Serve:   "Serves per rally",
+  Set:     "Sets per rally",
+  Defence: "Defensive touches per rally",
+  Block:   "Blocks per rally",
+};
 
 function fmt(val, decimals = 0) {
   if (val === null || val === undefined) return "-";
@@ -27,14 +45,14 @@ function hasTabContribution(p, tab) {
     case "Serve":   return (p.serve?.TA ?? 0) > 0;
     case "Set":     return (p.set?.TA ?? 0) > 0;
     case "Defence": return (p.defence?.TA ?? 0) > 0;
-    case "Block":   return (p.block?.BA ?? 0) > 0;
+    case "Block":   return (p.block?.TA ?? 0) > 0;
     default:        return true;
   }
 }
 
 // How many <td> columns (including NAME) each tab's table has, for the
 // colSpan of the "nobody did this yet" row.
-const TAB_COLSPAN = { Attack: 5, Serve: 7, Set: 9, Defence: 4, Block: 4 };
+const TAB_COLSPAN = { Attack: 5, Serve: 7, Set: 4, Defence: 4, Block: 5 };
 
 const STAT_DEFS = {
   Attack: {
@@ -55,11 +73,6 @@ const STAT_DEFS = {
     AST: { full: "Assist",           desc: "A set that directly leads to a kill." },
     TA:  { full: "Total Attempts",   desc: "Total number of sets." },
     SE:  { full: "Set Error",        desc: "A set that directly results in an unplayable ball or a lost point." },
-    "3": { full: "Set Grade 3",      desc: "Perfect set — hitter had a full choice of attack. Not currently tracked by the model." },
-    "2": { full: "Set Grade 2",      desc: "Good set — hitter had a limited choice of attack. Not currently tracked by the model." },
-    "1": { full: "Set Grade 1",      desc: "Poor set — hitter had almost no options. Not currently tracked by the model." },
-    "0": { full: "Set Grade 0",      desc: "Unplayable set. Not currently tracked by the model." },
-    RTG: { full: "Set Rating",       desc: "Average quality grade across all sets. Not currently tracked by the model." },
   },
   Defence: {
     DS:    { full: "Dig Save",                desc: "A dig that keeps the ball in play." },
@@ -67,9 +80,10 @@ const STAT_DEFS = {
     "DS%": { full: "Dig Success Percentage",  desc: "Share of defensive attempts that were successful: Digs Saved ÷ Total Attempts." },
   },
   Block: {
-    BK: { full: "Block Kill",  desc: "A block that scores directly for a point." },
-    BA: { full: "Block Attempt", desc: "Total number of block attempts — touches at the net." },
-    BE: { full: "Block Error", desc: "A block attempt that results in a point for the opponent — net touch, deflected out, etc." },
+    BK:    { full: "Block Kill",   desc: "A block that scores directly for a point." },
+    BE:    { full: "Block Error",  desc: "A block attempt that results in a point for the opponent — net touch, deflected out, etc." },
+    BT:    { full: "Block Touch",  desc: "A block contact that didn't decide the rally — neither a kill nor an error. Not counted toward Win%: there's no signal to confirm it actually helped." },
+    "WIN%":{ full: "Block Win %",  desc: "Share of decisive blocks that scored: Kills ÷ (Kills + Errors). Touches (BT) are excluded from both sides." },
   },
 };
 
@@ -93,22 +107,24 @@ export default function MatchStatistics() {
   const { videoId = "latest" } = useParams();
   const navigate = useNavigate();
 
-  const [activeTab, setActiveTab] = useState("Attack");
+  const [activeTab, setActiveTab] = useState("Rally");
   const [search, setSearch] = useState("");
   const teamFilter = "all";
   const [stats, setStats] = useState({});
   const [rosterMap, setRosterMap] = useState({});
   const [validJerseys, setValidJerseys] = useState(null);
+  const [rallies, setRallies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
     async function fetchAll() {
       try {
-        const [statsRes, rosterRes, registryRes] = await Promise.all([
+        const [statsRes, rosterRes, registryRes, rallyRes] = await Promise.all([
           fetch(`${API}/videos/${videoId}/player-stats`, { credentials: "include" }),
           fetch(`${API}/videos/${videoId}/team-roster`, { credentials: "include" }),
           fetch(`${API}/videos/player-registry`, { credentials: "include" }),
+          fetch(`${API}/videos/${videoId}/rally-analysis`, { credentials: "include" }),
         ]);
 
         const statsData = await statsRes.json();
@@ -135,6 +151,11 @@ export default function MatchStatistics() {
             setValidJerseys(jerseys);
           }
         }
+
+        if (rallyRes.ok) {
+          const rallyData = await rallyRes.json();
+          setRallies(rallyData.rallies || []);
+        }
       } catch {
         setError("Failed to load stats.");
       } finally {
@@ -158,12 +179,48 @@ export default function MatchStatistics() {
       return true;
     });
 
-  const players = rosterPlayers
-    .filter((p) => hasTabContribution(p, activeTab))
+  const tabEligiblePlayers = rosterPlayers.filter((p) => hasTabContribution(p, activeTab));
+
+  const players = tabEligiblePlayers
     .filter((p) =>
       search ? p.label.toLowerCase().includes(search.toLowerCase()) : true
     )
     .sort((a, b) => b.total_events - a.total_events);
+
+  // Crowns whoever leads the tab's own headline stat (the same column
+  // already styled ms-highlight) — computed off the full tab roster, not the
+  // search-narrowed `players` list, so typing in the search box can't make
+  // the "best" player appear to change. A raw-count tie (e.g. two players
+  // both on 1 kill) falls through to an efficiency tiebreaker rather than
+  // crowning both — verified against real output: #3 and #13 tied at K:1,
+  // but #3's ATK% (0.5) was clearly better than #13's (0.25), and only one
+  // of them is "the" best attacker. Only a genuine tie on both keys crowns
+  // more than one player; nobody's crowned when the whole tab is at zero.
+  const bestPlayerRank = {
+    Attack:  (p) => [p.attack?.K ?? 0, p.attack?.["ATK%"] ?? -Infinity],
+    Serve:   (p) => [p.serve?.SA ?? 0, p.serve?.EFF ?? -Infinity],
+    Set:     (p) => [p.set?.AST ?? 0, p.set?.TA ?? 0],
+    Defence: (p) => [p.defence?.DS ?? 0, p.defence?.["DS%"] ?? -Infinity],
+    Block:   (p) => [p.block?.BK ?? 0, p.block?.["WIN%"] ?? -Infinity],
+  }[activeTab];
+  const compareRank = (a, b) => a[0] !== b[0] ? b[0] - a[0] : b[1] - a[1];
+  let bestPlayerKeys = new Set();
+  if (bestPlayerRank && tabEligiblePlayers.length > 0) {
+    const ranked = [...tabEligiblePlayers].sort((a, b) => compareRank(bestPlayerRank(a), bestPlayerRank(b)));
+    const topRank = bestPlayerRank(ranked[0]);
+    if (topRank[0] > 0) {
+      bestPlayerKeys = new Set(
+        ranked.filter((p) => compareRank(bestPlayerRank(p), topRank) === 0).map((p) => p.key)
+      );
+    }
+  }
+
+  // One count per rally of the active tab's action type — e.g. how many
+  // attacks happened in each rally, for the chart under the Attack table.
+  const rallyChartData = rallies.map((r) => ({
+    rally_id: r.rally_id,
+    count: (r.actions || []).filter((a) => a.action === TAB_ACTION_TYPE[activeTab]).length,
+  }));
 
   // Team row = sum of every rostered player's raw counts, not just the
   // currently searched/sorted subset — a search shouldn't change what
@@ -172,7 +229,7 @@ export default function MatchStatistics() {
     const t = {
       attack:  { K: 0, E: 0, TA: 0 },
       serve:   { SA: 0, SE: 0, TA: 0, RW: 0 },
-      block:   { BK: 0, BA: 0, BE: 0 },
+      block:   { BK: 0, BE: 0, BT: 0 },
       defence: { DS: 0, DE: 0, TA: 0 },
       set:     { AST: 0, SE: 0, TA: 0 },
     };
@@ -185,8 +242,8 @@ export default function MatchStatistics() {
       t.serve.TA   += p.serve?.TA ?? 0;
       t.serve.RW   += p.serve?.RW ?? 0;
       t.block.BK   += p.block?.BK ?? 0;
-      t.block.BA   += p.block?.BA ?? 0;
       t.block.BE   += p.block?.BE ?? 0;
+      t.block.BT   += p.block?.BT ?? 0;
       t.defence.DS += p.defence?.DS ?? 0;
       t.defence.DE += p.defence?.DE ?? 0;
       t.defence.TA += p.defence?.TA ?? 0;
@@ -198,6 +255,12 @@ export default function MatchStatistics() {
     t.serve.PCT      = t.serve.TA   > 0 ? (t.serve.TA - t.serve.SE) / t.serve.TA  : null;
     t.serve.EFF      = t.serve.TA   > 0 ? (t.serve.SA - t.serve.SE) / t.serve.TA  : null;
     t.defence["DS%"] = t.defence.TA > 0 ? t.defence.DS / t.defence.TA            : null;
+    // BK/BE can be fractional (joint blocks split evenly) -- round off
+    // summation drift before it's displayed or divided.
+    t.block.BK = Math.round(t.block.BK * 100) / 100;
+    t.block.BE = Math.round(t.block.BE * 100) / 100;
+    const blockDecisive = t.block.BK + t.block.BE;
+    t.block["WIN%"]  = blockDecisive > 0 ? t.block.BK / blockDecisive : null;
     return t;
   })();
 
@@ -206,7 +269,7 @@ export default function MatchStatistics() {
     // to be open — uses rosterPlayers (not the tab-filtered `players`), so a
     // player who e.g. never blocked still shows up with their serve/attack
     // numbers instead of being silently dropped depending on the active tab.
-    const headers = ["Player", "K", "E", "TA", "ATK%", "SA", "SE", "RW", "AST", "DS", "DE", "BS", "BA"];
+    const headers = ["Player", "K", "E", "TA", "ATK%", "SA", "SE", "RW", "AST", "DS", "DE", "BK", "BE"];
     const rows = rosterPlayers.map((p) => [
       p.label,
       p.attack?.K ?? 0,
@@ -219,8 +282,8 @@ export default function MatchStatistics() {
       p.set?.AST ?? 0,
       p.defence?.DS ?? 0,
       p.defence?.DE ?? 0,
-      p.block?.BS ?? 0,
-      p.block?.BA ?? 0,
+      p.block?.BK ?? 0,
+      p.block?.BE ?? 0,
     ]);
     const csv = [headers, ...rows].map((r) => r.join(",")).join("\n");
     const blob = new Blob([csv], { type: "text/csv" });
@@ -246,8 +309,8 @@ export default function MatchStatistics() {
             </div>
           </div>
           <div className="ms-headerRight">
-            <button className="ms-registryBtn" onClick={() => navigate("/player-registry")}>
-              Player Registry
+            <button className="ms-registryBtn" onClick={() => navigate(`/player-select/${videoId}`)}>
+              Player Stats
             </button>
             <button className="ms-exportBtn" onClick={exportCSV}>↓ Export CSV</button>
           </div>
@@ -266,6 +329,10 @@ export default function MatchStatistics() {
           ))}
         </div>
 
+        {activeTab === "Rally" ? (
+          <RallyStatsTab rallies={rallies} />
+        ) : (
+          <>
         {/* Filters */}
         <div className="ms-filters">
           <div className="ms-filtersLeft">
@@ -300,9 +367,6 @@ export default function MatchStatistics() {
                 <div className="ms-emptyIcon">📊</div>
                 <div className="ms-emptyTitle">No statistics yet</div>
                 <div className="ms-emptyText">Run the triple detection pipeline to generate stats.</div>
-                <button className="ms-registryLink" onClick={() => navigate("/player-registry")}>
-                  Assign jersey numbers in Player Registry →
-                </button>
               </div>
             ) : (
               <table className="ms-table">
@@ -341,17 +405,12 @@ export default function MatchStatistics() {
                     <>
                       <tr className="ms-groupRow">
                         <th rowSpan={2} className="ms-nameCol">NAME</th>
-                        <th colSpan={8} className="ms-groupHead">SET</th>
+                        <th colSpan={3} className="ms-groupHead">SET</th>
                       </tr>
                       <tr>
                         <StatTh tab="Set" stat="AST">AST</StatTh>
                         <StatTh tab="Set" stat="TA">TA</StatTh>
                         <StatTh tab="Set" stat="SE">SE</StatTh>
-                        <StatTh tab="Set" stat="3">3</StatTh>
-                        <StatTh tab="Set" stat="2">2</StatTh>
-                        <StatTh tab="Set" stat="1">1</StatTh>
-                        <StatTh tab="Set" stat="0">0</StatTh>
-                        <StatTh tab="Set" stat="RTG">RTG.</StatTh>
                       </tr>
                     </>
                   )}
@@ -372,12 +431,13 @@ export default function MatchStatistics() {
                     <>
                       <tr className="ms-groupRow">
                         <th rowSpan={2} className="ms-nameCol">NAME</th>
-                        <th colSpan={3} className="ms-groupHead">BLOCK</th>
+                        <th colSpan={4} className="ms-groupHead">BLOCK</th>
                       </tr>
                       <tr>
                         <StatTh tab="Block" stat="BK">BK</StatTh>
-                        <StatTh tab="Block" stat="BA">BA</StatTh>
                         <StatTh tab="Block" stat="BE">BE</StatTh>
+                        <StatTh tab="Block" stat="BT">BT</StatTh>
+                        <StatTh tab="Block" stat="WIN%">WIN%</StatTh>
                       </tr>
                     </>
                   )}
@@ -408,11 +468,6 @@ export default function MatchStatistics() {
                         <td className="ms-highlight">{fmt(teamTotals.set.AST)}</td>
                         <td>{fmt(teamTotals.set.TA)}</td>
                         <td className="ms-error">{fmt(teamTotals.set.SE)}</td>
-                        <td>{fmt(teamTotals.set["3"])}</td>
-                        <td>{fmt(teamTotals.set["2"])}</td>
-                        <td>{fmt(teamTotals.set["1"])}</td>
-                        <td className="ms-error">{fmt(teamTotals.set["0"])}</td>
-                        <td className="ms-highlight">{fmt(teamTotals.set.RTG, 2)}</td>
                       </>
                     )}
                     {activeTab === "Defence" && (
@@ -425,14 +480,24 @@ export default function MatchStatistics() {
                     {activeTab === "Block" && (
                       <>
                         <td className="ms-highlight">{fmt(teamTotals.block.BK)}</td>
-                        <td>{fmt(teamTotals.block.BA)}</td>
                         <td className="ms-error">{fmt(teamTotals.block.BE)}</td>
+                        <td>{fmt(teamTotals.block.BT)}</td>
+                        <td>{pct(teamTotals.block["WIN%"])}</td>
                       </>
                     )}
                   </tr>
                   {players.map((p) => (
                     <tr key={p.key}>
-                      <td className="ms-nameCell">{p.label}</td>
+                      <td
+                        className="ms-nameCell ms-nameCellLink"
+                        onClick={() => navigate(`/player-profile/${videoId}/${p.key}`)}
+                        title="View player profile"
+                      >
+                        {p.label}
+                        {bestPlayerKeys.has(p.key) && (
+                          <span className="ms-crown" title={`Best ${activeTab.toLowerCase()} in this match`}>👑</span>
+                        )}
+                      </td>
                       {activeTab === "Attack" && (
                         <>
                           <td className="ms-highlight">{fmt(p.attack?.K)}</td>
@@ -456,11 +521,6 @@ export default function MatchStatistics() {
                           <td className="ms-highlight">{fmt(p.set?.AST)}</td>
                           <td>{fmt(p.set?.TA)}</td>
                           <td className="ms-error">{fmt(p.set?.SE)}</td>
-                          <td>{fmt(p.set?.["3"])}</td>
-                          <td>{fmt(p.set?.["2"])}</td>
-                          <td>{fmt(p.set?.["1"])}</td>
-                          <td className="ms-error">{fmt(p.set?.["0"])}</td>
-                          <td className="ms-highlight">{fmt(p.set?.RTG, 2)}</td>
                         </>
                       )}
                       {activeTab === "Defence" && (
@@ -473,8 +533,9 @@ export default function MatchStatistics() {
                       {activeTab === "Block" && (
                         <>
                           <td className="ms-highlight">{fmt(p.block?.BK)}</td>
-                          <td>{fmt(p.block?.BA)}</td>
                           <td className="ms-error">{fmt(p.block?.BE)}</td>
+                          <td>{fmt(p.block?.BT)}</td>
+                          <td>{pct(p.block?.["WIN%"])}</td>
                         </>
                       )}
                     </tr>
@@ -495,6 +556,12 @@ export default function MatchStatistics() {
             <div className="ms-footerLeft">Showing {players.length} players</div>
           </div>
         </div>
+
+        {!loading && !error && (
+          <RallyActionChart data={rallyChartData} title={TAB_CHART_TITLE[activeTab]} />
+        )}
+          </>
+        )}
 
       </div>
     </div>

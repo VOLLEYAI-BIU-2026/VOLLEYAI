@@ -11,6 +11,40 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* ── App-wide theme tokens (dark = default) ──────────────────────────
+     Toggled by setting data-theme="light" on <html> (see ThemeContext.jsx).
+     Values match the dark palette already shared across most pages
+     (Home_screen, MatchAnalysis, MatchStatistics, ...). */
+  --bg: #0f1117;
+  --card: #1a1d2e;
+  --card-alt: #1e2130;
+  --border: #2a2f45;
+  --text: #e8eaf0;
+  --muted: #a0a8c0;
+  --muted-2: #5a627a;
+  --muted-3: #3a4060;
+  --primary: #6d5efc;
+  --primary-blue: #2563eb;
+  --primary-blue-light: #3b82f6;
+  --danger: #ef4444;
+  --success: #22c55e;
+}
+
+:root[data-theme="light"] {
+  --bg: #f4f8fb;
+  --card: #ffffff;
+  --card-alt: #f7f9fc;
+  --border: #e5ebf3;
+  --text: #0f172a;
+  --muted: #6b7a90;
+  --muted-2: #90a0b5;
+  --muted-3: #b0bccb;
+  --primary: #6c63ff;
+  --primary-blue: #2563eb;
+  --primary-blue-light: #3b82f6;
+  --danger: #ef4444;
+  --success: #16a34a;
 }
 
 a {

@@ -1,0 +1,56 @@
+.rac-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 16px 8px;
+}
+.rac-title {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+  margin-bottom: 12px;
+}
+.rac-scrollWrap { overflow-x: auto; }
+.rac-svgWrap { position: relative; }
+
+.rac-gridline { stroke: var(--border); stroke-width: 1; }
+.rac-baseline { stroke: var(--muted-3); stroke-width: 1; }
+.rac-axisLabel {
+  font-size: 10px;
+  fill: var(--muted-2);
+  font-variant-numeric: tabular-nums;
+}
+.rac-tickLabel {
+  font-size: 10px;
+  fill: var(--muted-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.rac-bar { fill: var(--primary-blue); transition: fill 0.1s; }
+.rac-barHover { fill: var(--primary-blue-light); }
+
+.rac-tooltip {
+  position: absolute;
+  transform: translate(-50%, -100%) translateY(-8px);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 10px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 10;
+  text-align: center;
+}
+.rac-tooltipValue {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.rac-tooltipLabel {
+  font-size: 11px;
+  color: var(--muted-2);
+}

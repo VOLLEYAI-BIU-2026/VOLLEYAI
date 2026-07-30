@@ -38,6 +38,7 @@ const userSchema = new mongoose.Schema(
     // "Use My Team" toggle on the per-match Add Players screen, so the coach
     // doesn't have to retype jersey numbers/names/positions every upload.
     myTeamRoster: {
+      teamName: { type: String, default: "" }, // coach-editable, reused as the default "Team A" whenever this roster is used
       players: {
         type: [MyTeamPlayerSchema],
         default: [],

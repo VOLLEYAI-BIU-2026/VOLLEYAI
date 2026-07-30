@@ -1,6 +1,6 @@
 .mt-page {
     min-height: 100vh;
-    background: #0a0c14;
+    background: var(--bg);
     display: flex;
     align-items: flex-start;
     justify-content: center;
@@ -10,8 +10,8 @@
 
 .mt-card {
     position: relative;
-    background: #0f1117;
-    border: 1px solid #1e2130;
+    background: var(--bg);
+    border: 1px solid var(--card-alt);
     border-radius: 20px;
     padding: 48px 36px 36px;
     width: 100%;
@@ -26,9 +26,9 @@
     position: absolute;
     top: 20px;
     left: 20px;
-    background: #1e2130;
-    border: 1px solid #2a2f45;
-    color: #a0a8c0;
+    background: var(--card-alt);
+    border: 1px solid var(--border);
+    color: var(--muted);
     width: 34px;
     height: 34px;
     border-radius: 8px;
@@ -44,18 +44,35 @@
 .mt-title {
     font-size: 22px;
     font-weight: 800;
-    color: #e8eaf0;
+    color: var(--text);
     text-align: center;
     margin: 0 0 8px;
 }
 .mt-sub {
     font-size: 13px;
-    color: #5a627a;
+    color: var(--muted-2);
     text-align: center;
     margin: 0 0 24px;
     line-height: 1.6;
     max-width: 460px;
 }
+
+.mt-teamNameRow {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+.mt-teamNameLabel {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted-2);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+}
+.mt-teamNameInput { flex: 1; }
 
 .mt-form {
     width: 100%;
@@ -66,16 +83,16 @@
 }
 
 .mt-input, .mt-select {
-    background: #12151f;
-    border: 1px solid #1e2130;
+    background: var(--card-alt);
+    border: 1px solid var(--card-alt);
     border-radius: 10px;
-    color: #e8eaf0;
+    color: var(--text);
     font-size: 14px;
     padding: 10px 12px;
     outline: none;
     transition: border-color 0.15s;
 }
-.mt-input:focus, .mt-select:focus { border-color: #3b82f6; }
+.mt-input:focus, .mt-select:focus { border-color: var(--primary-blue-light); }
 .mt-input::placeholder { color: #4a5170; }
 
 .mt-inputNumber { width: 80px; flex-shrink: 0; }
@@ -83,7 +100,7 @@
 .mt-select { flex-shrink: 0; }
 
 .mt-addBtn {
-    background: linear-gradient(135deg, #3b82f6, #6366f1);
+    background: linear-gradient(135deg, var(--primary-blue-light), #6366f1);
     color: #fff;
     border: none;
     border-radius: 10px;
@@ -111,7 +128,7 @@
 }
 
 .mt-empty {
-    color: #5a627a;
+    color: var(--muted-2);
     font-size: 13px;
     text-align: center;
     padding: 20px 0;
@@ -127,15 +144,15 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    background: #12151f;
-    border: 1px solid #1e2130;
+    background: var(--card-alt);
+    border: 1px solid var(--card-alt);
     border-radius: 10px;
     padding: 8px 10px;
 }
 
 .mt-badge {
-    background: #1a1d2e;
-    border: 1px solid #2a2f45;
+    background: var(--card);
+    border: 1px solid var(--border);
     color: #93c5fd;
     font-weight: 700;
     font-size: 13px;
@@ -145,7 +162,7 @@
 }
 
 .mt-name {
-    color: #a0a8c0;
+    color: var(--muted);
     font-size: 13px;
     flex: 1;
     overflow: hidden;
@@ -166,14 +183,14 @@
 .mt-removeBtn {
     background: none;
     border: none;
-    color: #5a627a;
+    color: var(--muted-2);
     font-size: 13px;
     cursor: pointer;
     padding: 2px 6px;
     border-radius: 6px;
     transition: color 0.15s, background 0.15s;
 }
-.mt-removeBtn:hover { color: #f87171; background: #1e2130; }
+.mt-removeBtn:hover { color: #f87171; background: var(--card-alt); }
 
 .mt-doneBtn {
     width: 100%;

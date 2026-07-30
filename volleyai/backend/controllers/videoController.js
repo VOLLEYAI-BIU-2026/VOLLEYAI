@@ -63,7 +63,7 @@ async function listVideos(req, res) {
     try {
         const videos = await Video.find({ userId: req.user.id })
             .sort({ createdAt: -1 })
-            .select("_id originalFileName fileName status playerDetection analytics analyzedVideoPath teamA teamB createdAt sourceType filePath cleanFramePath");
+            .select("_id originalFileName fileName status playerDetection analytics analyzedVideoPath teamA teamB matchDate score usScore opponentScore createdAt sourceType filePath cleanFramePath");
         return res.json({ videos });
     } catch (err) {
         return res.status(500).json({ message: "Server error", error: err.message });
@@ -76,10 +76,20 @@ async function updateTeamNames(req, res) {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(400).json({ message: "Invalid video id" });
         }
-        const { teamA, teamB } = req.body;
+        // Each field is only touched when the caller actually sent it -- the
+        // home screen calls this endpoint separately for team names, match
+        // date, and score edits, and an earlier version that always wrote
+        // teamA/teamB would've silently blanked them out on every date-only
+        // or score-only save.
+        const { teamA, teamB, matchDate, score } = req.body;
+        const update = {};
+        if (teamA !== undefined) update.teamA = teamA ?? "";
+        if (teamB !== undefined) update.teamB = teamB ?? "";
+        if (matchDate !== undefined) update.matchDate = matchDate ? new Date(matchDate) : null;
+        if (score !== undefined) update.score = score ?? "";
         const video = await Video.findOneAndUpdate(
             { _id: id, userId: req.user.id },
-            { $set: { teamA: teamA ?? "", teamB: teamB ?? "" } },
+            { $set: update },
             { new: true }
         );
         if (!video) return res.status(404).json({ message: "Video not found" });
@@ -505,6 +515,54 @@ async function createRosterPlayer(req, res) {
             player,
             players: video.teamRoster.players,
         });
+    } catch (err) {
+        return res.status(500).json({ message: "Server error", error: err.message });
+    }
+}
+
+// Upserts just a jersey's position -- the per-video roster otherwise only
+// supports create/delete/bulk-import, with no way to edit a single existing
+// entry. Called from the Player Profile page, which only knows a jersey
+// number (not a roster playerId) -- update the existing roster entry for
+// that jersey if one exists (e.g. imported from My Team, which already
+// carries position over), otherwise create a minimal one, so this works
+// whether or not the player was ever added to the roster before.
+async function setRosterPlayerPosition(req, res) {
+    try {
+        const { id } = req.params;
+        const { jerseyNumber, teamSide, position } = req.body;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid video id" });
+        }
+        if (!jerseyNumber) {
+            return res.status(400).json({ message: "jerseyNumber is required" });
+        }
+        const allowedPositions = ["libero", "setter", "hitter", "blocker", ""];
+        if (!allowedPositions.includes(position || "")) {
+            return res.status(400).json({ message: "Invalid position" });
+        }
+
+        const video = await Video.findOne({ _id: id, userId: req.user.id });
+        if (!video) return res.status(404).json({ message: "Video not found" });
+        if (!video.teamRoster) video.teamRoster = { players: [] };
+
+        const jerseyStr = String(jerseyNumber);
+        const existing = video.teamRoster.players.find(p => p.jerseyNumber === jerseyStr);
+        if (existing) {
+            existing.position = position || "";
+        } else {
+            video.teamRoster.players.push({
+                playerId: `player_${Date.now()}`,
+                manualName: "",
+                jerseyNumber: jerseyStr,
+                teamSide: teamSide || "my_team",
+                position: position || "",
+            });
+        }
+
+        await video.save();
+        return res.status(200).json({ message: "Position updated", players: video.teamRoster.players });
     } catch (err) {
         return res.status(500).json({ message: "Server error", error: err.message });
     }
@@ -1050,7 +1108,8 @@ async function getPlayerStats(req, res) {
             ? path.join(__dirname, "..", video.playerStatsPath.replace(/^\//, ""))
             : null;
 
-        // Use whichever file is newer — saveAndRecalculate updates runs/ but not the per-video copy
+        // Use whichever file is newer — the per-video copy is written last during
+        // a normal analysis run, but fall back to the raw runs/ copy if it's missing.
         let statsPath = perVideoPath || runStatsPath;
         if (perVideoPath && fs.existsSync(perVideoPath) && fs.existsSync(runStatsPath)) {
             const runMtime = fs.statSync(runStatsPath).mtimeMs;
@@ -1095,29 +1154,10 @@ async function getPlayerRegistry(req, res) {
     }
 }
 
-async function updatePlayerRegistry(req, res) {
-    try {
-        if (!fs.existsSync(REGISTRY_PATH)) return res.status(404).json({ message: "Registry not found" });
-        const registry = JSON.parse(fs.readFileSync(REGISTRY_PATH, "utf8"));
-        const updates = req.body;
-
-        for (const [bid, jersey] of Object.entries(updates)) {
-            if (registry[bid]) {
-                registry[bid].jersey = jersey === "" ? null : Number(jersey);
-                registry[bid].confirmed = jersey !== "" && jersey !== null;
-            }
-        }
-        fs.writeFileSync(REGISTRY_PATH, JSON.stringify(registry, null, 4));
-        return res.status(200).json({ status: "ok" });
-    } catch (err) {
-        return res.status(500).json({ message: "Server error", error: err.message });
-    }
-}
-
 // ── Per-video player registry (coach-merge UI) ──────────────────────────
-// Unlike getPlayerRegistry/updatePlayerRegistry above (which operate on the
-// single shared RUNS_DIR scratch file — last real run only), these work off
-// the per-video copies saved under uploads/ so a merge survives and applies
+// Unlike getPlayerRegistry above (which operates on the single shared
+// RUNS_DIR scratch file — last real run only), these work off the per-video
+// copies saved under uploads/ so a merge survives and applies
 // to the specific match the coach is looking at.
 
 function resolveVideoRegistryPath(video) {
@@ -1160,33 +1200,6 @@ async function getPlayerRegistryForVideo(req, res) {
     } catch (err) {
         return res.status(500).json({ message: "Server error", error: err.message });
     }
-}
-
-function relabelJerseyInRallyAnalysis(data, oldJersey, newJersey) {
-    const swapLabel = (label) => {
-        if (typeof label !== "string") return label;
-        const re = new RegExp(`#${oldJersey}\\b`, "g");
-        return label.replace(re, `#${newJersey}`);
-    };
-
-    const walk = (node) => {
-        if (Array.isArray(node)) {
-            for (let i = 0; i < node.length; i++) {
-                if (node[i] === oldJersey) node[i] = newJersey;
-                else walk(node[i]);
-            }
-            return;
-        }
-        if (node && typeof node === "object") {
-            if (node.player_jersey === oldJersey) node.player_jersey = newJersey;
-            if (node.jersey === oldJersey) node.jersey = newJersey;
-            if (typeof node.player_label === "string") node.player_label = swapLabel(node.player_label);
-            for (const val of Object.values(node)) walk(val);
-        }
-    };
-
-    walk(data);
-    return data;
 }
 
 async function mergePlayerRegistry(req, res) {
@@ -1301,27 +1314,46 @@ async function mergePlayerRegistry(req, res) {
         // Relabel downstream data so stats/actions built off the merged-away
         // jersey number(s) show up under the canonical number immediately,
         // instead of only fixing the registry and leaving stale data behind.
-        if (canonicalJersey != null && relabelPairs.length > 0) {
-            if (video.analyticsJsonPath) {
-                const p = path.join(__dirname, "..", video.analyticsJsonPath.replace(/^\//, ""));
-                if (fs.existsSync(p)) {
-                    const analytics = JSON.parse(fs.readFileSync(p, "utf8"));
-                    for (const frame of analytics.frames || []) {
-                        for (const [oldJ] of relabelPairs) {
-                            if (frame.active_player_jersey === oldJ) frame.active_player_jersey = canonicalJersey;
-                        }
+        if (canonicalJersey != null && relabelPairs.length > 0 && video.analyticsJsonPath) {
+            const p = path.join(__dirname, "..", video.analyticsJsonPath.replace(/^\//, ""));
+            if (fs.existsSync(p)) {
+                const analytics = JSON.parse(fs.readFileSync(p, "utf8"));
+                for (const frame of analytics.frames || []) {
+                    for (const [oldJ] of relabelPairs) {
+                        if (frame.active_player_jersey === oldJ) frame.active_player_jersey = canonicalJersey;
                     }
-                    fs.writeFileSync(p, JSON.stringify(analytics, null, 2));
                 }
-            }
-            if (video.rallyAnalysisPath) {
-                const p = path.join(__dirname, "..", video.rallyAnalysisPath.replace(/^\//, ""));
-                if (fs.existsSync(p)) {
-                    let rallyData = JSON.parse(fs.readFileSync(p, "utf8"));
-                    for (const [oldJ, newJ] of relabelPairs) {
-                        rallyData = relabelJerseyInRallyAnalysis(rallyData, oldJ, newJ);
+                fs.writeFileSync(p, JSON.stringify(analytics, null, 2));
+
+                // Re-run the full rally/stats build off the now-relabeled raw
+                // frames rather than hand-patching the already-built
+                // rally_analysis.json. A merge changes which jersey owns
+                // which touches, but player_stats is keyed BY jersey number
+                // (an object key, not a field value) -- a field-value walk
+                // can rewrite every player_jersey:1 to player_jersey:7, but
+                // it can never merge player_stats["1"] into
+                // player_stats["7"], since there's no "1" field value to
+                // find there. Verified directly: merging #1 into #7 left
+                // both as fully separate, unmerged box-score lines, because
+                // nothing had ever recomputed player_stats after the merge.
+                // Recomputing from the corrected source data sidesteps the
+                // whole class of bug instead of chasing every derived field
+                // a patch-in-place approach could miss.
+                let scoreboardData = null;
+                if (video.scoreboardReadingsPath) {
+                    const sbPath = path.join(__dirname, "..", video.scoreboardReadingsPath.replace(/^\//, ""));
+                    if (fs.existsSync(sbPath)) {
+                        try { scoreboardData = JSON.parse(fs.readFileSync(sbPath, "utf8")); } catch {}
                     }
-                    fs.writeFileSync(p, JSON.stringify(rallyData, null, 2));
+                }
+                const rallyData = buildRallyAnalysis(analytics, { scoreboardData, isHomeTeam: video.isHomeTeam ?? true });
+                if (video.rallyAnalysisPath) {
+                    const rp = path.join(__dirname, "..", video.rallyAnalysisPath.replace(/^\//, ""));
+                    fs.writeFileSync(rp, JSON.stringify(rallyData, null, 2));
+                }
+                if (video.playerStatsPath) {
+                    const sp = path.join(__dirname, "..", video.playerStatsPath.replace(/^\//, ""));
+                    fs.writeFileSync(sp, JSON.stringify(rallyData.player_stats, null, 2));
                 }
             }
         }
@@ -1332,59 +1364,50 @@ async function mergePlayerRegistry(req, res) {
     }
 }
 
-async function saveAndRecalculate(req, res) {
+// Drops one or more registry entries outright -- for phantom/junk tracks
+// (e.g. a bystander or a brief false-positive detection) that never earned a
+// single real event, where there's nothing worth merging into another
+// player, just clutter to clear off the Merge Players grid. Unlike merge,
+// this never needs to relabel analytics/rally data: an entry with no real
+// events was never the active_player_jersey for any real action to begin
+// with, so there's nothing downstream pointing at it.
+async function deletePlayerRegistryEntries(req, res) {
     try {
-        if (!fs.existsSync(REGISTRY_PATH)) return res.status(404).json({ message: "Registry not found" });
-        const registry = JSON.parse(fs.readFileSync(REGISTRY_PATH, "utf8"));
-        const updates = req.body;
+        const { id } = req.params;
+        const { keys } = req.body;
 
-        for (const [bid, jersey] of Object.entries(updates)) {
-            if (registry[bid]) {
-                registry[bid].jersey = jersey === "" ? null : Number(jersey);
-                registry[bid].confirmed = jersey !== "" && jersey !== null;
-            }
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid video id" });
         }
-        fs.writeFileSync(REGISTRY_PATH, JSON.stringify(registry, null, 4));
+        if (!Array.isArray(keys) || keys.length === 0) {
+            return res.status(400).json({ message: "A non-empty keys array is required" });
+        }
 
-        // Despite the name, this used to only rewrite the registry file and
-        // never actually recalculated anything — "Stats recalculated!" in the
-        // UI was a lie, and the follow-up /match-statistics (no video id,
-        // reads runs/player_stats.json) predictably showed nothing since that
-        // file was never written by the current pipeline at all. Regenerate
-        // both from whatever's already in RUNS_DIR (the video this registry
-        // belongs to — no re-detection needed, just re-running the same
-        // buildRallyAnalysis pass startAnalysis already uses).
-        //
-        // Note: this does NOT make a jersey-number correction here change any
-        // already-computed per-frame attribution — merge_pipeline.py reads
-        // each detection's jersey straight from frame_jersey_map.json (baked
-        // in at OCR time) and only ever consults the registry for team, not
-        // jersey number (see merge_pipeline.py ~L181). A real number
-        // correction needs merge_pipeline.py re-run, which needs its own
-        // fix to actually honor registry corrections — out of scope here.
-        const analyticsPath = path.join(RUNS_DIR, "volley_analytics.json");
-        if (fs.existsSync(analyticsPath)) {
-            try {
-                const volleyData = JSON.parse(fs.readFileSync(analyticsPath, "utf8"));
-                let scoreboardData = null;
-                const sbPath = path.join(RUNS_DIR, "scoreboard_readings.json");
-                if (fs.existsSync(sbPath)) {
-                    try { scoreboardData = JSON.parse(fs.readFileSync(sbPath, "utf8")); } catch {}
+        const video = await Video.findOne({ _id: id, userId: req.user.id });
+        if (!video) return res.status(404).json({ message: "Video not found" });
+
+        const registryPaths = [video.jerseyRegistryPath, video.playerRegistryPath]
+            .filter(Boolean)
+            .map(rel => path.join(__dirname, "..", rel.replace(/^\//, "")))
+            .filter(p => fs.existsSync(p));
+
+        if (registryPaths.length === 0) {
+            return res.status(404).json({ message: "No registry file found for this video" });
+        }
+
+        let deleted = 0;
+        for (const regPath of registryPaths) {
+            const registry = JSON.parse(fs.readFileSync(regPath, "utf8"));
+            for (const key of keys) {
+                if (registry[key]) {
+                    delete registry[key];
+                    deleted++;
                 }
-                const latestVideo = await Video.findOne({ userId: req.user.id, "analytics.status": "done" })
-                    .sort({ "analytics.lastProcessedAt": -1 });
-                const rallyData = buildRallyAnalysis(volleyData, {
-                    scoreboardData,
-                    isHomeTeam: latestVideo?.isHomeTeam ?? true,
-                });
-                fs.writeFileSync(path.join(RUNS_DIR, "rally_analysis.json"), JSON.stringify(rallyData, null, 2));
-                fs.writeFileSync(path.join(RUNS_DIR, "player_stats.json"), JSON.stringify(rallyData.player_stats, null, 2));
-            } catch (e) {
-                console.warn("[RECALC] Failed to regenerate rally_analysis/player_stats:", e.message);
             }
+            fs.writeFileSync(regPath, JSON.stringify(registry, null, 4));
         }
 
-        return res.status(200).json({ status: "ok" });
+        return res.status(200).json({ status: "ok", deleted: keys.length });
     } catch (err) {
         return res.status(500).json({ message: "Server error", error: err.message });
     }
@@ -1395,37 +1418,11 @@ const analysisJobs = {};
 
 const RUNS_DIR    = path.join(__dirname, "..", "detection_models", "all_three", "runs");
 
-const TEAM_COLOR_PRESETS = new Set([
-    // White base
-    "white_blue", "white_navy", "white_red", "white_green", "white_black",
-    // Blue / Navy
-    "blue_white", "blue_gold", "blue_black", "blue_red",
-    "navy_white", "navy_gold", "navy_yellow",
-    // Red / Maroon
-    "red_white", "red_black", "red_gold",
-    "maroon_white", "maroon_gold",
-    // Black
-    "black_white", "black_red", "black_yellow", "black_gold",
-    "black_blue", "black_green", "black_orange", "black_purple",
-    // Yellow
-    "yellow_white", "yellow_black", "yellow_blue",
-    // Green
-    "green_white", "green_black",
-    // Orange
-    "orange_white", "orange_black",
-    // Purple
-    "purple_white", "purple_gold", "purple_black",
-    // Gray
-    "gray_white", "gray_black",
-    // Solid
-    "all_black", "all_white",
-]);
-
 async function saveJerseys(req, res) {
     try {
         const { id } = req.params;
-        // Accept either {players:[{jersey,name}]} (legacy) or {myTeamColor,opponentColor,liberoColor,opponentLiberoColor,isHomeTeam} (current)
-        const { players, jerseys, myTeamColor, opponentColor, liberoColor, opponentLiberoColor, isHomeTeam } = req.body;
+        // Accept either {players:[{jersey,name}]} (legacy) or {isHomeTeam} (current)
+        const { players, jerseys, isHomeTeam } = req.body;
         if (!mongoose.Types.ObjectId.isValid(id))
             return res.status(400).json({ message: "Invalid id" });
 
@@ -1443,22 +1440,6 @@ async function saveJerseys(req, res) {
             knownPlayers: playerList,
             knownJerseys: playerList.map(p => p.jersey),
         };
-        if (myTeamColor && TEAM_COLOR_PRESETS.has(myTeamColor)) {
-            update.myTeamColor = myTeamColor;
-        }
-        if (opponentColor && TEAM_COLOR_PRESETS.has(opponentColor) && opponentColor !== update.myTeamColor) {
-            update.opponentColor = opponentColor;
-        }
-        if (liberoColor && TEAM_COLOR_PRESETS.has(liberoColor)) {
-            update.liberoColor = liberoColor;
-        } else if (liberoColor === "") {
-            update.liberoColor = ""; // explicit clear (e.g. coach unchecks "has a libero")
-        }
-        if (opponentLiberoColor && TEAM_COLOR_PRESETS.has(opponentLiberoColor)) {
-            update.opponentLiberoColor = opponentLiberoColor;
-        } else if (opponentLiberoColor === "") {
-            update.opponentLiberoColor = "";
-        }
         if (typeof isHomeTeam === "boolean") {
             update.isHomeTeam = isHomeTeam;
         }
@@ -1567,14 +1548,25 @@ async function persistAnalysisOutputs(id) {
     if (fs.existsSync(srcAnalyticsForRally)) {
         try {
             const video      = await Video.findById(id);
+            const isHomeTeam = video?.isHomeTeam ?? true;
             const volleyData = JSON.parse(fs.readFileSync(srcAnalyticsForRally, "utf8"));
-            const rallyData  = buildRallyAnalysis(volleyData, {
-                scoreboardData,
-                isHomeTeam: video?.isHomeTeam ?? true,
-            });
+            const rallyData  = buildRallyAnalysis(volleyData, { scoreboardData, isHomeTeam });
             const rallyDest  = path.join(uploadsDir, `rally_analysis_${id}.json`);
             fs.writeFileSync(rallyDest, JSON.stringify(rallyData, null, 2));
             dbUpdates.rallyAnalysisPath = `/uploads/rally_analysis_${id}.json`;
+            // Mirrored onto the Video doc so the home screen's card list can
+            // show the real computed score without a per-card rally-analysis
+            // fetch -- listVideos only ever reads the lightweight doc fields.
+            // Deliberately the per-rally accumulated tally, not the
+            // scoreboard's raw final OCR reading -- the two can disagree
+            // (verified directly: one video read 4-9 from the accumulated
+            // tally vs 5-8 off the board's last frame) and the accumulated
+            // tally was chosen as the one to display: it's built from many
+            // independent per-rally reads rather than a single OCR snapshot
+            // of the board, which has no redundancy if that one frame
+            // misread a digit.
+            dbUpdates.usScore = rallyData.us_score;
+            dbUpdates.opponentScore = rallyData.opponent_score;
             console.log(`[RALLY] Generated rally_analysis.json (score source: ${rallyData.score_source}): `
                 + `${rallyData.total_won}W ${rallyData.total_lost}L, ${rallyData.score_events.length} score events`);
 
@@ -1584,6 +1576,24 @@ async function persistAnalysisOutputs(id) {
             const statsDest = path.join(uploadsDir, `player_stats_${id}.json`);
             fs.writeFileSync(statsDest, JSON.stringify(rallyData.player_stats, null, 2));
             dbUpdates.playerStatsPath = `/uploads/player_stats_${id}.json`;
+
+            // Flat per-action table (rally_id, action, player, rally winner) for
+            // downstream stats work — not surfaced in the UI, just written + logged.
+            const actionTable = buildRallyActionTable(rallyData);
+            const tableJsonDest = path.join(uploadsDir, `rally_action_table_${id}.json`);
+            const tableCsvDest  = path.join(uploadsDir, `rally_action_table_${id}.csv`);
+            fs.writeFileSync(tableJsonDest, JSON.stringify(actionTable, null, 2));
+            fs.writeFileSync(tableCsvDest, rallyActionTableToCsv(actionTable));
+            console.log(`[RALLY TABLE] ${actionTable.length} action rows across ${rallyData.rallies.length} rallies `
+                + `-> ${tableJsonDest} / ${tableCsvDest}`);
+            const PREVIEW_ROWS = 50;
+            console.table(actionTable.slice(0, PREVIEW_ROWS).map((r) => ({
+                rally: r.rally_id, action: r.action, player: r.player_jersey ?? r.player_label,
+                winner: r.rally_winner, decisive: r.decisive,
+            })));
+            if (actionTable.length > PREVIEW_ROWS) {
+                console.log(`[RALLY TABLE] ...${actionTable.length - PREVIEW_ROWS} more rows in the CSV/JSON above.`);
+            }
         } catch (e) {
             console.warn("[RALLY] Failed to generate rally_analysis.json:", e.message);
         }
@@ -1907,51 +1917,6 @@ async function getAnalysisStatus(req, res) {
 
 // Recover a video whose triple_detection finished but jersey pipeline crashed —
 // the analyzed video file already exists, so just update the DB status to "done".
-// ── Court calibration: receive 4 clicked pixel points from browser ──────────
-async function saveCourtCalibration(req, res) {
-    try {
-        const { id } = req.params;
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(400).json({ message: "Invalid video id" });
-        }
-        const video = await Video.findOne({ _id: id, userId: req.user.id });
-        if (!video) return res.status(404).json({ message: "Video not found" });
-
-        const { imagePoints } = req.body; // [[x1,y1],[x2,y2],[x3,y3],[x4,y4]]
-        if (!Array.isArray(imagePoints) || imagePoints.length !== 4) {
-            return res.status(400).json({ message: "imagePoints must be an array of 4 [x,y] pairs" });
-        }
-
-        const calibJsonPath = path.join(__dirname, "..", "uploads", `calib_${id}.json`);
-        const CALIB_SCRIPT  = path.join(__dirname, "..", "detection_models", "rally_detect", "mini_court", "court_calibration.py");
-        const pyCmd = process.platform === "win32" ? "py" : "python3";
-        const flat = imagePoints.flat().map(String); // [x1,y1,x2,y2,x3,y3,x4,y4]
-
-        await new Promise((resolve, reject) => {
-            let stderr = "";
-            const proc = spawn(pyCmd, [
-                CALIB_SCRIPT,
-                "--image-points", ...flat,
-                "--save", calibJsonPath,
-            ]);
-            proc.stderr.on("data", d => { stderr += d.toString(); });
-            proc.on("close", code => {
-                if (code !== 0) {
-                    const msg = stderr.includes("collinear")
-                        ? "הנקודות שבחרת נמצאות על אותו קו ישר — בחר שוב ווודא שנקודות הרשת ונקודות קו הסיום רחוקות אחת מהשנייה"
-                        : stderr.slice(-400);
-                    reject(new Error(msg));
-                } else resolve();
-            });
-            proc.on("error", reject);
-        });
-
-        await Video.findByIdAndUpdate(id, { calibrationJsonPath: `/uploads/calib_${id}.json` });
-        return res.json({ message: "Calibration saved", calibrationJsonPath: `/uploads/calib_${id}.json` });
-    } catch (err) {
-        return res.status(500).json({ message: err.message });
-    }
-}
 
 // ── Generate rally_analysis.json from ball_landings in volley_analytics.json ─
 //
@@ -2418,12 +2383,59 @@ function buildRallyAnalysis(volleyAnalytics, { scoreboardData, isHomeTeam = true
 
         if (!scoring) sourceCounts.unknown++;
         if (scoring) scoreEvents.push(scoring);
-        rallyMeta.push({ win, rallyId, result, landing: landingUsed, scoreEvent: scoring });
+        rallyMeta.push({ win, rallyId, result, landing: landingUsed, scoreEvent: scoring, voided });
     }
 
     // Informational summary of which source actually resolved how many
     // rallies — the dominant one, for the single existing score_source field.
     scoreSource = Object.entries(sourceCounts).sort((a, b) => b[1] - a[1])[0][0];
+
+    // ── Fold fragmented rally windows back together ───────────────────────────
+    // rally_detect can split one continuous rally into two adjacent windows —
+    // a brief mid-rally tracking gap, not a real dead gap — and the board
+    // naturally hasn't changed yet at the first window's own boundary, since
+    // the point hasn't been decided there, so it reads as a confirmed
+    // zero-zero diff and gets voided even though real touches happened inside
+    // it. Verified directly against real footage: a voided window had 68
+    // real action-labeled frames (services, digs, attacks, blocks across 5
+    // players) immediately followed by a short window carrying the actual
+    // scoring result and zero detected actions of its own — clearly one
+    // rally split in two, not an empty "walking to the service line" gap
+    // (the case this void logic was originally built for, and still
+    // correctly leaves alone since it has ~no action-labeled frames). Detect
+    // that specific pattern and fold the void window's frames into the next
+    // rally instead of discarding them as if nothing happened. Walking
+    // backwards so a chain of several fragments in a row folds all the way
+    // into the eventual resolved rally, not just its immediate neighbor.
+    const MIN_VOID_ACTION_FRAMES = 10;
+    for (let i = rallyMeta.length - 2; i >= 0; i--) {
+        const cur = rallyMeta[i];
+        if (!cur.voided) continue;
+        const next = rallyMeta[i + 1];
+        if (next.result === "unknown") continue; // nothing resolved yet to fold into
+        const activeFrames = frames.filter(f => f.frame >= cur.win.start && f.frame <= cur.win.end
+                                                  && TOUCH_ACTIONS.has(f.action)).length;
+        if (activeFrames < MIN_VOID_ACTION_FRAMES) continue;
+        next.win = { start: cur.win.start, end: next.win.end };
+        rallyMeta.splice(i, 1);
+    }
+    rallyMeta.forEach((rm, idx) => { rm.rallyId = idx + 1; }); // renumber to close any gap left by a fold
+
+    // A void window that never got folded above (its neighbor is itself
+    // unresolved, or — verified against real footage — it's the very last
+    // rally in a clip that was cut off before the point concluded and the
+    // scoreboard ever got a chance to confirm it) still deserves its real
+    // touches counted rather than dropped. Leave `result` at its "unknown"
+    // default instead of guessing a winner — every consumer already treats
+    // "unknown" as "don't count this rally's outcome" (see
+    // classifyRallyOutcome's final `return null`), so this only recovers the
+    // action log and per-player attempt counts, never a fabricated point.
+    for (const rm of rallyMeta) {
+        if (!rm.voided) continue;
+        const activeFrames = frames.filter(f => f.frame >= rm.win.start && f.frame <= rm.win.end
+                                                  && TOUCH_ACTIONS.has(f.action)).length;
+        if (activeFrames >= MIN_VOID_ACTION_FRAMES) rm.voided = false;
+    }
 
     // ── 3. Flat action list ───────────────────────────────────────────────────
     // The per-frame action detector flickers within a single real action (e.g.
@@ -2607,6 +2619,38 @@ function buildRallyAnalysis(volleyAnalytics, { scoreboardData, isHomeTeam = true
         i++;
     }
 
+    // ── Same player flip-flopping between different action labels ──────────
+    // Two genuinely separate touches by the same player almost never land
+    // this close together — a real sequence needs the ball to leave and come
+    // back. Adjacent same-player entries with different labels within
+    // FLIP_WINDOW of each other are one real touch the action model was
+    // unsure about mid-motion, not several — keep whichever label it was
+    // more confident about. Exception: "block" immediately followed by
+    // "defense-move" for the same player is the one case that's genuinely
+    // common (a deflected block scrambled back by the same player) — treat
+    // it as the defensive touch regardless of confidence, not a clean block.
+    // Runs pairwise so a longer flip-flopping burst (verified against real
+    // output: one player logged setting/defense-move/setting/attack across
+    // four entries in under a second) collapses down to one entry instead of
+    // just its adjacent pairs.
+    const FLIP_WINDOW = MAX_GAP_FRAMES;
+    for (let i = 0; i < allActions.length - 1; ) {
+        const cur = allActions[i], next = allActions[i + 1];
+        if (cur.player_jersey == null || cur.player_jersey !== next.player_jersey
+            || cur.action === next.action
+            || next.frame - cur.frame > FLIP_WINDOW) {
+            i++;
+            continue;
+        }
+        if (cur.action === "block" && next.action === "defense-move") {
+            allActions.splice(i, 2, next);
+        } else {
+            const winner = (next.confidence ?? 0) > (cur.confidence ?? 0) ? next : cur;
+            allActions.splice(i, 2, winner);
+        }
+        // Don't advance — the merged entry may still flip-flop with its new neighbor.
+    }
+
     // For a lost rally, identifies which of our players was most likely
     // responsible for failing to stop/return the point-winning play — tiered
     // fallback since the action model doesn't classify every real defensive
@@ -2679,7 +2723,30 @@ function buildRallyAnalysis(volleyAnalytics, { scoreboardData, isHomeTeam = true
         if (!candidates.length) return null;
         let winner = candidates[0];
         for (const c of candidates) {
-            if (c.action === winner.action) { winner = c; continue; }
+            if (c.action === winner.action) {
+                // Within MAX_GAP_FRAMES this is the same continuing touch as
+                // far as the rest of this file is concerned (it's the exact
+                // threshold allActions/pushRun already uses to bridge one
+                // real action's flickering frames) — so, same as pushRun
+                // already does via confidence-weighted voting, trust
+                // whichever frame the model was more confident about, not
+                // just whichever is one frame later. Verified against real
+                // output: rally 10 had a real defense-move at 0.79
+                // confidence, then 8 straight "none" frames, then an
+                // isolated single-frame defense-move at 0.36 confidence from
+                // a completely different player only 9 frames later — well
+                // inside the bridging window — that overrode the real touch
+                // and handed the rally's whole loss-reason credit to the
+                // wrong player. Once frames are far enough apart to be a
+                // genuinely separate, later touch (beyond MAX_GAP_FRAMES),
+                // recency wins regardless of confidence, same as before.
+                const withinSameRun = c.frame - winner.frame <= MAX_GAP_FRAMES;
+                if (withinSameRun && (c.action_confidence ?? 0) < (winner.action_confidence ?? 0)) {
+                    continue;
+                }
+                winner = c;
+                continue;
+            }
             const samePlayer = c.active_player_jersey === winner.active_player_jersey;
             if (samePlayer && (c.frame - winner.frame) < MIN_SAME_PLAYER_TRANSITION_FRAMES) continue;
             winner = c;
@@ -2687,7 +2754,7 @@ function buildRallyAnalysis(volleyAnalytics, { scoreboardData, isHomeTeam = true
         return winner;
     }
 
-    function classifyRallyOutcome(win, result, servingTeam) {
+    function classifyRallyOutcome(win, result, servingTeam, rallyActions = []) {
         const windowStart = Math.max(win.start, win.end - Math.round(fps * END_WINDOW_SEC));
         const finishers = frames.filter(f => f.frame >= windowStart && f.frame <= win.end
                                                && f.active_player_team === "my_team"
@@ -2714,6 +2781,31 @@ function buildRallyAnalysis(volleyAnalytics, { scoreboardData, isHomeTeam = true
             if (weServed && !anyOtherOurAction) {
                 const jersey = resolveServerJersey(win);
                 return { category: "ace", jersey, action: "service", source: jersey != null ? "action" : "inferred", frame: win.start };
+            }
+            // lastFinisher only looks at the final END_WINDOW_SEC (2.5s) of
+            // raw frames — a real attack or block can sit further back than
+            // that if the rally window runs on a bit longer after it
+            // (trailing dead air before the window's official end), which
+            // drops it out of that search entirely and falls through to
+            // "opponent_error" despite a real finishing touch being exactly
+            // why we won. Verified against real output: rally with a block at
+            // #13&10 202 frames (3.4s) before window end, followed only by an
+            // unrelated defense-move — wrongly credited as an opponent error
+            // with no player attached. Fall back to the rally's own last-two
+            // compressed actions (no fixed time window, whatever the model
+            // actually logged last) and credit whichever of attack/block is
+            // found there before giving up and calling it an opponent error.
+            // If both show up in the last two (an attack and a block, in
+            // either order), trust whichever one the model was more
+            // confident about rather than just picking the more recent —
+            // recency alone can't tell a real finishing touch from a stray
+            // trailing misclassification.
+            const recentFinishers = rallyActions.slice(-2).filter(a => a.action === "attack" || a.action === "block");
+            if (recentFinishers.length > 0) {
+                const finisher = recentFinishers.reduce((a, b) => (b.confidence ?? 0) > (a.confidence ?? 0) ? b : a);
+                return finisher.action === "attack"
+                    ? { category: "kill", jersey: finisher.player_jersey, action: "attack", source: "action", frame: finisher.frame }
+                    : { category: "block_kill", jersey: finisher.player_jersey, action: "block", source: "action", frame: finisher.frame };
             }
             return { category: "opponent_error", jersey: null, action: null, source: "inferred", frame: win.end };
         }
@@ -2746,6 +2838,28 @@ function buildRallyAnalysis(volleyAnalytics, { scoreboardData, isHomeTeam = true
                 // a fault — since a good set would normally be followed by a
                 // detected attack.
                 return { category: "set_error", jersey: lastTouch.active_player_jersey, action: "setting", source: "action", frame: lastTouch.frame };
+            }
+            // Same gap as the win branch above: lastTouch only looks at the
+            // final END_WINDOW_SEC (2.5s) of raw frames, and a real touch can
+            // sit further back than that if the rally window runs on a bit
+            // longer after it. Verified against real output: rally with a
+            // block at 0.80 confidence and a defense-move at 0.79
+            // confidence, both roughly 10s before window end — neither
+            // within reach of lastTouch — wrongly landed on the blank
+            // "opponent_kill" (no player blamed) despite two real touches
+            // sitting right there. Fall back to the rally's own last-two
+            // compressed actions and trust whichever of
+            // attack/block/defense-move/setting the model was more
+            // confident about, same tiebreak idea as the win branch.
+            const recentTouch = rallyActions.slice(-2)
+                .filter(a => a.action === "attack" || a.action === "block"
+                              || a.action === "defense-move" || a.action === "setting")
+                .reduce((best, a) => (best == null || (a.confidence ?? 0) > (best.confidence ?? 0)) ? a : best, null);
+            if (recentTouch) {
+                if (recentTouch.action === "attack") return { category: "attack_error", jersey: recentTouch.player_jersey, action: "attack", source: "action", frame: recentTouch.frame };
+                if (recentTouch.action === "block") return { category: "block_error", jersey: recentTouch.player_jersey, action: "block", source: "action", frame: recentTouch.frame };
+                if (recentTouch.action === "defense-move") return { category: "defense_attempt", jersey: recentTouch.player_jersey, action: "defense-move", source: "action", frame: recentTouch.frame };
+                return { category: "set_error", jersey: recentTouch.player_jersey, action: "setting", source: "action", frame: recentTouch.frame };
             }
             return { category: "opponent_kill", jersey: null, action: null, source: "inferred", frame: win.end };
         }
@@ -2792,24 +2906,22 @@ function buildRallyAnalysis(volleyAnalytics, { scoreboardData, isHomeTeam = true
     }
 
     // Who actually served, once we know the TEAM served (from
-    // deriveServingTeams above) — direct action-detection first (rare but
-    // precise when it fires), else whichever of our players is nearest the
-    // ball in the rally's opening beat (ball-proximity active_player is
-    // independent of action classification, so it's available even when the
-    // serve motion itself was never labeled).
-    const SERVER_LOOKUP_WINDOW_FRAMES = Math.round(fps * 1.0);
+    // deriveServingTeams above) — only when directly action-detected. A
+    // ball-proximity fallback used to credit whichever of our players was
+    // nearest the ball in the rally's opening beat, on the theory that
+    // proximity is available even when the serve motion itself was never
+    // labeled — but proximity-to-ball at the start of a rally isn't the same
+    // signal as "who tossed and struck the ball" (e.g. a receiving-side
+    // player can be the nearest-tracked my_team player during the opponent's
+    // toss). Verified against real output: it credited a serve to a player
+    // who never served. Every caller already treats a null return as "server
+    // unknown" and simply skips the per-player credit rather than crediting
+    // team-level stats to nobody, so leaving a rally's server uncredited here
+    // is strictly better than guessing wrong.
     function resolveServerJersey(win) {
         const detected = allActions.find(a => a.action === "service" && a.frame >= win.start && a.frame <= win.end
                                                 && a.player_jersey != null);
-        if (detected) return detected.player_jersey;
-
-        const windowEnd = win.start + SERVER_LOOKUP_WINDOW_FRAMES;
-        const early = frames.filter(f => f.frame >= win.start && f.frame <= windowEnd
-                                           && f.active_player_team === "my_team" && f.active_player_jersey != null);
-        if (!early.length) return null;
-        const counts = new Map();
-        for (const f of early) counts.set(f.active_player_jersey, (counts.get(f.active_player_jersey) || 0) + 1);
-        return [...counts.entries()].sort((a, b) => b[1] - a[1])[0][0];
+        return detected ? detected.player_jersey : null;
     }
 
     // ── 4. Attach actions to rallies ──────────────────────────────────────────
@@ -2823,8 +2935,12 @@ function buildRallyAnalysis(volleyAnalytics, { scoreboardData, isHomeTeam = true
         // point of play (see confirmedNoChangeRallyIndices) — its actions are
         // noise (e.g. a player's post-serve follow-through misread as a
         // defensive touch), not real events, so they're dropped entirely
-        // rather than polluting the action feed or player stats.
-        const voided = confirmedNoChangeRallyIndices.has(idx);
+        // rather than polluting the action feed or player stats. Read off
+        // rm.voided (set when rallyMeta was built) rather than recomputing
+        // via confirmedNoChangeRallyIndices.has(idx) — the fold-fragmented-
+        // windows pass above can remove entries from rallyMeta, so idx here
+        // no longer necessarily matches the original rallyWindows position.
+        const voided = rm.voided;
         return {
             rally_id:    rm.rallyId,
             start_frame: rm.win.start,
@@ -2847,7 +2963,7 @@ function buildRallyAnalysis(volleyAnalytics, { scoreboardData, isHomeTeam = true
             ...rb,
             serving_team: servingTeam,
             defensive_player: rb.result === "point_opponent" ? findResponsiblePlayer(win, "my_team") : null,
-            point_outcome: classifyRallyOutcome(win, rb.result, servingTeam),
+            point_outcome: classifyRallyOutcome(win, rb.result, servingTeam, rb.actions),
         };
     });
 
@@ -2869,6 +2985,22 @@ function buildRallyAnalysis(volleyAnalytics, { scoreboardData, isHomeTeam = true
     // the ball *first* crossed to our side would require trusting opponent
     // detections, which we don't. Set's quality-grade columns (3/2/1/0, RTG)
     // are left absent for the same reason: no shot-quality signal exists.
+    // Finds the compressed action event (from a rally's own r.actions list,
+    // built earlier with independent confidence-based run merging) that
+    // corresponds to a raw single-frame pick from classifyRallyOutcome.
+    // The two use different frame-numbering (po.frame is one specific raw
+    // frame; ev.frame is a compressed run's *start* frame), so they're
+    // matched by closest frame distance within the rally, not equality.
+    function findMatchingAction(rallyActions, actionType, targetFrame) {
+        let best = null, bestDist = Infinity;
+        for (const ev of rallyActions) {
+            if (ev.action !== actionType) continue;
+            const d = Math.abs(ev.frame - targetFrame);
+            if (d < bestDist) { bestDist = d; best = ev; }
+        }
+        return best;
+    }
+
     function buildPlayerStats(rallies) {
         const players = {};
         const ensure = jersey => {
@@ -2876,7 +3008,7 @@ function buildRallyAnalysis(volleyAnalytics, { scoreboardData, isHomeTeam = true
                 players[jersey] = {
                     attack:  { K: 0, E: 0, TA: 0 },
                     serve:   { SA: 0, SE: 0, TA: 0, RW: 0 },
-                    block:   { BK: 0, BA: 0, BE: 0 },
+                    block:   { BK: 0, BE: 0, BT: 0, TA: 0 },
                     defence: { DS: 0, DE: 0, TA: 0 },
                     set:     { AST: 0, SE: 0, TA: 0 },
                     total_events: 0,
@@ -2884,52 +3016,111 @@ function buildRallyAnalysis(volleyAnalytics, { scoreboardData, isHomeTeam = true
             }
             return players[jersey];
         };
-        // "service" is deliberately excluded here — a single real serve's
-        // toss/contact/follow-through can still split into multiple runs more
-        // than MAX_GAP_FRAMES apart (same issue allActions already works
-        // around by keeping only the earliest "service" per rally), so
-        // run-bridging alone was overcounting it well past what's physically
-        // possible (one serve can only ever start one rally). Counted
-        // per-rally below instead, capped at one.
-        const TA_ACTIONS = new Set(["attack", "block", "defense-move", "setting"]);
 
-        // Rallies flagged void_rally (board-confirmed zero-zero diff — not a
-        // real point of play, see confirmedNoChangeRallyIndices) contribute
-        // nothing here either; their "actions" are noise, not real attempts.
-        const voidRanges = rallies.filter(r => r.void_rally).map(r => ({ start: r.start_frame, end: r.end_frame }));
-        const inVoidRange = frame => voidRanges.some(r => frame >= r.start && frame <= r.end);
-
-        let run = null;
-        for (const f of frames) {
-            // Skip non-qualifying frames without discarding the open run —
-            // resetting it here (as an earlier version of this loop did)
-            // meant a single "none" flicker frame in the middle of one real
-            // action broke it into two counted attempts, defeating
-            // MAX_GAP_FRAMES bridging almost entirely. Matches the pattern
-            // already validated in the allActions loop above.
-            if (f.active_player_team !== "my_team" || !TA_ACTIONS.has(f.action) || inVoidRange(f.frame)) continue;
-            if (run && run.action === f.action && run.jersey === f.active_player_jersey
-                && f.frame - run.lastFrame <= MAX_GAP_FRAMES) {
-                run.lastFrame = f.frame;
-                continue;
-            }
-            if (f.active_player_jersey != null) {
-                const p = ensure(f.active_player_jersey);
-                if (f.action === "attack")       p.attack.TA++;
-                if (f.action === "block")        p.block.BA++;
-                if (f.action === "defense-move") p.defence.TA++;
-                if (f.action === "setting")      p.set.TA++;
-            }
-            run = { action: f.action, jersey: f.active_player_jersey, lastFrame: f.frame };
-        }
-
+        // Every count below (TA, DS/DE, BK/BA/BE) is sourced from each
+        // rally's own r.actions -- the confidence-scored, gap-bridged,
+        // pattern-deduped compressed event list already built earlier in
+        // this function -- never from a separate raw-frame pass. Two
+        // independent event representations for the same stat WILL drift:
+        // verified directly, a raw-frame run-bridging pass here previously
+        // produced a higher defence.TA than DS+DE could ever add up to,
+        // because that pass wasn't scoped to real rally windows the way
+        // r.actions already is (a dead-time touch can appear in a whole-
+        // video raw-frame scan but never makes it into any rally's
+        // r.actions, per the dead-time-drop fix above). One canonical
+        // source per rally fixes that structurally instead of chasing every
+        // place the two could disagree.
         for (const r of rallies) {
             if (r.void_rally) continue;
-            // serving_team (side-out chain, see deriveServingTeams) decides
-            // WHETHER we served this rally at all -- far more complete than
-            // requiring a detected "service" action, which the model fires
-            // for only a small fraction of real serves. resolveServerJersey
-            // then figures out WHICH of our players it was.
+            const po = r.point_outcome;
+
+            // Cross-referenced once per rally, reused below. po.frame is one
+            // specific raw frame (from classifyRallyOutcome, which scans raw
+            // `frames`); r.actions entries are compressed runs keyed by
+            // their *start* frame, so these are matched by closest frame
+            // distance within the rally, not exact equality (see
+            // findMatchingAction).
+            const blockFinish = po?.frame != null && (po.category === "block_kill" || po.category === "block_error")
+                ? findMatchingAction(r.actions, "block", po.frame)
+                : null;
+            const defenceLoss = po?.category === "defense_attempt" && po.frame != null
+                ? findMatchingAction(r.actions, "defense-move", po.frame)
+                : null;
+
+            for (const ev of r.actions) {
+                const jersey = ev.player_jersey;
+                if (ev.action === "attack") {
+                    if (jersey != null) ensure(jersey).attack.TA++;
+                } else if (ev.action === "block") {
+                    // Raw touch count only -- BK/BE (the official box-score
+                    // block credit) go to the primary jersey alone, decided
+                    // below via blockFinish. Every real participant (primary
+                    // + co_players) still gets their touch counted here,
+                    // though -- co_players lost box-score credit when BA was
+                    // removed (the joint-block signal wasn't trustworthy
+                    // enough to split kill/error credit on), but they were
+                    // still really there, and dropping them from TA/BT
+                    // entirely would make a real touch vanish from their
+                    // stats altogether, not just lose its credit. A touch
+                    // that isn't the rally's decisive one is neither a stuff
+                    // nor an error -- there's no ball-proximity signal to say
+                    // whether it actually helped, so it's counted as a
+                    // neutral touch (BT) rather than guessed into BK/BE.
+                    const touchedPlayers = [...new Set([jersey, ...(ev.co_players || [])].filter(j => j != null))];
+                    for (const p of touchedPlayers) {
+                        ensure(p).block.TA++;
+                        if (ev !== blockFinish) ensure(p).block.BT++;
+                    }
+                } else if (ev.action === "defense-move") {
+                    if (jersey == null) continue;
+                    ensure(jersey).defence.TA++;
+                    if (ev === defenceLoss) ensure(jersey).defence.DE++;
+                    else                    ensure(jersey).defence.DS++;
+                } else if (ev.action === "setting") {
+                    if (jersey != null) ensure(jersey).set.TA++;
+                }
+            }
+
+            // Blocks: only the rally's final, decisive block earns BK/BE.
+            // co_players used to trigger a full "Block Assist" for 2+
+            // participants, but verified against real output: every single
+            // block detected across four real matches showed exactly 2
+            // co-participants — never 1, never 3+ — which isn't a believable
+            // real-world rate of joint blocks. That's the ball-proximity
+            // vote-share signal picking up whichever second player was
+            // merely standing near the blocker at net, not confirming an
+            // actual shared touch. But that same vote-share signal is also
+            // what picks the single "primary" jersey — not trustworthy
+            // enough to award a clean 100% to one player and 0% to the
+            // other when a block did come back with 2+ participants, so
+            // it's split evenly across whoever showed up instead of handed
+            // entirely to whichever one got marginally more of the vote.
+            if (blockFinish) {
+                const participants = [...new Set(
+                    [blockFinish.player_jersey, ...(blockFinish.co_players || [])].filter(j => j != null)
+                )];
+                if (participants.length > 0) {
+                    const share = 1 / participants.length;
+                    for (const p of participants) {
+                        if (po.category === "block_kill") ensure(p).block.BK += share;
+                        else ensure(p).block.BE += share;
+                    }
+                }
+            } else if (po && po.jersey != null && (po.category === "block_kill" || po.category === "block_error")) {
+                // classifyRallyOutcome named a block finisher but no
+                // matching compressed event was found (shouldn't normally
+                // happen) — credit solo rather than silently drop it.
+                if (po.category === "block_kill") ensure(po.jersey).block.BK++;
+                else ensure(po.jersey).block.BE++;
+            }
+        }
+
+        // Serve TA/RW -- side-out chain decides WHETHER we served this
+        // rally at all (far more complete than requiring a detected
+        // "service" action, which the model fires for only a small fraction
+        // of real serves); resolveServerJersey decides WHICH player.
+        for (const r of rallies) {
+            if (r.void_rally) continue;
             if (r.serving_team !== "my_team") continue;
             const jersey = resolveServerJersey({ start: r.start_frame, end: r.end_frame });
             if (jersey != null) {
@@ -2942,26 +3133,51 @@ function buildRallyAnalysis(volleyAnalytics, { scoreboardData, isHomeTeam = true
             }
         }
 
+        // Point-ending credit for everything except block (handled above):
+        // K/E/SA/SE/set-SE, plus assist linkage to the preceding set. A lost
+        // rally's final dig (defense_attempt) is already credited as a DE
+        // in the per-event loop above, so it's deliberately not repeated
+        // here.
         for (const r of rallies) {
             const po = r.point_outcome;
-            if (!po) continue;
-            if (po.jersey != null) {
-                const p = ensure(po.jersey);
-                if      (po.category === "kill")            p.attack.K++;
-                else if (po.category === "attack_error")    p.attack.E++;
-                else if (po.category === "ace")              p.serve.SA++;
-                else if (po.category === "service_error")   p.serve.SE++;
-                else if (po.category === "block_kill")       p.block.BK++;
-                else if (po.category === "block_error")      p.block.BE++;
-                else if (po.category === "defense_attempt")  p.defence.DE++;
-                else if (po.category === "set_error")        p.set.SE++;
-            }
-            // Assist credit: whoever set immediately before a winning attack.
+            if (!po || po.jersey == null) continue;
+            if (po.category === "block_kill" || po.category === "block_error") continue;
+
+            const p = ensure(po.jersey);
+            if      (po.category === "kill")          p.attack.K++;
+            else if (po.category === "attack_error")  p.attack.E++;
+            else if (po.category === "ace")           p.serve.SA++;
+            else if (po.category === "service_error") p.serve.SE++;
+            else if (po.category === "set_error")     p.set.SE++;
+
             if (po.category === "kill" && po.frame != null) {
+                // Excludes the scorer's own jersey: a stray single-frame
+                // "setting" mislabel right before a player's own attack (arm
+                // windup misclassified) otherwise outranks the real setter's
+                // earlier, genuine set — verified directly against real
+                // output, where jersey #13 had one raw frame self-labeled
+                // "setting" one frame before their own kill, starving #10 (the
+                // actual setter, several frames earlier) of the assist.
                 const setter = frames.filter(f => f.frame >= r.start_frame && f.frame < po.frame
-                                                    && f.active_player_team === "my_team" && f.action === "setting")
+                                                    && f.active_player_team === "my_team" && f.action === "setting"
+                                                    && f.active_player_jersey !== po.jersey)
                                       .pop();
-                if (setter && setter.active_player_jersey != null) ensure(setter.active_player_jersey).set.AST++;
+                let setterJersey = setter?.active_player_jersey ?? null;
+                // Fallback: the raw-frame search above requires a DIFFERENT
+                // player's set somewhere in the whole rally — if that finds
+                // nothing, fall back to the rally's own last-two compressed
+                // actions before the point (same no-fixed-window idea as the
+                // kill/block_kill fallback above). This one does NOT exclude
+                // the scorer's own jersey — a self-set immediately before a
+                // self-kill is unusual but real, and when it's the only
+                // setting touch logged anywhere in the rally, crediting it is
+                // better than leaving a real assist blank.
+                if (setterJersey == null) {
+                    const recentSet = [...r.actions.filter(a => a.frame < po.frame).slice(-2)]
+                        .reverse().find(a => a.action === "setting");
+                    if (recentSet) setterJersey = recentSet.player_jersey;
+                }
+                if (setterJersey != null) ensure(setterJersey).set.AST++;
             }
         }
 
@@ -2970,9 +3186,17 @@ function buildRallyAnalysis(volleyAnalytics, { scoreboardData, isHomeTeam = true
             p.attack["ATK%"]  = p.attack.TA > 0  ? (p.attack.K - p.attack.E) / p.attack.TA : null;
             p.serve.PCT       = p.serve.TA > 0   ? (p.serve.TA - p.serve.SE) / p.serve.TA  : null;
             p.serve.EFF       = p.serve.TA > 0   ? (p.serve.SA - p.serve.SE) / p.serve.TA  : null;
-            p.defence.DS      = Math.max(0, p.defence.TA - p.defence.DE);
             p.defence["DS%"]  = p.defence.TA > 0 ? p.defence.DS / p.defence.TA : null;
-            p.total_events    = p.attack.TA + p.serve.TA + p.block.BA + p.defence.TA + p.set.TA;
+            // BK/BE can be fractional (a 3-way joint block splits 1/3 each) --
+            // round for clean display before anything downstream reads them.
+            p.block.BK = Math.round(p.block.BK * 100) / 100;
+            p.block.BE = Math.round(p.block.BE * 100) / 100;
+            // BT deliberately excluded from both sides of this ratio -- a
+            // touch that neither scored nor errored can't be verified as
+            // having helped, so it shouldn't inflate or deflate the rate.
+            const blockDecisive = p.block.BK + p.block.BE;
+            p.block["WIN%"]   = blockDecisive > 0 ? p.block.BK / blockDecisive : null;
+            p.total_events    = p.attack.TA + p.serve.TA + p.block.TA + p.defence.TA + p.set.TA;
         }
         return players;
     }
@@ -2992,6 +3216,99 @@ function buildRallyAnalysis(volleyAnalytics, { scoreboardData, isHomeTeam = true
         score_sources_breakdown: sourceCounts,
         player_stats:   playerStats,
     };
+}
+
+// Flattens rallyData.rallies into one row per action (rally_id, action, player,
+// rally winner) — a stats-ready table, not something the UI renders. Written to
+// disk (and logged) after every run so the numbers behind rally_analysis_<id>.json
+// are easy to pull into a spreadsheet/notebook without re-deriving them.
+const RALLY_WINNER_LABELS = {
+    point_my_team: "us",
+    point_opponent: "opponent",
+    outside: "outside",
+    unknown: "unknown",
+};
+
+function buildRallyActionTable(rallyData) {
+    const rows = [];
+    for (const rally of rallyData.rallies) {
+        const winner = RALLY_WINNER_LABELS[rally.result] ?? rally.result;
+        const po = rally.point_outcome ?? null;
+
+        // point_outcome.frame is a raw last-touch frame from the per-frame feed,
+        // while each action row's `frame` is the *start* frame of its bridged
+        // run (see allActions/pushRun above) — the two numbering schemes never
+        // line up, so match on (action type, jersey) instead and take the last
+        // such row, which is the actual finishing touch. The jersey can also
+        // show up only as a co-participant (e.g. a shared dig/block credited
+        // to a co_players entry rather than the run's primary jersey), so check
+        // both.
+        let decisiveIdx = -1;
+        if (po && po.action != null) {
+            for (let i = rally.actions.length - 1; i >= 0; i--) {
+                const a = rally.actions[i];
+                const jerseyMatches = (a.player_jersey ?? null) === (po.jersey ?? null)
+                    || (a.co_players ?? []).includes(po.jersey);
+                if (a.action === po.action && jerseyMatches) {
+                    decisiveIdx = i;
+                    break;
+                }
+            }
+        }
+
+        rally.actions.forEach((a, i) => {
+            rows.push({
+                rally_id:      rally.rally_id,
+                frame:         a.frame,
+                time_sec:      a.time_sec,
+                action:        a.action,
+                player_jersey: a.player_jersey ?? null,
+                player_label:  a.player_label ?? null,
+                co_players:    a.co_players ?? [],
+                serving_team:  rally.serving_team ?? null,
+                rally_winner:  winner,
+                decisive:      i === decisiveIdx,
+                point_outcome: i === decisiveIdx ? po.category : null,
+            });
+        });
+
+        // point_outcome categories like ace/opponent_error/opponent_kill have
+        // no matching per-frame action row (there was nothing to detect — a
+        // clean serve winner, or a fault with no our-team touch at all) — add
+        // a synthetic row so the decisive cause of the rally is never silently
+        // dropped from the table.
+        if (po && decisiveIdx === -1) {
+            rows.push({
+                rally_id:      rally.rally_id,
+                frame:         po.frame ?? null,
+                time_sec:      null,
+                action:        po.action ?? null,
+                player_jersey: po.jersey ?? null,
+                player_label:  po.jersey != null ? `#${po.jersey}` : null,
+                co_players:    [],
+                serving_team:  rally.serving_team ?? null,
+                rally_winner:  winner,
+                decisive:      true,
+                point_outcome: po.category,
+            });
+        }
+    }
+    return rows;
+}
+
+function rallyActionTableToCsv(rows) {
+    const cols = [
+        "rally_id", "frame", "time_sec", "action", "player_jersey", "player_label",
+        "co_players", "serving_team", "rally_winner", "decisive", "point_outcome",
+    ];
+    const esc = (v) => {
+        if (v === null || v === undefined) return "";
+        const s = Array.isArray(v) ? v.join(";") : String(v);
+        return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+    };
+    const lines = [cols.join(",")];
+    for (const row of rows) lines.push(cols.map((c) => esc(row[c])).join(","));
+    return lines.join("\n");
 }
 
 async function recoverAnalysis(req, res) {
@@ -3108,10 +3425,12 @@ module.exports = {
     startPlayerDetection,
     getTeamRoster,
     createRosterPlayer,
+    setRosterPlayerPosition,
     deleteRosterPlayer,
     importMyTeam,
     getPlayerRegistryForVideo,
     mergePlayerRegistry,
+    deletePlayerRegistryEntries,
     assignDetectionsToPlayer,
     resetPlayerDetection,
     analyzeRallies,
@@ -3120,14 +3439,11 @@ module.exports = {
     getBallAnalysis,
     getPlayerStats,
     getPlayerRegistry,
-    updatePlayerRegistry,
-    saveAndRecalculate,
     getRallyAnalysis,
     startAnalysis,
     getAnalysisStatus,
     recoverAnalysis,
     saveJerseys,
-    saveCourtCalibration,
     stopAnalysis,
     deleteVideo,
 };
