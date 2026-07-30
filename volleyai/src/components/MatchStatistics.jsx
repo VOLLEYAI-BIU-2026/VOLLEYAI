@@ -117,6 +117,33 @@ export default function MatchStatistics() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  const [aiStatus, setAiStatus] = useState("idle"); // idle | loading | error | done
+  const [aiResult, setAiResult] = useState(null);
+  const [aiErrorMsg, setAiErrorMsg] = useState("");
+
+  async function generateAiRecommendation() {
+    setActiveTab("Rally");
+    setAiStatus("loading");
+    setAiErrorMsg("");
+    try {
+      const res = await fetch(`${API}/videos/${videoId}/ai-recommendation`, {
+        method: "POST",
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setAiErrorMsg(data.message || "Failed to generate recommendation.");
+        setAiStatus("error");
+        return;
+      }
+      setAiResult(data);
+      setAiStatus("done");
+    } catch {
+      setAiErrorMsg("Failed to reach the server.");
+      setAiStatus("error");
+    }
+  }
+
   useEffect(() => {
     async function fetchAll() {
       try {
@@ -309,6 +336,9 @@ export default function MatchStatistics() {
             </div>
           </div>
           <div className="ms-headerRight">
+            <button className="ms-aiHeaderBtn" onClick={generateAiRecommendation} disabled={aiStatus === "loading"}>
+              {aiStatus === "loading" ? "Analyzing… 🪄🎩" : aiStatus === "done" ? "Regenerate AI Recommendations 🪄🎩" : "Get AI Recommendations 🪄🎩"}
+            </button>
             <button className="ms-registryBtn" onClick={() => navigate(`/player-select/${videoId}`)}>
               Player Stats
             </button>
@@ -330,7 +360,7 @@ export default function MatchStatistics() {
         </div>
 
         {activeTab === "Rally" ? (
-          <RallyStatsTab rallies={rallies} />
+          <RallyStatsTab rallies={rallies} aiStatus={aiStatus} aiResult={aiResult} aiErrorMsg={aiErrorMsg} />
         ) : (
           <>
         {/* Filters */}

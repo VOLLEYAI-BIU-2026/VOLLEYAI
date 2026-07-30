@@ -29,6 +29,7 @@ const {
     getPlayerStats,
     getPlayerRegistry,
     getRallyAnalysis,
+    getAiRecommendation,
     startAnalysis,
     getAnalysisStatus,
     recoverAnalysis,
@@ -61,6 +62,7 @@ router.get("/latest/player-stats", requireAuth, (req, res) => { req.params.id = 
 router.get("/player-registry", requireAuth, getPlayerRegistry);
 router.get("/rally-analysis", requireAuth, getRallyAnalysis);
 router.get("/:id/rally-analysis", requireAuth, getRallyAnalysis);
+router.post("/:id/ai-recommendation", requireAuth, getAiRecommendation);
 router.patch("/:id/teams", requireAuth, updateTeamNames);
 router.post("/:id/jerseys", requireAuth, saveJerseys);
 router.post("/:id/start-analysis", requireAuth, startAnalysis);

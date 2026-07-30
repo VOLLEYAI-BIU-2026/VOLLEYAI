@@ -367,7 +367,54 @@ function RallyCard({ label, rally }) {
   );
 }
 
-export default function RallyStatsTab({ rallies }) {
+function AiRecommendationPanel({ status, result, errorMsg }) {
+  if (status === "idle") {
+    return (
+      <div className="rst-aiCard">
+        <div className="rst-chartTitle" style={{ marginBottom: 0 }}>AI Recommendations</div>
+        <div className="rst-aiIdleText">Click "Get AI Recommendations" above to analyze this match.</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="rst-aiCard">
+      <div className="rst-chartTitle" style={{ marginBottom: 0 }}>AI Recommendations</div>
+
+      {status === "loading" && <div className="rst-aiIdleText">Analyzing this match…</div>}
+
+      {status === "error" && <div className="rst-aiError">{errorMsg}</div>}
+
+      {status === "done" && result && (
+        <div className="rst-aiBody">
+          <p className="rst-aiOverview">{result.overview}</p>
+
+          {result.key_points?.length > 0 && (
+            <ul className="rst-aiKeyPoints">
+              {result.key_points.map((point, i) => (
+                <li key={i}>{point}</li>
+              ))}
+            </ul>
+          )}
+
+          {result.recommendations?.length > 0 && (
+            <div className="rst-aiRecGrid">
+              {result.recommendations.map((rec, i) => (
+                <div className="rst-aiRecCard" key={i}>
+                  <div className="rst-aiRecTitle">{rec.title}</div>
+                  <div className="rst-aiRecIssue">{rec.issue}</div>
+                  <div className="rst-aiRecAction">{rec.action}</div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default function RallyStatsTab({ rallies, aiStatus, aiResult, aiErrorMsg }) {
   const nonVoid = rallies
     .filter((r) => !r.void_rally)
     .map((r) => ({ ...r, duration: r.end_sec - r.start_sec }));
@@ -448,6 +495,8 @@ export default function RallyStatsTab({ rallies }) {
       <BucketChart buckets={buckets} />
 
       <div className="rst-insight">{insight}</div>
+
+      <AiRecommendationPanel status={aiStatus} result={aiResult} errorMsg={aiErrorMsg} />
     </div>
   );
 }

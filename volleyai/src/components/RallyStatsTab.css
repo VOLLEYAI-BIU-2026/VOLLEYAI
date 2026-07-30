@@ -140,3 +140,52 @@
 .rst-emptyIcon { font-size: 40px; margin-bottom: 12px; }
 .rst-emptyTitle { color: var(--text); font-size: 16px; font-weight: 600; margin-bottom: 8px; }
 .rst-emptyText { color: var(--muted-2); font-size: 13px; }
+
+.rst-aiCard {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+}
+.rst-aiIdleText {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--muted-2);
+}
+
+.rst-aiError {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--danger);
+}
+
+.rst-aiBody { margin-top: 16px; display: flex; flex-direction: column; gap: 14px; }
+.rst-aiOverview { font-size: 14px; color: var(--text); line-height: 1.5; margin: 0; }
+
+.rst-aiKeyPoints {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.rst-aiRecGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+.rst-aiRecCard {
+  background: var(--card-alt);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.rst-aiRecTitle { font-size: 13px; font-weight: 700; color: var(--text); }
+.rst-aiRecIssue { font-size: 12px; color: var(--muted-2); }
+.rst-aiRecAction { font-size: 12px; color: var(--text); margin-top: 2px; }

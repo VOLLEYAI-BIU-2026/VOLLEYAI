@@ -3415,6 +3415,122 @@ async function getRallyAnalysis(req, res) {
     }
 }
 
+const AI_RECOMMENDATION_SCHEMA = {
+    type: "object",
+    properties: {
+        overview: {
+            type: "string",
+            description: "2-3 sentence overall summary of how the team performed this match.",
+        },
+        key_points: {
+            type: "array",
+            items: { type: "string" },
+            description: "3-5 short, specific, notable stats or patterns from this match (each one sentence).",
+        },
+        recommendations: {
+            type: "array",
+            minItems: 2,
+            maxItems: 3,
+            items: {
+                type: "object",
+                properties: {
+                    title: { type: "string", description: "Short recommendation title" },
+                    issue: { type: "string", description: "The specific stat/pattern this addresses" },
+                    action: { type: "string", description: "Concrete drill or action to take" },
+                },
+                required: ["title", "issue", "action"],
+            },
+            description: "Exactly 2-3 of the most impactful recommendations — do not pad with minor ones.",
+        },
+    },
+    required: ["overview", "key_points", "recommendations"],
+};
+
+function buildAiRecommendationPrompt(rallyData) {
+    const summary = {
+        final_score: { us: rallyData.us_score, opponent: rallyData.opponent_score },
+        total_rallies: rallyData.total_rallies,
+        rallies_won: rallyData.total_won,
+        rallies_lost: rallyData.total_lost,
+        rallies: (rallyData.rallies || []).map((r) => ({
+            rally_id: r.rally_id,
+            result: r.result,
+            duration_sec: r.end_sec != null && r.start_sec != null ? +(r.end_sec - r.start_sec).toFixed(1) : null,
+            point_outcome_category: r.point_outcome?.category || null,
+            scoring_player_jersey: r.point_outcome?.jersey || null,
+        })),
+    };
+
+    return `You are a volleyball coach analyst. This data tracks ONLY our own team — there is no data on individual opponent players, so never refer to a specific jersey number as belonging to the opponent.
+
+Field meanings:
+- "result": "point_my_team" means our team scored; "point_opponent" means the opponent scored (i.e. we lost the rally).
+- "scoring_player_jersey": always one of OUR players. On a rally we won, it's the player who scored (kill, block kill, ace). On a rally we lost, it's the one of OUR players most responsible for the error (block error, defensive miss) — not an opponent.
+- "point_outcome_category": ace/kill/block_kill = we won the point; block_error/service_error/defense_attempt = how we lost the point.
+
+Analyze this match's rally-by-rally stats and return your findings.
+
+Match stats (JSON):
+${JSON.stringify(summary)}`;
+}
+
+async function getAiRecommendation(req, res) {
+    try {
+        const { id } = req.params;
+        let rallyPath = RALLY_PATH;
+
+        if (id && id !== "latest") {
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+                return res.status(400).json({ message: "Invalid video id" });
+            }
+            const video = await Video.findOne({ _id: id, userId: req.user.id });
+            if (!video) return res.status(404).json({ message: "Video not found" });
+            if (video.rallyAnalysisPath) {
+                rallyPath = path.join(__dirname, "..", video.rallyAnalysisPath.replace(/^\//, ""));
+            }
+        }
+
+        if (!fs.existsSync(rallyPath)) return res.status(404).json({ message: "No rally data yet. Run the model and recalculate." });
+
+        if (!process.env.GEMINI_API_KEY) {
+            return res.status(500).json({ message: "AI recommendations are not configured (missing GEMINI_API_KEY)." });
+        }
+
+        const rallyData = JSON.parse(fs.readFileSync(rallyPath, "utf8"));
+        if (!rallyData.rallies || rallyData.rallies.length === 0) {
+            return res.status(404).json({ message: "No rally data yet. Run the model and recalculate." });
+        }
+
+        const prompt = buildAiRecommendationPrompt(rallyData);
+        const model = "gemini-flash-latest";
+        const geminiRes = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${process.env.GEMINI_API_KEY}`,
+            {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: prompt }] }],
+                    generationConfig: {
+                        responseMimeType: "application/json",
+                        responseSchema: AI_RECOMMENDATION_SCHEMA,
+                    },
+                }),
+            }
+        );
+
+        const geminiData = await geminiRes.json();
+        if (!geminiRes.ok) {
+            return res.status(502).json({ message: "AI recommendation request failed", error: geminiData?.error?.message });
+        }
+
+        const text = geminiData.candidates?.[0]?.content?.parts?.map((p) => p.text).join("") || "{}";
+        const recommendation = JSON.parse(text);
+        return res.json(recommendation);
+    } catch (err) {
+        return res.status(500).json({ message: "Error generating AI recommendation", error: err.message });
+    }
+}
+
 module.exports = {
     uploadFile,
     addYoutube,
@@ -3440,6 +3556,7 @@ module.exports = {
     getPlayerStats,
     getPlayerRegistry,
     getRallyAnalysis,
+    getAiRecommendation,
     startAnalysis,
     getAnalysisStatus,
     recoverAnalysis,

@@ -1,0 +1,40 @@
+JESI CEMAL U38994756
+
+VolleyAI — External Tools and Open-Source Resources
+=====================================================
+
+Ultralytics YOLO (YOLOv8 and YOLOv11)
+Core object-detection framework, fine-tuned on self-annotated datasets
+for each detection task: player detection, jersey number recognition,
+action detection, ball detection and tracking, and scoreboard digit
+detection.
+
+Roboflow
+Used for dataset annotation and preprocessing prior to model training,
+including the action-detection and jersey-digit datasets.
+https://roboflow.com
+https://jesicemal.atlassian.net/jira/software/projects/KAN/boards/1?filter=&groupBy=none&atlOrigin=eyJpIjoiYTE5YzUwMTJmNjQzNDdkMmE3MjE4NTVkODEyMjgxMTQiLCJwIjoiaiJ9
+
+VolleyVision (open-source project)
+Base reference for the action-detection model, further fine-tuned on
+project-specific annotated data.
+https://github.com/shukkkur/VolleyVision/tree/main/Stage%20II%20-%20Players%20%26%20Actions
+
+volleyball_analytics by mordeLash (open-source project, v1.0.0)
+Base reference for the rally-detection pipeline (match playtime
+extraction and ball tracking/trail visualization), adapted with a
+custom-trained ball-detection model in place of the original.
+https://github.com/mordeLash/volleyball_analytics/releases/tag/v1.0.0
+
+EasyOCR
+General-purpose OCR library, used as the text-reading component for
+jersey numbers and, prior to the introduction of a dedicated fine-tuned
+model, the scoreboard.
+
+scikit-learn
+Used to train a Random Forest classifier that distinguishes active
+rally segments from downtime in match footage, based on engineered
+motion features (velocity, acceleration, position statistics).
+
+PyTorch / torchvision
+Deep learning framework underlying the YOLO models.

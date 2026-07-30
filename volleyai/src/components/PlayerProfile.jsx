@@ -308,12 +308,12 @@ export default function PlayerProfile() {
                         </div>
 
                         <div className="pp-metricsGrid">
-                            <MetricCard title="KILLS" value={num(stats.attack?.K)} tag={`${num(stats.attack?.TA)} attempts`} />
-                            <MetricCard title="ATTACK %" value={pct(stats.attack?.["ATK%"])} tag={`${num(stats.attack?.E)} errors`} />
-                            <MetricCard title="SERVE ACES" value={num(stats.serve?.SA)} tag={`${pct(stats.serve?.EFF)} eff`} />
-                            <MetricCard title="BLOCKS" value={num(stats.block?.BK)} tag={`${num(stats.block?.TA)} attempts`} />
-                            <MetricCard title="DIGS" value={num(stats.defence?.DS)} tag={pct(stats.defence?.["DS%"])} />
-                            <MetricCard title="ASSISTS" value={num(stats.set?.AST)} tag={`${num(stats.set?.TA)} sets`} />
+                            <MetricCard title="KILLS" count={stats.attack?.K} attempts={stats.attack?.TA} />
+                            <MetricCard title="ATTACK %" isRate rateValue={pct(stats.attack?.["ATK%"])} attempts={stats.attack?.TA} tag={`${num(stats.attack?.E)} errors`} />
+                            <MetricCard title="SERVE ACES" count={stats.serve?.SA} attempts={stats.serve?.TA} />
+                            <MetricCard title="BLOCKS" count={stats.block?.BK} attempts={stats.block?.TA} />
+                            <MetricCard title="DIGS" count={stats.defence?.DS} attempts={stats.defence?.TA} />
+                            <MetricCard title="ASSISTS" count={stats.set?.AST} attempts={stats.set?.TA} />
                         </div>
 
                         <div className="pp-bottomGrid">
@@ -431,12 +431,38 @@ export default function PlayerProfile() {
     );
 }
 
-function MetricCard({ title, value, tag }) {
+// Count-based cards (KILLS, SERVE ACES, BLOCKS, DIGS, ASSISTS) hide entirely
+// when the player never attempted the action. When they succeeded at least
+// once, show success and attempts side by side (both numbers are
+// meaningful). When they attempted but never succeeded, a bare "0" reads as
+// "no data" — so the headline becomes the attempt count with the word
+// "attempts" next to it instead. ATTACK % has no raw attempt count of its
+// own to headline (it's already a rate), so it only uses the
+// hide-when-no-attempts check via isRate.
+function MetricCard({ title, tag, count, attempts, isRate = false, rateValue }) {
+    if (isRate) {
+        if (!attempts) return null;
+        return (
+            <div className="pp-metricCard">
+                <div className="pp-metricTitle">{title}</div>
+                <div className="pp-metricValue">{rateValue}</div>
+                <div className="pp-metricTag">{tag}</div>
+            </div>
+        );
+    }
+
+    const a = attempts ?? 0;
+    const c = count ?? 0;
+    if (a === 0 && c === 0) return null;
+
+    const value = c > 0 && a > 0 ? `${c} / ${a}` : c > 0 ? `${c}` : `${a} attempts`;
+    const caption = c > 0 && a > 0 ? "success / attempts" : c > 0 ? title.toLowerCase() : null;
+
     return (
         <div className="pp-metricCard">
             <div className="pp-metricTitle">{title}</div>
             <div className="pp-metricValue">{value}</div>
-            <div className="pp-metricTag">{tag}</div>
+            {caption && <div className="pp-metricTag">{caption}</div>}
         </div>
     );
 }
