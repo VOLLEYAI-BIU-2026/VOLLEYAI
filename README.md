@@ -109,23 +109,70 @@ This folder is gitignored and can grow large (raw uploads + annotated renders) �
 
 ## Running locally
 
+### 0. Prerequisites
+
+- **Node.js** (v18+)
+- **Python 3.12+** on `PATH` as `python3` (macOS/Linux) or `py` (Windows) — this runs `backend/requirements.txt` and is the interpreter the pipeline stages actually invoke via `child_process.spawn`
+- **[uv](https://docs.astral.sh/uv/getting-started/installation/)** — required for `action_detection/` and `rally_detect/`, which each manage their own isolated virtualenv instead of using the shared `requirements.txt`. Install it once, globally:
+  ```bash
+  # macOS/Linux
+  curl -LsSf https://astral.sh/uv/install.sh | sh
+  # Windows (PowerShell)
+  powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+  ```
+- A MongoDB Atlas connection string (or local MongoDB)
+
+### 1. Env files
+
+Copy the two templates and fill in real values:
+```bash
+cp volleyai/.env.example volleyai/.env
+cp volleyai/backend/.env.example volleyai/backend/.env
+```
+See the env var tables above for what each key does.
+
+### 2. Install dependencies
+
+```bash
+# Node — backend
+cd volleyai/backend
+npm install
+
+# Node — frontend
+cd ../
+npm install
+
+# Python — shared pipelines (player/ball/score detection)
+cd backend
+python3 -m pip install -r requirements.txt   # Windows: py -m pip install -r requirements.txt
+
+# Python — action_detection (isolated uv venv)
+cd detection_models/action_detection
+uv sync
+cd ../..
+
+# Python — rally_detect (isolated uv venv)
+cd detection_models/rally_detect
+uv sync
+cd ../../../..
+```
+
+### 3. Run it
+
 ```bash
 # Backend
 cd volleyai/backend
-npm install
 pm2 start server.js --name volleyai-backend   # or: npm run dev (nodemon, foreground)
 
 # Frontend
 cd volleyai
-npm install
 npm run dev   # http://localhost:5173
 ```
 
 **Process supervision:** the backend runs under `pm2` and is configured to auto-restart on boot via a systemd service (`pm2-jesicemal.service`, installed with `pm2 startup` + `pm2 save`). If the backend is ever down after a machine restart, `pm2 status` / `pm2 resurrect` is the manual fallback — but this should no longer be necessary.
 
-**Python dependencies:** most pipelines use `backend/requirements.txt` (pip); `action_detection/` and `rally_detect/` use their own `uv`-managed venv (`uv sync` inside those folders to reprovision if ever deleted).
-
 ## Known operational notes
 
 - This dev machine is WSL2. `systemd --user` doesn't work here (a known WSL2 cgroup-delegation limitation), but system-level `systemd` does — the pm2 auto-start service relies on that, not the user session manager.
-- **Outstanding security item:** an earlier commit (since removed from the working tree, but still present in git history on several branches) had a real MongoDB URI and JWT secret hardcoded in a deployment script. If the exposed MongoDB user (`yahavatias13_db_user`) hasn't been rotated/deleted on Atlas yet, treat that as still outstanding — removing the file doesn't undo an already-exposed credential.
+- **Windows-specific:** `merge_pipeline.py` (and anything else calling `cv2.VideoCapture`) depends on OpenCV's bundled FFmpeg DLL, which some antivirus software silently quarantines after install — this shows up as the whole analysis crashing with exit code `3221225794` (`STATUS_DLL_INIT_FAILED`) regardless of which video is uploaded. If hit, add a Defender exclusion for the Python `site-packages` folder and reinstall: `py -m pip install opencv-python --no-cache-dir --force-reinstall`.
+- **Security history:** an earlier commit had a real MongoDB URI and JWT secret hardcoded in a now-deleted Docker setup (`.env` at repo root, removed in a later commit). The file itself is gone, but it's still visible in git history — the exposed MongoDB user (`yahavatias13_db_user`) should be rotated on Atlas if that hasn't been done yet, since removing the file doesn't undo an already-exposed credential.
