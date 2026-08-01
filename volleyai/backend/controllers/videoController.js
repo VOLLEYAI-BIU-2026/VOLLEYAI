@@ -3446,12 +3446,16 @@ const AI_RECOMMENDATION_SCHEMA = {
     required: ["overview", "key_points", "recommendations"],
 };
 
-function buildAiRecommendationPrompt(rallyData) {
+function buildAiRecommendationPrompt(rallyData, jerseyPositions = {}) {
     const summary = {
         final_score: { us: rallyData.us_score, opponent: rallyData.opponent_score },
         total_rallies: rallyData.total_rallies,
         rallies_won: rallyData.total_won,
         rallies_lost: rallyData.total_lost,
+        // Only jerseys with a coach-entered position show up here — a player
+        // left blank on the roster is simply absent from this map, never
+        // sent as null/unknown, so the model has no basis to guess one.
+        ...(Object.keys(jerseyPositions).length > 0 ? { player_positions: jerseyPositions } : {}),
         rallies: (rallyData.rallies || []).map((r) => ({
             rally_id: r.rally_id,
             result: r.result,
@@ -3467,6 +3471,7 @@ Field meanings:
 - "result": "point_my_team" means our team scored; "point_opponent" means the opponent scored (i.e. we lost the rally).
 - "scoring_player_jersey": always one of OUR players. On a rally we won, it's the player who scored (kill, block kill, ace). On a rally we lost, it's the one of OUR players most responsible for the error (block error, defensive miss) — not an opponent.
 - "point_outcome_category": ace/kill/block_kill = we won the point; block_error/service_error/defense_attempt = how we lost the point.
+- "player_positions" (may be absent entirely): maps a jersey number to their position (libero/setter/hitter/blocker), but only for players the coach has actually entered a position for. When present, weigh your analysis by position-appropriate expectations — e.g. a low kill count is normal for a libero but worth flagging for a hitter; judge a setter primarily on sets/assists, not blocks. For any jersey NOT listed in "player_positions", their position is simply unknown — do not guess or assume one, and do not mention position for that player at all.
 
 Analyze this match's rally-by-rally stats and return your findings.
 
@@ -3478,12 +3483,13 @@ async function getAiRecommendation(req, res) {
     try {
         const { id } = req.params;
         let rallyPath = RALLY_PATH;
+        let video = null;
 
         if (id && id !== "latest") {
             if (!mongoose.Types.ObjectId.isValid(id)) {
                 return res.status(400).json({ message: "Invalid video id" });
             }
-            const video = await Video.findOne({ _id: id, userId: req.user.id });
+            video = await Video.findOne({ _id: id, userId: req.user.id });
             if (!video) return res.status(404).json({ message: "Video not found" });
             if (video.rallyAnalysisPath) {
                 rallyPath = path.join(__dirname, "..", video.rallyAnalysisPath.replace(/^\//, ""));
@@ -3501,7 +3507,14 @@ async function getAiRecommendation(req, res) {
             return res.status(404).json({ message: "No rally data yet. Run the model and recalculate." });
         }
 
-        const prompt = buildAiRecommendationPrompt(rallyData);
+        // Only jerseys with a coach-entered, non-blank position — TeamRosterPlayerSchema
+        // defaults position to "", which must never be forwarded as if it were a real value.
+        const jerseyPositions = {};
+        for (const p of video?.teamRoster?.players || []) {
+            if (p.jerseyNumber && p.position) jerseyPositions[String(p.jerseyNumber)] = p.position;
+        }
+
+        const prompt = buildAiRecommendationPrompt(rallyData, jerseyPositions);
         const model = "gemini-flash-latest";
         const geminiRes = await fetch(
             `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${process.env.GEMINI_API_KEY}`,
