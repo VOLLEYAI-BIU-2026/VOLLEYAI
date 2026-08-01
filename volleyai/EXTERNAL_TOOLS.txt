@@ -10,15 +10,14 @@ action detection, ball detection and tracking, and scoreboard digit
 detection. The player-detection model specifically was trained on top
 of the open-source YOLOv8 base weights.
 
-TrackNetV2 (open-source project)
-Base architecture fine-tuned on self-annotated volleyball footage for
-ball detection/tracking, used alongside the YOLO-based ball detector.
-https://github.com/qaz812345/TrackNetV2
-
 Roboflow
 Used for dataset annotation and preprocessing prior to model training,
 including the action-detection and jersey-digit datasets.
 https://roboflow.com
+
+TrackNetV2 (open-source project)
+Base architecture fine-tuned on self-annotated volleyball footage for
+ball detection/tracking, used alongside the YOLO-based ball detector.
 
 VolleyVision (open-source project)
 Base reference for the action-detection model, further fine-tuned on
